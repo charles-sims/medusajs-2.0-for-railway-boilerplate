@@ -1,34 +1,26 @@
-import { Github } from "@medusajs/icons"
-import { Button, Heading } from "@medusajs/ui"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 const Hero = () => {
   return (
-    <div className="h-[75vh] w-full border-b border-ui-border-base relative bg-ui-bg-subtle">
-      <div className="absolute inset-0 z-10 flex flex-col justify-center items-center text-center small:p-32 gap-6">
-        <span>
-          <Heading
-            level="h1"
-            className="text-3xl leading-10 text-ui-fg-base font-normal"
-          >
-            Well done! You have successfully deployed your Medusa 2.0 store on Railway!
-          </Heading>
-          <Heading
-            level="h2"
-            className="text-3xl leading-10 text-ui-fg-subtle font-normal"
-          >
-            Need help customizing your store?
-          </Heading>
+    <section className="py-24 small:py-32 text-center relative overflow-hidden bg-bluum-bg">
+      <div className="content-container">
+        <span className="inline-block bg-bluum-primary text-bluum-text px-5 py-1.5 rounded-pill text-sm font-medium mb-8">
+          Verified Purity &amp; US Shipping
         </span>
-        <a
-          href="https://funkyton.com/medusajs-2-0-is-finally-here/"
-          target="_blank"
+        <h1 className="text-5xl small:text-7xl large:text-8xl font-bold leading-[1.05] tracking-tight max-w-4xl mx-auto mb-8">
+          Research-Grade Peptides, <em className="italic">delivered</em>
+        </h1>
+        <p className="text-xl text-bluum-muted max-w-xl mx-auto mb-12 leading-relaxed">
+          Lab-tested before they hit your lab. Your research starts with ours.
+        </p>
+        <LocalizedClientLink
+          href="/store"
+          className="inline-flex items-center justify-center px-7 py-3 bg-bluum-primary text-bluum-text rounded-btn font-medium text-base hover:opacity-85 transition-all hover:-translate-y-0.5"
         >
-          <h1 style={{ textDecoration: "underline" }}>
-            Visit the tutorial
-          </h1>
-        </a>
+          Shop Peptides
+        </LocalizedClientLink>
       </div>
-    </div>
+    </section>
   )
 }
 

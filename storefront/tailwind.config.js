@@ -21,6 +21,15 @@ module.exports = {
         padding: "padding-top padding-right padding-bottom padding-left",
       },
       colors: {
+        bluum: {
+          primary: '#C8DAE8',
+          accent: '#1F2937',
+          bg: '#FFFDFA',
+          text: '#24201F',
+          muted: '#6b7280',
+          border: '#e5e5e5',
+          'btn-secondary': '#EAEAEA',
+        },
         grey: {
           0: "#FFFFFF",
           5: "#F9FAFB",
@@ -42,6 +51,8 @@ module.exports = {
         rounded: "8px",
         large: "16px",
         circle: "9999px",
+        btn: '9px',
+        pill: '32px',
       },
       maxWidth: {
         "8xl": "100rem",
@@ -59,16 +70,7 @@ module.exports = {
         "3xl": "2rem",
       },
       fontFamily: {
-        sans: [
-          "Inter",
-          "-apple-system",
-          "BlinkMacSystemFont",
-          "Segoe UI",
-          "Roboto",
-          "Helvetica Neue",
-          "Ubuntu",
-          "sans-serif",
-        ],
+        sans: ['Switzer', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
       },
       keyframes: {
         ring: {

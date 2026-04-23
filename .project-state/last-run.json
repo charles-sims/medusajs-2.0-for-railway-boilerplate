@@ -1,0 +1,34 @@
+{
+  "timestamp": "2026-04-22T18:45:37-07:00",
+  "commit": "18ba182",
+  "branch": "master",
+  "phases_run": ["phase-1", "phase-2", "phase-3", "phase-4", "phase-5"],
+  "file_count": 266,
+  "lines_of_code": 19153,
+  "test_count": 10,
+  "health_score": 66,
+  "release_baseline": null,
+  "tracked_docs": [
+    "README.md",
+    "backend/README.md",
+    "backend/src/admin/README.md",
+    "backend/src/api/README.md",
+    "backend/src/jobs/README.md",
+    "backend/src/modules/README.md",
+    "backend/src/modules/email-notifications/README.md",
+    "backend/src/modules/minio-file/README.md",
+    "backend/src/scripts/README.md",
+    "backend/src/subscribers/README.md",
+    "backend/src/workflows/README.md",
+    "storefront/README.md",
+    "storefront/e2e/README.md"
+  ],
+  "serenaMemories": {
+    "total": 0,
+    "committed": 0,
+    "uncommittedAdded": 0,
+    "uncommittedModified": 0,
+    "uncommittedDeleted": 0,
+    "onboarded": null
+  }
+}

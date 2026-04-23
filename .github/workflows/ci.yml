@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+
+jobs:
+  build-backend:
+    name: Build Backend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.10.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: backend/pnpm-lock.yaml
+      - name: Install dependencies
+        working-directory: backend
+        run: pnpm install --frozen-lockfile
+      - name: Build
+        working-directory: backend
+        run: pnpm build
+
+  build-storefront:
+    name: Build Storefront
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_MEDUSA_BACKEND_URL: http://localhost:9000
+      NEXT_PUBLIC_BASE_URL: http://localhost:8000
+      NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: pk_test_placeholder
+      NEXT_PUBLIC_DEFAULT_REGION: us
+      NEXT_PUBLIC_SEARCH_ENDPOINT: http://localhost:7700
+      NEXT_PUBLIC_SEARCH_API_KEY: test
+      NEXT_PUBLIC_INDEX_NAME: products
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.10.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: storefront/pnpm-lock.yaml
+      - name: Install dependencies
+        working-directory: storefront
+        run: pnpm install --frozen-lockfile
+      - name: Lint
+        working-directory: storefront
+        run: pnpm lint
+      - name: Build
+        working-directory: storefront
+        run: pnpm build:next

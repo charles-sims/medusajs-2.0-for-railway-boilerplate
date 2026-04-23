@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CaliLean — Project Status Report</title>
+<style>
+:root {
+  --bg: #0f1117; --bg-card: #1a1d27; --bg-elevated: #252836;
+  --text: #e2e8f0; --text-muted: #94a3b8; --border: #2d3348;
+  --accent: #6366f1;
+  --green: #22c55e; --yellow: #eab308; --red: #ef4444; --gray: #6b7280;
+  --orange: #f97316; --blue: #3b82f6;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f8fafc; --bg-card: #ffffff; --bg-elevated: #f1f5f9;
+    --text: #1e293b; --text-muted: #64748b; --border: #e2e8f0;
+  }
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+nav { position: fixed; top: 0; left: 0; width: 240px; height: 100vh; background: var(--bg-card); border-right: 1px solid var(--border); padding: 1.5rem 1rem; overflow-y: auto; z-index: 10; }
+nav h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.75rem; }
+nav a { display: block; padding: 0.35rem 0.75rem; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; border-radius: 4px; margin-bottom: 2px; }
+nav a:hover, nav a.active { color: var(--text); background: var(--bg-elevated); }
+main { margin-left: 240px; padding: 2rem 3rem; max-width: 1000px; }
+h1 { font-size: 1.75rem; margin-bottom: 0.25rem; }
+h2 { font-size: 1.35rem; margin: 2rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+h3 { font-size: 1.1rem; margin: 1.25rem 0 0.75rem; }
+.meta { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem; }
+.stats { display: flex; gap: 1.5rem; flex-wrap: wrap; margin: 1rem 0 1.5rem; }
+.stat { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; min-width: 140px; }
+.stat-value { font-size: 1.5rem; font-weight: 700; }
+.stat-label { font-size: 0.8rem; color: var(--text-muted); }
+.badge { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600; }
+.badge-green { background: color-mix(in srgb, var(--green) 20%, transparent); color: var(--green); }
+.badge-yellow { background: color-mix(in srgb, var(--yellow) 20%, transparent); color: var(--yellow); }
+.badge-red { background: color-mix(in srgb, var(--red) 20%, transparent); color: var(--red); }
+.badge-gray { background: color-mix(in srgb, var(--gray) 20%, transparent); color: var(--gray); }
+.badge-orange { background: color-mix(in srgb, var(--orange) 20%, transparent); color: var(--orange); }
+.badge-blue { background: color-mix(in srgb, var(--blue) 20%, transparent); color: var(--blue); }
+.score-large { font-size: 3rem; font-weight: 800; }
+.score-red { color: var(--red); }
+table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.9rem; }
+th, td { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); }
+th { color: var(--text-muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+details { margin: 0.75rem 0; }
+summary { cursor: pointer; font-weight: 600; padding: 0.5rem 0; }
+summary:hover { color: var(--accent); }
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin: 0.75rem 0; }
+code { background: var(--bg-elevated); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.85em; }
+.rec-critical { border-left: 3px solid var(--red); }
+.rec-warning { border-left: 3px solid var(--yellow); }
+.rec-suggestion { border-left: 3px solid var(--gray); }
+@media (max-width: 768px) {
+  nav { display: none; }
+  main { margin-left: 0; padding: 1rem; }
+}
+@media print {
+  nav { display: none; }
+  main { margin-left: 0; }
+  details[open] summary ~ * { display: block; }
+  details { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <h3>CaliLean Status</h3>
+  <a href="#header">Overview</a>
+  <a href="#health">Health Scorecard</a>
+  <a href="#classification">Project Classification</a>
+  <a href="#docs">Documentation</a>
+  <a href="#services">Services & Config</a>
+  <a href="#roadmap">Roadmap</a>
+  <a href="#changelog">Changelog</a>
+  <a href="#deps">Dependencies</a>
+  <a href="#recommendations">Recommendations</a>
+</nav>
+
+<main>
+
+<section id="header">
+  <h1>CaliLean — Project Status</h1>
+  <p class="meta">Generated 2026-04-22 &middot; Commit <code>18ba182</code> &middot; Branch <code>master</code></p>
+
+  <div style="display:flex;align-items:center;gap:1.5rem;margin:1rem 0">
+    <div>
+      <div class="score-large score-red">66</div>
+      <div style="font-size:0.85rem;color:var(--text-muted)">/100 Health Score</div>
+    </div>
+    <span class="badge badge-red">UNHEALTHY</span>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-value">266</div><div class="stat-label">Source Files</div></div>
+    <div class="stat"><div class="stat-value">19,153</div><div class="stat-label">Lines of Code</div></div>
+    <div class="stat"><div class="stat-value">10</div><div class="stat-label">E2E Test Specs</div></div>
+    <div class="stat"><div class="stat-value">241</div><div class="stat-label">Total Commits</div></div>
+    <div class="stat"><div class="stat-value">2</div><div class="stat-label">Apps</div></div>
+  </div>
+</section>
+
+<section id="health">
+  <h2>Health Scorecard</h2>
+
+  <h3>Universal Checks</h3>
+  <table>
+    <tr><th>Category</th><th>Check</th><th>Status</th><th>Weight</th></tr>
+    <tr><td>Version Control</td><td>Git initialized</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
+    <tr><td></td><td>.gitignore exists</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
+    <tr><td></td><td>No secrets committed</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
+    <tr><td></td><td>Clean working tree</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
+    <tr><td>Testing</td><td>Test files exist (10 Playwright specs)</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
+    <tr><td></td><td>Tests pass</td><td><span class="badge badge-red">Unknown</span></td><td>-10</td></tr>
+    <tr><td></td><td>Coverage configured</td><td><span class="badge badge-red">Fail</span></td><td>-2</td></tr>
+    <tr><td>CI/CD</td><td>Pipeline exists</td><td><span class="badge badge-red">Fail</span></td><td>-10</td></tr>
+    <tr><td></td><td>CI passing</td><td><span class="badge badge-red">Fail</span></td><td>-10</td></tr>
+    <tr><td>Dependencies</td><td>Lock file present</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
+    <tr><td></td><td>Deps pinned</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
+    <tr><td></td><td>Dev deps separated</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
+    <tr><td>Documentation</td><td>README exists</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
+    <tr><td></td><td>README current</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
+    <tr><td></td><td>Contributing guide</td><td><span class="badge badge-yellow">Fail</span></td><td>-2</td></tr>
+    <tr><td>Code Quality</td><td>Linter configured</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
+    <tr><td></td><td>Formatter configured</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
+    <tr><td></td><td>Type checking</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
+  </table>
+
+  <h3>Node/TypeScript Checks</h3>
+  <table>
+    <tr><th>Check</th><th>Status</th><th>Weight</th></tr>
+    <tr><td>engines field specified</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
+    <tr><td>node_modules in .gitignore</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
+    <tr><td>tsconfig.json with .ts files</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
+  </table>
+</section>
+
+<section id="classification">
+  <h2>Project Classification</h2>
+  <div class="card">
+    <table>
+      <tr><td><strong>Type</strong></td><td>Multi-app repository (no workspace config)</td></tr>
+      <tr><td><strong>Languages</strong></td><td>TypeScript (~95%), JavaScript (~4%), Python (~1%)</td></tr>
+      <tr><td><strong>Backend</strong></td><td>Medusa.js 2.13.6 (Node 22.x, pnpm 9.10)</td></tr>
+      <tr><td><strong>Storefront</strong></td><td>Next.js 15.5.15, React 19.0.4, Tailwind CSS 3.4.19</td></tr>
+      <tr><td><strong>Platform</strong></td><td>Railway (one-click deploy)</td></tr>
+      <tr><td><strong>Architecture</strong></td><td>Headless commerce — API backend + SSR storefront</td></tr>
+      <tr><td><strong>Brand</strong></td><td>Bluum (CBD/wellness) — custom design tokens, Switzer font, 21+ age gate</td></tr>
+      <tr><td><strong>Origin</strong></td><td>Fork of rpuls/medusajs-2.0-for-railway-boilerplate</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="docs">
+  <h2>Documentation Inventory</h2>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-value">13</div><div class="stat-label">Markdown Files</div></div>
+    <div class="stat"><div class="stat-value">1</div><div class="stat-label">Governance (Tier 1)</div></div>
+    <div class="stat"><div class="stat-value">12</div><div class="stat-label">Package Docs (Tier 3)</div></div>
+  </div>
+
+  <details open>
+    <summary>All Documentation Files</summary>
+    <table>
+      <tr><th>Path</th><th>Category</th><th>Tier</th><th>Status</th><th>Action</th></tr>
+      <tr><td><code>README.md</code></td><td>Governance</td><td>1</td><td><span class="badge badge-yellow">Stale</span></td><td>Update — claims Next.js 14, actually 15</td></tr>
+      <tr><td><code>backend/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
+      <tr><td><code>backend/src/admin/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
+      <tr><td><code>backend/src/api/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
+      <tr><td><code>backend/src/jobs/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
+      <tr><td><code>backend/src/modules/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
+      <tr><td><code>backend/src/modules/email-notifications/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
+      <tr><td><code>backend/src/modules/minio-file/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
+      <tr><td><code>backend/src/scripts/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
+      <tr><td><code>backend/src/subscribers/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
+      <tr><td><code>backend/src/workflows/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
+      <tr><td><code>storefront/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
+      <tr><td><code>storefront/e2e/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
+    </table>
+  </details>
+
+  <details>
+    <summary>Missing Documentation</summary>
+    <table>
+      <tr><th>File</th><th>Tier</th><th>Priority</th></tr>
+      <tr><td><code>CLAUDE.md</code></td><td>1</td><td><span class="badge badge-red">High</span> — Generated by this run</td></tr>
+      <tr><td><code>CONTRIBUTING.md</code></td><td>1</td><td><span class="badge badge-yellow">Medium</span></td></tr>
+      <tr><td><code>LICENSE</code></td><td>1</td><td><span class="badge badge-yellow">Medium</span> — MIT claimed but file missing</td></tr>
+    </table>
+  </details>
+
+  <details>
+    <summary>Docs-vs-Reality Gaps</summary>
+    <div class="card">
+      <p><strong>1. README claims "Next.js 14"</strong> — Storefront actually uses Next.js 15.5.15</p>
+      <p><strong>2. README says "monorepo"</strong> — No workspace config exists; it's two separate apps</p>
+      <p><strong>3. Bluum brand undocumented</strong> — 13+ commits add Bluum branding but README describes generic Medusa boilerplate</p>
+      <p><strong>4. No CI/CD described</strong> — No workflow files exist despite .github/ directory</p>
+    </div>
+  </details>
+</section>
+
+<section id="services">
+  <h2>Services & Configuration</h2>
+
+  <h3>Internal Services</h3>
+  <table>
+    <tr><th>Service</th><th>Location</th><th>Port</th></tr>
+    <tr><td>Medusa Backend + Admin</td><td><code>backend/</code></td><td>9000</td></tr>
+    <tr><td>Next.js Storefront</td><td><code>storefront/</code></td><td>8000</td></tr>
+    <tr><td>Email Template Preview</td><td><code>backend/</code> (email:dev)</td><td>3002</td></tr>
+  </table>
+
+  <h3>External Services</h3>
+  <table>
+    <tr><th>Service</th><th>Provider</th><th>Required</th><th>Status</th></tr>
+    <tr><td>Database</td><td>PostgreSQL</td><td>Yes</td><td><span class="badge badge-green">Configured</span></td></tr>
+    <tr><td>Cache/Queue</td><td>Redis</td><td>No</td><td><span class="badge badge-gray">Optional</span></td></tr>
+    <tr><td>File Storage</td><td>MinIO</td><td>No</td><td><span class="badge badge-gray">Optional (local fallback)</span></td></tr>
+    <tr><td>Search</td><td>MeiliSearch</td><td>No</td><td><span class="badge badge-gray">Optional</span></td></tr>
+    <tr><td>Payment</td><td>Stripe</td><td>No</td><td><span class="badge badge-gray">Optional</span></td></tr>
+    <tr><td>Email</td><td>SendGrid / Resend</td><td>No</td><td><span class="badge badge-gray">Optional</span></td></tr>
+  </table>
+
+  <h3>Environment Configuration</h3>
+  <div class="card">
+    <p><strong>Backend</strong> (<code>.env.template</code>): 21 variables — DATABASE_URL, REDIS_URL, JWT/COOKIE secrets, CORS settings, Stripe, SendGrid, MinIO, MeiliSearch</p>
+    <p><strong>Storefront</strong> (<code>.env.local.template</code>): 7 variables — backend URL, base URL, default region, MinIO endpoint, MeiliSearch config</p>
+  </div>
+</section>
+
+<section id="roadmap">
+  <h2>Roadmap</h2>
+
+  <h3>Prioritized Next Steps</h3>
+
+  <div class="card rec-critical">
+    <p><strong>1. Add CI/CD pipeline</strong> <span class="badge badge-red">Critical</span></p>
+    <p>No automated testing or build verification. Any push could break production.</p>
+  </div>
+
+  <div class="card rec-critical">
+    <p><strong>2. Update README for Bluum brand</strong> <span class="badge badge-red">Critical</span></p>
+    <p>README describes generic Medusa boilerplate. Should reflect Bluum CBD/wellness storefront.</p>
+  </div>
+
+  <div class="card rec-warning">
+    <p><strong>3. Fix inventory management in cart</strong> <span class="badge badge-yellow">High Value</span></p>
+    <p>Cart items don't check real inventory via Medusa v2 API. Risk of overselling.</p>
+  </div>
+
+  <div class="card rec-warning">
+    <p><strong>4. Add password update support</strong> <span class="badge badge-yellow">High Value</span></p>
+    <p>Profile page has disabled password update feature.</p>
+  </div>
+
+  <div class="card rec-suggestion">
+    <p><strong>5. Expand .gitignore</strong> <span class="badge badge-gray">Quick Win</span></p>
+    <p>Missing: .env, dist/, build/, .medusa/, coverage/</p>
+  </div>
+
+  <h3>Inline TODOs (10 total)</h3>
+  <details>
+    <summary>View all TODOs</summary>
+    <table>
+      <tr><th>File</th><th>TODO</th><th>Priority</th></tr>
+      <tr><td><code>check-env-variables.js:6</code></td><td>Need a good doc to point this to</td><td><span class="badge badge-gray">Defer</span></td></tr>
+      <tr><td><code>lib/data/cart.ts:299</code></td><td>Pass a POJO instead of form entity</td><td><span class="badge badge-gray">Nice to Have</span></td></tr>
+      <tr><td><code>account/.../profile-email:19</code></td><td>Don't support updating emails now?</td><td><span class="badge badge-gray">Defer</span></td></tr>
+      <tr><td><code>order/.../order-details:44</code></td><td>Check where statuses should come from</td><td><span class="badge badge-gray">Nice to Have</span></td></tr>
+      <tr><td><code>lib/data/categories.ts:15,27</code></td><td>Look into fixing the type</td><td><span class="badge badge-gray">Nice to Have</span></td></tr>
+      <tr><td><code>checkout/.../payment-button:30</code></td><td>Add gift card support</td><td><span class="badge badge-gray">Defer</span></td></tr>
+      <tr><td><code>account/.../profile-password:18</code></td><td>Add support for password updates</td><td><span class="badge badge-yellow">High Value</span></td></tr>
+      <tr><td><code>cart/components/item:45,87</code></td><td>Update with v2 inventory management</td><td><span class="badge badge-yellow">High Value</span></td></tr>
+    </table>
+  </details>
+</section>
+
+<section id="changelog">
+  <h2>Changelog</h2>
+  <p class="meta">Full history — no release tags exist. Recommend tagging <code>v0.1.0</code> at current commit.</p>
+
+  <h3>Features (Bluum Storefront)</h3>
+  <table>
+    <tr><th>Commit</th><th>Description</th></tr>
+    <tr><td><code>8a84ae4</code></td><td>Add Bluum design tokens, Switzer font, brand colors</td></tr>
+    <tr><td><code>8e2630d</code></td><td>Replace nav with Bluum branded header</td></tr>
+    <tr><td><code>91b7055</code></td><td>Replace footer with Bluum dark branded footer</td></tr>
+    <tr><td><code>43fe86e</code></td><td>Replace hero with Bluum branded hero section</td></tr>
+    <tr><td><code>dbd7b7b</code></td><td>Add value props and lab banner components</td></tr>
+    <tr><td><code>0b1d0d2</code></td><td>Add FAQ accordion component</td></tr>
+    <tr><td><code>0cb89cc</code></td><td>Add trust badges, research disclaimer, product specs table</td></tr>
+    <tr><td><code>fc5f05f</code></td><td>Compose Bluum homepage with hero, lab banner, featured products, value props, FAQ</td></tr>
+    <tr><td><code>e4f3824</code></td><td>Restyle product preview card and thumbnail</td></tr>
+    <tr><td><code>e1de378</code></td><td>Add 21+ age gate modal to root layout</td></tr>
+    <tr><td><code>216c121</code></td><td>Rewrite PDP with Bluum layout — gallery, badges, trust, specs, related</td></tr>
+    <tr><td><code>716f536</code></td><td>Restyle store page with Bluum design</td></tr>
+    <tr><td><code>a723c36</code></td><td>Add 33 product seed data with metadata</td></tr>
+  </table>
+
+  <h3>Fixes</h3>
+  <table>
+    <tr><td><code>6cae80e</code></td><td>Divide price by 100 for correct USD display</td></tr>
+  </table>
+
+  <details>
+    <summary>Chores & Maintenance</summary>
+    <table>
+      <tr><td><code>18ba182</code></td><td>Merge upstream (rpuls:master)</td></tr>
+      <tr><td><code>b848473</code></td><td>Update Medusa and storefront dependencies</td></tr>
+      <tr><td><code>d17e614</code></td><td>Trigger Railway rebuild for price display fix</td></tr>
+      <tr><td><code>e3079a9</code></td><td>Update .gitignore</td></tr>
+      <tr><td><code>d03c6f0</code></td><td>Update deployment link in README.md</td></tr>
+    </table>
+  </details>
+</section>
+
+<section id="deps">
+  <h2>Dependencies</h2>
+
+  <h3>Backend</h3>
+  <div class="card">
+    <p><strong>Package Manager:</strong> pnpm 9.10.0 &middot; <strong>Runtime:</strong> Node 22.x &middot; <strong>Lock File:</strong> <span class="badge badge-green">Present</span></p>
+    <table>
+      <tr><th>Package</th><th>Version</th><th>Purpose</th></tr>
+      <tr><td>@medusajs/* (core)</td><td>2.13.6</td><td>Commerce framework</td></tr>
+      <tr><td>minio</td><td>^8.0.6</td><td>Object storage client</td></tr>
+      <tr><td>resend</td><td>4.0.1</td><td>Email delivery</td></tr>
+      <tr><td>@react-email/components</td><td>^1.0.1</td><td>Email templates</td></tr>
+      <tr><td>typescript</td><td>^5.9.3</td><td>Type system</td></tr>
+    </table>
+  </div>
+
+  <h3>Storefront</h3>
+  <div class="card">
+    <p><strong>Package Manager:</strong> pnpm &middot; <strong>Lock File:</strong> <span class="badge badge-green">Present</span></p>
+    <table>
+      <tr><th>Package</th><th>Version</th><th>Purpose</th></tr>
+      <tr><td>next</td><td>^15.5.15</td><td>React framework</td></tr>
+      <tr><td>react</td><td>19.0.4</td><td>UI library</td></tr>
+      <tr><td>tailwindcss</td><td>^3.4.19</td><td>CSS framework</td></tr>
+      <tr><td>@medusajs/ui</td><td>preview</td><td>Medusa UI components</td></tr>
+      <tr><td>@stripe/stripe-js</td><td>^1.29.0</td><td>Payment integration</td></tr>
+      <tr><td>@playwright/test</td><td>^1.55.1</td><td>E2E testing</td></tr>
+      <tr><td>eslint</td><td>^9.39.2</td><td>Code linting</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="recommendations">
+  <h2>Recommendations</h2>
+
+  <div class="card rec-critical">
+    <h3>1. Add GitHub Actions CI <span class="badge badge-red">Critical</span></h3>
+    <p>Create <code>.github/workflows/ci.yml</code> to run <code>pnpm build</code> for both apps on every PR. This is the single highest-impact improvement. Without it, broken code reaches production undetected.</p>
+    <p><strong>Effort:</strong> Small (30min)</p>
+  </div>
+
+  <div class="card rec-critical">
+    <h3>2. Update README for Bluum Brand <span class="badge badge-red">Critical</span></h3>
+    <p>The README still describes a generic Medusa boilerplate. It should reflect that this is CaliLean/Bluum — a CBD/wellness e-commerce store with custom branding, age gate, and seed data.</p>
+    <p><strong>Effort:</strong> Small</p>
+  </div>
+
+  <div class="card rec-warning">
+    <h3>3. Expand .gitignore <span class="badge badge-yellow">Warning</span></h3>
+    <p>Add: <code>.env</code>, <code>.env.local</code>, <code>dist/</code>, <code>build/</code>, <code>.medusa/</code>, <code>coverage/</code></p>
+    <p><strong>Effort:</strong> Trivial</p>
+  </div>
+
+  <div class="card rec-warning">
+    <h3>4. Tag Baseline Release <span class="badge badge-yellow">Warning</span></h3>
+    <p>No git tags exist. Create <code>v0.1.0</code> to anchor future changelogs and diffs.</p>
+    <p><strong>Effort:</strong> Trivial</p>
+  </div>
+
+  <div class="card rec-warning">
+    <h3>5. Fix Inventory Management <span class="badge badge-yellow">Warning</span></h3>
+    <p>Cart items at <code>storefront/src/modules/cart/components/item/index.tsx</code> have TODOs for checking real inventory. Could lead to overselling.</p>
+    <p><strong>Effort:</strong> Medium</p>
+  </div>
+
+  <div class="card rec-suggestion">
+    <h3>6. Add CONTRIBUTING.md <span class="badge badge-gray">Suggestion</span></h3>
+    <p>No contributor guide exists. Create a basic file describing setup, branch strategy, and PR workflow.</p>
+    <p><strong>Effort:</strong> Small</p>
+  </div>
+
+  <div class="card rec-suggestion">
+    <h3>7. Add Backend Linting <span class="badge badge-gray">Suggestion</span></h3>
+    <p>Only the storefront has eslint configured. The backend has no linter, which allows code quality to drift.</p>
+    <p><strong>Effort:</strong> Small</p>
+  </div>
+</section>
+
+</main>
+
+<script>
+const links = document.querySelectorAll('nav a');
+const sections = document.querySelectorAll('section[id]');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector(`nav a[href="#${e.target.id}"]`);
+      if (a) a.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => obs.observe(s));
+</script>
+
+</body>
+</html>

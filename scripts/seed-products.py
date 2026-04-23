@@ -29,7 +29,10 @@ BACKEND_URL = os.getenv(
     "https://backend-production-3e14.up.railway.app",
 )
 ADMIN_EMAIL = os.getenv("MEDUSA_ADMIN_EMAIL", "admin@yourmail.com")
-ADMIN_PASS = os.getenv("MEDUSA_ADMIN_PASS", "33opjsbd1f3ve0kjxdgwle6xl5oaksl3")
+ADMIN_PASS = os.getenv("MEDUSA_ADMIN_PASS")
+if not ADMIN_PASS:
+    print("FATAL: MEDUSA_ADMIN_PASS environment variable is required.")
+    sys.exit(1)
 
 SEED_FILE = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),

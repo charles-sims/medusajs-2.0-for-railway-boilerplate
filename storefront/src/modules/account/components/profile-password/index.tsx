@@ -17,7 +17,6 @@ const ProfilePassword: React.FC<MyInformationProps> = ({ customer }) => {
   const [successState, setSuccessState] = React.useState(false)
 
   const [state, formAction] = useFormState(updatePassword, {
-    customer,
     success: false,
     error: null,
   })

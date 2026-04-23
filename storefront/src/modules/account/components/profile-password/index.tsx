@@ -7,16 +7,16 @@ import Input from "@modules/common/components/input"
 import AccountInfo from "../account-info"
 import { useFormState } from "react-dom"
 import { HttpTypes } from "@medusajs/types"
+import { updatePassword } from "@lib/data/customer"
 
 type MyInformationProps = {
   customer: HttpTypes.StoreCustomer
 }
 
-const ProfileName: React.FC<MyInformationProps> = ({ customer }) => {
+const ProfilePassword: React.FC<MyInformationProps> = ({ customer }) => {
   const [successState, setSuccessState] = React.useState(false)
 
-  // TODO: Add support for password updates
-  const [state, formAction] = useFormState((() => {}) as any, {
+  const [state, formAction] = useFormState(updatePassword, {
     customer,
     success: false,
     error: null,
@@ -43,6 +43,7 @@ const ProfileName: React.FC<MyInformationProps> = ({ customer }) => {
         clearState={clearState}
         data-testid="account-password-editor"
       >
+        <input type="hidden" name="email" value={customer.email} />
         <div className="grid grid-cols-2 gap-4">
           <Input
             label="Old password"
@@ -71,4 +72,4 @@ const ProfileName: React.FC<MyInformationProps> = ({ customer }) => {
   )
 }
 
-export default ProfileName
+export default ProfilePassword

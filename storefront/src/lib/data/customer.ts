@@ -80,6 +80,42 @@ export async function login(_currentState: unknown, formData: FormData) {
   }
 }
 
+export async function updatePassword(
+  _currentState: Record<string, unknown>,
+  formData: FormData
+) {
+  const email = formData.get("email") as string
+  const oldPassword = formData.get("old_password") as string
+  const newPassword = formData.get("new_password") as string
+  const confirmPassword = formData.get("confirm_password") as string
+
+  if (newPassword !== confirmPassword) {
+    return { success: false, error: "New passwords do not match" }
+  }
+
+  if (newPassword.length < 8) {
+    return { success: false, error: "Password must be at least 8 characters" }
+  }
+
+  try {
+    // Verify old password by attempting login
+    await sdk.auth.login("customer", "emailpass", {
+      email,
+      password: oldPassword,
+    })
+
+    // Update to new password
+    await sdk.auth.updateProvider("customer", "emailpass", {
+      email,
+      password: newPassword,
+    })
+
+    return { success: true, error: null }
+  } catch (error: any) {
+    return { success: false, error: "Current password is incorrect" }
+  }
+}
+
 export async function signout(countryCode: string) {
   await sdk.auth.logout()
   removeAuthToken()

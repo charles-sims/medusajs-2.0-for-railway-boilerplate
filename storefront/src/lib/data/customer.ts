@@ -99,16 +99,20 @@ export async function updatePassword(
 
   try {
     // Verify old password by attempting login
-    await sdk.auth.login("customer", "emailpass", {
+    const token = await sdk.auth.login("customer", "emailpass", {
       email,
       password: oldPassword,
     })
 
-    // Update to new password
-    await sdk.auth.updateProvider("customer", "emailpass", {
-      email,
-      password: newPassword,
-    })
+    const resetToken = typeof token === "string" ? token : ""
+
+    // Update to new password using the token
+    await sdk.auth.updateProvider(
+      "customer",
+      "emailpass",
+      { email, password: newPassword },
+      resetToken
+    )
 
     return { success: true, error: null }
   } catch (error: any) {

@@ -149,10 +149,8 @@ const Payment = ({
                 value={selectedPaymentMethod}
                 onChange={(value: string) => setSelectedPaymentMethod(value)}
               >
-                {availablePaymentMethods
-                  .sort((a, b) => {
-                    return a.provider_id > b.provider_id ? 1 : -1
-                  })
+                {[...availablePaymentMethods]
+                  .sort((a, b) => (a.id ?? "").localeCompare(b.id ?? ""))
                   .map((paymentMethod) => {
                     return (
                       <PaymentContainer
@@ -211,6 +209,7 @@ const Payment = ({
             onClick={handleSubmit}
             isLoading={isLoading}
             disabled={
+              isLoading ||
               (isStripe && !cardComplete) ||
               (!selectedPaymentMethod && !paidByGiftcard)
             }

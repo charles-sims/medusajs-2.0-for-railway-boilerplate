@@ -23,6 +23,7 @@ export function SubmitButton({
       className={className}
       type="submit"
       isLoading={pending}
+      disabled={pending}
       variant={variant || "primary"}
       data-testid={dataTestId}
     >

@@ -77,11 +77,11 @@ def authenticate():
 
 # ── Price Parser ────────────────────────────────────────────────────────────
 
-def parse_price_cents(price_str):
-    """Convert '$40.00' or 'From $40.00' to integer cents (4000)."""
+def parse_price(price_str):
+    """Convert '$40.00' or 'From $40.00' to numeric dollar value (40)."""
     match = re.search(r"\$?([\d,]+(?:\.\d{2})?)", price_str or "0")
     if match:
-        return int(float(match.group(1).replace(",", "")) * 100)
+        return int(float(match.group(1).replace(",", "")))
     return 0
 
 
@@ -167,7 +167,7 @@ def create_product(token, product, region_id, collection_id, sales_channel_id):
     sizes = product.get("options", [{}])[0].get("values", ["10mg"])
     if isinstance(sizes, str):
         sizes = [sizes]
-    price_cents = parse_price_cents(product.get("price", "$0"))
+    price = parse_price(product.get("price", "$0"))
     thumbnail = product.get("thumbnail") or product.get("image", "")
 
     # Clean metadata — remove empty strings
@@ -184,7 +184,7 @@ def create_product(token, product, region_id, collection_id, sales_channel_id):
             "manage_inventory": False,
             "prices": [
                 {
-                    "amount": price_cents,
+                    "amount": price,
                     "currency_code": "usd",
                 },
             ],

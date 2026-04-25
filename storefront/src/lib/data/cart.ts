@@ -18,7 +18,11 @@ export async function retrieveCart() {
   }
 
   return await sdk.store.cart
-    .retrieve(cartId, {}, { next: { tags: ["cart"] }, ...(await getAuthHeaders()) })
+    .retrieve(
+      cartId,
+      {},
+      { next: { tags: ["cart"] }, ...(await getAuthHeaders()) }
+    )
     .then(({ cart }) => cart)
     .catch(() => {
       return null
@@ -33,7 +37,10 @@ export async function getOrSetCart(countryCode: string) {
     throw new Error(`Region not found for country code: ${countryCode}`)
   }
 
-  if (!cart) {
+  if (!cart || cart.completed_at) {
+    if (cart?.completed_at) {
+      await removeCartId()
+    }
     const cartResp = await sdk.store.cart.create({ region_id: region.id })
     cart = cartResp.cart
     await setCartId(cart.id)
@@ -142,7 +149,6 @@ export async function deleteLineItem(lineId: string) {
       revalidateTag("cart")
     })
     .catch(medusaError)
-  revalidateTag("cart")
 }
 
 export async function enrichLineItems(
@@ -234,11 +240,7 @@ export async function applyPromotions(codes: string[]) {
     throw new Error("No existing cart found")
   }
 
-  await updateCart({ promo_codes: codes })
-    .then(() => {
-      revalidateTag("cart")
-    })
-    .catch(medusaError)
+  await updateCart({ promo_codes: codes }).catch(medusaError)
 }
 
 export async function applyGiftCard(code: string) {
@@ -344,9 +346,7 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
     return e.message
   }
 
-  redirect(
-    `/${formData.get("shipping_address.country_code")}/checkout?step=delivery`
-  )
+  return null
 }
 
 export async function placeOrder() {

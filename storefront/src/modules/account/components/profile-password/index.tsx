@@ -5,7 +5,7 @@ import React, { useEffect } from "react"
 import Input from "@modules/common/components/input"
 
 import AccountInfo from "../account-info"
-import { useFormState } from "react-dom"
+import { useActionState } from "react"
 import { HttpTypes } from "@medusajs/types"
 import { updatePassword } from "@lib/data/customer"
 
@@ -16,7 +16,7 @@ type MyInformationProps = {
 const ProfilePassword: React.FC<MyInformationProps> = ({ customer }) => {
   const [successState, setSuccessState] = React.useState(false)
 
-  const [state, formAction] = useFormState(updatePassword, {
+  const [state, formAction] = useActionState(updatePassword, {
     success: false,
     error: null,
   })

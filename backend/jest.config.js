@@ -9,10 +9,11 @@ module.exports = {
       {
         jsc: {
           parser: { syntax: "typescript", decorators: true },
-          target: "es2019",
+          target: "es2022",
           transform: { decoratorMetadata: true, legacyDecorator: true },
         },
       },
     ],
   },
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json"],
 }

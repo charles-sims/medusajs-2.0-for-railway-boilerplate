@@ -14,6 +14,7 @@ import {
   RUO_ATTESTATION_VERSION,
   getGeoDenyMessage,
   isUsStateAllowed,
+  normalizeUsStateCode,
 } from "@lib/ruo"
 
 export async function retrieveCart() {
@@ -351,6 +352,16 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
     const shippingProvince = String(data.shipping_address.province ?? "")
     const shippingCountry = String(data.shipping_address.country_code ?? "")
     if (!isUsStateAllowed(shippingProvince, shippingCountry)) {
+      // Structured rejection log so ops can measure suppression cost
+      // (no PII — only the state code and a short cart-id prefix).
+      console.warn(
+        JSON.stringify({
+          event: "ruo.geo.checkout_rejected",
+          state: normalizeUsStateCode(shippingProvince),
+          cart_id_prefix: cartId.slice(0, 8),
+          ts: new Date().toISOString(),
+        })
+      )
       return getGeoDenyMessage(shippingProvince)
     }
 

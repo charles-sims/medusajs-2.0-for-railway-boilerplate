@@ -21,6 +21,7 @@
     "email:dev": "email dev --dir=./src/modules/email-notifications/templates --port=3002",
     "test": "jest",
     "test:unit": "jest --testPathPattern=src/"
+    "test": "jest"
   },
   "dependencies": {
     "@medusajs/admin-sdk": "2.13.6",

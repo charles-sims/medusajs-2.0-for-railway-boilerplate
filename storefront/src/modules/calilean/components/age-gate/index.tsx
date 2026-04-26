@@ -45,7 +45,7 @@ const AgeGate = () => {
           </button>
           <button
             onClick={accept}
-            className="px-6 py-2.5 bg-calilean-sand text-calilean-ink rounded-btn text-sm font-medium hover:opacity-85 transition-opacity"
+            className="px-6 py-2.5 bg-calilean-coa text-calilean-bg rounded-btn text-sm font-medium hover:opacity-85 transition-opacity"
           >
             Enter
           </button>

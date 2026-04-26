@@ -32,12 +32,14 @@ Do NOT use this for:
 
 ## How it works
 
-Two env vars, kept in sync:
+Three env vars. The first two MUST be kept in sync; the third is
+backend-only and gates the alert webhook.
 
 | Service    | Var                                  | Notes                                                                  |
 | ---------- | ------------------------------------ | ---------------------------------------------------------------------- |
 | storefront | `NEXT_PUBLIC_RUO_GEO_DENY_STATES`    | Comma-separated 2-letter US state codes. `NEXT_PUBLIC_` so the inline UI message renders client-side. |
 | backend    | `RUO_GEO_DENY_STATES`                | Same value. Drives the order-placed audit subscriber that catches frontend bypasses. |
+| backend    | `RUO_GEO_ALERT_WEBHOOK_URL`          | Slack incoming-webhook URL. When set, the audit subscriber posts a `:rotating_light:` message to that channel on every bypass (SKA-29). Unset/blank = no Slack ping (the `logger.error` still fires). |
 
 Format: comma-separated, 2-letter uppercase, no spaces required (we trim).
 Empty / unset = allow all. Examples:
@@ -59,7 +61,13 @@ Where the gate fires:
 3. **Backend audit subscriber** — `ruo-geo-audit` listens on
    `order.placed` and `logger.error`s any order that shipped to a
    deny-listed state (defense-in-depth — should never fire if the
-   storefront gate is intact).
+   storefront gate is intact). The error log uses the structured key
+   `event=ruo.geo.audit_violation` so it's greppable in the log drain.
+4. **Slack alert (SKA-29)** — when `RUO_GEO_ALERT_WEBHOOK_URL` is set,
+   the same audit subscriber posts a `:rotating_light:` message to the
+   configured channel (typically `#calilean-alerts`) with the order id,
+   state, env, and timestamp. The Slack post is fire-and-forget with a
+   3-second timeout — webhook outages cannot break the order pipeline.
 
 ## Suppress a state — runbook
 
@@ -92,6 +100,12 @@ Time-box: **<15 minutes from go-decision to gate live**.
    - Repeat with an allowed state to confirm checkout still works.
    - Check the storefront log stream for the
      `ruo.geo.checkout_rejected` JSON line.
+   - **Confirm the alert path (SKA-29).** From the backend service shell,
+     emit a fake bypass event to verify the Slack webhook is wired up:
+     `pnpm ruo:test-alert -- --order test-$(date +%s) --state NJ`. The
+     `#calilean-alerts` channel should receive a `:rotating_light:` post
+     within ~5 seconds. If you see the `logger.error` line but no Slack
+     post, `RUO_GEO_ALERT_WEBHOOK_URL` is unset or wrong on the backend.
 
 5. **Notify support.** Post in `#calilean-support` (or current support
    channel) so any inbound questions from `<state>` shoppers can be
@@ -149,3 +163,30 @@ question becomes "is this still cheaper than the alternative?"
   storefront gate was bypassed (a direct `/store/cart` SDK call, an
   admin-created order, or a misconfigured env). Treat as a sev-2:
   refund/cancel the order, then audit.
+- **Bypass logged but no Slack alert (SKA-29):** the
+  `RUO_GEO_ALERT_WEBHOOK_URL` env var is unset or the webhook URL
+  rotated. Re-create a Slack incoming webhook for `#calilean-alerts`
+  and set the var on the backend service. Re-run
+  `pnpm ruo:test-alert` to confirm. Webhook failures are logged at
+  `warn` (`[RUO geo alert] webhook ...`) — they do not block orders.
+
+## Bypass alert setup (one-time, SKA-29)
+
+The webhook is configured once per environment (staging + prod each
+get their own). To set it up:
+
+1. In Slack: `Apps → Incoming Webhooks → Add New Webhook to Workspace`.
+   Pick `#calilean-alerts` (create it if it doesn't exist). Copy the
+   `https://hooks.slack.com/services/...` URL.
+2. In Railway, on the `backend` service, add env var
+   `RUO_GEO_ALERT_WEBHOOK_URL=<webhook-url>` and redeploy.
+3. From the backend service shell (or local checkout with the env var
+   set), run `pnpm ruo:test-alert -- --order test-001 --state NJ` and
+   confirm a `:rotating_light:` post in `#calilean-alerts` within ~5
+   seconds.
+
+Rotation: if the webhook leaks (it ends up in a public log, etc.),
+revoke it from the Slack app config, generate a new one, and update
+the Railway env var. Railway restarts the service on env-var change,
+so the audit subscriber will pick up the new URL after that restart
+(typically <60s).

@@ -2,6 +2,7 @@ import { Modules } from "@medusajs/framework/utils"
 import { IOrderModuleService } from "@medusajs/framework/types"
 import { SubscriberArgs, SubscriberConfig } from "@medusajs/medusa"
 import { isUsStateAllowed, normalizeUsStateCode } from "../lib/ruo"
+import { notifyGeoBypass } from "../lib/ruo-alert"
 
 export default async function ruoGeoAuditHandler({
   event: { data },
@@ -20,8 +21,13 @@ export default async function ruoGeoAuditHandler({
   const countryCode = order.shipping_address?.country_code ?? null
 
   if (!isUsStateAllowed(province, countryCode)) {
+    const state = normalizeUsStateCode(province ?? "")
     logger.error(
-      `[RUO geo] order ${order.id} shipped to deny-listed state ${normalizeUsStateCode(province ?? "")} — frontend gate bypassed`
+      `[RUO geo] event=ruo.geo.audit_violation order=${order.id} state=${state} country=${countryCode ?? "?"} — frontend gate bypassed`
+    )
+    await notifyGeoBypass(
+      { orderId: order.id, state, countryCode },
+      logger
     )
     return
   }

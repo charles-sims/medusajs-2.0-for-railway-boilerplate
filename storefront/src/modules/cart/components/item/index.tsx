@@ -42,10 +42,19 @@ const Item = ({ item, type = "full" }: ItemProps) => {
       })
   }
 
-  const inventoryQuantity = item.variant?.inventory_quantity ?? 10
-  const maxQuantity = item.variant?.manage_inventory
-    ? Math.min(inventoryQuantity, 10)
-    : 10
+  const variant = item.variant
+  const MAX_CART_QUANTITY = 99
+  const maxQuantity = !variant
+    ? 1
+    : !variant.manage_inventory || variant.allow_backorder
+    ? MAX_CART_QUANTITY
+    : Math.max(0, variant.inventory_quantity ?? 0)
+  const stockError =
+    maxQuantity === 0
+      ? "Out of stock"
+      : item.quantity > maxQuantity
+      ? `Only ${maxQuantity} in stock — please reduce quantity`
+      : null
 
   return (
     <Table.Row className="w-full" data-testid="product-row">
@@ -96,7 +105,10 @@ const Item = ({ item, type = "full" }: ItemProps) => {
             </CartItemSelect>
             {updating && <Spinner />}
           </div>
-          <ErrorMessage error={error} data-testid="product-error-message" />
+          <ErrorMessage
+            error={error ?? stockError}
+            data-testid="product-error-message"
+          />
         </Table.Cell>
       )}
 

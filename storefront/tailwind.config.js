@@ -30,6 +30,14 @@ module.exports = {
           border: '#e5e5e5',
           'btn-secondary': '#EAEAEA',
         },
+        calilean: {
+          bg: '#F4F2EC',
+          ink: '#1F2326',
+          pacific: '#3A5A6A',
+          fog: '#9CA3A8',
+          sand: '#E6E2D6',
+          coa: '#0F1417',
+        },
         grey: {
           0: "#FFFFFF",
           5: "#F9FAFB",

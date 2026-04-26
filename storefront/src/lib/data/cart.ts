@@ -9,7 +9,12 @@ import { redirect } from "next/navigation"
 import { getAuthHeaders, getCartId, removeCartId, setCartId } from "./cookies"
 import { getProductsById } from "./products"
 import { getRegion } from "./regions"
-import { RUO_ATTESTATION_LABEL, RUO_ATTESTATION_VERSION } from "@lib/ruo"
+import {
+  RUO_ATTESTATION_LABEL,
+  RUO_ATTESTATION_VERSION,
+  getGeoDenyMessage,
+  isUsStateAllowed,
+} from "@lib/ruo"
 
 export async function retrieveCart() {
   const cartId = await getCartId()
@@ -342,6 +347,13 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
         province: formData.get("billing_address.province"),
         phone: formData.get("billing_address.phone"),
       }
+
+    const shippingProvince = String(data.shipping_address.province ?? "")
+    const shippingCountry = String(data.shipping_address.country_code ?? "")
+    if (!isUsStateAllowed(shippingProvince, shippingCountry)) {
+      return getGeoDenyMessage(shippingProvince)
+    }
+
     await updateCart(data)
   } catch (e: any) {
     return e.message

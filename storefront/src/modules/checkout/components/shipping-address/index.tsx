@@ -6,6 +6,7 @@ import { mapKeys } from "lodash"
 import React, { useEffect, useMemo, useState } from "react"
 import AddressSelect from "../address-select"
 import CountrySelect from "../country-select"
+import { getGeoDenyMessage, isUsStateAllowed } from "@lib/ruo"
 
 const ShippingAddress = ({
   customer,
@@ -172,6 +173,18 @@ const ShippingAddress = ({
           data-testid="shipping-province-input"
         />
       </div>
+      {!isUsStateAllowed(
+        formData["shipping_address.province"],
+        formData["shipping_address.country_code"]
+      ) && (
+        <p
+          role="alert"
+          data-testid="shipping-geo-deny-message"
+          className="text-sm text-calilean-alert mt-2"
+        >
+          {getGeoDenyMessage(formData["shipping_address.province"] ?? "")}
+        </p>
+      )}
       <div className="my-8">
         <Checkbox
           label="Billing address same as shipping address"

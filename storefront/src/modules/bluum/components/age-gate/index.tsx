@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import CaliLeanLogo from "@modules/calilean/icons/calilean-logo"
+import { RUO_AGE_GATE_HEADLINE, RUO_AGE_GATE_BODY } from "@lib/ruo"
 
 const AgeGate = () => {
   const [visible, setVisible] = useState(false)
@@ -29,8 +30,8 @@ const AgeGate = () => {
     <div className="fixed inset-0 z-[9999] bg-black/65 backdrop-blur-sm flex items-center justify-center">
       <div className="bg-bluum-bg p-10 rounded-2xl text-center max-w-md w-[90%]">
         <CaliLeanLogo className="h-8 mx-auto mb-6" color="#1F2326" tracking="display" />
-        <p className="text-lg font-semibold mb-2">You must be at least 21 to visit this site.</p>
-        <p className="text-sm text-bluum-muted mb-6">By entering this site, you are accepting our Terms of Service</p>
+        <p className="text-lg font-semibold mb-2">{RUO_AGE_GATE_HEADLINE}</p>
+        <p className="text-sm text-bluum-muted mb-6">{RUO_AGE_GATE_BODY}</p>
         <div className="flex gap-3 justify-center">
           <button
             onClick={decline}

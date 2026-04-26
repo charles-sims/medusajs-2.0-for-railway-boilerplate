@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 80" role="img" aria-label="CaliLean wordmark — Editorial Display cut">
+  <title>CaliLean wordmark — Editorial Display cut (GT Sectra reference)</title>
+  <!--
+    Cut 1 — Editorial Display.
+    Reference families: GT Sectra Display, Söhne Schmal (alt for the wordmark proper).
+    Web fallback used here: Fraunces (variable, transitional with low-contrast display cut).
+    Spec: lowercase, single weight (regular), +30 tracking.
+    Final wordmark is custom — this previews the cut family.
+  -->
+  <text x="0" y="58"
+        font-family="'Fraunces', 'GT Sectra Display', 'Domaine Display', 'Times New Roman', serif"
+        font-size="64"
+        font-weight="400"
+        font-style="normal"
+        font-stretch="normal"
+        font-variation-settings="'opsz' 144, 'SOFT' 30, 'WONK' 0"
+        letter-spacing="3"
+        fill="currentColor">calilean</text>
+</svg>

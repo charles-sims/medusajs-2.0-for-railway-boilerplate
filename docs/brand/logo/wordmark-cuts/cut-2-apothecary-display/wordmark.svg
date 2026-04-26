@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 80" role="img" aria-label="CaliLean wordmark — Apothecary Display cut">
+  <title>CaliLean wordmark — Apothecary Display cut (Tiempos Headline reference)</title>
+  <!--
+    Cut 2 — Apothecary Display.
+    Reference families: Tiempos Headline, Domaine Text. Warmer, more bookish.
+    Web fallback used here: Cormorant Garamond (transitional with refined contrast).
+    Spec: lowercase, single weight (regular), +30 tracking.
+  -->
+  <text x="0" y="58"
+        font-family="'Cormorant Garamond', 'Tiempos Headline', 'Domaine Text', 'Times New Roman', serif"
+        font-size="68"
+        font-weight="400"
+        letter-spacing="3"
+        fill="currentColor">calilean</text>
+</svg>

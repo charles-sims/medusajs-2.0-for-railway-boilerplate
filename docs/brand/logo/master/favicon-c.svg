@@ -1,31 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="CaliLean — favicon mark, lowercase c">
-  <title>CaliLean favicon — lowercase 'c' lockup</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="CaliLean — favicon, lowercase c">
+  <title>CaliLean favicon — lowercase 'c'</title>
   <!--
     Favicon master, v0. Lowercase 'c' lockup since the monogram is deferred to v2 (per identity-brief.md §6).
-    Hand-drawn double-stroke 'c' tuned for 16x16 / 32x32 favicon rasterization:
-      - Stroke weight ~10 (bold-ish for legibility at 16px, even though the wordmark is single-weight Regular).
-      - Open aperture at the right (gap from the ~2 o'clock to ~4 o'clock position).
-      - Subtle spur terminal at the lower-right where the brush would lift —
-        captures editorial-serif character without micro-detail that vanishes at 16px.
-    Render on `currentColor`. Salt background panel is optional and lives in the consuming surface.
+    Renders the wordmark's own lowercase 'c' from the same font stack — same cut family, same Regular weight,
+    same terminal treatment. Per CMO note 2026-04-26: "the wordmark's c, not a new mark."
+    At 16/32px favicon raster, sharp's text rasterizer + currentColor produces a clean Iron-on-Salt mark.
+    A path-outlined v0.1 favicon will be cut alongside the wordmark outline pass.
   -->
-  <path fill="currentColor" fill-rule="evenodd" d="
-    M 32,8
-    C 18,8 8,19 8,32
-    C 8,45 18,56 32,56
-    C 40,56 47,52 51,46
-    L 44,42
-    C 41,46 37,48 32,48
-    C 22,48 16,41 16,32
-    C 16,23 22,16 32,16
-    C 37,16 41,18 44,22
-    L 51,18
-    C 47,12 40,8 32,8
-    Z
-    M 51,46
-    C 52,45 53,44 54,42
-    L 49,40
-    C 48,42 47,43 46,44
-    Z
-  "/>
+  <text x="32" y="48" text-anchor="middle"
+        font-family="'Fraunces', 'GT Sectra Display', 'Domaine Display', 'Times New Roman', serif"
+        font-size="56"
+        font-weight="400"
+        font-style="normal"
+        font-stretch="normal"
+        font-variation-settings="'opsz' 144, 'SOFT' 30, 'WONK' 0"
+        fill="currentColor">c</text>
 </svg>

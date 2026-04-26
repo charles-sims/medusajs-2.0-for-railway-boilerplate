@@ -2,21 +2,26 @@
   <title>CaliLean Safari pinned-tab mask</title>
   <!--
     Safari pinned-tab mask. Single-color silhouette. Apple's pinned-tab pipeline ignores fills/strokes
-    and applies the user's accent tint, so this must be a pure path (no fill attribute, no styles).
-    Geometry mirrors favicon-c.svg, simplified for 16px rendering.
+    and applies the user's accent tint — must be a pure path (no fill, no styles).
+    Geometry approximates Fraunces lowercase 'c' (Regular, opsz 144) at favicon proportions:
+      - x-height ~10 units (y=3 top, y=13 baseline)
+      - stroke ~1.4 units (Regular weight, low contrast)
+      - aperture ~5 o'clock to ~1 o'clock (open right)
+      - subtle ear/spur at upper terminal, flat-cut lower terminal
+    The path-outlined v0.1 mask will be regenerated from the outlined wordmark `c`.
   -->
   <path d="
-    M 8,2
-    C 4.5,2 2,4.7 2,8
-    C 2,11.3 4.5,14 8,14
-    C 10,14 11.7,13 12.7,11.5
-    L 11,10.5
-    C 10.3,11.5 9.3,12 8,12
-    C 5.5,12 4,10.3 4,8
-    C 4,5.7 5.5,4 8,4
-    C 9.3,4 10.3,4.5 11,5.5
-    L 12.7,4.5
-    C 11.7,3 10,2 8,2
+    M 8,3
+    C 5.4,3 3.4,5.2 3.4,8
+    C 3.4,10.8 5.4,13 8,13
+    C 9.6,13 11,12.2 11.8,11
+    L 10.7,10.4
+    C 10.1,11.2 9.2,11.6 8,11.6
+    C 6.1,11.6 4.8,10.1 4.8,8
+    C 4.8,5.9 6.1,4.4 8,4.4
+    C 9.1,4.4 9.9,4.8 10.5,5.5
+    L 11.7,4.9
+    C 10.9,3.7 9.6,3 8,3
     Z
   "/>
 </svg>

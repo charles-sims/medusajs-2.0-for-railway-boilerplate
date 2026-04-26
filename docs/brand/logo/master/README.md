@@ -11,7 +11,7 @@ Owned by Designer. Locked: 2026-04-26 by CMO ([SKA-13 comment](/SKA/issues/SKA-1
   - 64pt display → +30 (master)
   - 200pt packaging → +40
 - **Rule lockup**: dropped from v0 (RUO posture). With-rule variants archived/removed.
-- **Monogram**: held to v2. Favicon = single-letter `c` lockup (here).
+- **Monogram**: held to v2. Favicon = single-letter `c` lockup — **renders the wordmark's own `c` from the same Fraunces stack**, not a hand-drawn alternate (CMO note 2026-04-26: "the wordmark's `c`, not a new mark").
 
 ## Files
 

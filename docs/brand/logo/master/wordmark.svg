@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 80" role="img" aria-label="CaliLean wordmark">
+  <title>CaliLean wordmark — master (Cut 1, Editorial Display)</title>
+  <!--
+    CaliLean wordmark — master, v0.
+    Cut 1 — Editorial Display. Reference family: GT Sectra Display.
+    Web-loadable face: Fraunces (SIL OFL, Google Fonts) used in production until the custom outline pass lands in v0.1.
+    Spec: lowercase, single weight (Regular, 400), +30 tracking master.
+    See ./README.md for the path-outlining roadmap and fingerprint-glyph-a.svg for the proposed custom-`a` fingerprint.
+  -->
+  <text x="240" y="58" text-anchor="middle"
+        font-family="'Fraunces', 'GT Sectra Display', 'Domaine Display', 'Times New Roman', serif"
+        font-size="64"
+        font-weight="400"
+        font-style="normal"
+        font-stretch="normal"
+        font-variation-settings="'opsz' 144, 'SOFT' 30, 'WONK' 0"
+        letter-spacing="3"
+        fill="currentColor">calilean</text>
+</svg>

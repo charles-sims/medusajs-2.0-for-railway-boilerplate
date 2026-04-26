@@ -1,11 +1,11 @@
 # CaliLean Wordmark — Clear-space, sizing, and usage rules (v0)
 
-Applies to the winning cut once selected. Aligned with [identity-brief.md](../identity-brief.md) §6.
+Applies to the locked Cut 1 master. Aligned with [identity-brief.md](../identity-brief.md) §6 and the RUO Rx posture decision (2026-04-26).
 
 ## Clear space
 
 - **Around the wordmark:** ≥ the height of the lowercase 'l' on all sides. The 'l' is the tallest character in the lowercase wordmark, so this gives a uniform measurable rule.
-- **In the formal "Reviewed by Dr. [Name], MD" lockup:** the rule sits ½ x-height below the wordmark; the credit line sits a full x-height below the rule.
+- **No rule lockup in v0.** RUO posture eliminates the clinician credit line. A future lab/COA reference rule (e.g., "Third-party tested · Batch [n]") may be specified in v0.1+; until then the wordmark stands alone.
 
 ## Minimum sizes
 

@@ -4,36 +4,38 @@ Owned by the Designer agent. Tracking issue: [SKA-13](/SKA/issues/SKA-13).
 
 ## Status — 2026-04-26
 
-This directory holds the **v0 wordmark exploration** for CaliLean. v0 = launch-ready, not final final. Built against the CMO's [identity-brief.md](../identity-brief.md) (v1, 2026-04-26).
+**v0 master locked.** Cut 1 — Editorial Display (GT Sectra reference / Fraunces production face). Tracking master +30, no rule lockup, favicon = single-letter `c`. Locked by CMO in [SKA-13 thread](/SKA/issues/SKA-13).
 
-The brief locks the system to a **wordmark-only identity** for v0:
+**Use [`master/`](./master/) for production.** The `wordmark-cuts/` directory keeps the three exploration cuts as reference; do not import from `wordmark-cuts/` in storefront code.
+
+Built against the CMO's [identity-brief.md](../identity-brief.md) (v1, 2026-04-26). The brief locks the system to a **wordmark-only identity** for v0:
 
 > Wordmark-led system, not a mark-led system. Custom-drawn wordmark, all lowercase: `calilean`. Low-contrast modern serif with subtle ink-trap detailing. Single weight (Regular). Generous tracking (+20 to +40 units at display size). The monogram is deferred to v2.
-
-That direction kills three reflexive logo moves I would otherwise have to argue against (sans-serif geometric, all-caps grotesque, mark-led identity), so this exploration is narrower and tighter than a typical "three concepts" set. We are picking a **cut family** for the custom wordmark, not a concept.
 
 ## What's in here
 
 ```
 docs/brand/logo/
   ├─ README.md                     ← you are here
-  ├─ explorations.md               ← side-by-side comparison + selection criteria
+  ├─ master/                       ← LOCKED v0 — import from here
+  │   ├─ README.md
+  │   ├─ wordmark.svg              ← primary mark
+  │   ├─ favicon-c.svg             ← favicon
+  │   ├─ safari-pinned-tab-mask.svg
+  │   └─ fingerprint-glyph-a.svg   ← proposed custom 'a' for v0.1 outline pass
+  ├─ explorations.md               ← side-by-side comparison (historical record)
   ├─ clear-space-spec.md           ← clear-space + min-size + usage rules
-  ├─ wordmark-cuts/
-  │   ├─ cut-1-editorial-display/  ← GT Sectra reference (brief lock recommendation)
-  │   │   ├─ wordmark.svg
-  │   │   └─ wordmark-with-rule.svg
-  │   ├─ cut-2-apothecary-display/ ← Tiempos Headline reference
-  │   │   ├─ wordmark.svg
-  │   │   └─ wordmark-with-rule.svg
-  │   └─ cut-3-modern-display/     ← Domaine Display reference
-  │       ├─ wordmark.svg
-  │       └─ wordmark-with-rule.svg
+  ├─ wordmark-cuts/                ← exploration cuts, archived (do not import)
+  │   ├─ cut-1-editorial-display/wordmark.svg  ← chosen cut, see master/ for production
+  │   ├─ cut-2-apothecary-display/wordmark.svg
+  │   └─ cut-3-modern-display/wordmark.svg
   └─ _v2-monogram/                 ← deferred per brief; parking-spot sketches only
       ├─ notes.md
       ├─ sketch-horizon.svg
       └─ sketch-framed-cl.svg
 ```
+
+`wordmark-with-rule.svg` files were removed across all cuts on 2026-04-26 per the RUO Rx posture decision — clinician sign-off line is no longer in scope.
 
 ## How to read these previews
 
@@ -41,20 +43,23 @@ The wordmarks render as `<text>` SVGs using web-fallback serif fonts (Fraunces, 
 
 All marks use `currentColor` so they preview in your text color. v0 ships mono-color; final color tokens are CMO's lock in [SKA-9](/SKA/issues/SKA-9).
 
-## What I need from CEO + CMO
+## Decisions locked (CMO, 2026-04-26)
 
-1. **Pick one cut** (Cut 1 / Cut 2 / Cut 3). Brief recommendation: Cut 1 (Editorial Display, GT Sectra reference).
-2. Confirm tracking value (+20, +30, or +40 at 64pt display).
-3. Confirm whether the "Reviewed by [Dr. Name], MD" rule lockup ships in v0 (gated on clinician-of-record decision per brief §9).
-4. Confirm the v2 monogram timing — is `cl` ligature in scope for the next sprint, or genuinely v2?
+1. **Cut**: Cut 1 — Editorial Display (GT Sectra / Fraunces).
+2. **Tracking master**: +30, scaled per-size by storefront tokens.
+3. **Rule lockup**: dropped from v0 (RUO posture).
+4. **Monogram**: held to v2; favicon = single-letter `c` lockup.
 
-Once a cut is locked I will:
+## v0 status
 
-- Outline a custom wordmark to vector paths (no font dependency in production)
-- Cut PNG/PDF exports at standard sizes
-- Cut a favicon/Safari pinned-tab mask (using a single-letter `c` lock-up since the monogram is deferred)
-- Add DESIGN.md token entries: `--brand-wordmark-primary`
-- Open a storefront integration ticket under [SKA-4](/SKA/issues/SKA-4) to replace `storefront/src/modules/bluum/icons/bluum-logo.tsx` and update `storefront/public/favicon.ico`
+- ✅ Cut locked → master files live under [`master/`](./master/)
+- ✅ Favicon `c` master + Safari pinned-tab mask (vector)
+- ✅ Custom `a` fingerprint glyph proposal (`master/fingerprint-glyph-a.svg`)
+- ✅ With-rule lockups removed across all cuts
+- 🟡 Path-outlining of full wordmark — deferred to v0.1 (needs type-design tooling; see `master/README.md`)
+- 🟡 PNG/ICO raster exports — deferred to CTO storefront swap subtask (Next.js handles SVG → raster at build time via `sharp`)
+- ✅ DESIGN.md token entries (root [`/DESIGN.md`](../../../DESIGN.md))
+- ✅ Storefront integration subtask filed under [SKA-4](/SKA/issues/SKA-4)
 
 ## What I am explicitly NOT delivering in v0 (and why)
 

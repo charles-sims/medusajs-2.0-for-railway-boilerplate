@@ -10,7 +10,7 @@ export default async function Footer() {
   const { product_categories } = await getCategoriesList(0, 6)
 
   return (
-    <footer className="bg-bluum-accent text-white">
+    <footer className="bg-calilean-coa text-white">
       <div className="content-container py-16">
         <div className="grid grid-cols-1 small:grid-cols-4 gap-12">
           <div className="small:col-span-1">

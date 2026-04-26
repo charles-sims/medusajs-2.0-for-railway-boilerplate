@@ -30,18 +30,6 @@ module.exports = {
           coa: '#0F1417',
           alert: '#A23B2A',
         },
-        // Compat alias: legacy `bluum-*` Tailwind classes resolve to
-        // CaliLean palette values until the mechanical class rename lands
-        // (tracked under SKA-4). New code MUST use `calilean-*`.
-        bluum: {
-          primary: '#E6E2D6',
-          accent: '#0F1417',
-          bg: '#F4F2EC',
-          text: '#1F2326',
-          muted: '#9CA3A8',
-          border: '#E6E2D6',
-          'btn-secondary': '#E6E2D6',
-        },
         grey: {
           0: "#FFFFFF",
           5: "#F9FAFB",

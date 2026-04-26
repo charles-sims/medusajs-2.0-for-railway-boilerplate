@@ -4,9 +4,9 @@ import ProductActions from "@modules/products/components/product-actions"
 import ProductTabs from "@modules/products/components/product-tabs"
 import RelatedProducts from "@modules/products/components/related-products"
 import ProductInfo from "@modules/products/templates/product-info"
-import TrustBadges from "@modules/bluum/components/trust-badges"
-import ResearchDisclaimer from "@modules/bluum/components/research-disclaimer"
-import ProductSpecsTable from "@modules/bluum/components/product-specs-table"
+import TrustBadges from "@modules/calilean/components/trust-badges"
+import ResearchDisclaimer from "@modules/calilean/components/research-disclaimer"
+import ProductSpecsTable from "@modules/calilean/components/product-specs-table"
 import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
 import { notFound } from "next/navigation"
 import ProductActionsWrapper from "./product-actions-wrapper"
@@ -49,7 +49,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
         </div>
       </div>
 
-      <div className="content-container my-16 small:my-24 border-t border-bluum-border pt-16" data-testid="related-products-container">
+      <div className="content-container my-16 small:my-24 border-t border-calilean-sand pt-16" data-testid="related-products-container">
         <Suspense fallback={<SkeletonRelatedProducts />}>
           <RelatedProducts product={product} countryCode={countryCode} />
         </Suspense>

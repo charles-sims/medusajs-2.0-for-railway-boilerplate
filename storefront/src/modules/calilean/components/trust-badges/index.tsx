@@ -21,10 +21,10 @@ const TrustBadges = () => {
     <div className="grid grid-cols-3 small:grid-cols-6 gap-3">
       {badges.map((b) => (
         <div key={b.label} className="flex flex-col items-center text-center gap-1.5 p-3 bg-gray-50 rounded-lg">
-          <svg className="w-5 h-5 text-bluum-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg className="w-5 h-5 text-calilean-fog" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <path d={iconPaths[b.icon]} />
           </svg>
-          <span className="text-[11px] font-medium text-bluum-muted leading-tight">{b.label}</span>
+          <span className="text-[11px] font-medium text-calilean-fog leading-tight">{b.label}</span>
         </div>
       ))}
     </div>

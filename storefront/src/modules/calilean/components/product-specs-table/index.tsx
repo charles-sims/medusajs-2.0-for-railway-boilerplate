@@ -23,11 +23,11 @@ const ProductSpecsTable = ({ product }: Props) => {
     <div className="mt-8">
       <h2 className="text-xl font-bold mb-4">Product Specifications</h2>
       <table className="w-full">
-        <tbody className="divide-y divide-bluum-border">
+        <tbody className="divide-y divide-calilean-sand">
           {specs.map((s) => (
             <tr key={s.label}>
-              <td className="py-3 pr-6 text-sm font-semibold text-bluum-text w-48 align-top">{s.label}</td>
-              <td className="py-3 text-sm text-bluum-muted">{s.value}</td>
+              <td className="py-3 pr-6 text-sm font-semibold text-calilean-ink w-48 align-top">{s.label}</td>
+              <td className="py-3 text-sm text-calilean-fog">{s.value}</td>
             </tr>
           ))}
         </tbody>

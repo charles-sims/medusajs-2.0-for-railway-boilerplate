@@ -2,7 +2,7 @@ import { getBaseURL } from "@lib/util/env"
 import { Metadata } from "next"
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google"
 import "styles/globals.css"
-import AgeGate from "@modules/bluum/components/age-gate"
+import AgeGate from "@modules/calilean/components/age-gate"
 
 const fraunces = Fraunces({
   subsets: ["latin"],

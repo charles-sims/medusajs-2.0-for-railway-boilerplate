@@ -7,6 +7,7 @@ import ProductInfo from "@modules/products/templates/product-info"
 import TrustBadges from "@modules/bluum/components/trust-badges"
 import ResearchDisclaimer from "@modules/bluum/components/research-disclaimer"
 import ProductSpecsTable from "@modules/bluum/components/product-specs-table"
+import COAPanel from "@modules/products/components/coa-panel"
 import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
 import { notFound } from "next/navigation"
 import ProductActionsWrapper from "./product-actions-wrapper"
@@ -45,6 +46,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
             <TrustBadges />
             <ResearchDisclaimer />
             <ProductSpecsTable product={product} />
+            <COAPanel product={product} />
           </div>
         </div>
       </div>

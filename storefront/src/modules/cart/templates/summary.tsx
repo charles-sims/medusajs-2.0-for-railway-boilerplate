@@ -4,6 +4,7 @@ import { Button, Heading } from "@medusajs/ui"
 
 import CartTotals from "@modules/common/components/cart-totals"
 import Divider from "@modules/common/components/divider"
+import RUODisclaimer from "@modules/common/components/ruo-disclaimer"
 import DiscountCode from "@modules/checkout/components/discount-code"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { HttpTypes } from "@medusajs/types"
@@ -41,6 +42,7 @@ const Summary = ({ cart }: SummaryProps) => {
       >
         <Button className="w-full h-10">Go to checkout</Button>
       </LocalizedClientLink>
+      <RUODisclaimer variant="short" />
     </div>
   )
 }

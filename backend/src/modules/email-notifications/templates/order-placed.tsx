@@ -2,6 +2,7 @@ import { Text, Section, Hr } from '@react-email/components'
 import * as React from 'react'
 import { Base } from './base'
 import { OrderDTO, OrderAddressDTO } from '@medusajs/framework/types'
+import { RUO_DISCLAIMER_LONG } from '../../../lib/ruo'
 
 export const ORDER_PLACED = 'order-placed'
 
@@ -101,6 +102,12 @@ export const OrderPlacedTemplate: React.FC<OrderPlacedTemplateProps> & {
             </div>
           ))}
         </div>
+
+        <Hr style={{ margin: '20px 0' }} />
+
+        <Text style={{ fontSize: '11px', color: '#666', lineHeight: '1.5', margin: '0 0 10px' }}>
+          {RUO_DISCLAIMER_LONG}
+        </Text>
       </Section>
     </Base>
   )

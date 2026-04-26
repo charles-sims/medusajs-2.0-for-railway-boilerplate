@@ -11,3 +11,6 @@ build/
 .medusa/
 coverage/
 *.log
+
+# Workspace-local secrets
+.env.secrets

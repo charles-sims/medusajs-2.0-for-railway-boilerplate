@@ -1,5 +1,6 @@
 import { getCategoriesList } from "@lib/data/categories"
 import { getCollectionsList } from "@lib/data/collections"
+import { RUO_DISCLAIMER_LONG } from "@lib/ruo"
 import { Text } from "@medusajs/ui"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import CaliLeanLogo from "@modules/calilean/icons/calilean-logo"
@@ -49,8 +50,13 @@ export default async function Footer() {
         </div>
 
         <div className="border-t border-white/10 mt-12 pt-8 text-center">
-          <p className="text-xs text-white/40 max-w-2xl mx-auto">
-            DISCLAIMER: All products sold by CaliLean are strictly intended for laboratory research use only. They are not approved for human or animal consumption, or for any form of therapeutic or diagnostic use.
+          <p
+            role="note"
+            aria-label="Research use only disclaimer"
+            data-ruo-disclaimer="long"
+            className="text-xs text-white/40 max-w-2xl mx-auto"
+          >
+            {RUO_DISCLAIMER_LONG}
           </p>
           <Text className="text-xs text-white/40 mt-3">
             &copy; {new Date().getFullYear()} CaliLean. All rights reserved.

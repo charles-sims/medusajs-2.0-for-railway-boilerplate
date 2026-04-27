@@ -25,7 +25,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   return (
     <Container
       className={clx(
-        "relative w-full overflow-hidden bg-calilean-bg animate-pulse p-0",
+        "relative w-full overflow-hidden bg-calilean-sand animate-pulse p-0",
         "aspect-square",
         className,
         {

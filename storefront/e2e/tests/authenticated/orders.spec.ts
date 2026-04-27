@@ -1,6 +1,8 @@
 import { test, expect } from "../../index"
 
-test.describe("Account orders page tests", async () => {
+// SKA-72: every checkout-then-order-history flow pivots off "Sweatshirt" / "Sweatpants" handles
+// and apparel size variants absent from the CaliLean catalog. Unskip when porting.
+test.describe.skip("Account orders page tests", async () => {
   test.beforeEach(async ({ accountAddressesPage }) => {
     await accountAddressesPage.goto()
     await accountAddressesPage.newAddressButton.click()

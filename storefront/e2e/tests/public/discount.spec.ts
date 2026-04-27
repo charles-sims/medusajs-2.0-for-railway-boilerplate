@@ -1,7 +1,9 @@
 import { seedDiscount, seedUser } from "../../data/seed"
 import { test, expect } from "../../index"
 
-test.describe("Discount tests", async () => {
+// SKA-67: seedDiscount uses v1 /admin/discounts (removed in Medusa v2);
+// flows reference v1 boilerplate "Sweatshirt" handle. Unskip when porting.
+test.describe.skip("Discount tests", async () => {
   let discount = {
     id: "",
     code: "",

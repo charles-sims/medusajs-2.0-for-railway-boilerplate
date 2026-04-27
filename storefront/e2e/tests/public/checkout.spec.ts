@@ -1,7 +1,9 @@
 import { test, expect } from "../../index"
 import { compareFloats, getFloatValue } from "../../utils"
 
-test.describe("Checkout flow tests", async () => {
+// SKA-70: every flow pivots off "Sweatshirt" handle + "M" size variant absent from CaliLean catalog.
+// Unskip when porting to peptide handles + variant labels.
+test.describe.skip("Checkout flow tests", async () => {
   test("Default checkout flow", async ({
     cartPage,
     checkoutPage,

@@ -2,7 +2,9 @@ import { AddressesPage } from "../../fixtures/account/addresses-page"
 import { test, expect } from "../../index"
 import { getSelectedOptionText } from "../../utils/locators"
 
-test.describe("Addresses tests", () => {
+// SKA-73: drives a checkout that pivots off "Sweatshirt" + "M" size variant absent from CaliLean catalog.
+// Unskip when porting.
+test.describe.skip("Addresses tests", () => {
   test("Creating a new address is displayed during checkout", async ({
     accountAddressesPage: addressesPage,
     cartPage,

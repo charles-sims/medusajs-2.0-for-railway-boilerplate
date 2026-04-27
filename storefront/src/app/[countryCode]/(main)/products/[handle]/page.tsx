@@ -50,7 +50,10 @@ export async function generateStaticParams() {
   }
 }
 
-function buildProductDescription(product: { description?: string | null; title: string }) {
+function buildProductDescription(product: {
+  description?: string | null
+  title: string
+}) {
   const raw = (product.description ?? "").trim()
   if (!raw) return product.title
   return raw.length > 160 ? `${raw.slice(0, 157)}…` : raw
@@ -136,8 +139,8 @@ function buildProductJsonLd(
     ...(offers.length === 1
       ? { offers: offers[0] }
       : offers.length > 1
-        ? { offers }
-        : {}),
+      ? { offers }
+      : {}),
   }
 }
 

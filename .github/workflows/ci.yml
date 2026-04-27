@@ -220,6 +220,13 @@ jobs:
       - name: Build storefront
         working-directory: storefront
         env:
+          # The job inherits NODE_ENV=development (set for the backend dev
+          # watcher), which makes Next.js 15 prerender pull a Pages-Router
+          # shim into the App Router /_error fallback and fail with
+          # "<Html> should not be imported outside of pages/_document".
+          # Override to production for the build only — matches the
+          # standalone Build Storefront job that already passes.
+          NODE_ENV: production
           NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: ${{ steps.pk.outputs.key }}
         run: pnpm build:next
 

@@ -5,7 +5,7 @@ import { useState } from "react"
 const faqs = [
   {
     q: "What does \"research-grade\" actually mean?",
-    a: "Each batch ships with a third-party Certificate of Analysis confirming identity, mass, and purity by HPLC and mass spectrometry. The COA is on the product page and on the inner box flap. The batch number on your vial matches the report.",
+    a: "Each batch ships with an independent Certificate of Analysis confirming identity, mass, and purity by HPLC and mass spectrometry. The COA is on the product page and on the inner box flap. The lot number on your vial matches the report.",
   },
   {
     q: "Who runs your assays?",

@@ -1,7 +1,7 @@
 # CaliLean — Brand Identity Brief
 
-> Author: CMO · Version: v1.3 (RUO) · Date: 2026-04-27
-> Supersedes the v1 draft committed in a prior workspace (commit `fa36925`, lost on push). Reissued v1.1 to reflect the board's RUO pivot on [SKA-1](/SKA/issues/SKA-1); v1.2 anti-Hims patch; v1.3 supporting drum-beat refresh ([SKA-51](/SKA/issues/SKA-51)).
+> Author: CMO · Version: v1.4 (RUO) · Date: 2026-04-27
+> Supersedes the v1 draft committed in a prior workspace (commit `fa36925`, lost on push). Reissued v1.1 to reflect the board's RUO pivot on [SKA-1](/SKA/issues/SKA-1); v1.2 anti-Hims patch; v1.3 supporting drum-beat refresh ([SKA-51](/SKA/issues/SKA-51)); v1.4 comprehensive cross-page messaging refresh ([SKA-51](/SKA/issues/SKA-51) follow-up).
 > Audience: Designer (logo + system), CTO (storefront copy + tokens), future Copywriter.
 > **Decisions in this doc are locked. Do not relitigate. Bring exceptions back to CMO.**
 
@@ -221,6 +221,7 @@ For the CTO/Designer brand-swap work in [SKA-4](/SKA/issues/SKA-4) and [SKA-11](
 
 ## Changelog
 
+- **v1.4 (2026-04-27)** — Comprehensive cross-page messaging refresh per [SKA-51](/SKA/issues/SKA-51) (CEO follow-up: "you really only changed it in one place"). v1.3 only touched 9 surfaces (announcement bar, hero subhead, footer description, value-prop card 1, root + homepage SEO, webmanifest, welcome email, plus the metadata drift fixes). v1.4 swept the rest: Medusa-default leftovers (login/profile/register/checkout-layout/side-menu/collection meta/category meta), generic apparel-DTC PDP shipping/returns/exchanges block, defensive "third-party tested" in 4 product seed entries + 1 FAQ + Mazdutide purity field, lazy "Lyophilized Powder in 3ml vial" descriptions on 7 catalog SKUs, all 4 not-found pages, order-confirmed page + template + help component, and the value-props/trust-badges "batch-traceable" vs "lot-traceable" inconsistency (standardized on **lot**). See `docs/brand/storefront-copy.md` v1.2 changelog for the line-by-line. Master tagline `"Peptides, plainly labeled."` (§4) **still not changed** — CEO call still pending in [SKA-51](/SKA/issues/SKA-51) thread.
 - **v1.3 (2026-04-27)** — Supporting drum-beat refresh per [SKA-51](/SKA/issues/SKA-51). CEO flagged "third-party assayed" as defensive lab jargon for the South Bay athlete. Replaced with **"Every batch tested. Every result published."** across the storefront, footer, value props, SEO descriptions, and welcome email. Updated §1 positioning paragraph and §3.2 hero exemplar to match. Master tagline `"Peptides, plainly labeled."` (§4) is **not changed in this revision** — CEO call still pending in [SKA-51](/SKA/issues/SKA-51) thread; CMO recommendation logged there.
 - **v1.2 (2026-04-26)** — Anti-Hims patch. CEO flagged drift toward Hims aesthetic in [SKA-23](/SKA/issues/SKA-23). Added §7.3 (Surface ladder, no pure white), §7.4 (Button contrast, no sand-on-cream), and two voice rules (no italicized verbs, no DTC trust ribbons). Locked.
 - **v1.1 (2026-04-26)** — Reissued by CMO. Pivoted voice and tagline to RUO posture. Replaced "clinically formulated" with "research-grade." Replaced "made plain" with "plainly labeled." Removed clinician-of-record references. (Originally v1 was committed at `docs/brand/identity-brief.md` in commit `fa36925` in a prior workspace; that commit did not survive into the shared repo.)

@@ -125,10 +125,13 @@ export type CoaPanelPatchInput = {
  * - Deep-merges the incoming fields into `batches[batch_id]`.
  * - Sets `current_batch_id` when `set_current === true`, or when the batch is
  *   being introduced for the first time and `set_current` is omitted.
+ * - Stamps `issued_at` (server time, ISO-8601) on every patch so the widget
+ *   table sort tiebreaker is deterministic.
  */
 export function applyBatchPatch(
   panel: unknown,
-  patch: CoaPanelPatchInput
+  patch: CoaPanelPatchInput,
+  now: () => Date = () => new Date()
 ): CoaPanel {
   if (!patch.batch_id || typeof patch.batch_id !== "string") {
     throw new Error("batch_id is required")
@@ -147,6 +150,7 @@ export function applyBatchPatch(
   if (patch.ref_standard_match_pct !== undefined)
     incoming.ref_standard_match_pct = patch.ref_standard_match_pct
   if (patch.files !== undefined) incoming.files = patch.files
+  incoming.issued_at = now().toISOString()
 
   next.batches[patch.batch_id] = deepMerge(
     next.batches[patch.batch_id] || {},
@@ -159,6 +163,40 @@ export function applyBatchPatch(
     next.current_batch_id = patch.batch_id
   }
 
+  return next
+}
+
+/**
+ * Remove a batch from the panel. If the deleted batch was the current one,
+ * promote the most-recently-issued sibling (by `issued_at` desc, then
+ * `batch_id` desc as tiebreaker) — or null if no siblings remain. Idempotent:
+ * deleting a non-existent batch returns the migrated panel unchanged.
+ */
+export function deleteBatch(panel: unknown, batchId: string): CoaPanel {
+  if (!batchId || typeof batchId !== "string") {
+    throw new Error("batch_id is required")
+  }
+  const next = migrateCoaPanel(panel)
+  if (!next.batches[batchId]) {
+    return next
+  }
+  const wasCurrent = next.current_batch_id === batchId
+  delete next.batches[batchId]
+  if (wasCurrent) {
+    const siblings = Object.keys(next.batches)
+    if (siblings.length === 0) {
+      next.current_batch_id = null
+    } else {
+      siblings.sort((a, b) => {
+        const aIssued = next.batches[a]?.issued_at ?? ""
+        const bIssued = next.batches[b]?.issued_at ?? ""
+        const cmp = bIssued.localeCompare(aIssued)
+        if (cmp !== 0) return cmp
+        return b.localeCompare(a)
+      })
+      next.current_batch_id = siblings[0]
+    }
+  }
   return next
 }
 

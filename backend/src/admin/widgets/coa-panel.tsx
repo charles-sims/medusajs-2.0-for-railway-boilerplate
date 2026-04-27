@@ -5,14 +5,16 @@ import {
   Button,
   Container,
   Drawer,
+  DropdownMenu,
   Heading,
+  IconButton,
   Input,
   Label,
-  Select,
   Table,
   Text,
   toast,
 } from "@medusajs/ui"
+import { EllipsisHorizontal } from "@medusajs/icons"
 import { useMemo, useState } from "react"
 
 type CoaFileKind = "standard_coa" | "extended_coa" | "chromatogram"
@@ -111,9 +113,24 @@ async function patchCoaPanel(
   return data.coa_panel
 }
 
-type NewBatchFormState = {
+async function deleteCoaBatch(
+  productId: string,
   batchId: string
-  tier: "standard" | "extended"
+): Promise<CoaPanel> {
+  const res = await fetch(
+    `/admin/products/${productId}/coa?batch_id=${encodeURIComponent(batchId)}`,
+    { method: "DELETE", credentials: "include" }
+  )
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}) as { message?: string })
+    throw new Error(body.message || `Delete failed (${res.status})`)
+  }
+  const data = (await res.json()) as { coa_panel: CoaPanel }
+  return data.coa_panel
+}
+
+type BatchFormState = {
+  batchId: string
   hplcPurity: string
   lcmsConfirmed: boolean
   lcmsMethodRef: string
@@ -125,9 +142,10 @@ type NewBatchFormState = {
   chromatogram: File | null
 }
 
-const EMPTY_FORM: NewBatchFormState = {
+type FormMode = { kind: "new" } | { kind: "edit"; originalBatchId: string }
+
+const EMPTY_FORM: BatchFormState = {
   batchId: "",
-  tier: "standard",
   hplcPurity: "",
   lcmsConfirmed: false,
   lcmsMethodRef: "",
@@ -139,6 +157,21 @@ const EMPTY_FORM: NewBatchFormState = {
   chromatogram: null,
 }
 
+function formFromBatch(batchId: string, batch: CoaBatch): BatchFormState {
+  return {
+    batchId,
+    hplcPurity: batch.hplc_purity_pct ?? "",
+    lcmsConfirmed: batch.lcms_identity?.confirmed ?? false,
+    lcmsMethodRef: batch.lcms_identity?.method_ref ?? "",
+    endotoxin: batch.endotoxin_eu_per_mg ?? "",
+    refStandardMatch: batch.ref_standard_match_pct ?? "",
+    setCurrent: false,
+    standardCoa: null,
+    extendedCoa: null,
+    chromatogram: null,
+  }
+}
+
 const CoaPanelWidget = ({
   data: product,
 }: DetailWidgetProps<HttpTypes.AdminProduct>) => {
@@ -146,9 +179,11 @@ const CoaPanelWidget = ({
   const [panel, setPanel] = useState<CoaPanel | null>(initial.panel)
   const [legacyTier, setLegacyTier] = useState<string | null>(initial.legacyTier)
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const [form, setForm] = useState<NewBatchFormState>(EMPTY_FORM)
+  const [form, setForm] = useState<BatchFormState>(EMPTY_FORM)
+  const [formMode, setFormMode] = useState<FormMode>({ kind: "new" })
   const [submitting, setSubmitting] = useState(false)
   const [migrating, setMigrating] = useState(false)
+  const [rowBusy, setRowBusy] = useState<string | null>(null)
 
   const batches = panel?.batches ?? {}
   const sortedBatchIds = Object.keys(batches).sort((a, b) => {
@@ -159,7 +194,56 @@ const CoaPanelWidget = ({
     return bIssued.localeCompare(aIssued)
   })
 
-  const resetForm = () => setForm(EMPTY_FORM)
+  const resetForm = () => {
+    setForm(EMPTY_FORM)
+    setFormMode({ kind: "new" })
+  }
+
+  const openNewBatchDrawer = () => {
+    resetForm()
+    setDrawerOpen(true)
+  }
+
+  const openEditDrawer = (batchId: string) => {
+    const batch = panel?.batches[batchId]
+    if (!batch) return
+    setForm(formFromBatch(batchId, batch))
+    setFormMode({ kind: "edit", originalBatchId: batchId })
+    setDrawerOpen(true)
+  }
+
+  const handleSetCurrent = async (batchId: string) => {
+    setRowBusy(batchId)
+    try {
+      const next = await patchCoaPanel(product.id, {
+        batch_id: batchId,
+        set_current: true,
+      })
+      setPanel(next)
+      toast.success(`Set ${batchId} as current batch`)
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Set current failed")
+    } finally {
+      setRowBusy(null)
+    }
+  }
+
+  const handleDelete = async (batchId: string) => {
+    const ok = window.confirm(
+      `Delete batch ${batchId}? This removes its assay values and file references from this panel. Files in MinIO are not deleted.`
+    )
+    if (!ok) return
+    setRowBusy(batchId)
+    try {
+      const next = await deleteCoaBatch(product.id, batchId)
+      setPanel(next)
+      toast.success(`Deleted batch ${batchId}`)
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Delete failed")
+    } finally {
+      setRowBusy(null)
+    }
+  }
 
   const handleMigrate = async () => {
     setMigrating(true)
@@ -197,7 +281,11 @@ const CoaPanelWidget = ({
       toast.error("Provide at least one file or value")
       return
     }
-    if (panel?.batches[form.batchId]) {
+    const isEdit = formMode.kind === "edit"
+    if (
+      !isEdit &&
+      panel?.batches[form.batchId]
+    ) {
       const ok = window.confirm(
         `Batch ${form.batchId} already exists. Re-uploading will overwrite existing fields. Continue?`
       )
@@ -252,17 +340,32 @@ const CoaPanelWidget = ({
           </Text>
         </div>
         {panel ? (
-          <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
-            <Drawer.Trigger asChild>
-              <Button size="small" variant="secondary">
-                New batch
-              </Button>
-            </Drawer.Trigger>
+          <>
+            <Button
+              size="small"
+              variant="secondary"
+              onClick={openNewBatchDrawer}
+            >
+              New batch
+            </Button>
+            <Drawer
+              open={drawerOpen}
+              onOpenChange={(open) => {
+                setDrawerOpen(open)
+                if (!open) resetForm()
+              }}
+            >
             <Drawer.Content>
               <Drawer.Header>
-                <Drawer.Title>New COA batch</Drawer.Title>
+                <Drawer.Title>
+                  {formMode.kind === "edit"
+                    ? `Edit batch ${formMode.originalBatchId}`
+                    : "New COA batch"}
+                </Drawer.Title>
                 <Drawer.Description>
-                  Upload files and enter assay values for a new batch.
+                  {formMode.kind === "edit"
+                    ? "Update assay values or replace files. Untouched fields are preserved."
+                    : "Upload files and enter assay values for a new batch."}
                 </Drawer.Description>
               </Drawer.Header>
               <Drawer.Body className="flex flex-col gap-y-4 overflow-y-auto">
@@ -272,6 +375,7 @@ const CoaPanelWidget = ({
                     id="coa-batch-id"
                     placeholder="e.g. RETA-2026-04-A"
                     value={form.batchId}
+                    disabled={formMode.kind === "edit"}
                     onChange={(e) =>
                       setForm((s) => ({
                         ...s,
@@ -282,26 +386,6 @@ const CoaPanelWidget = ({
                   <Text size="xsmall" className="text-ui-fg-subtle">
                     Uppercase letters, digits, hyphens only.
                   </Text>
-                </div>
-                <div className="flex flex-col gap-y-2">
-                  <Label htmlFor="coa-tier">Tier</Label>
-                  <Select
-                    value={form.tier}
-                    onValueChange={(v) =>
-                      setForm((s) => ({
-                        ...s,
-                        tier: v as "standard" | "extended",
-                      }))
-                    }
-                  >
-                    <Select.Trigger id="coa-tier">
-                      <Select.Value placeholder="Select tier" />
-                    </Select.Trigger>
-                    <Select.Content>
-                      <Select.Item value="standard">standard</Select.Item>
-                      <Select.Item value="extended">extended</Select.Item>
-                    </Select.Content>
-                  </Select>
                 </div>
                 <FileField
                   label="Standard COA PDF"
@@ -407,11 +491,12 @@ const CoaPanelWidget = ({
                   isLoading={submitting}
                   disabled={submitting || !form.batchId}
                 >
-                  Save batch
+                  {formMode.kind === "edit" ? "Save changes" : "Save batch"}
                 </Button>
               </Drawer.Footer>
             </Drawer.Content>
           </Drawer>
+          </>
         ) : null}
       </div>
       {!panel ? (
@@ -455,12 +540,14 @@ const CoaPanelWidget = ({
                 <Table.HeaderCell>Endotoxin</Table.HeaderCell>
                 <Table.HeaderCell>Ref match</Table.HeaderCell>
                 <Table.HeaderCell>LC-MS/MS</Table.HeaderCell>
+                <Table.HeaderCell />
               </Table.Row>
             </Table.Header>
             <Table.Body>
               {sortedBatchIds.map((batchId) => {
                 const batch = batches[batchId]
                 const isCurrent = panel.current_batch_id === batchId
+                const busy = rowBusy === batchId
                 return (
                   <Table.Row key={batchId}>
                     <Table.Cell className="font-mono">{batchId}</Table.Cell>
@@ -483,6 +570,42 @@ const CoaPanelWidget = ({
                     </Table.Cell>
                     <Table.Cell>
                       {batch.lcms_identity?.confirmed ? "Y" : "N"}
+                    </Table.Cell>
+                    <Table.Cell className="text-right">
+                      <DropdownMenu>
+                        <DropdownMenu.Trigger asChild>
+                          <IconButton
+                            size="small"
+                            variant="transparent"
+                            disabled={busy}
+                            aria-label={`Actions for batch ${batchId}`}
+                          >
+                            <EllipsisHorizontal />
+                          </IconButton>
+                        </DropdownMenu.Trigger>
+                        <DropdownMenu.Content>
+                          <DropdownMenu.Item
+                            disabled={isCurrent || busy}
+                            onClick={() => handleSetCurrent(batchId)}
+                          >
+                            Set as current
+                          </DropdownMenu.Item>
+                          <DropdownMenu.Item
+                            disabled={busy}
+                            onClick={() => openEditDrawer(batchId)}
+                          >
+                            Edit values
+                          </DropdownMenu.Item>
+                          <DropdownMenu.Separator />
+                          <DropdownMenu.Item
+                            disabled={busy}
+                            onClick={() => handleDelete(batchId)}
+                            className="text-ui-fg-error"
+                          >
+                            Delete batch
+                          </DropdownMenu.Item>
+                        </DropdownMenu.Content>
+                      </DropdownMenu>
                     </Table.Cell>
                   </Table.Row>
                 )

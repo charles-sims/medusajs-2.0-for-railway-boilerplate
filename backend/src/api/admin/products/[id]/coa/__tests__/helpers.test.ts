@@ -4,11 +4,14 @@ import {
   buildCoaPublicUrl,
   CoaPanel,
   deepMerge,
+  deleteBatch,
   filenameForKind,
   isCoaFileKind,
   migrateCoaPanel,
   resolveCoaSku,
 } from "../helpers"
+
+const FROZEN_NOW = () => new Date("2026-04-27T05:30:00.000Z")
 
 describe("migrateCoaPanel", () => {
   it("converts the legacy 'standard' string form to a structured panel", () => {
@@ -75,15 +78,20 @@ describe("deepMerge", () => {
 
 describe("applyBatchPatch", () => {
   it("creates a new batch and sets it as current by default", () => {
-    const next = applyBatchPatch("standard", {
-      batch_id: "B1",
-      hplc_purity_pct: "99.82",
-      lcms_identity: { confirmed: true, method_ref: "USP <1736>" },
-    })
+    const next = applyBatchPatch(
+      "standard",
+      {
+        batch_id: "B1",
+        hplc_purity_pct: "99.82",
+        lcms_identity: { confirmed: true, method_ref: "USP <1736>" },
+      },
+      FROZEN_NOW
+    )
     expect(next.current_batch_id).toBe("B1")
     expect(next.batches.B1).toEqual({
       hplc_purity_pct: "99.82",
       lcms_identity: { confirmed: true, method_ref: "USP <1736>" },
+      issued_at: "2026-04-27T05:30:00.000Z",
     })
     expect(next.tier).toBe("standard")
   })
@@ -100,11 +108,15 @@ describe("applyBatchPatch", () => {
         },
       },
     }
-    const next = applyBatchPatch(before, {
-      batch_id: "B1",
-      endotoxin_eu_per_mg: "<0.5",
-      files: { chromatogram: "https://x/chromatogram.pdf" },
-    })
+    const next = applyBatchPatch(
+      before,
+      {
+        batch_id: "B1",
+        endotoxin_eu_per_mg: "<0.5",
+        files: { chromatogram: "https://x/chromatogram.pdf" },
+      },
+      FROZEN_NOW
+    )
     expect(next.batches.B1).toEqual({
       hplc_purity_pct: "99.82",
       lcms_identity: { confirmed: true, method_ref: "USP <1736>" },
@@ -113,6 +125,7 @@ describe("applyBatchPatch", () => {
         standard_coa_pdf: "https://x/standard.pdf",
         chromatogram: "https://x/chromatogram.pdf",
       },
+      issued_at: "2026-04-27T05:30:00.000Z",
     })
   })
 
@@ -152,6 +165,116 @@ describe("applyBatchPatch", () => {
 
   it("throws when batch_id is missing", () => {
     expect(() => applyBatchPatch(undefined, {} as any)).toThrow(/batch_id/)
+  })
+
+  it("stamps issued_at as ISO-8601 server time on every patch", () => {
+    const next = applyBatchPatch(
+      undefined,
+      { batch_id: "B1", hplc_purity_pct: "99.0" },
+      FROZEN_NOW
+    )
+    expect(next.batches.B1.issued_at).toBe("2026-04-27T05:30:00.000Z")
+  })
+
+  it("refreshes issued_at when patching an existing batch", () => {
+    const before: CoaPanel = {
+      tier: "standard",
+      current_batch_id: "B1",
+      batches: {
+        B1: { hplc_purity_pct: "99.0", issued_at: "2026-04-01T00:00:00.000Z" },
+      },
+    }
+    const next = applyBatchPatch(
+      before,
+      { batch_id: "B1", endotoxin_eu_per_mg: "<0.5" },
+      FROZEN_NOW
+    )
+    expect(next.batches.B1.issued_at).toBe("2026-04-27T05:30:00.000Z")
+  })
+})
+
+describe("deleteBatch", () => {
+  it("case 1: deleting current batch with siblings promotes most recent sibling", () => {
+    const before: CoaPanel = {
+      tier: "standard",
+      current_batch_id: "B-CURRENT",
+      batches: {
+        "B-CURRENT": { issued_at: "2026-04-27T00:00:00.000Z" },
+        "B-OLDER": { issued_at: "2026-03-01T00:00:00.000Z" },
+        "B-NEWEST-SIBLING": { issued_at: "2026-04-20T00:00:00.000Z" },
+      },
+    }
+    const next = deleteBatch(before, "B-CURRENT")
+    expect(next.batches["B-CURRENT"]).toBeUndefined()
+    expect(next.current_batch_id).toBe("B-NEWEST-SIBLING")
+    expect(Object.keys(next.batches).sort()).toEqual([
+      "B-NEWEST-SIBLING",
+      "B-OLDER",
+    ])
+  })
+
+  it("case 2: deleting current batch with no siblings nulls current_batch_id", () => {
+    const before: CoaPanel = {
+      tier: "extended",
+      current_batch_id: "B-ONLY",
+      batches: { "B-ONLY": { issued_at: "2026-04-27T00:00:00.000Z" } },
+    }
+    const next = deleteBatch(before, "B-ONLY")
+    expect(next.current_batch_id).toBeNull()
+    expect(next.batches).toEqual({})
+  })
+
+  it("case 3: deleting non-current batch leaves current_batch_id unchanged", () => {
+    const before: CoaPanel = {
+      tier: "standard",
+      current_batch_id: "B-CURRENT",
+      batches: {
+        "B-CURRENT": { issued_at: "2026-04-27T00:00:00.000Z" },
+        "B-OTHER": { issued_at: "2026-04-01T00:00:00.000Z" },
+      },
+    }
+    const next = deleteBatch(before, "B-OTHER")
+    expect(next.current_batch_id).toBe("B-CURRENT")
+    expect(next.batches["B-OTHER"]).toBeUndefined()
+    expect(next.batches["B-CURRENT"]).toBeDefined()
+  })
+
+  it("case 4: deleting non-existent batch returns the panel unchanged (idempotent)", () => {
+    const before: CoaPanel = {
+      tier: "standard",
+      current_batch_id: "B-ONLY",
+      batches: { "B-ONLY": { issued_at: "2026-04-27T00:00:00.000Z" } },
+    }
+    const next = deleteBatch(before, "B-MISSING")
+    expect(next).toEqual(before)
+  })
+
+  it("breaks issued_at ties on sibling promotion via batch_id desc", () => {
+    const sameTimestamp = "2026-04-15T00:00:00.000Z"
+    const before: CoaPanel = {
+      tier: "standard",
+      current_batch_id: "B-CURRENT",
+      batches: {
+        "B-CURRENT": { issued_at: "2026-04-27T00:00:00.000Z" },
+        "B-AAA": { issued_at: sameTimestamp },
+        "B-ZZZ": { issued_at: sameTimestamp },
+      },
+    }
+    const next = deleteBatch(before, "B-CURRENT")
+    expect(next.current_batch_id).toBe("B-ZZZ")
+  })
+
+  it("migrates legacy string panel before delete (no-op on empty batches)", () => {
+    const next = deleteBatch("standard", "B1")
+    expect(next).toEqual({
+      tier: "standard",
+      current_batch_id: null,
+      batches: {},
+    })
+  })
+
+  it("throws when batch_id is missing", () => {
+    expect(() => deleteBatch({}, "")).toThrow(/batch_id/)
   })
 })
 

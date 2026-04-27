@@ -20,7 +20,7 @@ const CATEGORIES: Category[] = [
     name: "GH Axis",
     description:
       "Growth-hormone secretagogue stacks targeting the GHRH/GHSR pathway.",
-    handles: ["cjc-12-no-dac-ipamorelin-blend"],
+    handles: ["cjc-1295-no-dac-ipamorelin-blend"],
   },
   {
     name: "Longevity",

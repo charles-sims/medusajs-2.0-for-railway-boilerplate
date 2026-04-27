@@ -21,9 +21,11 @@ const StoreTemplate = ({
       <div className="content-container">
         <div className="text-center mb-12">
           <h1 className="text-3xl small:text-4xl font-bold" data-testid="store-page-title">
-            Shop All Peptides
+            The lineup.
           </h1>
-          <p className="text-calilean-fog mt-2">Research-grade peptides, third-party tested, shipped from the USA.</p>
+          <p className="text-calilean-fog mt-2">
+            Seven launch SKUs across Repair, GH Axis, and Longevity. Catalog SKUs below. Each ships with a published COA.
+          </p>
         </div>
         <div className="flex flex-col small:flex-row small:items-start gap-8">
           <RefinementList sortBy={sort} />

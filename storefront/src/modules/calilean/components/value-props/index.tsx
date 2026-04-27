@@ -1,7 +1,8 @@
 const values = [
   {
-    title: "Lab-Verified Purity",
-    description: "Every batch undergoes third-party testing by Janoshik Analytical or BioRegen. We publish full Certificates of Analysis.",
+    title: "Third-party assayed.",
+    description:
+      "Every batch goes to an independent lab. We publish the certificate of analysis on the product page, not in a footer.",
     icon: (
       <svg className="w-10 h-10" viewBox="0 0 48 48" fill="none" stroke="#1F2937" strokeWidth="1.5">
         <path d="M24 4L20 16H8l10 7-4 13 10-7 10 7-4-13 10-7H28L24 4z"/>
@@ -9,8 +10,9 @@ const values = [
     ),
   },
   {
-    title: "Fast USA Shipping",
-    description: "Our U.S. facility ships your order the same day. No customs, no international delays.",
+    title: "Batch-traceable.",
+    description:
+      "Your vial carries the lot number on the label. Match it to the COA before you open the box.",
     icon: (
       <svg className="w-10 h-10" viewBox="0 0 48 48" fill="none" stroke="#1F2937" strokeWidth="1.5">
         <path d="M4 36l20-28 20 28H4z"/><path d="M16 28h16M20 22h8"/>
@@ -18,8 +20,9 @@ const values = [
     ),
   },
   {
-    title: "Next-Generation Compounds",
-    description: "From established staples to the latest innovations in peptide research, our catalogue evolves with the science.",
+    title: "Built in the South Bay.",
+    description:
+      "Sourced, packaged, and shipped from El Segundo. Two-day standard to most US labs.",
     icon: (
       <svg className="w-10 h-10" viewBox="0 0 48 48" fill="none" stroke="#1F2937" strokeWidth="1.5">
         <circle cx="24" cy="24" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="36" cy="12" r="4"/>

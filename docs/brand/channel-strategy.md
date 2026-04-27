@@ -80,7 +80,7 @@ The venues are split across **five archetypes**. Each archetype gets a different
 
 ### 1.6 The activation itself
 
-- **Card design:** wordmark, tagline (`Peptides, plainly labeled.`), QR to single-line waitlist page. **No body copy.** Print local (LA Bound, Newprint) on uncoated 100lb cover. ~2,000 cards across all 20 venues. Reorder weekly during pre-launch.
+- **Card design:** wordmark, tagline (`Peptides, on the record.`), QR to single-line waitlist page. **No body copy.** Print local (LA Bound, Newprint) on uncoated 100lb cover. ~2,000 cards across all 20 venues. Reorder weekly during pre-launch.
 - **Distribution rules:** card drop only with **explicit** permission. We are not a flyer brand. If a venue says no, we say thank you and move on.
 - **The Strand pop-up (week 3, days 14–21):** Sunday 7AM at the Hermosa Pier south end. Folding table. Coffee. Printed COAs in a binder. **No selling, no swiping cards.** The vials are visible; the receipts are visible; that is the entire activation. This is the photo people post.
 - **Founder dinners:** two 8-person dinners at MB Post or Fishing With Dynamite (booked T-14). Invite list is hand-picked from card-drop QR signups + run-club captains. CEO + CMO host. No product on the table — conversation.
@@ -232,7 +232,7 @@ What we **cannot** do:
 
 What we **can** do:
 
-- Run **brand-only** awareness creative ("CaliLean — research-grade peptides, plainly labeled, South Bay") with no specific product imagery and no therapeutic claims. Meta and TikTok approve this in our category about 60–70% of the time on first review; resubmit with copy adjustments when denied.
+- Run **brand-only** awareness creative ("CaliLean — research-grade peptides, on the record, South Bay") with no specific product imagery and no therapeutic claims. Meta and TikTok approve this in our category about 60–70% of the time on first review; resubmit with copy adjustments when denied.
 - Geo-fence aggressively: South Bay zips + Westside + PV. National geos are a waste of money and a takedown risk.
 - Buy **Google Ads on brand-name terms only** (`calilean`, `calilean peptides`). Defends the SERP from competitor squatting.
 - Buy **podcast ads on transparency-aligned shows** (Huberman is unrealistic; longevity-podcast ad networks have inventory we can buy without a creator endorsement). Read by host but copy is ours: the "we publish the certificate of analysis" beat. Window 3.

@@ -33,7 +33,7 @@ export default async function OrderCompletedTemplate({
             className="flex flex-col gap-y-3 text-ui-fg-base text-3xl mb-4"
           >
             <span>Order received.</span>
-            <span>We&apos;ll match each batch to its COA before it ships.</span>
+            <span>Your COA ships with the box. Confirmation email is on the way.</span>
           </Heading>
           <OrderDetails order={order} />
           <Heading level="h2" className="flex flex-row text-3xl-regular">

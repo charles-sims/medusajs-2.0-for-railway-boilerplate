@@ -25,7 +25,7 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 const SITE_NAME = "CaliLean"
-const SITE_TITLE = "CaliLean — Peptides, Plainly Labeled"
+const SITE_TITLE = "CaliLean — Peptides, on the record"
 const SITE_DESCRIPTION =
   "Research-grade peptides for the South Bay athlete — recovery, leanness, longevity. Independently tested, batch by batch. Every COA published."
 

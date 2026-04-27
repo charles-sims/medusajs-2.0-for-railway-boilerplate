@@ -9,7 +9,7 @@
 
 ## 0. Strategic frame
 
-We are launching **research-use-only** peptides into a category dominated by two losers: **gray-market clinics** with no labels, and **hobby suppliers** with no design. Our wedge is the third position: **research-grade, plainly labeled, coastal-restraint**.
+We are launching **research-use-only** peptides into a category dominated by two losers: **gray-market clinics** with no labels, and **hobby suppliers** with no design. Our wedge is the third position: **research-grade, on the record, coastal-restraint**.
 
 The launch is not a product launch. It is a **trust launch**. Everything we do in the first 90 days has to make one point: *we publish what's in the vial.*
 
@@ -96,7 +96,7 @@ The campaign is the **anti-gray-market** campaign. Every beat reinforces transpa
 > Read the Label.
 
 **Subhead (locked):**
-> Research-grade peptides. Plainly labeled. Built for the South Bay.
+> Peptides, on the record. Recovery, leanness, longevity. Research-grade, independently tested, built in the South Bay.
 
 **Master body (50 words, used in OOH cuts and the founding email):**
 > Most peptides in this country are sold without a label. We publish the certificate of analysis on every batch, the assay numbers in plain English, and the lot you received in the box. Read it. If you can't read theirs, walk away.

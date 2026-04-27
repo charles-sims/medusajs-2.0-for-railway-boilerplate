@@ -31,7 +31,7 @@ Two surfaces are owned **upstream of this doc** and not redrawn here: (1) per-SK
   - `title: "Bluum Peptides | Research-Grade Peptides"`
   - `description: "USA-based supplier of high-purity peptides for advanced research and development."`
 - **With:**
-  - `title: "CaliLean — Peptides, Plainly Labeled"`
+  - `title: "CaliLean — Peptides, on the record"`
   - `description: "Research-grade peptides for the South Bay athlete — recovery, leanness, longevity. Independently tested, batch by batch. Every COA published."`
 
 ### 1.2 Homepage metadata
@@ -48,7 +48,7 @@ Two surfaces are owned **upstream of this doc** and not redrawn here: (1) per-SK
 
 The audit flagged no OG image route exists. Pending the visual system from [SKA-13](/SKA/issues/SKA-13), copy for the OG image and Twitter/X card:
 
-- **OG title:** `Peptides, plainly labeled.`
+- **OG title:** `Peptides, on the record.`
 - **OG subtitle:** `Every batch tested. Every COA published. Built for the South Bay.`
 - **Twitter site handle:** placeholder `@calilean` (CMO confirms once the social handle is reserved; CTO leaves the field but commented out until the handle is locked)
 
@@ -79,10 +79,10 @@ The audit flagged no OG image route exists. Pending the visual system from [SKA-
   - CTA: `Shop Peptides`
 - **With block:**
   - Pill: `Read the label.`
-  - H1: `Peptides, plainly labeled.`
-  - Subhead: `Every batch tested. Every result published. Built for the South Bay.`
+  - H1: `Peptides, on the record.`
+  - Subhead: `Recovery, leanness, longevity. Research-grade, independently tested, built in the South Bay.`
   - CTA: `Shop the lineup`
-- **Note:** the pill carries the master campaign tagline ([Beat 1, "Read the Label"](launch-narrative.md)). `Peptides, plainly labeled.` is the locked master tagline ([identity brief §4](identity-brief.md)). The subhead carries the geo + RUO posture in one paragraph.
+- **Note:** the pill carries the master campaign tagline ([Beat 1, "Read the Label"](launch-narrative.md)). `Peptides, on the record.` is the locked master tagline ([identity brief §4](identity-brief.md), v1.5). The subhead carries the outcomes (recovery/leanness/longevity from positioning §1) plus the geo + posture proof drumbeat in one paragraph.
 
 ---
 
@@ -104,7 +104,7 @@ The audit flagged no OG image route exists. Pending the visual system from [SKA-
   - 3: `Next-Generation Compounds` — established staples to latest innovations.
 - **With block:**
   - 1 — Title: `Independently tested.` Body: `Every batch goes to an independent lab. We publish the certificate of analysis on the product page, not in a footer.`
-  - 2 — Title: `Batch-traceable.` Body: `Your vial carries the lot number on the label. Match it to the COA before you open the box.`
+  - 2 — Title: `Lot-traceable.` Body: `Your vial carries the lot number on the label. The same number sits on the COA on the product page.`
   - 3 — Title: `Built in the South Bay.` Body: `Sourced, packaged, and shipped from El Segundo. Two-day standard to most US labs.`
 - **Note:** drop named test labs from this surface. We name the testing partner inside the FAQ and on each COA, but on the homepage the claim is the practice, not the partner. Replaces the four-square Bluum trust grid; the icons in the existing component can stay.
 
@@ -428,7 +428,7 @@ The audit ([SKA-3 §3.8](../audit-2026-04.md)) confirmed templates are brand-agn
   > Three things to know:
   >
   > 1. Every batch is independently tested. The COA lives on the product page and on the inner box flap.
-  > 2. Your vial carries a lot number on the label. Match it to the COA before you open the box.
+  > 2. Your vial carries a lot number on the label. The same number sits on the COA on the product page.
   > 3. Sold for research use only. Not for human consumption.
   >
   > The lineup: [link]
@@ -463,7 +463,7 @@ The audit ([SKA-3 §3.8](../audit-2026-04.md)) confirmed templates are brand-agn
   > Tracking: [carrier link]
   > Expected delivery: [carrier ETA]
   >
-  > A reminder when it lands: open the inner box flap. Each vial's lot number matches the COA on the product page. If the lot number does not match, reply to this email before opening the vial.
+  > A reminder when it lands: open the inner box flap. Each vial's lot number is the same one printed on the COA on the product page. If anything looks off, reply to this email before opening the vial.
   >
   > Sold for research use only. Not for human consumption.
 - **Footer:** `RUO_DISCLAIMER_SHORT`
@@ -555,12 +555,22 @@ Use this when the swap PR is ready for review:
   - **Product-tabs shipping/returns** (PDP) rewritten from generic apparel-DTC ("comfort of your home", "fit not quite right", "hassle-free") to research-brand voice: "Ships from El Segundo / Cold-chain handling / Returns within 30 days."
   - **Login** sub rewritten ("Sign in to access an enhanced shopping experience" → "Pick up where you left off"). H1 simplified from "Welcome back" to "Sign in".
   - **Register** rewritten ("Become a Medusa Store Member / get access to an enhanced shopping experience" → "Create your CaliLean account / Track orders. Pull up COAs by lot number. Skip checkout next time.").
-  - **Order-confirmed** metadata + page heading rewritten ("Thank you! Your order was placed successfully." → "Order received. We'll match each batch to its COA before it ships."). Typo "You purchase was successful" fixed in meta.
+  - **Order-confirmed** metadata + page heading rewritten ("Thank you! Your order was placed successfully." → "Order received. We'll match each batch to its COA before it ships."). Typo "You purchase was successful" fixed in meta. (v1.3 follow-up retired the "match" instruction — see v1.3 changelog below.)
   - **Order-help** rewritten — replaced broken `/contact` "Returns & Exchanges" link with `mailto:research@calilean.bio` + "Returns within 30 days. Sealed, unopened vials only."
   - **Defensive "third-party" purged** from 4 product seed descriptions (TH9507, Glutathione, BPC-157/TB-500 Blend, Mazdutide purity field) and 1 FAQ answer. Replaced with "independently assayed" / "independent lab" / "COA published per batch."
   - **Catalog SKU descriptions upgraded** for 6 SKUs that were stuck at "Lyophilized Powder in 3ml vial." (Hexarelin, CJC-1295 No DAC, Sermorelin, GHRP-6, Melanotan II, Thymosin Alpha-1, DSIP) — now follow §14 template (molecule + class + studied use + COA per batch).
   - **All 4 not-found pages** brought to brand voice — "This page isn't on the shelf. Try the lineup, or read the lab notebook." across `app/not-found.tsx`, `(main)/not-found.tsx`, `(checkout)/not-found.tsx`. Cart-specific 404 specialized: "We can't find that cart. Your session may have ended. Start a new cart from the lineup."
   - **Value-props ↔ trust-badges** consistency fix — value-prop card 2 title was "Batch-traceable." but body talked about lot number; trust badges already said "Lot-traceable". Standardized on **Lot-traceable.** since the receipt the customer matches is the lot, not the batch.
-  - Master tagline `"Peptides, plainly labeled."` STILL not changed (CEO call pending in [SKA-51](/SKA/issues/SKA-51) thread).
+  - Master tagline `"Peptides, plainly labeled."` STILL not changed in v1.2 (CEO call pending in [SKA-51](/SKA/issues/SKA-51) thread). Resolved in v1.3.
+- **v1.3 (2026-04-27)** — Master tagline swap + "match to COA" purge per [SKA-51](/SKA/issues/SKA-51) follow-up. CEO returned with two corrections after v1.2: (1) "dont say we're matching to coa anywhere," and (2) "you didnt change the messaging on the main page." Both addressed in this revision:
+  - **Master tagline retired:** `"Peptides, plainly labeled."` → `"Peptides, on the record."` ([identity brief §4](identity-brief.md), v1.5). Same three-word cadence; flips defensive ("labeled") to assertive ("on the record"). LA-coded — every COA *is* a record; gray-market clinics operate **off** the record.
+  - **Hero (homepage):** H1 + subhead swapped. `Research-grade peptides. Plainly labeled.` / `Every batch tested. Every result published. Built for the South Bay.` → `Peptides, on the record.` / `Recovery, leanness, longevity. Research-grade, independently tested, built in the South Bay.` The new subhead leads with outcomes (recovery/leanness/longevity from positioning §1) and folds the proof drumbeat in.
+  - **Site title (`layout.tsx`):** `"CaliLean — Peptides, Plainly Labeled"` → `"CaliLean — Peptides, on the record"`.
+  - **OG image (`storefront/src/app/_brand/og-image.tsx`):** rendered tagline `"Peptides, made plain."` → `"Peptides, on the record."` (the "made plain" string had survived from a pre-v1.1 brief and never propagated to the v1.1 swap). OG_ALT also updated.
+  - **Lab banner:** `Every batch assayed. Every certificate published.` → `Every batch tested. Every result published.` — inconsistency carryover; now matches the supporting drumbeat used everywhere else.
+  - **Value-prop card 2 body:** dropped the "Match it to the COA before you open the box" instruction — the customer doesn't need a homework assignment. Replaced with `Your vial carries the lot number on the label. The same number sits on the COA on the product page.`
+  - **FAQ Q1:** softened "The lot number on your vial matches the report" → "Your vial's lot number is the same one on the report." Same fact, no implied user action.
+  - **Order-confirmed page heading:** retired `"We'll match each batch to its COA before it ships."` → `"Your COA ships with the box. Confirmation email is on the way."` — describes what the customer gets, not what we're doing in a back room.
+  - **Welcome email** (§15.1) and **shipping confirmation** (§15.3) "match it to the COA" instructions also retired in this doc; copy now describes the state of the box rather than instructing user action.
 - **v1.1 (2026-04-27)** — Supporting drum-beat refresh per [SKA-51](/SKA/issues/SKA-51). Retired "Third-party assayed. Batch-traceable." (defensive lab jargon) in favor of the parallel, declarative **"Every batch tested. Every result published."** Same proof, more confident voice — works for the South Bay athlete who reads Huberman and resents being talked down to. Locked surface changes: announcement bar, hero subhead, footer brand description, value-prop card 1 title, root + homepage SEO descriptions, webmanifest, welcome email body. Also fixed metadata drift: `SITE_TITLE` → `"CaliLean — Peptides, Plainly Labeled"` (was "Made Plain"); SEO descriptions → "Research-grade" (was "Clinically formulated") to match identity brief v1.1. Master tagline `"Peptides, plainly labeled."` is **NOT changed** in this doc — CEO call still pending in [SKA-51](/SKA/issues/SKA-51) thread.
 - **v1 (2026-04-26)** — Initial draft, CMO. Aligned to identity brief v1.1 (RUO), launch narrative v1, product architecture v1. Replaces all Bluum-era placeholder copy across the storefront.

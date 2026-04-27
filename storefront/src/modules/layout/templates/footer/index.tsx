@@ -16,7 +16,7 @@ export default async function Footer() {
           <div className="small:col-span-1">
             <CaliLeanLogo className="h-10 mb-4" color="#ffffff" tracking="display" />
             <p className="text-sm text-white/60 leading-relaxed">
-              Research-grade peptides, built in the South Bay. Every batch independently tested. Every COA published. Sold for research use only.
+              Research-grade peptides, built in the South Bay.
             </p>
           </div>
 
@@ -24,9 +24,6 @@ export default async function Footer() {
             <h4 className="text-xs font-semibold uppercase tracking-wider text-white/50 mb-4">Shop</h4>
             <ul className="space-y-2">
               <li><LocalizedClientLink href="/store" className="text-sm text-white/80 hover:text-white transition-colors">All Peptides</LocalizedClientLink></li>
-              {collections?.slice(0, 4).map((c) => (
-                <li key={c.id}><LocalizedClientLink href={`/collections/${c.handle}`} className="text-sm text-white/80 hover:text-white transition-colors">{c.title}</LocalizedClientLink></li>
-              ))}
             </ul>
           </div>
 

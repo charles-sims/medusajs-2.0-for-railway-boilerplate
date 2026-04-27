@@ -45,14 +45,16 @@ if (existsSync(BACKEND_ENV)) {
   }
 }
 
-// 8 launch SKUs. Handle is the Medusa product handle; folder is the
-// storefront/public/brand/products/<folder>/pdp-primary.jpg path. They
-// diverge for the cjc blend (handle is `cjc-1295-...`, folder is the
-// pre-existing truncated `cjc-12-...` slug).
+// 8 launch SKUs. Handle is the Medusa product handle (verified 2026-04-27
+// against admin.calilean.bio); folder is the matching
+// storefront/public/brand/products/<folder>/pdp-primary.jpg path. The cjc
+// blend uses the truncated `cjc-12-...` slug for both handle and folder —
+// there is a separate `cjc-1295-no-dac` standalone product this script must
+// not touch.
 const LAUNCH_SKUS = [
   { handle: "bpc-157", folder: "bpc-157" },
   { handle: "bpc-157-tb-500-blend", folder: "bpc-157-tb-500-blend" },
-  { handle: "cjc-1295-no-dac-ipamorelin-blend", folder: "cjc-12-no-dac-ipamorelin-blend" },
+  { handle: "cjc-12-no-dac-ipamorelin-blend", folder: "cjc-12-no-dac-ipamorelin-blend" },
   { handle: "glutathione", folder: "glutathione" },
   { handle: "mots-c", folder: "mots-c" },
   { handle: "nad", folder: "nad" },

@@ -10,6 +10,14 @@ jobs:
   build-backend:
     name: Build Backend
     runs-on: ubuntu-latest
+    env:
+      # Build-time placeholders. `medusa build` only compiles bundles; it does
+      # not connect to Postgres, but `assertValue(...)` in src/lib/constants.ts
+      # requires these to be set or config loading throws and the framework
+      # surfaces it as: "Cannot read properties of null (reading 'admin')".
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/ci
+      JWT_SECRET: ci-build-only
+      COOKIE_SECRET: ci-build-only
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4

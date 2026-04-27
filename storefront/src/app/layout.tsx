@@ -24,15 +24,19 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
 })
 
-const SITE_TITLE = "CaliLean | Peptides, plainly labeled."
+const SITE_NAME = "CaliLean"
+const SITE_TITLE = "CaliLean — Peptides, Made Plain"
 const SITE_DESCRIPTION =
-  "Research-grade peptides for the South Bay. Third-party assayed, batch-traceable, plainly labeled. Sold for research use only."
+  "Clinically formulated peptides for the South Bay athlete — recovery, leanness, longevity. Third-party assayed. Built local."
 
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),
-  title: SITE_TITLE,
+  title: {
+    template: `%s | ${SITE_NAME}`,
+    default: SITE_TITLE,
+  },
   description: SITE_DESCRIPTION,
-  applicationName: "CaliLean",
+  applicationName: SITE_NAME,
   manifest: "/site.webmanifest",
   icons: {
     icon: [
@@ -49,17 +53,16 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    siteName: "CaliLean",
+    siteName: SITE_NAME,
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
+    locale: "en_US",
     url: getBaseURL(),
-    images: [{ url: "/opengraph-image.jpg" }],
   },
   twitter: {
     card: "summary_large_image",
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
-    images: ["/twitter-image.jpg"],
   },
 }
 

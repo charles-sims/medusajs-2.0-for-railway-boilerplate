@@ -61,3 +61,85 @@ Per [`prompts/image-gen-brief.md`](../prompts/image-gen-brief.md) §4 Quality Ga
 First-pass prompts used the brief's structural-block format verbatim (`SURFACE: …`, `SUBJECT: …`, `RENDER: …`). At `imagen-4.0-generate-001` two SKUs (BPC-157, CJC-Ipamorelin) collapsed into renders where the prompt schema was painted onto the canvas as visible text — purple "MOCKUP" backdrops with code annotations. This is a known Imagen drift pattern when prompts contain syntax that resembles code/config.
 
 Switching to a single natural-language paragraph (no all-caps block headers, no `KEY: value` syntax) eliminated the failure mode across all five re-renders. Updating the prompt brief to v0.1 in a follow-up commit so the failure is documented and the natural-language template is the canonical recipe. Imagen Ultra (`imagen-4.0-ultra-generate-001`) was robust to the structural format on the hero and Retatrutide PDP — Ultra appears to be more tolerant of structured prompts than the standard model.
+
+## Run 2026-04-27T05:16:28.051Z — v1 launch batch (MOTS-C template repeated 8x, T502 line killed)
+
+Driver: SKA-40. CEO directive: re-render the 8 launch SKUs against a single MOTS-C vial template (same shape, same Eucalyptus cap, same label layout) so the catalog reads as one product family rather than 8 different studio sessions. The MOTS-C reference image had a stray "T5O2" alphanumeric line between the compound name and the dosage; the v1 prompt explicitly enumerates the four label lines and bans any extra code line, killing the failure mode.
+
+All 8 use the Eucalyptus cap (matches MOTS-C reference). Only the compound name and lot number vary per render. Output landed at `docs/brand/imagery/renders/v1/{raw,web}/`.
+
+| Label | Model | Aspect | Compound | Lot | Elapsed | Bytes |
+|---|---|---|---|---|---|---|
+| pdp-primary-bpc-157 | standard | 1:1 | BPC-157 | 24-0312 | 12.4s | 1583338B png / 146460B jpg |
+| pdp-primary-bpc-157-tb-500-blend | standard | 1:1 | BPC-157 / TB-500 | 24-0395 | 14.0s | 1631799B png / 155614B jpg |
+| pdp-primary-cjc-12-no-dac-ipamorelin-blend | standard | 1:1 | CJC-1295 / IPAMORELIN | 24-0381 | 11.7s | 1592946B png / 143787B jpg |
+| pdp-primary-glutathione | standard | 1:1 | GLUTATHIONE | 24-0433 | 13.0s | 1661343B png / 147886B jpg |
+| pdp-primary-mots-c | standard | 1:1 | MOTS-C | 24-0356 | 11.4s | 1974239B png / 203666B jpg |
+| pdp-primary-nad | standard | 1:1 | NAD+ | 24-0410 | 6.1s | 1490293B png / 113426B jpg |
+| pdp-primary-retatrutide | standard | 1:1 | RETATRUTIDE | 24-0438 | 14.2s | 1350447B png / 96339B jpg |
+| pdp-primary-tb-500 | standard | 1:1 | TB-500 | 24-0327 | 13.0s | 1429650B png / 127405B jpg |
+
+## Run 2026-04-27T05:20:22.081Z — v1 retry (5 SKUs, hex-literals stripped, brand-mark guards added)
+
+Driver: SKA-40 pass-1 QA caught 5 failure modes. Pass-2 prompt strips all hex color literals from the prompt body (Imagen 4 was rendering "7C8A78" and "Compouion" onto the label as visible text), describes the cap color in plain English ("matte sage green, soft muted desaturated grey-green"), reinforces the cap color is mandatory, explicitly bans invented logomarks / monograms / ® / ™ / decorative side text, and explicitly bans landscape elements (mountains, sky, trees) — NAD pass-1 drifted to a full mountain landscape with no vial.
+
+| Label | Model | Aspect | Compound | Lot | Elapsed | Bytes |
+|---|---|---|---|---|---|---|
+| pdp-primary-bpc-157-tb-500-blend | standard | 1:1 | BPC-157 / TB-500 | 24-0395 | 12.0s | 1319380B png / 97864B jpg |
+| pdp-primary-glutathione | standard | 1:1 | GLUTATHIONE | 24-0433 | 10.9s | 1312708B png / 99404B jpg |
+| pdp-primary-nad | standard | 1:1 | NAD+ | 24-0410 | 11.3s | 1334662B png / 102795B jpg |
+| pdp-primary-retatrutide | standard | 1:1 | RETATRUTIDE | 24-0438 | 8.0s | 1347144B png / 109280B jpg |
+
+**Errors (1):**
+- `pdp-primary-bpc-157`: HTTP 503: {
+  "error": {
+    "code": 503,
+    "message": "Image generation failed with the following error: Fail to execute model for flow_id: flow-juno-prompt-rewriter-vertex-imagen-jpe-v1-8\nError: decode timeout, from active slot 18; Failed to close the streaming context; status = CANCELLED: ;  Failed to run inference for model: go/debugonly  \nname: \"prod-common-global__/vertex/vertex-imagen-jpe-v1-8__
+
+## Run 2026-04-27T05:23:53.118Z — v1 retry pass 2 (bpc-157 + glutathione, "monospace" word stripped)
+
+Driver: SKA-40 retry pass 1 caught two more issues. bpc-157 hit a transient Imagen 503 decode timeout — pure infra flake, just re-roll. Glutathione rendered the literal word "Monospce" between dosage and lot — Imagen leaked another prompt word as canvas text. Pass-2 prompt replaces every "monospace" with "fixed-width typewriter style" (no copyable word for the model to paint).
+
+| Label | Model | Aspect | Compound | Lot | Elapsed | Bytes |
+|---|---|---|---|---|---|---|
+| pdp-primary-bpc-157 | standard | 1:1 | BPC-157 | 24-0312 | 13.3s | 1458555B png / 122294B jpg |
+| pdp-primary-glutathione | standard | 1:1 | GLUTATHIONE | 24-0433 | 12.3s | 1247888B png / 81702B jpg |
+
+## Run 2026-04-27T05:25:59.646Z — v1 retry pass 3 (glutathione, "no graphic above wordmark" guard)
+
+Driver: SKA-40 retry pass 2 left glutathione with an invented arc-of-5-blue-dots logomark above the calilean wordmark. Pass-3 prompt adds a sharp explicit "the wordmark is the topmost element on the label, nothing above it, no dots, no arc of dots, no constellation of dots".
+
+| Label | Model | Aspect | Compound | Lot | Elapsed | Bytes |
+|---|---|---|---|---|---|---|
+| pdp-primary-glutathione | standard | 1:1 | GLUTATHIONE | 24-0433 | 12.6s | 1336118B png / 96096B jpg |
+
+## QA gate — v1 launch batch sign-off (Designer, 2026-04-27)
+
+Per [`prompts/image-gen-brief.md`](../prompts/image-gen-brief.md) §4 Quality Gate. SKA-40 acceptance criteria: 8 launch-SKU PDPs visually consistent with the MOTS-C reference template (same vial shape, same Eucalyptus sage cap, same 4-line label layout); no `T502`-style stray code line between compound and dosage; distinct lot per SKU.
+
+**Final lineup at `docs/brand/imagery/renders/v1/{raw,web}/`:**
+
+| Render | Verdict | Lot | Notes |
+|---|---|---|---|
+| `pdp-primary-bpc-157` | ✅ ship | 24-0312 | Pass-3. Sage cap, 4-line label clean, all text legible. Tiny ® after wordmark — invented brand mark, sub-millimeter at PDP thumb size, accept for v1. |
+| `pdp-primary-bpc-157-tb-500-blend` | ✅ ship | 24-0395 | Pass-2. Sage cap, label clean, tiny ™ after wordmark — same micro-artifact pattern, accept. |
+| `pdp-primary-cjc-12-no-dac-ipamorelin-blend` | ✅ ship | 24-0381 | Pass-1 first try. Sage cap, label clean, tiny `*` after wordmark, accept. |
+| `pdp-primary-glutathione` | ✅ ship | 24-0433 | Pass-3 (third re-roll). Sage cap, label clean, no extra marks, no invented logo. |
+| `pdp-primary-mots-c` | ✅ ship | 24-0356 | Pass-1 first try. Sage cap, label clean. Slight crop on label-edge "calilean" letterforms at full resolution; reads correctly at PDP thumb size. |
+| `pdp-primary-nad` | ✅ ship | 24-0410 | Pass-2. Sage cap, label clean, no extra marks. |
+| `pdp-primary-retatrutide` | ✅ ship | 24-0438 | Pass-2. Sage cap, label clean, no invented C-monogram (which pass-1 had). |
+| `pdp-primary-tb-500` | ✅ ship | 24-0327 | Pass-1 first try. Sage cap, label clean, tiny ™ after wordmark, accept. |
+
+**Net:** 8/8 ship. All Eucalyptus sage cap (matches MOTS-C reference), all 4-line labels (wordmark / compound / dosage / lot — no T502-style stray code line), all distinct lot numbers. The catalog now reads as one product family.
+
+### Prompt-engineering lesson learned (v1 → v1.1 brief bump pending)
+
+Imagen 4 (`imagen-4.0-generate-001`) renders certain prompt words and literals as visible canvas text. Failure modes seen across passes 1–3 of this batch:
+
+- **Hex literals** (`hex F4F2EC`, `hex 7C8A78`) → leaked onto the label as gibberish (`Compouion 7C8A78`, etc.) on bpc-157 pass-1.
+- **Type-system words** (`monospace`) → leaked as misspelled gibberish (`Monospce`) above the lot line on glutathione pass-2.
+- **Brand mark drift** (no visible prompt cause) → invented logos appear at random: `C` monogram + ® on retatrutide pass-1, arc-of-5-blue-dots above wordmark on glutathione pass-3a, ™/® micro-artifacts after the wordmark on several SKUs.
+
+**Mitigations that worked:** strip all hex literals (use plain color words), strip the word "monospace" (use "fixed-width typewriter style"), enumerate label lines as exactly four with explicit "nothing above the wordmark, no graphic, no dot, no arc of dots". The micro-™/® pattern survives even sharp negation — Imagen seems to associate the calilean wordmark + clinical-vial scene with these symbols. Acceptable cost for v1; the v0.1 → v1 wordmark replacement (SKA-13 outlined wordmark) will likely fix it because the wordmark will be a vector overlay, not Imagen-generated text.
+
+**Cost:** 16 Imagen `standard` API calls across 4 passes. Most repeat-cost was glutathione (4 rolls). The v1.1 prompt brief should ship with the prompt-leak-mitigation section so future batches start at a cleaner baseline.

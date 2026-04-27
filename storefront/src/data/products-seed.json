@@ -33,7 +33,7 @@
   {
     "title": "TH9507",
     "handle": "th9507",
-    "description": "TH9507 synthetic peptide for studies on metabolic regulation and cellular signaling. Third-party tested with COA.",
+    "description": "TH9507 (Tesamorelin), a synthetic GHRH analog studied in metabolic regulation and cellular signaling research. Independently assayed; COA published per batch.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/th9507.webp?v=1771980203&width=600",
     "metadata": {
       "batch": "344910",
@@ -182,7 +182,7 @@
   {
     "title": "Glutathione",
     "handle": "glutathione",
-    "description": "99.8% pure Glutathione peptide for research. Third-party tested. Research-grade tripeptide antioxidant.",
+    "description": "Glutathione, the body's primary endogenous antioxidant tripeptide. Used in cellular protection and oxidative-stress research. 99.8% pure; COA published per batch.",
     "thumbnail": "/brand/products/glutathione/pdp-primary.jpg",
     "metadata": {
       "batch": "513219",
@@ -270,7 +270,7 @@
   {
     "title": "BPC-157 / TB-500 Blend",
     "handle": "bpc-157-tb-500-blend",
-    "description": "BPC-157 and TB-500 blend for research on tissue repair and cell migration. Third-party verified purity.",
+    "description": "BPC-157 and TB-500 blend studied in soft-tissue repair, ECM remodeling, and cell-migration research. Identity and purity confirmed per batch by an independent lab.",
     "thumbnail": "/brand/products/bpc-157-tb-500-blend/pdp-primary.jpg",
     "metadata": {
       "batch": "421553",
@@ -415,7 +415,7 @@
   {
     "title": "Thymosin Alpha-1",
     "handle": "thymosin-alpha-1",
-    "description": "Lyophilized Powder in 3ml vial.",
+    "description": "Thymosin Alpha-1, a 28-amino-acid synthetic peptide studied in immune-modulation research. Available for research use; COA published per batch.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/thymosin-alpha1.webp?v=1762634903&width=2050",
     "metadata": {
       "batch": "#432421",
@@ -473,7 +473,7 @@
   {
     "title": "Hexarelin",
     "handle": "hexarelin",
-    "description": "Hexarelin Lyophilized Powder in 3ml vial.",
+    "description": "Hexarelin, a synthetic hexapeptide GHSR agonist studied in growth-hormone-secretion research. Available for research use; COA published per batch.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/hexarelin.webp?v=1762634868&width=2050",
     "metadata": {
       "batch": "514367",
@@ -502,7 +502,7 @@
   {
     "title": "CJC-1295 No DAC",
     "handle": "cjc-1295-no-dac",
-    "description": "CJC-1295 No DAC Lyophilized Powder in 3ml vial.",
+    "description": "CJC-1295 (No DAC), a synthetic GHRH analog studied in growth-hormone-pulsatility and GH-axis research. Available for research use; COA published per batch.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/cjc1295-no-dac.webp?v=1762634840&width=2050",
     "metadata": {
       "batch": "410814",
@@ -531,7 +531,7 @@
   {
     "title": "Sermorelin",
     "handle": "sermorelin",
-    "description": "Sermorelin Lyophilized Powder in 3ml vial.",
+    "description": "Sermorelin, a 29-amino-acid GHRH analog studied in growth-hormone-secretion research. Available for research use; COA published per batch.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/sermorelin.webp?v=1762634827&width=2050",
     "metadata": {
       "batch": "543110",
@@ -589,7 +589,7 @@
   {
     "title": "GHRP-6",
     "handle": "ghrp-6",
-    "description": "GHRP-6 Lyophilized Powder in 3ml vial.",
+    "description": "GHRP-6, a synthetic hexapeptide GHSR agonist studied in growth-hormone-secretion research. Available for research use; COA published per batch.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/ghrp6.webp?v=1762634546&width=2050",
     "metadata": {
       "batch": "234532",
@@ -677,7 +677,7 @@
   {
     "title": "Melanotan II",
     "handle": "melanotan-ii",
-    "description": "Melanotan II Lyophilized Powder in 3ml vial.",
+    "description": "Melanotan II, a synthetic melanocortin-receptor agonist studied in melanin-stimulation research. Available for research use; COA published per batch.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/melanotan-ii.webp?v=1762634477&width=2050",
     "metadata": {
       "batch": "#814817",
@@ -711,7 +711,7 @@
     "metadata": {
       "batch": "[Batch #](https://www.svgrepo.com//show/520561/box-open.svg)",
       "report": "[Report #](https://www.svgrepo.com//show/486820/report-text.svg)",
-      "purity": "Third Party Tested",
+      "purity": "Independently assayed",
       "formula": "C\u2082\u2081\u2080H\u2083\u2082\u2082N\u2084\u2086O\u2086\u2087",
       "cas": "2259884-03-0",
       "mw": "\u2248 4,563.1 g/mol",
@@ -764,7 +764,7 @@
   {
     "title": "DSIP",
     "handle": "dsip",
-    "description": "DSIP Lyophilized Powder in 3ml vial.",
+    "description": "DSIP (Delta Sleep-Inducing Peptide), a nonapeptide studied in sleep-regulation and neuroprotection research. Available for research use; COA published per batch.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/dsip.webp?v=1762634379&width=2050",
     "metadata": {
       "batch": "119258",

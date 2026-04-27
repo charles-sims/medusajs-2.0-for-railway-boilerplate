@@ -26,8 +26,8 @@ async function getOrder(id: string) {
 }
 
 export const metadata: Metadata = {
-  title: "Order Confirmed",
-  description: "You purchase was successful",
+  title: "Order received | CaliLean",
+  description: "Your CaliLean order is in. Lot details and COA links inside.",
 }
 
 export default async function OrderConfirmedPage({ params }: Props) {

@@ -9,13 +9,9 @@ const Help = () => {
       <div className="text-base-regular my-2">
         <ul className="gap-y-2 flex flex-col">
           <li>
-            <LocalizedClientLink href="/contact">Contact</LocalizedClientLink>
+            <a href="mailto:research@calilean.bio">research@calilean.bio</a>
           </li>
-          <li>
-            <LocalizedClientLink href="/contact">
-              Returns & Exchanges
-            </LocalizedClientLink>
-          </li>
+          <li>Returns within 30 days. Sealed, unopened vials only.</li>
         </ul>
       </div>
     </div>

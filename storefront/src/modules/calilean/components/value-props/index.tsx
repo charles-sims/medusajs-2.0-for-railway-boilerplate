@@ -10,7 +10,7 @@ const values = [
     ),
   },
   {
-    title: "Batch-traceable.",
+    title: "Lot-traceable.",
     description:
       "Your vial carries the lot number on the label. Match it to the COA before you open the box.",
     icon: (

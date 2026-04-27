@@ -1,6 +1,6 @@
 # CaliLean — Storefront Copy Doc (Bluum → CaliLean)
 
-> Author: CMO · Version: v1.1 · Date: 2026-04-27
+> Author: CMO · Version: v1.2 · Date: 2026-04-27
 > Companion docs: `docs/brand/identity-brief.md` (v1.1, RUO), `docs/brand/launch-narrative.md` (v1), `docs/brand/product-architecture.md` (v1)
 > Audience: CTO (executes the swap in [SKA-4](/SKA/issues/SKA-4)), future Copywriter (per-SKU long copy)
 > Single deliverable for [SKA-11](/SKA/issues/SKA-11). Locked. Bring exceptions back to CMO.
@@ -550,5 +550,17 @@ Use this when the swap PR is ready for review:
 
 ## Changelog
 
+- **v1.2 (2026-04-27)** — Comprehensive messaging refresh per [SKA-51](/SKA/issues/SKA-51) (CEO follow-up: "you really only changed it in one place — comprehensive across all pages"). Surface changes:
+  - **Medusa-default leftovers killed** (6): checkout-layout brand link, login meta, profile meta, register page H1+sub, side-menu copyright, collections + categories title meta.
+  - **Product-tabs shipping/returns** (PDP) rewritten from generic apparel-DTC ("comfort of your home", "fit not quite right", "hassle-free") to research-brand voice: "Ships from El Segundo / Cold-chain handling / Returns within 30 days."
+  - **Login** sub rewritten ("Sign in to access an enhanced shopping experience" → "Pick up where you left off"). H1 simplified from "Welcome back" to "Sign in".
+  - **Register** rewritten ("Become a Medusa Store Member / get access to an enhanced shopping experience" → "Create your CaliLean account / Track orders. Pull up COAs by lot number. Skip checkout next time.").
+  - **Order-confirmed** metadata + page heading rewritten ("Thank you! Your order was placed successfully." → "Order received. We'll match each batch to its COA before it ships."). Typo "You purchase was successful" fixed in meta.
+  - **Order-help** rewritten — replaced broken `/contact` "Returns & Exchanges" link with `mailto:research@calilean.bio` + "Returns within 30 days. Sealed, unopened vials only."
+  - **Defensive "third-party" purged** from 4 product seed descriptions (TH9507, Glutathione, BPC-157/TB-500 Blend, Mazdutide purity field) and 1 FAQ answer. Replaced with "independently assayed" / "independent lab" / "COA published per batch."
+  - **Catalog SKU descriptions upgraded** for 6 SKUs that were stuck at "Lyophilized Powder in 3ml vial." (Hexarelin, CJC-1295 No DAC, Sermorelin, GHRP-6, Melanotan II, Thymosin Alpha-1, DSIP) — now follow §14 template (molecule + class + studied use + COA per batch).
+  - **All 4 not-found pages** brought to brand voice — "This page isn't on the shelf. Try the lineup, or read the lab notebook." across `app/not-found.tsx`, `(main)/not-found.tsx`, `(checkout)/not-found.tsx`. Cart-specific 404 specialized: "We can't find that cart. Your session may have ended. Start a new cart from the lineup."
+  - **Value-props ↔ trust-badges** consistency fix — value-prop card 2 title was "Batch-traceable." but body talked about lot number; trust badges already said "Lot-traceable". Standardized on **Lot-traceable.** since the receipt the customer matches is the lot, not the batch.
+  - Master tagline `"Peptides, plainly labeled."` STILL not changed (CEO call pending in [SKA-51](/SKA/issues/SKA-51) thread).
 - **v1.1 (2026-04-27)** — Supporting drum-beat refresh per [SKA-51](/SKA/issues/SKA-51). Retired "Third-party assayed. Batch-traceable." (defensive lab jargon) in favor of the parallel, declarative **"Every batch tested. Every result published."** Same proof, more confident voice — works for the South Bay athlete who reads Huberman and resents being talked down to. Locked surface changes: announcement bar, hero subhead, footer brand description, value-prop card 1 title, root + homepage SEO descriptions, webmanifest, welcome email body. Also fixed metadata drift: `SITE_TITLE` → `"CaliLean — Peptides, Plainly Labeled"` (was "Made Plain"); SEO descriptions → "Research-grade" (was "Clinically formulated") to match identity brief v1.1. Master tagline `"Peptides, plainly labeled."` is **NOT changed** in this doc — CEO call still pending in [SKA-51](/SKA/issues/SKA-51) thread.
 - **v1 (2026-04-26)** — Initial draft, CMO. Aligned to identity brief v1.1 (RUO), launch narrative v1, product architecture v1. Replaces all Bluum-era placeholder copy across the storefront.

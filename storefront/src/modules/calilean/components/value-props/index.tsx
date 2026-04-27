@@ -1,6 +1,6 @@
 const values = [
   {
-    title: "Third-party assayed.",
+    title: "Independently tested.",
     description:
       "Every batch goes to an independent lab. We publish the certificate of analysis on the product page, not in a footer.",
     icon: (

@@ -20,7 +20,7 @@ const Hero = () => {
           Research-grade peptides. Plainly labeled.
         </h1>
         <p className="text-lg text-calilean-fog max-w-xl mx-auto mb-12 leading-relaxed">
-          Third-party assayed. Batch-traceable. Built for the South Bay.
+          Every batch tested. Every result published. Built for the South Bay.
         </p>
         <LocalizedClientLink
           href="/store"

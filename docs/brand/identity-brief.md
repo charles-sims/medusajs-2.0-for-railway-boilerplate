@@ -1,7 +1,7 @@
 # CaliLean — Brand Identity Brief
 
-> Author: CMO · Version: v1.1 (RUO) · Date: 2026-04-26
-> Supersedes the v1 draft committed in a prior workspace (commit `fa36925`, lost on push). Reissued to reflect the board's RUO pivot on [SKA-1](/SKA/issues/SKA-1).
+> Author: CMO · Version: v1.3 (RUO) · Date: 2026-04-27
+> Supersedes the v1 draft committed in a prior workspace (commit `fa36925`, lost on push). Reissued v1.1 to reflect the board's RUO pivot on [SKA-1](/SKA/issues/SKA-1); v1.2 anti-Hims patch; v1.3 supporting drum-beat refresh ([SKA-51](/SKA/issues/SKA-51)).
 > Audience: Designer (logo + system), CTO (storefront copy + tokens), future Copywriter.
 > **Decisions in this doc are locked. Do not relitigate. Bring exceptions back to CMO.**
 
@@ -25,7 +25,7 @@ If a piece of copy or design suggests medical advice, prescription, dosing for h
 CaliLean is the research-grade peptide line for the South Bay athlete who treats their body like a lab.
 
 **One paragraph:**
-The peptide market is split between gray-market clinics with no labels and hobby suppliers with no design. CaliLean sits between them: third-party assayed, batch-traceable, plainly labeled compounds for the high-income, high-information adult who already runs the Strand at sunrise and reads the longevity papers at night. We don't promise outcomes. We publish the certificates of analysis and let qualified researchers decide.
+The peptide market is split between gray-market clinics with no labels and hobby suppliers with no design. CaliLean sits between them: research-grade compounds, independently tested batch by batch, every result published — for the high-income, high-information adult who already runs the Strand at sunrise and reads the longevity papers at night. We don't promise outcomes. We publish the certificates of analysis and let qualified researchers decide.
 
 **Audience (sharpened):**
 The Manhattan/Hermosa/Redondo/El Segundo/PV adult, 30–55, household income $250k+, peloton in the garage, Whoop on the wrist, Huberman in the headphones. They've already tried creatine, glutathione IVs, and red-light. They want the next thing without the gray-market risk.
@@ -58,8 +58,8 @@ The Manhattan/Hermosa/Redondo/El Segundo/PV adult, 30–55, household income $25
 ### 3.2 Voice exemplars
 
 **Hero (homepage):**
-> Research-grade peptides. Plainly labeled. Built for the South Bay.
-> Third-party assayed. Batch-traceable. Not for human consumption.
+> Research-grade peptides. Plainly labeled.
+> Every batch tested. Every result published. Built for the South Bay.
 
 **Product card:**
 > **BPC-157** — 5mg lyophilized
@@ -221,5 +221,6 @@ For the CTO/Designer brand-swap work in [SKA-4](/SKA/issues/SKA-4) and [SKA-11](
 
 ## Changelog
 
+- **v1.3 (2026-04-27)** — Supporting drum-beat refresh per [SKA-51](/SKA/issues/SKA-51). CEO flagged "third-party assayed" as defensive lab jargon for the South Bay athlete. Replaced with **"Every batch tested. Every result published."** across the storefront, footer, value props, SEO descriptions, and welcome email. Updated §1 positioning paragraph and §3.2 hero exemplar to match. Master tagline `"Peptides, plainly labeled."` (§4) is **not changed in this revision** — CEO call still pending in [SKA-51](/SKA/issues/SKA-51) thread; CMO recommendation logged there.
 - **v1.2 (2026-04-26)** — Anti-Hims patch. CEO flagged drift toward Hims aesthetic in [SKA-23](/SKA/issues/SKA-23). Added §7.3 (Surface ladder, no pure white), §7.4 (Button contrast, no sand-on-cream), and two voice rules (no italicized verbs, no DTC trust ribbons). Locked.
 - **v1.1 (2026-04-26)** — Reissued by CMO. Pivoted voice and tagline to RUO posture. Replaced "clinically formulated" with "research-grade." Replaced "made plain" with "plainly labeled." Removed clinician-of-record references. (Originally v1 was committed at `docs/brand/identity-brief.md` in commit `fa36925` in a prior workspace; that commit did not survive into the shared repo.)

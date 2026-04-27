@@ -1,6 +1,6 @@
 # CaliLean — Storefront Copy Doc (Bluum → CaliLean)
 
-> Author: CMO · Version: v1 · Date: 2026-04-26
+> Author: CMO · Version: v1.1 · Date: 2026-04-27
 > Companion docs: `docs/brand/identity-brief.md` (v1.1, RUO), `docs/brand/launch-narrative.md` (v1), `docs/brand/product-architecture.md` (v1)
 > Audience: CTO (executes the swap in [SKA-4](/SKA/issues/SKA-4)), future Copywriter (per-SKU long copy)
 > Single deliverable for [SKA-11](/SKA/issues/SKA-11). Locked. Bring exceptions back to CMO.
@@ -31,8 +31,8 @@ Two surfaces are owned **upstream of this doc** and not redrawn here: (1) per-SK
   - `title: "Bluum Peptides | Research-Grade Peptides"`
   - `description: "USA-based supplier of high-purity peptides for advanced research and development."`
 - **With:**
-  - `title: "CaliLean | Peptides, plainly labeled."`
-  - `description: "Research-grade peptides for the South Bay. Third-party assayed, batch-traceable, plainly labeled. Sold for research use only."`
+  - `title: "CaliLean — Peptides, Plainly Labeled"`
+  - `description: "Research-grade peptides for the South Bay athlete — recovery, leanness, longevity. Independently tested, batch by batch. Every COA published."`
 
 ### 1.2 Homepage metadata
 
@@ -41,15 +41,15 @@ Two surfaces are owned **upstream of this doc** and not redrawn here: (1) per-SK
   - `title: "Bluum Peptides | Research-Grade Peptides, Delivered"`
   - `description: "USA-based supplier of high-purity peptides for advanced research and development. Buy online today."`
 - **With:**
-  - `title: "CaliLean | Research-grade peptides, plainly labeled."`
-  - `description: "Third-party assayed, batch-traceable peptides built in the South Bay. Sold for research use only. COA published per batch."`
+  - `title: "Peptides for the South Bay athlete | CaliLean"`
+  - `description: "Research-grade peptides for the South Bay athlete — recovery, leanness, longevity. Independently tested, batch by batch. Every COA published."`
 
 ### 1.3 OG / social cards
 
 The audit flagged no OG image route exists. Pending the visual system from [SKA-13](/SKA/issues/SKA-13), copy for the OG image and Twitter/X card:
 
 - **OG title:** `Peptides, plainly labeled.`
-- **OG subtitle:** `Research-grade. Built for the South Bay. COA published per batch.`
+- **OG subtitle:** `Every batch tested. Every COA published. Built for the South Bay.`
 - **Twitter site handle:** placeholder `@calilean` (CMO confirms once the social handle is reserved; CTO leaves the field but commented out until the handle is locked)
 
 ### 1.4 Storefront-wide brand name swap
@@ -64,8 +64,8 @@ The audit flagged no OG image route exists. Pending the visual system from [SKA-
 
 - **Where:** `storefront/src/modules/bluum/components/announcement-bar/index.tsx:4`
 - **Replace:** `Verified Purity & US Shipping`
-- **With:** `Third-party assayed. Batch-traceable. Built in the South Bay.`
-- **Note:** drop the `&` shipping claim — fast US shipping is true but it's a logistics promise, not the brand promise. Keep three short clauses, period-separated.
+- **With:** `Every batch tested. Every result published. Built in the South Bay.`
+- **Note:** drop the `&` shipping claim — fast US shipping is true but it's a logistics promise, not the brand promise. Keep three short clauses, period-separated. **v1.1 update (SKA-51):** dropped "Third-party assayed. Batch-traceable." for the more confident, parallel "Every batch tested. Every result published." — same proof, less defensive lab jargon. "Batch-traceable" still lives as a value-prop card title where the longer body copy carries the meaning.
 
 ---
 
@@ -80,7 +80,7 @@ The audit flagged no OG image route exists. Pending the visual system from [SKA-
 - **With block:**
   - Pill: `Read the label.`
   - H1: `Peptides, plainly labeled.`
-  - Subhead: `Research-grade compounds for the South Bay athlete. Third-party assayed. Batch-traceable. Sold for research use only.`
+  - Subhead: `Every batch tested. Every result published. Built for the South Bay.`
   - CTA: `Shop the lineup`
 - **Note:** the pill carries the master campaign tagline ([Beat 1, "Read the Label"](launch-narrative.md)). `Peptides, plainly labeled.` is the locked master tagline ([identity brief §4](identity-brief.md)). The subhead carries the geo + RUO posture in one paragraph.
 
@@ -103,7 +103,7 @@ The audit flagged no OG image route exists. Pending the visual system from [SKA-
   - 2: `Fast USA Shipping` — same-day from US facility.
   - 3: `Next-Generation Compounds` — established staples to latest innovations.
 - **With block:**
-  - 1 — Title: `Third-party assayed.` Body: `Every batch goes to an independent lab. We publish the certificate of analysis on the product page, not in a footer.`
+  - 1 — Title: `Independently tested.` Body: `Every batch goes to an independent lab. We publish the certificate of analysis on the product page, not in a footer.`
   - 2 — Title: `Batch-traceable.` Body: `Your vial carries the lot number on the label. Match it to the COA before you open the box.`
   - 3 — Title: `Built in the South Bay.` Body: `Sourced, packaged, and shipped from El Segundo. Two-day standard to most US labs.`
 - **Note:** drop named test labs from this surface. We name the testing partner inside the FAQ and on each COA, but on the homepage the claim is the practice, not the partner. Replaces the four-square Bluum trust grid; the icons in the existing component can stay.
@@ -225,7 +225,7 @@ const faqs = [
 
 - **Where:** `storefront/src/modules/layout/templates/footer/index.tsx:17-19`
 - **Replace:** `USA-based supplier of high-purity peptides for advanced research and development. All products are for laboratory research use only.`
-- **With:** `Research-grade peptides, built in the South Bay. Third-party assayed and batch-traceable. Sold for research use only.`
+- **With:** `Research-grade peptides, built in the South Bay. Every batch independently tested. Every COA published. Sold for research use only.`
 
 ### 10.2 Support column
 
@@ -427,7 +427,7 @@ The audit ([SKA-3 §3.8](../audit-2026-04.md)) confirmed templates are brand-agn
   >
   > Three things to know:
   >
-  > 1. Every batch is third-party assayed. The COA lives on the product page and on the inner box flap.
+  > 1. Every batch is independently tested. The COA lives on the product page and on the inner box flap.
   > 2. Your vial carries a lot number on the label. Match it to the COA before you open the box.
   > 3. Sold for research use only. Not for human consumption.
   >
@@ -550,4 +550,5 @@ Use this when the swap PR is ready for review:
 
 ## Changelog
 
+- **v1.1 (2026-04-27)** — Supporting drum-beat refresh per [SKA-51](/SKA/issues/SKA-51). Retired "Third-party assayed. Batch-traceable." (defensive lab jargon) in favor of the parallel, declarative **"Every batch tested. Every result published."** Same proof, more confident voice — works for the South Bay athlete who reads Huberman and resents being talked down to. Locked surface changes: announcement bar, hero subhead, footer brand description, value-prop card 1 title, root + homepage SEO descriptions, webmanifest, welcome email body. Also fixed metadata drift: `SITE_TITLE` → `"CaliLean — Peptides, Plainly Labeled"` (was "Made Plain"); SEO descriptions → "Research-grade" (was "Clinically formulated") to match identity brief v1.1. Master tagline `"Peptides, plainly labeled."` is **NOT changed** in this doc — CEO call still pending in [SKA-51](/SKA/issues/SKA-51) thread.
 - **v1 (2026-04-26)** — Initial draft, CMO. Aligned to identity brief v1.1 (RUO), launch narrative v1, product architecture v1. Replaces all Bluum-era placeholder copy across the storefront.

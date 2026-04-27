@@ -16,7 +16,7 @@ export default async function Footer() {
           <div className="small:col-span-1">
             <CaliLeanLogo className="h-7 mb-4" color="#ffffff" tracking="display" />
             <p className="text-sm text-white/60 leading-relaxed">
-              Research-grade peptides, built in the South Bay. Third-party assayed and batch-traceable. Sold for research use only.
+              Research-grade peptides, built in the South Bay. Every batch independently tested. Every COA published. Sold for research use only.
             </p>
           </div>
 

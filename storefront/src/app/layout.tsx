@@ -25,9 +25,9 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 const SITE_NAME = "CaliLean"
-const SITE_TITLE = "CaliLean — Peptides, Made Plain"
+const SITE_TITLE = "CaliLean — Peptides, Plainly Labeled"
 const SITE_DESCRIPTION =
-  "Clinically formulated peptides for the South Bay athlete — recovery, leanness, longevity. Third-party assayed. Built local."
+  "Research-grade peptides for the South Bay athlete — recovery, leanness, longevity. Independently tested, batch by batch. Every COA published."
 
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),

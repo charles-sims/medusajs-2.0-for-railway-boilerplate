@@ -9,7 +9,7 @@ import { getRegion } from "@lib/data/regions"
 
 const HOME_TITLE = "Peptides for the South Bay athlete | CaliLean"
 const HOME_DESCRIPTION =
-  "Clinically formulated peptides for the South Bay athlete — recovery, leanness, longevity. Third-party assayed. Built local."
+  "Research-grade peptides for the South Bay athlete — recovery, leanness, longevity. Independently tested, batch by batch. Every COA published."
 
 export const metadata: Metadata = {
   title: { absolute: HOME_TITLE },

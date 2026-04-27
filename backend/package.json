@@ -19,9 +19,9 @@
     "start": "init-backend && cd .medusa/server && medusa start --verbose",
     "dev": "medusa develop",
     "email:dev": "email dev --dir=./src/modules/email-notifications/templates --port=3002",
+    "ruo:test-alert": "ts-node --transpile-only src/scripts/test-ruo-geo-alert.ts",
     "test": "jest",
     "test:unit": "jest --testPathPattern=src/"
-    "test": "jest"
   },
   "dependencies": {
     "@medusajs/admin-sdk": "2.13.6",

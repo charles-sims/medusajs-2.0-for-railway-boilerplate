@@ -115,7 +115,7 @@ function buildProductJsonLd(
         "@type": "Offer",
         url,
         priceCurrency: (price.currency_code || "usd").toUpperCase(),
-        price: (price.calculated_amount / 100).toFixed(2),
+        price: price.calculated_amount.toFixed(2),
         availability: inStock
           ? "https://schema.org/InStock"
           : "https://schema.org/OutOfStock",

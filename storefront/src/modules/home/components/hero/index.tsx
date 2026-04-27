@@ -17,7 +17,7 @@ const Hero = () => {
       </div>
       <div className="content-container relative">
         <h1 className="font-display text-5xl small:text-7xl large:text-8xl font-normal leading-[1.05] tracking-tight max-w-4xl mx-auto mb-8">
-          Peptides, on the record.
+          Peptides, plainly labeled.
         </h1>
         <p className="text-lg text-calilean-fog max-w-xl mx-auto mb-12 leading-relaxed">
           Recovery, leanness, longevity. Research-grade, independently tested, built in the South Bay.

@@ -4,8 +4,9 @@ import { SortOptions } from "@modules/store/components/refinement-list/sort-prod
 import StoreTemplate from "@modules/store/templates"
 
 export const metadata: Metadata = {
-  title: "Store",
-  description: "Explore all of our products.",
+  title: "The Lineup | CaliLean",
+  description:
+    "Eight research-grade compounds across repair, GH axis, longevity, and metabolic pathways. Every vial batch-tested.",
 }
 
 type Params = {

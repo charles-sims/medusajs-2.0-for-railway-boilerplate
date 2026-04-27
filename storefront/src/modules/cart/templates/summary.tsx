@@ -36,6 +36,9 @@ const Summary = ({ cart }: SummaryProps) => {
       <DiscountCode cart={cart} />
       <Divider />
       <CartTotals totals={cart} />
+      <p className="text-xs text-calilean-fog text-center">
+        By checking out you confirm this purchase is for research use only.
+      </p>
       <LocalizedClientLink
         href={"/checkout?step=" + step}
         data-testid="checkout-button"

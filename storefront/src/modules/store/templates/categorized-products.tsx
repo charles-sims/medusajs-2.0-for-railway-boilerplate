@@ -13,25 +13,25 @@ const CATEGORIES: Category[] = [
   {
     name: "Repair",
     description:
-      "Tissue-repair peptides studied in soft-tissue, tendon, and gut models.",
+      "Peptides studied in tendon, ligament, and gut-tissue repair models.",
     handles: ["bpc-157", "tb-500", "bpc-157-tb-500-blend"],
   },
   {
     name: "GH Axis",
     description:
-      "Growth-hormone secretagogue stacks targeting the GHRH/GHSR pathway.",
+      "Secretagogue compounds targeting the growth-hormone release axis.",
     handles: ["cjc-1295-no-dac-ipamorelin-blend"],
   },
   {
     name: "Longevity",
     description:
-      "Compounds studied in cellular metabolism, DNA repair, and mitochondrial function.",
+      "Compounds studied in cellular metabolism, oxidative stress, and mitochondrial function.",
     handles: ["glutathione", "nad", "mots-c"],
   },
   {
     name: "Metabolic",
     description:
-      "Multi-receptor agonists studied in metabolic and body-composition research.",
+      "Multi-receptor agonists studied in metabolic pathway research.",
     handles: ["retatrutide"],
   },
 ]

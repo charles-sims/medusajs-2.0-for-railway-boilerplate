@@ -44,7 +44,7 @@ const FaqAccordion = () => {
     <section className="py-24 bg-calilean-bg" id="faq">
       <div className="content-container max-w-3xl mx-auto">
         <h2 className="text-3xl small:text-4xl font-bold text-center mb-12">
-          You <em className="italic">ask</em>. We answer.
+          You ask. We answer.
         </h2>
         <div className="divide-y divide-calilean-sand">
           {faqs.map((faq, i) => (

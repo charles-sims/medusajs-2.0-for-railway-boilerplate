@@ -12,7 +12,7 @@ const values = [
   {
     title: "Lot-traceable.",
     description:
-      "Your vial carries the lot number on the label. Match it to the COA before you open the box.",
+      "Your vial carries the lot number on the label. The same number sits on the COA on the product page.",
     icon: (
       <svg className="w-10 h-10" viewBox="0 0 48 48" fill="none" stroke="#1F2937" strokeWidth="1.5">
         <path d="M4 36l20-28 20 28H4z"/><path d="M16 28h16M20 22h8"/>

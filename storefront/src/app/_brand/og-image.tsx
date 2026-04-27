@@ -7,7 +7,7 @@ import { ImageResponse } from "next/og"
 export const OG_SIZE = { width: 1200, height: 630 }
 export const OG_CONTENT_TYPE = "image/png"
 export const OG_ALT =
-  "CaliLean — Peptides, made plain. South Bay, California."
+  "CaliLean — Peptides, on the record. South Bay, California."
 
 const SALT = "#F4F2EC"
 const IRON = "#1F2326"
@@ -30,7 +30,7 @@ async function loadGoogleFont(family: string, text: string) {
 export async function renderOgImage() {
   // Render text we'll display so Google returns a minimal subset.
   const wordmarkText = "calilean"
-  const taglineText = "Peptides, made plain."
+  const taglineText = "Peptides, on the record."
   const locationText = "south bay · california"
   const subset = Array.from(
     new Set((wordmarkText + taglineText + locationText).split(""))
@@ -112,7 +112,7 @@ export async function renderOgImage() {
               letterSpacing: "0.01em",
             }}
           >
-            Peptides, made plain.
+            Peptides, on the record.
           </div>
         </div>
 

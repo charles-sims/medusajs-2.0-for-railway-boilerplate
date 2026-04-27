@@ -49,7 +49,7 @@ The Manhattan/Hermosa/Redondo/El Segundo/PV adult, 30–55, household income $25
 
 | Do | Don't |
 |---|---|
-| **Plainly labeled.** "BPC-157, 5mg vial, lyophilized, batch 240412-A." | "Premium recovery formula." |
+| **On the record.** "BPC-157, 5mg vial, lyophilized, batch 240412-A. COA published." | "Premium recovery formula." |
 | **Cite the paper.** "Used in published rat-model studies of tendon repair." | "Clinically proven to heal injuries." |
 | **Talk to the researcher.** "For research use only. Not for human consumption." | "Discover the future of recovery." |
 | **Anchor in geography.** "Built in the South Bay. Assayed in Irvine." | "From the heart of California." |
@@ -58,8 +58,8 @@ The Manhattan/Hermosa/Redondo/El Segundo/PV adult, 30–55, household income $25
 ### 3.2 Voice exemplars
 
 **Hero (homepage):**
-> Research-grade peptides. Plainly labeled.
-> Every batch tested. Every result published. Built for the South Bay.
+> Peptides, on the record.
+> Recovery, leanness, longevity. Research-grade, independently tested, built in the South Bay.
 
 **Product card:**
 > **BPC-157** — 5mg lyophilized
@@ -86,11 +86,12 @@ The Manhattan/Hermosa/Redondo/El Segundo/PV adult, 30–55, household income $25
 
 | # | Candidate | Rationale | Verdict |
 |---|---|---|---|
-| 1 | **Peptides, plainly labeled.** | Carries voice + RUO posture in three words. Survives on packaging, OG, t-shirt. Mirrors the CEO's "made plain" instinct, updated for RUO. | **LOCKED — master tagline.** |
-| 2 | Research-grade. South Bay-built. | Geo + posture in one. Good for paid social where we need both signals. | Approved as secondary. |
-| 3 | Read the label. | Provocative, anti-gray-market. Good for a campaign beat, not the master tag. | Hold for hero campaign ([SKA-7](/SKA/issues/SKA-7)). |
-| 4 | The peptides we'd run ourselves. | Founder voice. Strong for organic content, weak for above-the-fold. | Hold for content. |
-| 5 | Made for researchers. Made in California. | Posture + geo, structurally parallel. Reads slightly cold. | Reject. |
+| 1 | **Peptides, on the record.** | Confident and accountable, not defensive. Every COA *is* a record; gray-market clinics operate **off** the record. "On the record" is podcast/journalism/hip-hop-coded, fits the South Bay athlete's media diet. Survives on packaging, OG, t-shirt. | **LOCKED — master tagline (v1.5, 2026-04-27).** |
+| 2 | Peptides, plainly labeled. | Aesop-elegant, mirrors the CEO's "made plain" instinct. Replaced because CEO flagged it as too passive — tells what the product is, not what owning it gives the customer. | Retired. |
+| 3 | Research-grade. South Bay-built. | Geo + posture in one. Good for paid social where we need both signals. | Approved as secondary. |
+| 4 | Read the label. | Provocative, anti-gray-market. Good for a campaign beat, not the master tag. | Hold for hero campaign ([SKA-7](/SKA/issues/SKA-7)). |
+| 5 | The peptides we'd run ourselves. | Founder voice. Strong for organic content, weak for above-the-fold. | Hold for content. |
+| 6 | Made for researchers. Made in California. | Posture + geo, structurally parallel. Reads slightly cold. | Reject. |
 
 ---
 
@@ -221,6 +222,7 @@ For the CTO/Designer brand-swap work in [SKA-4](/SKA/issues/SKA-4) and [SKA-11](
 
 ## Changelog
 
+- **v1.5 (2026-04-27)** — Master tagline swap per [SKA-51](/SKA/issues/SKA-51) follow-up. CEO flagged the homepage hero as still wrong after v1.4 ("you didn't change the messaging on the main page which is where i wanted you to change it"), and asked for the "match to COA" instruction language to be removed everywhere. Master tagline `"Peptides, plainly labeled."` is **retired**; new locked master tagline is **`"Peptides, on the record."`** (CMO recommendation #1, logged on the [SKA-51](/SKA/issues/SKA-51) thread; CEO greenlight implicit in the "main page" follow-up). §3.1 do-pair updated. §3.2 hero exemplar updated to ship: H1 `"Peptides, on the record."` / sub `"Recovery, leanness, longevity. Research-grade, independently tested, built in the South Bay."`. §4 tagline table reordered, candidate 2 retired with rationale. Site-side scope: hero, layout SITE_TITLE, OG image text + ALT, lab banner drumbeat consistency. "Match to COA" instruction language stripped from value-prop card 2, FAQ Q1, and the order-confirmed page; replaced with passive statements of fact (the lot number on your vial *is* the same one on the COA — no instruction to do work). See `docs/brand/storefront-copy.md` v1.3.
 - **v1.4 (2026-04-27)** — Comprehensive cross-page messaging refresh per [SKA-51](/SKA/issues/SKA-51) (CEO follow-up: "you really only changed it in one place"). v1.3 only touched 9 surfaces (announcement bar, hero subhead, footer description, value-prop card 1, root + homepage SEO, webmanifest, welcome email, plus the metadata drift fixes). v1.4 swept the rest: Medusa-default leftovers (login/profile/register/checkout-layout/side-menu/collection meta/category meta), generic apparel-DTC PDP shipping/returns/exchanges block, defensive "third-party tested" in 4 product seed entries + 1 FAQ + Mazdutide purity field, lazy "Lyophilized Powder in 3ml vial" descriptions on 7 catalog SKUs, all 4 not-found pages, order-confirmed page + template + help component, and the value-props/trust-badges "batch-traceable" vs "lot-traceable" inconsistency (standardized on **lot**). See `docs/brand/storefront-copy.md` v1.2 changelog for the line-by-line. Master tagline `"Peptides, plainly labeled."` (§4) **still not changed** — CEO call still pending in [SKA-51](/SKA/issues/SKA-51) thread.
 - **v1.3 (2026-04-27)** — Supporting drum-beat refresh per [SKA-51](/SKA/issues/SKA-51). CEO flagged "third-party assayed" as defensive lab jargon for the South Bay athlete. Replaced with **"Every batch tested. Every result published."** across the storefront, footer, value props, SEO descriptions, and welcome email. Updated §1 positioning paragraph and §3.2 hero exemplar to match. Master tagline `"Peptides, plainly labeled."` (§4) is **not changed in this revision** — CEO call still pending in [SKA-51](/SKA/issues/SKA-51) thread; CMO recommendation logged there.
 - **v1.2 (2026-04-26)** — Anti-Hims patch. CEO flagged drift toward Hims aesthetic in [SKA-23](/SKA/issues/SKA-23). Added §7.3 (Surface ladder, no pure white), §7.4 (Button contrast, no sand-on-cream), and two voice rules (no italicized verbs, no DTC trust ribbons). Locked.

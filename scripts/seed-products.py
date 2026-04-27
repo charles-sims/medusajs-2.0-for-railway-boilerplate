@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Bluum Peptides – Medusa Product Seeder
+CaliLean – Medusa Product Seeder
 
 Seeds 33 peptide products into a Medusa 2.0 backend via the Admin API.
 Creates a US region (USD), a "Peptides" collection, then imports all products
@@ -174,10 +174,27 @@ def create_product(token, product, region_id, collection_id, sales_channel_id):
     raw_meta = product.get("metadata", {})
     metadata = {k: v for k, v in raw_meta.items() if v}
 
-    # Build variants — one per size
+    # Build variants — one per size.
+    # SKU format: CL-{XXX}-{DDDD} where XXX = product.sku_code and DDDD =
+    # per-component dose in mg, zero-padded. See docs/sku-system.md.
+    sku_code = product.get("sku_code")
+    if not sku_code:
+        raise ValueError(
+            f"Missing 'sku_code' on product '{handle}'. "
+            f"Add it to products-seed.json (see docs/sku-system.md)."
+        )
+
+    def build_sku(size):
+        first = size.split("/")[0].split("+")[0].strip()
+        m = re.search(r"(\d+(?:\.\d+)?)\s*mg", first, re.IGNORECASE)
+        if not m:
+            raise ValueError(f"Cannot parse dose from size '{size}' on '{handle}'")
+        dose_mg = int(round(float(m.group(1))))
+        return f"CL-{sku_code}-{dose_mg:04d}"
+
     variants = []
     for i, size in enumerate(sizes):
-        sku = f"BLUUM-{handle.upper()}-{size.upper().replace(' ', '')}".replace("/", "-")
+        sku = build_sku(size)
         variants.append({
             "title": size,
             "sku": sku,
@@ -222,7 +239,7 @@ def create_product(token, product, region_id, collection_id, sales_channel_id):
 
 def main():
     print("=" * 60)
-    print("  Bluum Peptides – Medusa Product Seeder")
+    print("  CaliLean – Medusa Product Seeder")
     print("=" * 60)
     print(f"\n  Backend: {BACKEND_URL}")
     print(f"  Seed file: {SEED_FILE}\n")

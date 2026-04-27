@@ -143,3 +143,39 @@ Imagen 4 (`imagen-4.0-generate-001`) renders certain prompt words and literals a
 **Mitigations that worked:** strip all hex literals (use plain color words), strip the word "monospace" (use "fixed-width typewriter style"), enumerate label lines as exactly four with explicit "nothing above the wordmark, no graphic, no dot, no arc of dots". The micro-™/® pattern survives even sharp negation — Imagen seems to associate the calilean wordmark + clinical-vial scene with these symbols. Acceptable cost for v1; the v0.1 → v1 wordmark replacement (SKA-13 outlined wordmark) will likely fix it because the wordmark will be a vector overlay, not Imagen-generated text.
 
 **Cost:** 16 Imagen `standard` API calls across 4 passes. Most repeat-cost was glutathione (4 rolls). The v1.1 prompt brief should ship with the prompt-leak-mitigation section so future batches start at a cleaner baseline.
+
+## Run 2026-04-27T06:31Z — v1.1 retakes (NAD+ cap, MOTS-C composition)
+
+Driver: SKA-47. CMO review of the v1 batch flagged two brand-coherence issues that were accepted-for-v1 but needed to be retaken before paid traffic: NAD+ cap drifted to aluminum/silver with only a thin green ring (Imagen's color balance fights green back toward neutral when the powder fill is yellow), and MOTS-C composition placed the vial ~25–30% from the left edge with the calilean wordmark's leading "c" cropped (read as "alilean" at PDP thumb size). Retatrutide v1 was the cleanest centered composition and was used as the new MOTS-C reference.
+
+Strategy: 3 candidates per SKU (2 standard + 1 ultra for NAD+ to test CMO's ultra hypothesis; 3 standard for MOTS-C since the issue isn't model-tier). Output landed at `docs/brand/imagery/renders/v1.1/{raw,web}/`. Winners promoted to canonical filenames; loser candidates discarded.
+
+| Label | Model | Aspect | Compound | Lot | Elapsed | Bytes |
+|---|---|---|---|---|---|---|
+| pdp-primary-nad.cand-1 | standard | 1:1 | NAD+ | 24-0410 | ~13s | 1.6MB png / 153KB jpg |
+| pdp-primary-nad.cand-2 | standard | 1:1 | NAD+ | 24-0410 | 13.0s | 1644705B png / 152841B jpg |
+| pdp-primary-nad.cand-3 ★ | ultra | 1:1 | NAD+ | 24-0410 | 15.9s | 1376353B png / 112418B jpg |
+| pdp-primary-mots-c.cand-1 | standard | 1:1 | MOTS-C | 24-0356 | 17.7s | 1820535B png / 174664B jpg |
+| pdp-primary-mots-c.cand-2 ★ | standard | 1:1 | MOTS-C | 24-0356 | 16.1s | 1297220B png / 91494B jpg |
+| pdp-primary-mots-c.cand-3 | standard | 1:1 | MOTS-C | 24-0356 | 18.4s | 1538731B png / 144041B jpg |
+
+★ = winner promoted to `docs/brand/imagery/renders/v1.1/{raw,web}/pdp-primary-{nad,mots-c}.{png,jpg}` and copied over `storefront/public/brand/products/{nad,mots-c}/pdp-primary.jpg`.
+
+## QA gate — v1.1 sign-off (Designer, 2026-04-27)
+
+Per [SKA-47](/SKA/issues/SKA-47) definition of done: NAD+ cap renders identically sage to the other 7 SKUs at PDP-thumb size; MOTS-C vial centered with full "calilean" wordmark legible; both replace the canonical storefront paths.
+
+| Render | Verdict | Notes |
+|---|---|---|
+| `pdp-primary-nad` (Ultra) | ✅ ship | Cap is now solid, uniformly green across the entire top face — same saturation as the Retatrutide reference. The aluminum-only/thin-green-ring failure mode that survived the v1 pass-2 retry is fixed by `imagen-4.0-ultra-generate-001` plus the doubled cap-color reinforcement language. Wordmark `calilean` clean (no invented `™`/`®` on this render). 4-line label legible: `calilean / NAD+ / 100 mg / vial / LOT 24-0410` (dosage and lot share the bottom cell rather than each on its own hairline-divided cell — minor template variance, accept). |
+| `pdp-primary-mots-c` (cand-2) | ✅ ship | Vial dead-center in the frame, full `calilean` wordmark with the leading `c` clearly visible. Cap is solid sage green on top, brighter than the v1 take. Tiny `™` after wordmark — same micro-artifact pattern as the rest of the v1 batch, accept (will go away with [SKA-13](/SKA/issues/SKA-13) outlined wordmark vector overlay). All 4 label lines legible: `calilean / MOTS-C / 10 mg / vial / LOT 24-0356`. |
+
+**Net:** 2/2 ship. Both meet the SKA-47 definition of done. HeadEng owns the catalog reseed via `scripts/migrate-product-images.mjs` ([SKA-20](/SKA/issues/SKA-20) flow) once this lands on master.
+
+### Prompt-engineering note (v1.1)
+
+CMO's mitigation hypothesis held: `imagen-4.0-ultra-generate-001` solved the NAD+ cap-color drift. Both NAD+ standard candidates kept producing the aluminum-cap failure (cand-2 reproduced the v1 thin-green-ring issue exactly; cand-1 added a green cap but then leaked the prompt word `Compound` as a visible label line above NAD+). Ultra appears more robust to the color-balance pressure that yellow fills exert on the cap-color spec. Worth keeping Ultra in the toolbox specifically for SKUs whose powder color creates a competing dominant hue.
+
+For composition guards on MOTS-C, the additions that worked were "exactly equidistant from the left edge and the right edge of the frame" + "no part of the label may touch or extend past any edge of the frame" + "the complete `calilean` wordmark, including its leading `c` and its trailing `n`, is fully visible". cand-2 landed centered with the full wordmark on the first try. cand-1 leaked the prompt words `Eml`/`Dosage` as visible label content; cand-3 leaked `Dossagne` plus painted an invented `C` monogram before the wordmark — both new instances of the prompt-word-leak pattern. The v1.2 brief should ban appearance of any structural English label-template language anywhere in the prompt body, not just the typography terms (`monospace`).
+
+**Cost:** 6 Imagen API calls (5 standard + 1 ultra). 2/6 = 33% winner rate, in line with the v1 batch.

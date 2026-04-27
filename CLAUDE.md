@@ -42,12 +42,11 @@ cd storefront/ && pnpm test-e2e
 - Path aliases: `@lib/*`, `@modules/*`, `@pages/*` (storefront)
 
 ## Active Issues
-1. **No CI/CD pipeline** — No automated testing or build verification on PRs
-2. **Inventory not checked in cart** — TODOs for v2 inventory management
-3. **README outdated** — Still describes generic Medusa boilerplate, not Bluum brand
+1. **Inventory not checked in cart** — TODOs for v2 inventory management
+2. **README outdated** — Still describes generic Medusa boilerplate, not Bluum brand
 
 ## Next Action
-Add a GitHub Actions CI workflow that runs `pnpm build` for both backend and storefront on pull requests.
+E2E + backend smoke tests in CI (SKA-5) — Playwright as a separate `e2e` job + Jest backend smoke tests. Build coverage already lives in `.github/workflows/ci.yml`.
 
 ## Full Context
 For detailed audit, health scorecard, roadmap, and changelog, see `.project-state/`:

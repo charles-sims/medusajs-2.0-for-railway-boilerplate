@@ -67,6 +67,14 @@ export const MINIO_SECRET_KEY = process.env.MINIO_SECRET_KEY;
 export const MINIO_BUCKET = process.env.MINIO_BUCKET; // Optional, if not set bucket will be called: medusa-media
 
 /**
+ * (optional) Dedicated MinIO bucket + public base URL for COA artifacts.
+ * Falls back to defaults so admin upload route works locally before SKA-31 S1
+ * provisions the production bucket.
+ */
+export const MINIO_COA_BUCKET = process.env.MINIO_COA_BUCKET || 'coa';
+export const COA_PUBLIC_BASE = process.env.COA_PUBLIC_BASE || 'https://s3.calilean.bio';
+
+/**
  * (optional) Resend API Key and from Email - do not set if using SendGrid
  */
 export const RESEND_API_KEY = process.env.RESEND_API_KEY;

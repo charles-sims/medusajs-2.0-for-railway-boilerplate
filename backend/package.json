@@ -18,7 +18,9 @@
     "ib": "init-backend",
     "start": "init-backend && cd .medusa/server && medusa start --verbose",
     "dev": "medusa develop",
-    "email:dev": "email dev --dir=./src/modules/email-notifications/templates --port=3002"
+    "email:dev": "email dev --dir=./src/modules/email-notifications/templates --port=3002",
+    "test": "jest",
+    "test:unit": "jest --testPathPattern=src/"
   },
   "dependencies": {
     "@medusajs/admin-sdk": "2.13.6",
@@ -35,6 +37,7 @@
     "@rokmohar/medusa-plugin-meilisearch": "1.3.5",
     "medusajs-launch-utils": "0.0.18",
     "minio": "^8.0.6",
+    "multer": "2.0.2",
     "resend": "4.0.1",
     "ulid": "^2.4.0"
   },

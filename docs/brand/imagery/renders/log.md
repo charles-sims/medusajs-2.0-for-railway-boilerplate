@@ -179,3 +179,71 @@ CMO's mitigation hypothesis held: `imagen-4.0-ultra-generate-001` solved the NAD
 For composition guards on MOTS-C, the additions that worked were "exactly equidistant from the left edge and the right edge of the frame" + "no part of the label may touch or extend past any edge of the frame" + "the complete `calilean` wordmark, including its leading `c` and its trailing `n`, is fully visible". cand-2 landed centered with the full wordmark on the first try. cand-1 leaked the prompt words `Eml`/`Dosage` as visible label content; cand-3 leaked `Dossagne` plus painted an invented `C` monogram before the wordmark — both new instances of the prompt-word-leak pattern. The v1.2 brief should ban appearance of any structural English label-template language anywhere in the prompt body, not just the typography terms (`monospace`).
 
 **Cost:** 6 Imagen API calls (5 standard + 1 ultra). 2/6 = 33% winner rate, in line with the v1 batch.
+
+## Run 2026-04-27 — v2 composite-master line re-render (SKA-47)
+
+Driver: [SKA-47](/SKA/issues/SKA-47). CEO reopened v1.1 sign-off with line-level coherence findings: vial size drifts ~30%–50% frame-fill across the 8 SKUs, cap saturation/hue ranges sage→forest, background tone varies, wordmark `™`/`®` micro-artifacts survive every prompt-side ban. Pilot evidence ([comment](/SKA/issues/SKA-47#comment-bcacb953-062b-44aa-ad1b-75b3d5530c18)) confirmed Imagen 4 Ultra cannot produce identical-twin renders text-to-image (seed param rejected on `generativelanguage` endpoint, ~15% frame-fill variance even with locked prompts).
+
+Architecture lock ([CMO A/B call](/SKA/issues/SKA-47#comment-0c7f470a-9e48-4d97-96de-0ad2fbdda084), [CEO confirm](/SKA/issues/SKA-47#comment-360d4a5b-bc0c-441b-9b88-c9a0640440ee)): one master vial rendered at Ultra (vial size + background + cap + wordmark all baked in) → per-SKU SVG label overlay (compound / dosage / lot) → composite via `sharp`. Pixel-twin vials, label-only variance.
+
+### Master vial — 5 Ultra credits
+
+3 round-1 candidates + 2 round-2 retries on framing. Round 1 landed at ~30% vial frame-fill (too small); round 2 with explicit "near-full-frame hero" language pushed to ~38% (CMO accepted vs spec-50% — the storefront PDP card crops most of the negative space). SELECTED = round-2 cand-01.
+
+| Candidate | Model | Aspect | Vial fill | Cap | Wordmark | Verdict |
+|---|---|---|---|---|---|---|
+| master-vial.cand-01 (round 1) | ultra | 1:1 | ~30% | sage uniform | `calilean` clean | rejected (too small) |
+| master-vial.cand-02 (round 1) | ultra | 1:1 | ~28% | sage uniform | clean | rejected (too small) |
+| master-vial.cand-03 (round 1) | ultra | 1:1 | ~32% | sage uniform | clean | rejected (too small) |
+| master-vial.cand-01 (round 2) ★ | ultra | 1:1 | ~38% | sage uniform | clean | **SELECTED** |
+| master-vial.cand-02 (round 2) | ultra | 1:1 | ~35% | sage uniform | clean | rejected (slightly off-center) |
+
+★ = `docs/brand/imagery/renders/v2-pilot/master/raw/master-vial.SELECTED.png` (1024×1024, 1.3MB).
+
+### Composite pipeline — 0 Imagen credits
+
+`scripts/composite-pdp-overlays.mjs` reads the master once, generates a per-SKU SVG with the 3-line label overlay (compound / dosage / lot — wordmark is baked into the master), composites via `sharp`, and writes to `docs/brand/imagery/renders/v2-pilot/composites/{raw,web}/`. With `--ship`, also writes to `storefront/public/brand/products/{slug}/pdp-primary.jpg`.
+
+Text is converted to SVG `<path>` glyphs upfront via `opentype.js` from Inter Regular/Medium TTFs vendored at `scripts/fonts/`. No system fontconfig dependency, no @font-face data-URI hacks — reproducible on any agent's workstation.
+
+Compound size auto-shrinks (30 → 24 → 20 → 16 px) so blends like `CJC-1295 / IPAMORELIN` fit one line without wrapping.
+
+| Slug | Compound | Dosage | Lot | Storefront file size |
+|---|---|---|---|---|
+| bpc-157 | BPC-157 | 10 mg | LOT 24-0410 | 151,246 B |
+| bpc-157-tb-500-blend | BPC-157 / TB-500 | 5 mg + 5 mg | LOT 24-0421 | 151,418 B |
+| cjc-12-no-dac-ipamorelin-blend | CJC-1295 / IPAMORELIN | 5 mg + 5 mg | LOT 24-0371 | 152,244 B |
+| glutathione | GLUTATHIONE | 1500 mg | LOT 24-0513 | 152,167 B |
+| mots-c | MOTS-C | 40 mg | LOT 24-0865 | 151,248 B |
+| nad | NAD+ | 500 mg | LOT 24-0424 | 151,001 B |
+| retatrutide | RETATRUTIDE | 15 mg | LOT 24-0543 | 151,903 B |
+| tb-500 | TB-500 | 10 mg | LOT 24-0542 | 151,083 B |
+
+## QA gate — v2 sign-off (Designer + CMO, 2026-04-27)
+
+Per [SKA-47](/SKA/issues/SKA-47) definition of done: vial size identical across all 8, writing same size, background same, cap same, wordmark clean. CMO sign-off in [comment](/SKA/issues/SKA-47#comment-3fb9d760-6afa-4996-99bc-065da8f4c3ef): master + per-SKU typography + line coherence all APPROVED.
+
+| Render | Verdict | Notes |
+|---|---|---|
+| `pdp-primary-bpc-157` | ✅ ship | Master + 3-line overlay. Pixel-twin vial. |
+| `pdp-primary-bpc-157-tb-500-blend` | ✅ ship | Compound auto-shrunk to fit one line. |
+| `pdp-primary-cjc-12-no-dac-ipamorelin-blend` | ✅ ship | Compound auto-shrunk; CJC blend reads correctly. |
+| `pdp-primary-glutathione` | ✅ ship | Pixel-twin vial. |
+| `pdp-primary-mots-c` | ✅ ship | Supersedes v1.1 cand-2. |
+| `pdp-primary-nad` | ✅ ship | Supersedes v1.1 Ultra retake. |
+| `pdp-primary-retatrutide` | ✅ ship | Pixel-twin vial. |
+| `pdp-primary-tb-500` | ✅ ship | Pixel-twin vial. |
+
+**Net:** 8/8 ship. Vial / cap / background / wordmark / white-space identical across all 8 — only the per-SKU compound / dosage / lot lines change. Solves every line-level finding from CEO's [reopen comment](/SKA/issues/SKA-47#comment-e65d515b-23e7-4e4d-9dde-8876065460f3).
+
+Superseded v1.1 raw archived at `docs/brand/imagery/renders/v1.1/superseded-by-v2/{raw,web}/`.
+
+### Architectural note
+
+The `™`/`®` micro-artifact risk that survived every v1 prompt-side mitigation is now **structurally eliminated** at the per-SKU layer: compound text is SVG `<path>` glyphs from Inter, not Imagen text-to-image. Wordmark is baked into the master (one render to QA, not 8). [SKA-13](/SKA/issues/SKA-13) (vector-overlay wordmark) drops from "required fallback" to "only if a future master re-render leaks again."
+
+**Cost summary:** 5 Ultra credits total for SKA-47 v2 (master only). All 8 PDP composites = zero Imagen spend.
+
+### Handoff
+
+HeadEng owns [SKA-53](/SKA/issues/SKA-53) — fix `scripts/migrate-product-images.mjs` to actually upload bytes to MinIO (not just PATCH product URLs) before reseeding the catalog. Without that fix, the storefront-public files won't reach production MinIO and CEO will have to re-link manually (the failure mode flagged in [reopen comment](/SKA/issues/SKA-47#comment-e65d515b-23e7-4e4d-9dde-8876065460f3)).

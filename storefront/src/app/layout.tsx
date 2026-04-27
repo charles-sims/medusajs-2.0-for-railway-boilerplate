@@ -25,9 +25,9 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),
-  title: "CaliLean | Research-Grade Peptides — South Bay",
+  title: "CaliLean | Peptides, plainly labeled.",
   description:
-    "Research-grade peptides. Plainly labeled. Built for the South Bay. Third-party assayed, batch-traceable, not for human consumption.",
+    "Research-grade peptides for the South Bay. Third-party assayed, batch-traceable, plainly labeled. Sold for research use only.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },

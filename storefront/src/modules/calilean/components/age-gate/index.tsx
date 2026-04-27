@@ -21,7 +21,11 @@ const AgeGate = () => {
   }
 
   const decline = () => {
-    window.location.href = "https://www.google.com"
+    if (window.history.length > 1) {
+      window.history.back()
+    } else {
+      window.location.href = "about:blank"
+    }
   }
 
   if (!visible) return null
@@ -37,13 +41,13 @@ const AgeGate = () => {
             onClick={decline}
             className="px-6 py-2.5 border-[1.5px] border-calilean-ink rounded-btn text-sm font-medium hover:bg-calilean-ink hover:text-calilean-bg transition-colors"
           >
-            Decline
+            Leave
           </button>
           <button
             onClick={accept}
             className="px-6 py-2.5 bg-calilean-sand text-calilean-ink rounded-btn text-sm font-medium hover:opacity-85 transition-opacity"
           >
-            Accept
+            Enter
           </button>
         </div>
       </div>

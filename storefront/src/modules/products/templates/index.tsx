@@ -5,7 +5,7 @@ import ProductTabs from "@modules/products/components/product-tabs"
 import RelatedProducts from "@modules/products/components/related-products"
 import ProductInfo from "@modules/products/templates/product-info"
 import TrustBadges from "@modules/calilean/components/trust-badges"
-import ResearchDisclaimer from "@modules/calilean/components/research-disclaimer"
+import RUODisclaimer from "@modules/common/components/ruo-disclaimer"
 import ProductSpecsTable from "@modules/calilean/components/product-specs-table"
 import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
 import { notFound } from "next/navigation"
@@ -43,7 +43,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
             </Suspense>
 
             <TrustBadges />
-            <ResearchDisclaimer />
+            <RUODisclaimer variant="short" />
             <ProductSpecsTable product={product} />
           </div>
         </div>

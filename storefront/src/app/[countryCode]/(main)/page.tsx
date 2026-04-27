@@ -8,8 +8,9 @@ import { getCollectionsWithProducts } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
 
 export const metadata: Metadata = {
-  title: "Bluum Peptides | Research-Grade Peptides, Delivered",
-  description: "USA-based supplier of high-purity peptides for advanced research and development. Buy online today.",
+  title: "CaliLean | Research-grade peptides, plainly labeled.",
+  description:
+    "Third-party assayed, batch-traceable peptides built in the South Bay. Sold for research use only. COA published per batch.",
 }
 
 export default async function Home({

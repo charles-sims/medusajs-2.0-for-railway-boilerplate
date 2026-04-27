@@ -1,10 +1,10 @@
 const badges = [
-  { label: "Money Back Guarantee", icon: "shield-check" },
-  { label: "Satisfaction Guarantee", icon: "check" },
-  { label: "Easy Returns", icon: "refresh" },
-  { label: "Secure Ordering", icon: "lock" },
-  { label: "2-Day Shipping", icon: "zap" },
-  { label: "Third Party Tested", icon: "clipboard-check" },
+  { label: "COA published", icon: "clipboard-check" },
+  { label: "Lot-traceable", icon: "shield-check" },
+  { label: "Lyophilized", icon: "check" },
+  { label: "2-day US shipping", icon: "zap" },
+  { label: "Encrypted checkout", icon: "lock" },
+  { label: "Returns within 30 days", icon: "refresh" },
 ]
 
 const iconPaths: Record<string, string> = {

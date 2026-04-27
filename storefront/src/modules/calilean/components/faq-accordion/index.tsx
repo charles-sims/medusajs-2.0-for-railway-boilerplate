@@ -4,36 +4,36 @@ import { useState } from "react"
 
 const faqs = [
   {
-    q: "Are these peptides quality tested?",
-    a: "Our analytical testing is conducted by Janoshik Analytical or BioRegen, independent third-party laboratories to verify the identity, purity, and composition of our research products. Each CoA includes purity analysis, peptide sequence confirmation, and date of analysis.",
+    q: "What does \"research-grade\" actually mean?",
+    a: "Each batch ships with a third-party Certificate of Analysis confirming identity, mass, and purity by HPLC and mass spectrometry. The COA is on the product page and on the inner box flap. The batch number on your vial matches the report.",
   },
   {
-    q: "What are typical delivery times?",
-    a: "Delivery for our free shipping option typically takes 3-5 business days. We ship from right here in the USA to all US addresses. We also provide an option for next day shipping for an extra charge.",
+    q: "Who runs your assays?",
+    a: "Janoshik Analytical and BioRegen, both independent ISO-accredited labs. Each COA names the lab, the analyst, and the date.",
   },
   {
-    q: "How should these compounds be stored?",
-    a: "Our peptides are shipped in lyophilized form, which is stable at room temperature during transit. Once received, store unopened vials in a cool, dry place.",
+    q: "Where do you ship from? How long does it take?",
+    a: "We ship from El Segundo, California. Standard delivery is 2 business days to most US addresses. Next-day delivery is available at checkout.",
   },
   {
-    q: "Are products stable during shipping?",
-    a: "Our peptides are shipped in lyophilized (freeze-dried) form, which ensures stability during transit. Each batch is verified for purity upon production.",
+    q: "How should peptides be stored?",
+    a: "Lyophilized vials are stable at room temperature in transit. Once received, store unopened vials below 25\u00b0C. After reconstitution, refrigerate at 2-8\u00b0C and use per your protocol.",
   },
   {
-    q: "What are your bulk ordering options?",
-    a: "For bulk inquiries and volume pricing, please contact us at hello@bluumpeptides.com.",
+    q: "Are these legal to purchase in the United States?",
+    a: "Yes, when purchased and handled for in-vitro laboratory research only. Our products are sold strictly under research-use-only terms. They are not drugs, supplements, cosmetics, or food, and they are not for human or animal consumption.",
   },
   {
-    q: "What payment methods do you accept?",
-    a: "We accept credit/debit cards. After you place an order, we'll email you a secure payment link. Please complete payment within 48 hours.",
+    q: "How do I pay?",
+    a: "Major credit and debit cards at checkout. Encrypted end-to-end. We do not store card numbers.",
   },
   {
-    q: "Are these peptides legal to buy for research in the USA?",
-    a: "Yes. When purchased for laboratory/research use only and handled in compliance with all applicable regulations. We sell reagents labeled 'Not for human consumption.'",
+    q: "Do you offer bulk pricing for institutional researchers?",
+    a: "Yes. Email research@calilean.bio with your institution and the SKUs you need. We respond within one business day.",
   },
   {
-    q: "What is the shelf life of unopened vials?",
-    a: "Lyophilized peptides stored as directed are typically stable 12-24 months (often longer at -20\u00b0C). Actual stability depends on sequence and storage conditions.",
+    q: "What is the shelf life of an unopened vial?",
+    a: "Lyophilized peptides stored as directed are typically stable for 12 to 24 months, often longer below -20\u00b0C. Actual stability depends on sequence and storage conditions.",
   },
 ]
 
@@ -44,7 +44,7 @@ const FaqAccordion = () => {
     <section className="py-24 bg-calilean-bg" id="faq">
       <div className="content-container max-w-3xl mx-auto">
         <h2 className="text-3xl small:text-4xl font-bold text-center mb-12">
-          You <em className="italic">ask</em>, we answer.
+          You <em className="italic">ask</em>. We answer.
         </h2>
         <div className="divide-y divide-calilean-sand">
           {faqs.map((faq, i) => (

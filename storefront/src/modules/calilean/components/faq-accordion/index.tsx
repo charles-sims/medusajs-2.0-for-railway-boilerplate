@@ -41,17 +41,17 @@ const FaqAccordion = () => {
   const [open, setOpen] = useState<number | null>(null)
 
   return (
-    <section className="py-24 bg-bluum-bg" id="faq">
+    <section className="py-24 bg-calilean-bg" id="faq">
       <div className="content-container max-w-3xl mx-auto">
         <h2 className="text-3xl small:text-4xl font-bold text-center mb-12">
           You <em className="italic">ask</em>, we answer.
         </h2>
-        <div className="divide-y divide-bluum-border">
+        <div className="divide-y divide-calilean-sand">
           {faqs.map((faq, i) => (
             <div key={i}>
               <button
                 onClick={() => setOpen(open === i ? null : i)}
-                className="w-full flex justify-between items-center py-5 text-left text-lg font-semibold text-bluum-text"
+                className="w-full flex justify-between items-center py-5 text-left text-lg font-semibold text-calilean-ink"
               >
                 {faq.q}
                 <span className={`text-2xl font-light transition-transform ${open === i ? "rotate-45" : ""}`}>+</span>
@@ -60,7 +60,7 @@ const FaqAccordion = () => {
                 className="overflow-hidden transition-all duration-300"
                 style={{ maxHeight: open === i ? "300px" : "0" }}
               >
-                <p className="pb-5 text-bluum-muted text-base leading-relaxed">{faq.a}</p>
+                <p className="pb-5 text-calilean-fog text-base leading-relaxed">{faq.a}</p>
               </div>
             </div>
           ))}

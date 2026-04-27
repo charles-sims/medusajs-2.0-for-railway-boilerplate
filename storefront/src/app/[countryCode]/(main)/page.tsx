@@ -1,9 +1,9 @@
 import { Metadata } from "next"
 import FeaturedProducts from "@modules/home/components/featured-products"
 import Hero from "@modules/home/components/hero"
-import LabBanner from "@modules/bluum/components/lab-banner"
-import ValueProps from "@modules/bluum/components/value-props"
-import FaqAccordion from "@modules/bluum/components/faq-accordion"
+import LabBanner from "@modules/calilean/components/lab-banner"
+import ValueProps from "@modules/calilean/components/value-props"
+import FaqAccordion from "@modules/calilean/components/faq-accordion"
 import { getCollectionsWithProducts } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
 

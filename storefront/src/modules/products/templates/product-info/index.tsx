@@ -14,7 +14,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         {product.collection && (
           <LocalizedClientLink
             href={`/collections/${product.collection.handle}`}
-            className="text-sm text-bluum-muted hover:text-bluum-text transition-colors"
+            className="text-sm text-calilean-fog hover:text-calilean-ink transition-colors"
           >
             {product.collection.title}
           </LocalizedClientLink>
@@ -26,17 +26,17 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         {(meta.batch || meta.report || meta.purity) && (
           <div className="flex flex-wrap gap-2 mt-2">
             {meta.batch && (
-              <span className="inline-flex items-center gap-1.5 bg-blue-50 text-bluum-text px-3 py-1.5 rounded-lg text-sm font-medium">
+              <span className="inline-flex items-center gap-1.5 bg-blue-50 text-calilean-ink px-3 py-1.5 rounded-lg text-sm font-medium">
                 Batch # {meta.batch}
               </span>
             )}
             {meta.report && (
-              <span className="inline-flex items-center gap-1.5 bg-blue-50 text-bluum-text px-3 py-1.5 rounded-lg text-sm font-medium">
+              <span className="inline-flex items-center gap-1.5 bg-blue-50 text-calilean-ink px-3 py-1.5 rounded-lg text-sm font-medium">
                 Report # {meta.report}
               </span>
             )}
             {meta.purity && (
-              <span className="inline-flex items-center gap-1.5 bg-blue-50 text-bluum-text px-3 py-1.5 rounded-lg text-sm font-medium">
+              <span className="inline-flex items-center gap-1.5 bg-blue-50 text-calilean-ink px-3 py-1.5 rounded-lg text-sm font-medium">
                 Tested at {meta.purity}
               </span>
             )}
@@ -44,7 +44,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         )}
 
         {product.description && (
-          <p className="text-base text-bluum-muted leading-relaxed whitespace-pre-line" data-testid="product-description">
+          <p className="text-base text-calilean-fog leading-relaxed whitespace-pre-line" data-testid="product-description">
             {product.description}
           </p>
         )}

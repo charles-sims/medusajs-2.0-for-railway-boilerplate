@@ -31,14 +31,14 @@ const values = [
 
 const ValueProps = () => {
   return (
-    <section className="py-24 bg-bluum-bg">
+    <section className="py-24 bg-calilean-bg">
       <div className="content-container">
         <div className="grid grid-cols-1 small:grid-cols-3 gap-16">
           {values.map((v) => (
             <div key={v.title} className="text-center">
               <div className="flex justify-center mb-4">{v.icon}</div>
               <h3 className="text-xl font-semibold mb-2">{v.title}</h3>
-              <p className="text-bluum-muted text-base leading-relaxed">{v.description}</p>
+              <p className="text-calilean-fog text-base leading-relaxed">{v.description}</p>
             </div>
           ))}
         </div>

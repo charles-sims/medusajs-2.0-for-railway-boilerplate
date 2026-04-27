@@ -40,9 +40,27 @@ export const RUO_LEGAL_CONTACT_EMAIL = "hello@calilean.bio"
  * checkout for that state and the backend audit subscriber logs any order
  * that bypassed the gate.
  *
- * Entries MUST be 2-letter uppercase US state codes (e.g., "NJ", "MA").
+ * Source of truth is the `NEXT_PUBLIC_RUO_GEO_DENY_STATES` env var, a
+ * comma-separated list of 2-letter uppercase US state codes (e.g.
+ * "NJ,MA,LA"). Empty / unset = allow all. The `NEXT_PUBLIC_` prefix is
+ * required so client components can render the inline deny message; server
+ * actions read the same var at runtime. See
+ * `docs/ops/per-state-suppression.md` for the suppression runbook.
  */
-export const RUO_GEO_DENY_STATES: readonly string[] = []
+export function getRuoGeoDenyStates(): readonly string[] {
+  const raw = process.env.NEXT_PUBLIC_RUO_GEO_DENY_STATES ?? ""
+  if (!raw.trim()) return []
+  const seen = new Set<string>()
+  const out: string[] = []
+  for (const token of raw.split(",")) {
+    const code = token.trim().toUpperCase()
+    if (code.length !== 2) continue
+    if (seen.has(code)) continue
+    seen.add(code)
+    out.push(code)
+  }
+  return out
+}
 
 export const RUO_GEO_DENY_MESSAGE_TEMPLATE =
   "We do not currently ship to {state}. Contact hello@calilean.bio if you have questions."
@@ -79,10 +97,11 @@ export function isUsStateAllowed(
   province: string | null | undefined,
   countryCode: string | null | undefined
 ): boolean {
-  if (RUO_GEO_DENY_STATES.length === 0) return true
+  const deny = getRuoGeoDenyStates()
+  if (deny.length === 0) return true
   if (!countryCode || countryCode.toLowerCase() !== "us") return true
   if (!province) return true
-  return !RUO_GEO_DENY_STATES.includes(normalizeUsStateCode(province))
+  return !deny.includes(normalizeUsStateCode(province))
 }
 
 export function getGeoDenyMessage(province: string): string {

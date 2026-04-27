@@ -2,6 +2,7 @@
   {
     "title": "BPC-157",
     "handle": "bpc-157",
+    "sku_code": "BPC",
     "description": "High-purity BPC-157 vials for research on tissue repair and cellular regeneration. Janoshik tested with COA. Free USA shipping.",
     "thumbnail": "/brand/products/bpc-157/pdp-primary.jpg",
     "metadata": {
@@ -12,7 +13,7 @@
       "cas": "137525-51-0",
       "mw": "1419.56 g/mol",
       "pubchem": "9941957",
-      "storage": "Store at \u22646\u00b0C, sealed, away from heat, light, and moisture.",
+      "storage": "Store at ≤6°C, sealed, away from heat, light, and moisture.",
       "application": "Research peptide with potential in angiogenesis and cellular repair research",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": "BPC157, Body Protective Compound 157, Pentadecapeptide BPC-157"
@@ -33,6 +34,7 @@
   {
     "title": "TH9507",
     "handle": "th9507",
+    "sku_code": "TH9",
     "description": "TH9507 (Tesamorelin), a synthetic GHRH analog studied in metabolic regulation and cellular signaling research. Independently assayed; COA published per batch.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/th9507.webp?v=1771980203&width=600",
     "metadata": {
@@ -43,7 +45,7 @@
       "cas": "218949-48-5",
       "mw": "5136 g/mol",
       "pubchem": "16137828",
-      "storage": "Store at -4\u00b0F (-20\u00b0C), sealed, away from heat, light, and moisture.",
+      "storage": "Store at -4°F (-20°C), sealed, away from heat, light, and moisture.",
       "application": "Synthetic analog of growth hormone-releasing hormone (GHRH) for metabolic and cellular signaling research",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": "Tesamorelin, TH-9507"
@@ -64,6 +66,7 @@
   {
     "title": "Ipamorelin",
     "handle": "ipamorelin",
+    "sku_code": "IPM",
     "description": "Research peptide evaluated in growth hormone secretion and peptide receptor studies.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/ipamorelin.webp?v=1762634524&width=600",
     "metadata": {
@@ -74,7 +77,7 @@
       "cas": "170851-70-4",
       "mw": "711.86 g/mol",
       "pubchem": "9831659",
-      "storage": "Store at \u226425\u00b0C, sealed, away from heat, light, and moisture.",
+      "storage": "Store at ≤25°C, sealed, away from heat, light, and moisture.",
       "application": "Research peptide evaluated in growth hormone secretion and peptide receptor studies",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": "Ipamorelin"
@@ -93,6 +96,7 @@
   {
     "title": "TB-500",
     "handle": "tb-500",
+    "sku_code": "TB5",
     "description": "TB-500 (Thymosin Beta-4 fragment) for research on tissue regeneration and repair mechanisms.",
     "thumbnail": "/brand/products/tb-500/pdp-primary.jpg",
     "metadata": {
@@ -103,7 +107,7 @@
       "cas": "885340-08-9",
       "mw": "4963.5 g/mol",
       "pubchem": "62707662",
-      "storage": "Short-term: 2-8\u00b0C; Long-term: -20\u00b0C to -80\u00b0C, protect from light and moisture",
+      "storage": "Short-term: 2-8°C; Long-term: -20°C to -80°C, protect from light and moisture",
       "application": "Research peptide studied in cellular signaling, cytoskeletal dynamics, and peptide fragment structure-function analysis",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": "TB-500, Thymosin Beta-4 Fragment"
@@ -123,6 +127,7 @@
   {
     "title": "GHK-Cu",
     "handle": "ghk-cu",
+    "sku_code": "GHK",
     "description": "High-purity GHK-Cu for studies on wound healing and cellular response. 99.82% purity verified.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/ghk-cu.webp?v=1762634582&width=600",
     "metadata": {
@@ -133,7 +138,7 @@
       "cas": "49557-75-7",
       "mw": "340.384 g/mol",
       "pubchem": "133697840",
-      "storage": "Short-term: 2-8\u00b0C; Long-term: \u2264-20\u00b0C, protected from light and moisture",
+      "storage": "Short-term: 2-8°C; Long-term: ≤-20°C, protected from light and moisture",
       "application": "Research peptide evaluated in anti-aging and wound healing studies",
       "appearance": "Blue lyophilized powder in 3mL glass ampule",
       "synonyms": "GHK-Cu, Copper Peptide, Glycyl-L-Histidyl-L-Lysine Copper"
@@ -153,6 +158,7 @@
   {
     "title": "PT-141",
     "handle": "pt-141",
+    "sku_code": "PT1",
     "description": "PT-141 (Bremelanotide) 10mg peptide for lab use. Verified quality, free domestic shipping.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/pt141.webp?v=1762634566&width=600",
     "metadata": {
@@ -163,7 +169,7 @@
       "cas": "189691-06-3",
       "mw": "1025.2 g/mol",
       "pubchem": "9941379",
-      "storage": "Store at \u226420\u00b0C, sealed, away from heat, light, and moisture.",
+      "storage": "Store at ≤20°C, sealed, away from heat, light, and moisture.",
       "application": "Research peptide evaluated in melanocortin receptor studies",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": "PT-141, Bremelanotide"
@@ -182,6 +188,7 @@
   {
     "title": "Glutathione",
     "handle": "glutathione",
+    "sku_code": "GLU",
     "description": "Glutathione, the body's primary endogenous antioxidant tripeptide. Used in cellular protection and oxidative-stress research. 99.8% pure; COA published per batch.",
     "thumbnail": "/brand/products/glutathione/pdp-primary.jpg",
     "metadata": {
@@ -212,6 +219,7 @@
   {
     "title": "GLOW",
     "handle": "glow",
+    "sku_code": "GLW",
     "description": "GLOW research blend: GHK-Cu (50mg) + TB-500 (10mg) + BPC-157 (10mg). For collagen signaling and tissue remodeling research.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/glow.webp?v=1762634339&width=600",
     "metadata": {
@@ -222,7 +230,7 @@
       "cas": "See individual components",
       "mw": "See individual components",
       "pubchem": "See individual components",
-      "storage": "Lyophilized: \u2264-20\u00b0C long-term, 2-8\u00b0C short-term. After reconstitution: 2-8\u00b0C.",
+      "storage": "Lyophilized: ≤-20°C long-term, 2-8°C short-term. After reconstitution: 2-8°C.",
       "application": "Research peptide blend for studies on ECM remodeling, soft-tissue repair, angiogenesis, and dermal biology",
       "appearance": "Lyophilized powder in glass vial",
       "synonyms": "GLOW Peptide Blend, GHK-Cu + TB-500 + BPC-157"
@@ -241,6 +249,7 @@
   {
     "title": "KLOW",
     "handle": "klow",
+    "sku_code": "KLW",
     "description": "KLOW peptide blend: GHK-Cu + TB-500 + BPC-157 + KPV. For collagen signaling and inflammation research.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/KLOW_Peptide_Blend.webp?v=1766468832&width=600",
     "metadata": {
@@ -251,7 +260,7 @@
       "cas": "See individual components",
       "mw": "See individual components",
       "pubchem": "See individual components",
-      "storage": "Lyophilized: \u2264-20\u00b0C long-term, 2-8\u00b0C short-term. After reconstitution: 2-8\u00b0C.",
+      "storage": "Lyophilized: ≤-20°C long-term, 2-8°C short-term. After reconstitution: 2-8°C.",
       "application": "Research peptide blend for in-vitro and preclinical studies of ECM remodeling, tissue repair, and immune biology",
       "appearance": "Lyophilized powder in glass vial",
       "synonyms": "KLOW Peptide Blend, GHK-Cu + TB-500 + BPC-157 + KPV"
@@ -270,6 +279,7 @@
   {
     "title": "BPC-157 / TB-500 Blend",
     "handle": "bpc-157-tb-500-blend",
+    "sku_code": "BTB",
     "description": "BPC-157 and TB-500 blend studied in soft-tissue repair, ECM remodeling, and cell-migration research. Identity and purity confirmed per batch by an independent lab.",
     "thumbnail": "/brand/products/bpc-157-tb-500-blend/pdp-primary.jpg",
     "metadata": {
@@ -280,7 +290,7 @@
       "cas": "See individual components",
       "mw": "See individual components",
       "pubchem": "See individual components",
-      "storage": "Lyophilized: \u2264-20\u00b0C long-term, 2-8\u00b0C short-term. After reconstitution: 2-8\u00b0C.",
+      "storage": "Lyophilized: ≤-20°C long-term, 2-8°C short-term. After reconstitution: 2-8°C.",
       "application": "Research peptide blend for soft-tissue repair biology, ECM remodeling, cell migration, and angiogenesis",
       "appearance": "Lyophilized powder in glass vial",
       "synonyms": "Wolverine Blend, BPC-157 + TB-500"
@@ -299,6 +309,7 @@
   {
     "title": "NAD+",
     "handle": "nad",
+    "sku_code": "NAD",
     "description": "NAD+ 500mg for research on cellular metabolism and DNA repair. Verified purity, lyophilized for stability.",
     "thumbnail": "/brand/products/nad/pdp-primary.jpg",
     "metadata": {
@@ -309,7 +320,7 @@
       "cas": "53-84-9",
       "mw": "663.43 g/mol",
       "pubchem": "5892",
-      "storage": "Store at -10\u00b0C, sealed, away from heat, light, and moisture.",
+      "storage": "Store at -10°C, sealed, away from heat, light, and moisture.",
       "application": "Research coenzyme involved in cellular metabolism, DNA repair, and mitochondrial function",
       "appearance": "Lyophilized powder in 5mL vial",
       "synonyms": "NAD+, Nicotinamide Adenine Dinucleotide"
@@ -318,6 +329,7 @@
       {
         "title": "Size",
         "values": [
+          "250mg",
           "500mg"
         ]
       }
@@ -328,6 +340,7 @@
   {
     "title": "Snap-8",
     "handle": "snap-8",
+    "sku_code": "SN8",
     "description": "SNAP-8 (Ac-octapeptide-3) for SNARE-complex modulation and neuromuscular research.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/snap8.webp?v=1762634919&width=600",
     "metadata": {
@@ -338,7 +351,7 @@
       "cas": "868844-74-0",
       "mw": "1075.2 g/mol",
       "pubchem": "86080331",
-      "storage": "Lyophilized: \u2264-20\u00b0C long-term. After reconstitution: 2-8\u00b0C.",
+      "storage": "Lyophilized: ≤-20°C long-term. After reconstitution: 2-8°C.",
       "application": "Research peptide for SNARE-complex modulation and neuromuscular transmitter release studies",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": "Snap-8, SNAP-8, Acetyl Octapeptide-3"
@@ -357,6 +370,7 @@
   {
     "title": "Selank",
     "handle": "selank",
+    "sku_code": "SEL",
     "description": "Research peptide with potential in cognitive studies. Selank Lyophilized Powder in 3ml vial.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/selank.webp?v=1762634986&width=2050",
     "metadata": {
@@ -367,7 +381,7 @@
       "cas": "129954-34-3",
       "mw": "751.878 g/mol",
       "pubchem": "11765600",
-      "storage": "Store Selank 5mg at \u22646\u00b0C, sealed, away from heat, light, and moisture.",
+      "storage": "Store Selank 5mg at ≤6°C, sealed, away from heat, light, and moisture.",
       "application": "Research use only. These compounds are NOT intended for human consumption, clinical use, or veterinary applications.",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": ""
@@ -386,6 +400,7 @@
   {
     "title": "Cagrilintide",
     "handle": "cagrilintide",
+    "sku_code": "CAG",
     "description": "Research peptide studied in amylin receptor signaling and metabolic pathway research.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/cagrilintide.webp?v=1762634972&width=2050",
     "metadata": {
@@ -396,7 +411,7 @@
       "cas": "2381089-83-2",
       "mw": "4409 g/mol",
       "pubchem": "CID 171397054 / CID 167312356, CID 164618153: (Cagrilintide (acetate)",
-      "storage": "Short-term: 36\u201346 \u00b0F (2\u20138 \u00b0C); Long-term: \u22124 \u00b0F to \u2212112 \u00b0F (\u221220 \u00b0C to \u221280 \u00b0C), protect from light and moisture.",
+      "storage": "Short-term: 36–46 °F (2–8 °C); Long-term: −4 °F to −112 °F (−20 °C to −80 °C), protect from light and moisture.",
       "application": "Research use only. Not intended for human consumption, clinical use, or veterinary applications.",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": ""
@@ -405,7 +420,8 @@
       {
         "title": "Size",
         "values": [
-          "5mg, 10mg"
+          "5mg",
+          "10mg"
         ]
       }
     ],
@@ -415,6 +431,7 @@
   {
     "title": "Thymosin Alpha-1",
     "handle": "thymosin-alpha-1",
+    "sku_code": "TA1",
     "description": "Thymosin Alpha-1, a 28-amino-acid synthetic peptide studied in immune-modulation research. Available for research use; COA published per batch.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/thymosin-alpha1.webp?v=1762634903&width=2050",
     "metadata": {
@@ -425,7 +442,7 @@
       "cas": "62304-98-7",
       "mw": "3108.31 g/mol",
       "pubchem": "16130571",
-      "storage": "Store at \u22646\u00b0C, sealed, away from heat, light, and moisture.",
+      "storage": "Store at ≤6°C, sealed, away from heat, light, and moisture.",
       "application": "Research peptide with potential in immune system modulation.",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": ""
@@ -444,6 +461,7 @@
   {
     "title": "IGF-1 LR3",
     "handle": "igf-1-lr3",
+    "sku_code": "IGF",
     "description": "Lyophilized powder in sealed research-grade vial (1 mg). Research compound; studied in cellular signaling and IGF-1 receptor (IGF-1R) pathway investigations.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/igf1lr3.webp?v=1762634888&width=2050",
     "metadata": {
@@ -454,7 +472,7 @@
       "cas": "946870-92-4",
       "mw": "~9,117.5 g/mol",
       "pubchem": "CID 168009904",
-      "storage": "Store at \u22644\u00b0C, sealed, away from heat, light, and moisture.",
+      "storage": "Store at ≤4°C, sealed, away from heat, light, and moisture.",
       "application": "Research compound; studied in cellular signaling and IGF-1 receptor (IGF-1R) pathway investigations.",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": ""
@@ -473,6 +491,7 @@
   {
     "title": "Hexarelin",
     "handle": "hexarelin",
+    "sku_code": "HEX",
     "description": "Hexarelin, a synthetic hexapeptide GHSR agonist studied in growth-hormone-secretion research. Available for research use; COA published per batch.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/hexarelin.webp?v=1762634868&width=2050",
     "metadata": {
@@ -483,7 +502,7 @@
       "cas": "208251-52-9",
       "mw": "887.04 g/mol",
       "pubchem": "134694630",
-      "storage": "Store at \u22646\u00b0C, sealed, away from heat, light, and moisture.",
+      "storage": "Store at ≤6°C, sealed, away from heat, light, and moisture.",
       "application": "Research peptide with potential in growth hormone secretion and muscle wasting studies.",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": ""
@@ -502,6 +521,7 @@
   {
     "title": "CJC-1295 No DAC",
     "handle": "cjc-1295-no-dac",
+    "sku_code": "CJC",
     "description": "CJC-1295 (No DAC), a synthetic GHRH analog studied in growth-hormone-pulsatility and GH-axis research. Available for research use; COA published per batch.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/cjc1295-no-dac.webp?v=1762634840&width=2050",
     "metadata": {
@@ -512,7 +532,7 @@
       "cas": "863288-34-0",
       "mw": "3367.896 g/mol",
       "pubchem": "91976842",
-      "storage": "Store at \u226425\u00b0C, sealed, away from heat, light, and moisture.",
+      "storage": "Store at ≤25°C, sealed, away from heat, light, and moisture.",
       "application": "Research peptide CJC-1295 is a synthetic analogue of growth hormone releasing hormone (GHRH).",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": ""
@@ -531,6 +551,7 @@
   {
     "title": "Sermorelin",
     "handle": "sermorelin",
+    "sku_code": "SER",
     "description": "Sermorelin, a 29-amino-acid GHRH analog studied in growth-hormone-secretion research. Available for research use; COA published per batch.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/sermorelin.webp?v=1762634827&width=2050",
     "metadata": {
@@ -541,7 +562,7 @@
       "cas": "86168-78-7",
       "mw": "3357.958 g/mol",
       "pubchem": "16129620",
-      "storage": "Store at \u22646\u00b0C, sealed, away from heat, light, and moisture.",
+      "storage": "Store at ≤6°C, sealed, away from heat, light, and moisture.",
       "application": "Research peptide with potential in growth hormone deficiency studies",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": ""
@@ -550,7 +571,8 @@
       {
         "title": "Size",
         "values": [
-          "2mg, 5mg"
+          "2mg",
+          "5mg"
         ]
       }
     ],
@@ -560,6 +582,7 @@
   {
     "title": "GHRP-2",
     "handle": "ghrp-2",
+    "sku_code": "GH2",
     "description": "GHRP-2 Lyophilized Powder in 3ml vial. Application: Research peptide that has been evaluated in growth hormone studies. Appearance: Solid, white powder in 3mL glass ampule.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/ghrp2.webp?v=1762634813&width=2050",
     "metadata": {
@@ -570,7 +593,7 @@
       "cas": "158861-67-7",
       "mw": "817.97 g/mol",
       "pubchem": "6918245",
-      "storage": "Store at \u226425\u00b0C, sealed, away from heat, light, and moisture.",
+      "storage": "Store at ≤25°C, sealed, away from heat, light, and moisture.",
       "application": "Research peptide that has been evaluated in growth hormone studies.",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": ""
@@ -589,6 +612,7 @@
   {
     "title": "GHRP-6",
     "handle": "ghrp-6",
+    "sku_code": "GH6",
     "description": "GHRP-6, a synthetic hexapeptide GHSR agonist studied in growth-hormone-secretion research. Available for research use; COA published per batch.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/ghrp6.webp?v=1762634546&width=2050",
     "metadata": {
@@ -599,7 +623,7 @@
       "cas": "87616-84-0",
       "mw": "873.01 g/mol",
       "pubchem": "9919153",
-      "storage": "Store at \u226425\u00b0C, sealed, away from heat, light, and moisture.",
+      "storage": "Store at ≤25°C, sealed, away from heat, light, and moisture.",
       "application": "Research peptide that has been evaluated in GH studies.",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": ""
@@ -618,6 +642,7 @@
   {
     "title": "Retatrutide",
     "handle": "retatrutide",
+    "sku_code": "RET",
     "description": "Retatrutide Lyophilized Powder in 3ml vial. Research use only. Not intended for human consumption, clinical use, or veterinary applications.",
     "thumbnail": "/brand/products/retatrutide/pdp-primary.jpg",
     "metadata": {
@@ -628,7 +653,7 @@
       "cas": "2381089-83-2",
       "mw": "~4845.444 g/mol",
       "pubchem": "474492235",
-      "storage": "Store at \u226425\u00b0C, sealed, away from heat, light, and moisture.",
+      "storage": "Store at ≤25°C, sealed, away from heat, light, and moisture.",
       "application": "Triple agonist metabolic pathway research.",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": "",
@@ -638,7 +663,8 @@
       {
         "title": "Size",
         "values": [
-          "15mg, 30mg"
+          "15mg",
+          "30mg"
         ]
       }
     ],
@@ -648,17 +674,18 @@
   {
     "title": "Melanotan I",
     "handle": "melanotan-i",
+    "sku_code": "MT1",
     "description": "Lyophilized powder for research use only. These compounds are NOT intended for human consumption, clinical use, or veterinary applications.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/melanotan-i.webp?v=1762634511&width=2050",
     "metadata": {
       "batch": "#844205",
       "report": "#20250310",
       "purity": "97.57%",
-      "formula": "C\u2087\u2088H\u2081\u2081\u2081N\u2082\u2081O\u2081\u2089",
+      "formula": "C₇₈H₁₁₁N₂₁O₁₉",
       "cas": "75921-69-6",
-      "mw": "\u2248 1,646.9 g/mol",
+      "mw": "≈ 1,646.9 g/mol",
       "pubchem": "16197727",
-      "storage": "Keep sealed, away from light and moisture. Lyophilized: \u2264 \u221220 \u00b0C for long-term (2\u20138 \u00b0C short-term). After reconstitution: 2\u20138 \u00b0C; avoid repeated freeze\u2013thaw. Use sterile technique in research workflows.",
+      "storage": "Keep sealed, away from light and moisture. Lyophilized: ≤ −20 °C for long-term (2–8 °C short-term). After reconstitution: 2–8 °C; avoid repeated freeze–thaw. Use sterile technique in research workflows.",
       "application": "Research peptide for studies of melanocortin receptor pharmacology (predominantly MC1R) and melanogenesis/photobiology research.",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": ""
@@ -677,6 +704,7 @@
   {
     "title": "Melanotan II",
     "handle": "melanotan-ii",
+    "sku_code": "MT2",
     "description": "Melanotan II, a synthetic melanocortin-receptor agonist studied in melanin-stimulation research. Available for research use; COA published per batch.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/melanotan-ii.webp?v=1762634477&width=2050",
     "metadata": {
@@ -687,7 +715,7 @@
       "cas": "121062-08-6",
       "mw": "1024.18 g/mol",
       "pubchem": "92432",
-      "storage": "Store at \u226425\u00b0C, sealed, away from heat, light, and moisture.",
+      "storage": "Store at ≤25°C, sealed, away from heat, light, and moisture.",
       "application": "Research peptide that has been evaluated in melanin stimulation and aphrodisiac studies.",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": ""
@@ -706,17 +734,18 @@
   {
     "title": "Mazdutide",
     "handle": "mazdutide",
+    "sku_code": "MAZ",
     "description": "Research peptide for studies of dual GLP-1 receptor / glucagon receptor (GLP-1R/GCGR) agonism in metabolic biology.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/mazdutide.webp?v=1762634430&width=2050",
     "metadata": {
       "batch": "[Batch #](https://www.svgrepo.com//show/520561/box-open.svg)",
       "report": "[Report #](https://www.svgrepo.com//show/486820/report-text.svg)",
       "purity": "Independently assayed",
-      "formula": "C\u2082\u2081\u2080H\u2083\u2082\u2082N\u2084\u2086O\u2086\u2087",
+      "formula": "C₂₁₀H₃₂₂N₄₆O₆₇",
       "cas": "2259884-03-0",
-      "mw": "\u2248 4,563.1 g/mol",
+      "mw": "≈ 4,563.1 g/mol",
       "pubchem": "167312357",
-      "storage": "Keep sealed, protected from light and moisture. Lyophilized: \u2264 \u221220 \u00b0C for long-term (or 2\u20138 \u00b0C short-term). After reconstitution: 2\u20138 \u00b0C; avoid repeated freeze\u2013thaw; use sterile technique in research workflows.",
+      "storage": "Keep sealed, protected from light and moisture. Lyophilized: ≤ −20 °C for long-term (or 2–8 °C short-term). After reconstitution: 2–8 °C; avoid repeated freeze–thaw; use sterile technique in research workflows.",
       "application": "Research peptide for studies of dual GLP-1 receptor / glucagon receptor (GLP-1R/GCGR) agonism in metabolic biology.",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": ""
@@ -725,7 +754,8 @@
       {
         "title": "Size",
         "values": [
-          "5mg, 10mg"
+          "5mg",
+          "10mg"
         ]
       }
     ],
@@ -735,6 +765,7 @@
   {
     "title": "Semax",
     "handle": "semax",
+    "sku_code": "SMX",
     "description": "Research peptide with potential in cognitive enhancement studies. Lyophilized powder in 3ml vial. Solid, white powder in 3mL glass ampule.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/semax.webp?v=1762634387&width=2050",
     "metadata": {
@@ -745,7 +776,7 @@
       "cas": "80714-61-0",
       "mw": "854.99 g/mol",
       "pubchem": "9811102",
-      "storage": "Store at \u22646\u00b0C, sealed, away from heat, light, and moisture.",
+      "storage": "Store at ≤6°C, sealed, away from heat, light, and moisture.",
       "application": "Research peptide with potential in cognitive enhancement studies",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": ""
@@ -764,6 +795,7 @@
   {
     "title": "DSIP",
     "handle": "dsip",
+    "sku_code": "DSP",
     "description": "DSIP (Delta Sleep-Inducing Peptide), a nonapeptide studied in sleep-regulation and neuroprotection research. Available for research use; COA published per batch.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/dsip.webp?v=1762634379&width=2050",
     "metadata": {
@@ -774,7 +806,7 @@
       "cas": "62568-57-4",
       "mw": "848.81 g/mol",
       "pubchem": "3623358",
-      "storage": "Store at \u22646\u00b0C, sealed, away from heat, light, and moisture.",
+      "storage": "Store at ≤6°C, sealed, away from heat, light, and moisture.",
       "application": "Research peptide with potential in sleep regulation and neuroprotective studies.",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": ""
@@ -793,6 +825,7 @@
   {
     "title": "Epithalon",
     "handle": "epithalon",
+    "sku_code": "EPI",
     "description": "Epitalon Lyophilized Powder in 3ml vial. Research peptide for anti-aging studies.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/epithalon.webp?v=1762634353&width=2050",
     "metadata": {
@@ -803,7 +836,7 @@
       "cas": "307297-39-8",
       "mw": "390.35 g/mol",
       "pubchem": "219042",
-      "storage": "Store at \u226425\u00b0C, sealed, away from heat, light, and moisture.",
+      "storage": "Store at ≤25°C, sealed, away from heat, light, and moisture.",
       "application": "Research peptide for anti-aging studies and research",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": ""
@@ -822,6 +855,7 @@
   {
     "title": "AHK-Cu",
     "handle": "ahk-cu",
+    "sku_code": "AHK",
     "description": "AHK-Cu (Copper tripeptide; Ala-His-Lys copper complex) is a lyophilized peptide complex intended for research use only. It is used in experimental work involving copper binding/coordination chemistry and peptide signaling assays, commonly referenced in cosmetic and biomaterials research.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/ahk-cu.webp?v=1762633931&width=2050",
     "metadata": {
@@ -832,8 +866,8 @@
       "cas": "682809-81-0",
       "mw": "451.39 g/mol",
       "pubchem": "168431292",
-      "storage": "Store sealed, dry, protected from light/moisture; recommended storage is 2\u20138\u00b0C short-term and \u2264-20\u00b0C long-term (desiccated).",
-      "application": "Research peptide\u2013metal complex for experimental work involving copper.",
+      "storage": "Store sealed, dry, protected from light/moisture; recommended storage is 2–8°C short-term and ≤-20°C long-term (desiccated).",
+      "application": "Research peptide–metal complex for experimental work involving copper.",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": ""
     },
@@ -851,6 +885,7 @@
   {
     "title": "MOTS-C",
     "handle": "mots-c",
+    "sku_code": "MOT",
     "description": "RESEARCH USE ONLY. These compounds are NOT intended for human consumption, clinical use, or veterinary applications. We are not affiliated with any pharmaceutical companies or their commercial medications. By placing an order, you certify these materials will be used exclusively for in vitro testing and laboratory experimentation only. Bodily introduction of any kind into humans or animals is strictly forbidden by law. This product should only be handled by licensed, qualified professionals.",
     "thumbnail": "/brand/products/mots-c/pdp-primary.jpg",
     "metadata": {
@@ -859,9 +894,9 @@
       "purity": "99.80%",
       "formula": "C101H152N28O22S2",
       "cas": "1627580-64-6",
-      "mw": "\u2248 2,174.6 g/mol",
+      "mw": "≈ 2,174.6 g/mol",
       "pubchem": "146675088",
-      "storage": "Keep sealed, protected from light and moisture. Lyophilized: \u2264 \u221220 \u00b0C for long-term (2\u20138 \u00b0C short-term acceptable). After reconstitution: 2\u20138 \u00b0C for several days; for longer storage, aliquot and freeze \u2264 \u221220 \u00b0C; avoid repeated freeze\u2013thaw",
+      "storage": "Keep sealed, protected from light and moisture. Lyophilized: ≤ −20 °C for long-term (2–8 °C short-term acceptable). After reconstitution: 2–8 °C for several days; for longer storage, aliquot and freeze ≤ −20 °C; avoid repeated freeze–thaw",
       "application": "Research peptide for studies of mitochondrial peptides and metabolic signaling (e.g., AMPK-linked pathways, stress-response transcription, glucose utilization) in in-vitro or preclinical systems.",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": ""
@@ -870,7 +905,8 @@
       {
         "title": "Size",
         "values": [
-          "40mg"
+          "5mg",
+          "10mg"
         ]
       }
     ],
@@ -880,6 +916,7 @@
   {
     "title": "Pinealon",
     "handle": "pinealon",
+    "sku_code": "PIN",
     "description": "Pinealon (EDR; Glu-Asp-Arg) lyophilized peptide powder in a 3 mL vial.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/pinealon.webp?v=1771652746&width=2050",
     "metadata": {
@@ -890,7 +927,7 @@
       "cas": "175175-23-2",
       "mw": "418.40 g/mol",
       "pubchem": "10273502",
-      "storage": "Store sealed and dry, protect from light/moisture; common handling is 2\u20138\u00b0C short-term and \u2264-20\u00b0C long-term, desiccated.",
+      "storage": "Store sealed and dry, protect from light/moisture; common handling is 2–8°C short-term and ≤-20°C long-term, desiccated.",
       "application": "Research tripeptide investigated in CNS / neuroprotection / cellular aging contexts in published literature and vendor catalogs (research use).",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": ""
@@ -909,6 +946,7 @@
   {
     "title": "5-Amino-1MQ",
     "handle": "5-amino-1mq",
+    "sku_code": "5MQ",
     "description": "5-Amino-1MQ (5-Amino-1-methylquinolinium iodide) (50 mg) powder in 3 mL vial.",
     "thumbnail": "https://bluumpeptides.com/cdn/shop/files/5-amino-1mq.webp?v=1771650741&width=2050",
     "metadata": {
@@ -919,7 +957,7 @@
       "cas": "42464-96-0",
       "mw": "286.11 g/mol",
       "pubchem": "66522933",
-      "storage": "2\u20138\u00b0C (refrigerated), tightly sealed, dry/desiccated, protect from light and moisture.",
+      "storage": "2–8°C (refrigerated), tightly sealed, dry/desiccated, protect from light and moisture.",
       "application": "Research small molecule used as a nicotinamide N-methyltransferase (NNMT) inhibitor in metabolic / methylation / NAD-related pathway research.",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": ""
@@ -938,7 +976,8 @@
   {
     "title": "CJC-1295 No DAC / Ipamorelin Blend",
     "handle": "cjc-1295-no-dac-ipamorelin-blend",
-    "description": "CJC-1295 (No DAC) + Ipamorelin Blend lyophilized peptide powder in a 3 mL vial. Research peptide blend commonly used in GHRH / GHSR pathway research (growth hormone\u2013related signaling). Solid, white to off-white lyophilized powder in a 3 mL glass vial.",
+    "sku_code": "CJI",
+    "description": "CJC-1295 (No DAC) + Ipamorelin Blend lyophilized peptide powder in a 3 mL vial. Research peptide blend commonly used in GHRH / GHSR pathway research (growth hormone–related signaling). Solid, white to off-white lyophilized powder in a 3 mL glass vial.",
     "thumbnail": "/brand/products/cjc-12-no-dac-ipamorelin-blend/pdp-primary.jpg",
     "metadata": {
       "batch": "371772",
@@ -948,8 +987,8 @@
       "cas": "CJC-1295 No DAC / Mod GRF(1-29): 863288-34-0; Ipamorelin: 170851-70-4",
       "mw": "CJC-1295 No DAC / Mod GRF(1-29): 3367.954 g/mol; Ipamorelin: ~711.9 g/mol",
       "pubchem": "CJC-1295 Without DAC: CID 91976842; Ipamorelin: CID 9831659",
-      "storage": "Store sealed, dry, protected from light/moisture; typical peptide handling is 2\u20138\u00b0C short-term and \u2264-20\u00b0C long-term (desiccated).",
-      "application": "Research peptide blend commonly used in GHRH / GHSR pathway research (growth hormone\u2013related signaling).",
+      "storage": "Store sealed, dry, protected from light/moisture; typical peptide handling is 2–8°C short-term and ≤-20°C long-term (desiccated).",
+      "application": "Research peptide blend commonly used in GHRH / GHSR pathway research (growth hormone–related signaling).",
       "appearance": "Solid, white powder in 3mL glass ampule",
       "synonyms": ""
     },

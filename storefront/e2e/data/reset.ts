@@ -1,4 +1,4 @@
-import { Client } from "pg"
+import { Client, ClientConfig } from "pg"
 
 async function getDatabaseClient() {
   testEnvChecks()
@@ -8,7 +8,26 @@ async function getDatabaseClient() {
   return client
 }
 
+function parseDatabaseUrl(url: string | undefined): Partial<ClientConfig> {
+  if (!url) return {}
+  try {
+    const u = new URL(url)
+    return {
+      host: u.hostname,
+      port: u.port ? Number(u.port) : 5432,
+      user: decodeURIComponent(u.username),
+      password: decodeURIComponent(u.password),
+      // Connect to the maintenance "postgres" DB by default — we need to
+      // CREATE/DROP other DBs from this client.
+      database: "postgres",
+    }
+  } catch {
+    return {}
+  }
+}
+
 function getEnv() {
+  const fromUrl = parseDatabaseUrl(process.env.DATABASE_URL)
   return {
     host: process.env.TEST_POSTGRES_HOST || "localhost",
     port: process.env.TEST_POSTGRES_HOST
@@ -20,13 +39,27 @@ function getEnv() {
       process.env.TEST_POSTGRES_DATABASE_TEMPLATE || "test_medusa_db_template",
     productionDatabase: process.env.PRODUCTION_POSTGRES_DATABASE || "medusa_db",
     superuser: {
-      host: process.env.PGHOST || "localhost",
-      port: process.env.PGPORT ? Number(process.env.PGPORT) : 5432,
-      user: process.env.PGUSER || "postgres",
-      password: process.env.PGPASSWORD || "password",
-      database: process.env.PGDATABASE || "postgres",
+      host: process.env.PGHOST || fromUrl.host || "localhost",
+      port: process.env.PGPORT
+        ? Number(process.env.PGPORT)
+        : fromUrl.port || 5432,
+      user: process.env.PGUSER || fromUrl.user || "postgres",
+      password: process.env.PGPASSWORD || fromUrl.password || "password",
+      database: process.env.PGDATABASE || fromUrl.database || "postgres",
     },
   }
+}
+
+// In CI we provision a single ephemeral Postgres for the job and there is no
+// template-database reset cycle to run. The container is destroyed at job end.
+// Skip the reset in that environment so we don't fail teardown trying to drop
+// databases that were never created.
+function shouldSkipReset(): boolean {
+  if (process.env.E2E_SKIP_DB_RESET === "true") return true
+  if (process.env.CI === "true" || process.env.CI === "1") {
+    return !process.env.TEST_POSTGRES_DATABASE
+  }
+  return false
 }
 
 async function testEnvChecks() {
@@ -89,6 +122,12 @@ async function createTestDatabase(client: Client) {
 }
 
 export async function resetDatabase() {
+  if (shouldSkipReset()) {
+    console.log(
+      "[e2e:reset] Skipping resetDatabase — CI uses a single ephemeral DB.",
+    )
+    return
+  }
   const client = await getDatabaseClient()
   await createTemplateDatabase(client)
   await createTestDatabase(client)
@@ -96,6 +135,12 @@ export async function resetDatabase() {
 }
 
 export async function dropTemplate() {
+  if (shouldSkipReset()) {
+    console.log(
+      "[e2e:reset] Skipping dropTemplate — CI uses a single ephemeral DB.",
+    )
+    return
+  }
   const client = await getDatabaseClient()
   const env = getEnv()
   await client.query(

@@ -9,10 +9,12 @@ export default async function ProductPreview({
   product,
   isFeatured,
   region,
+  hideSubtitle,
 }: {
   product: HttpTypes.StoreProduct
   isFeatured?: boolean
   region: HttpTypes.StoreRegion
+  hideSubtitle?: boolean
 }) {
   const [pricedProduct] = await getProductsById({
     ids: [product.id!],
@@ -22,6 +24,7 @@ export default async function ProductPreview({
   if (!pricedProduct) return null
 
   const { cheapestPrice } = getProductPrice({ product: pricedProduct })
+  const subtitle = product.subtitle?.trim()
 
   return (
     <LocalizedClientLink href={`/products/${product.handle}`} className="group block">
@@ -33,6 +36,14 @@ export default async function ProductPreview({
           isFeatured={isFeatured}
         />
         <div className="p-4">
+          {!hideSubtitle && subtitle && (
+            <p
+              className="text-xs uppercase tracking-wider text-calilean-fog mb-1"
+              data-testid="product-subtitle"
+            >
+              {subtitle}
+            </p>
+          )}
           <h3 className="text-base font-semibold text-calilean-ink" data-testid="product-title">
             {product.title}
           </h3>

@@ -2,7 +2,7 @@ import { Text, Section, Hr } from "@react-email/components"
 import * as React from "react"
 import { Base } from "./base"
 import { OrderDTO, OrderAddressDTO } from "@medusajs/framework/types"
-import { COLORS } from "../lib/brand"
+import { BRAND, COLORS } from "../lib/brand"
 
 export const ORDER_PLACED = "order-placed"
 
@@ -56,7 +56,7 @@ export const OrderPlacedTemplate: React.FC<OrderPlacedTemplateProps> & {
 } = ({
   order,
   shippingAddress,
-  preview = "Your COA links and lot numbers.",
+  preview = "Your CaliLean order is in.",
 }) => {
   return (
     <Base preview={preview}>
@@ -76,7 +76,7 @@ export const OrderPlacedTemplate: React.FC<OrderPlacedTemplateProps> & {
       </Text>
       <Text style={bodyText}>
         Each item ships with a Certificate of Analysis. Open the inner box flap
-        to find the QR code, or click the COA link below per item.
+        to find the QR code that links to your batch's COA.
       </Text>
 
       <Hr style={{ borderColor: COLORS.divider, margin: "24px 0 16px" }} />
@@ -85,7 +85,12 @@ export const OrderPlacedTemplate: React.FC<OrderPlacedTemplateProps> & {
         <Text style={sectionHeading}>Order summary</Text>
         <Text style={bodyText}>Order ID: {order.display_id}</Text>
         <Text style={bodyText}>
-          Order date: {new Date(order.created_at).toLocaleDateString()}
+          Order date:{" "}
+          {new Date(order.created_at).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          })}
         </Text>
         <Text style={bodyText}>
           Total: {order.summary.raw_current_order_total.value}{" "}
@@ -109,46 +114,94 @@ export const OrderPlacedTemplate: React.FC<OrderPlacedTemplateProps> & {
 
       <Section>
         <Text style={sectionHeading}>Items</Text>
-        <div
+        <table
+          role="presentation"
+          cellPadding={0}
+          cellSpacing={0}
+          width="100%"
           style={{
+            borderCollapse: "collapse",
             border: `1px solid ${COLORS.border}`,
             borderRadius: 6,
             overflow: "hidden",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              backgroundColor: COLORS.sand,
-              padding: "10px 12px",
-              borderBottom: `1px solid ${COLORS.border}`,
-            }}
-          >
-            <Text style={{ ...cellText, fontWeight: 700 }}>Item</Text>
-            <Text style={{ ...cellText, fontWeight: 700 }}>Qty</Text>
-            <Text style={{ ...cellText, fontWeight: 700 }}>Price</Text>
-          </div>
-          {order.items.map((item) => (
-            <div
-              key={item.id}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                padding: "10px 12px",
-                borderBottom: `1px solid ${COLORS.border}`,
-              }}
-            >
-              <Text style={cellText}>
-                {item.title} — {item.product_title}
-              </Text>
-              <Text style={cellText}>{item.quantity}</Text>
-              <Text style={cellText}>
-                {item.unit_price} {order.currency_code}
-              </Text>
-            </div>
-          ))}
-        </div>
+          <thead>
+            <tr style={{ backgroundColor: COLORS.sand }}>
+              <th
+                align="left"
+                style={{
+                  ...cellText,
+                  fontWeight: 700,
+                  padding: "10px 12px",
+                  borderBottom: `1px solid ${COLORS.border}`,
+                }}
+              >
+                Item
+              </th>
+              <th
+                align="right"
+                style={{
+                  ...cellText,
+                  fontWeight: 700,
+                  padding: "10px 12px",
+                  borderBottom: `1px solid ${COLORS.border}`,
+                  width: 60,
+                }}
+              >
+                Qty
+              </th>
+              <th
+                align="right"
+                style={{
+                  ...cellText,
+                  fontWeight: 700,
+                  padding: "10px 12px",
+                  borderBottom: `1px solid ${COLORS.border}`,
+                  width: 100,
+                }}
+              >
+                Price
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {order.items.map((item) => (
+              <tr key={item.id}>
+                <td
+                  align="left"
+                  style={{
+                    ...cellText,
+                    padding: "10px 12px",
+                    borderBottom: `1px solid ${COLORS.border}`,
+                  }}
+                >
+                  {item.title} — {item.product_title}
+                </td>
+                <td
+                  align="right"
+                  style={{
+                    ...cellText,
+                    padding: "10px 12px",
+                    borderBottom: `1px solid ${COLORS.border}`,
+                  }}
+                >
+                  {item.quantity}
+                </td>
+                <td
+                  align="right"
+                  style={{
+                    ...cellText,
+                    padding: "10px 12px",
+                    borderBottom: `1px solid ${COLORS.border}`,
+                  }}
+                >
+                  {item.unit_price} {order.currency_code}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </Section>
 
       <Hr style={{ borderColor: COLORS.divider, margin: "24px 0 16px" }} />
@@ -156,6 +209,10 @@ export const OrderPlacedTemplate: React.FC<OrderPlacedTemplateProps> & {
       <Text style={bodyText}>
         Your order ships from El Segundo. Standard delivery is 2 business days
         to most US addresses.
+      </Text>
+
+      <Text style={{ ...bodyText, marginTop: 16, color: COLORS.fog }}>
+        {BRAND.signoff}
       </Text>
     </Base>
   )

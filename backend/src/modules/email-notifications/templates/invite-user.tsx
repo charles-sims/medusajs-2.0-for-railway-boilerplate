@@ -91,6 +91,17 @@ export const InviteUserEmail: React.FC<InviteUserEmailProps> & {
         invitation will expire in 24 hours. If you're concerned about your
         account's safety, reply to this email and we'll get back to you.
       </Text>
+
+      <Text
+        style={{
+          fontSize: 14,
+          lineHeight: "22px",
+          color: COLORS.fog,
+          margin: "16px 0 0",
+        }}
+      >
+        {BRAND.signoff}
+      </Text>
     </Base>
   )
 }

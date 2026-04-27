@@ -5,7 +5,9 @@ Test List
 import { test, expect } from "../../index"
 import { compareFloats, getFloatValue } from "../../utils"
 
-test.describe("Cart tests", async () => {
+// SKA-69: references v1 boilerplate handles (Sweatshirt, Sweatpants, Hoodie, Longsleeve)
+// and apparel-style size variants (S/M/XL) absent from CaliLean catalog. Unskip when porting.
+test.describe.skip("Cart tests", async () => {
   test("Ensure adding multiple items from a product page adjusts the cart accordingly", async ({
     page,
     cartPage,

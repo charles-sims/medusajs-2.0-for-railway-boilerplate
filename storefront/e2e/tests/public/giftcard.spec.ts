@@ -2,7 +2,9 @@ import { first } from "lodash"
 import { seedGiftcard, seedUser } from "../../data/seed"
 import { test, expect } from "../../index"
 
-test.describe("Gift card tests", async () => {
+// SKA-68: seedGiftcard uses v1 /admin/gift-cards (status unconfirmed in Medusa v2);
+// flows reference v1 boilerplate "Sweatshirt" handle. Unskip when porting.
+test.describe.skip("Gift card tests", async () => {
   let giftcard = {
     id: "",
     code: "",

@@ -1,6 +1,8 @@
 import { test, expect } from "../../index"
 
-test.describe("Search tests", async () => {
+// SKA-71: searches for "Sweatshirt" / "Sweat" — fixtures absent from CaliLean catalog.
+// Also depends on MeiliSearch indexing in CI. Unskip when porting.
+test.describe.skip("Search tests", async () => {
   test("Searching for a specific product returns the correct product page", async ({
     productPage,
   }) => {

@@ -1,30 +1,39 @@
 #!/usr/bin/env node
 // Surgical Medusa v2 Admin-API update of `thumbnail` + `images[]` for the
-// 8 CaliLean launch SKUs after a storefront imagery refresh. Does NOT seed,
-// does NOT delete unrelated records — only PATCHes the targeted products.
+// 8 CaliLean launch SKUs after a storefront imagery refresh.
 //
-// Contract: SKA-42 — Imagery v1 swap (parent SKA-20).
-// Auth: POST /auth/user/emailpass → bearer token → POST /admin/products/{id}.
+// For each SKU this script now:
+//   1. Reads storefront/public/brand/products/<folder>/pdp-primary.jpg.
+//   2. Uploads the bytes to MinIO via POST /admin/uploads (Medusa's file
+//      provider — service at backend/src/modules/minio-file/service.ts).
+//   3. PATCHes the product with { thumbnail, images: [{ url }] } using the
+//      MinIO URL returned by the upload.
+//
+// Without step 2 the Medusa admin gallery had no actual asset and the CEO
+// had to upload-and-relink each SKU by hand. See SKA-53.
+//
+// Contract: SKA-42 (initial swap), SKA-53 (this fix). Parent SKA-20.
+// Auth: POST /auth/user/emailpass → bearer token → /admin/uploads + /admin/products/{id}.
 //
 // Usage:
 //   scripts/migrate-product-images.mjs --dry-run
 //   scripts/migrate-product-images.mjs \
-//     --backend-url https://api.calilean.bio \
-//     --public-base https://calilean.bio
+//     --backend-url https://admin.calilean.bio
+//   scripts/migrate-product-images.mjs --only bpc-157 --force
 //
 // Env (read from process env or backend/.env):
 //   MEDUSA_BACKEND_URL        default http://localhost:9000
-//   MEDUSA_ADMIN_EMAIL        required
-//   MEDUSA_ADMIN_PASSWORD     required
-//   STOREFRONT_PUBLIC_URL     default https://calilean.bio
+//   MEDUSA_ADMIN_EMAIL        required (unless --dry-run)
+//   MEDUSA_ADMIN_PASSWORD     required (unless --dry-run)
 //
 // Flags:
-//   --dry-run        Print resolved URLs and target product ids; do not write.
+//   --dry-run        Resolve files + report plan; do NOT auth or write.
 //   --backend-url    Override MEDUSA_BACKEND_URL.
-//   --public-base    Override STOREFRONT_PUBLIC_URL.
 //   --only <handle>  Restrict to a single product handle (debug).
+//   --force          Re-upload + re-link even if product already points at a
+//                    MinIO URL for pdp-primary. Default: skip those SKUs.
 
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import { resolve as resolvePath } from "node:path";
 import { parseArgs } from "node:util";
 import { fileURLToPath } from "node:url";
@@ -62,6 +71,14 @@ const LAUNCH_SKUS = [
   { handle: "tb-500", folder: "tb-500" },
 ];
 
+const PRIMARY_FILENAME = "pdp-primary.jpg";
+const PRIMARY_MIME = "image/jpeg";
+// MinIO file provider derives the upload key as `${name}-${ulid()}${ext}`
+// (see backend/src/modules/minio-file/service.ts upload()), so any URL whose
+// path segment begins with "pdp-primary-" is a previously-uploaded primary
+// asset for this script's purposes.
+const MINIO_KEY_PREFIX = "pdp-primary-";
+
 function fail(msg) {
   console.error(`error: ${msg}`);
   process.exit(2);
@@ -92,9 +109,38 @@ async function findProductByHandle(backendUrl, token, handle) {
     fail(`list failed for handle "${handle}": ${res.status} ${await res.text()}`);
   }
   const data = await res.json();
-  const product = data.products?.[0];
-  if (!product) return null;
-  return product;
+  return data.products?.[0] ?? null;
+}
+
+async function uploadPrimary(backendUrl, token, absPath) {
+  const buf = readFileSync(absPath);
+  const body = {
+    files: [
+      {
+        filename: PRIMARY_FILENAME,
+        mimeType: PRIMARY_MIME,
+        access: "public",
+        content: buf.toString("base64"),
+      },
+    ],
+  };
+  const res = await fetch(`${backendUrl}/admin/uploads`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    fail(`upload failed for ${absPath}: ${res.status} ${await res.text()}`);
+  }
+  const data = await res.json();
+  const file = data.files?.[0];
+  if (!file?.url) {
+    fail(`upload response missing files[0].url: ${JSON.stringify(data)}`);
+  }
+  return { url: file.url, key: file.key, bytes: buf.length };
 }
 
 async function updateProductImages(backendUrl, token, productId, payload) {
@@ -112,13 +158,31 @@ async function updateProductImages(backendUrl, token, productId, payload) {
   return res.json();
 }
 
+function alreadyOnMinio(product) {
+  // Heuristic: thumbnail + at least one image both point at a MinIO-uploaded
+  // primary asset (key prefix `pdp-primary-`). Skip in that case unless --force.
+  const thumb = product?.thumbnail;
+  const firstImage = product?.images?.[0]?.url;
+  if (!thumb || !firstImage) return false;
+  const isMinioPrimary = (u) => {
+    try {
+      const segs = new URL(u).pathname.split("/");
+      const last = segs[segs.length - 1] || "";
+      return last.startsWith(MINIO_KEY_PREFIX);
+    } catch {
+      return false;
+    }
+  };
+  return isMinioPrimary(thumb) && isMinioPrimary(firstImage);
+}
+
 async function main() {
   const { values } = parseArgs({
     options: {
       "dry-run": { type: "boolean", default: false },
       "backend-url": { type: "string" },
-      "public-base": { type: "string" },
       only: { type: "string" },
+      force: { type: "boolean", default: false },
       help: { type: "boolean", short: "h", default: false },
     },
     strict: true,
@@ -127,34 +191,50 @@ async function main() {
 
   if (values.help) {
     console.log(
-      "Usage: scripts/migrate-product-images.mjs [--dry-run] [--backend-url URL] [--public-base URL] [--only HANDLE]",
+      "Usage: scripts/migrate-product-images.mjs [--dry-run] [--backend-url URL] [--only HANDLE] [--force]",
     );
     process.exit(0);
   }
 
   const backendUrl = (values["backend-url"] || process.env.MEDUSA_BACKEND_URL || "http://localhost:9000").replace(/\/$/, "");
-  const publicBase = (values["public-base"] || process.env.STOREFRONT_PUBLIC_URL || "https://calilean.bio").replace(/\/$/, "");
 
   const targets = values.only
     ? LAUNCH_SKUS.filter((s) => s.handle === values.only)
     : LAUNCH_SKUS;
   if (targets.length === 0) fail(`--only "${values.only}" did not match any launch SKU`);
 
-  const plan = targets.map((sku) => ({
-    handle: sku.handle,
-    folder: sku.folder,
-    url: `${publicBase}/brand/products/${sku.folder}/pdp-primary.jpg`,
-  }));
+  const plan = targets.map((sku) => {
+    const absPath = resolvePath(
+      REPO_ROOT,
+      "storefront",
+      "public",
+      "brand",
+      "products",
+      sku.folder,
+      PRIMARY_FILENAME,
+    );
+    return {
+      handle: sku.handle,
+      folder: sku.folder,
+      absPath,
+      exists: existsSync(absPath),
+      bytes: existsSync(absPath) ? statSync(absPath).size : 0,
+    };
+  });
 
   console.log(`Backend: ${backendUrl}`);
-  console.log(`Public base: ${publicBase}`);
   console.log(`Targets: ${plan.length}`);
   for (const p of plan) {
-    console.log(`  ${p.handle.padEnd(40)} → ${p.url}`);
+    const flag = p.exists ? `${p.bytes} B` : "MISSING";
+    console.log(`  ${p.handle.padEnd(40)} ← ${p.absPath}  [${flag}]`);
+  }
+  const missing = plan.filter((p) => !p.exists);
+  if (missing.length) {
+    fail(`missing local files for: ${missing.map((p) => p.handle).join(", ")}`);
   }
 
   if (values["dry-run"]) {
-    console.log("\n[dry-run] Skipping auth + writes.");
+    console.log("\n[dry-run] Skipping auth + uploads + writes.");
     return;
   }
 
@@ -164,7 +244,7 @@ async function main() {
   if (!password) fail("missing env: MEDUSA_ADMIN_PASSWORD");
 
   const token = await authToken(backendUrl, email, password);
-  console.log("\nAuthenticated. Patching products…");
+  console.log("\nAuthenticated. Uploading + patching products…");
 
   const results = [];
   for (const p of plan) {
@@ -174,17 +254,31 @@ async function main() {
       results.push({ handle: p.handle, status: "missing" });
       continue;
     }
+    if (!values.force && alreadyOnMinio(product)) {
+      console.log(`  • ${p.handle.padEnd(40)} already on MinIO (use --force to replace)`);
+      results.push({ handle: p.handle, status: "skipped", productId: product.id });
+      continue;
+    }
+
+    const upload = await uploadPrimary(backendUrl, token, p.absPath);
     await updateProductImages(backendUrl, token, product.id, {
-      thumbnail: p.url,
-      images: [{ url: p.url }],
+      thumbnail: upload.url,
+      images: [{ url: upload.url }],
     });
-    console.log(`  ✓ ${p.handle.padEnd(40)} (${product.id})`);
-    results.push({ handle: p.handle, status: "updated", productId: product.id });
+    console.log(`  ✓ ${p.handle.padEnd(40)} (${product.id}) → ${upload.url}`);
+    results.push({
+      handle: p.handle,
+      status: "updated",
+      productId: product.id,
+      url: upload.url,
+      key: upload.key,
+    });
   }
 
   const updated = results.filter((r) => r.status === "updated").length;
-  const missing = results.filter((r) => r.status === "missing").length;
-  console.log(`\nDone. updated=${updated} missing=${missing} total=${results.length}`);
+  const skipped = results.filter((r) => r.status === "skipped").length;
+  const miss = results.filter((r) => r.status === "missing").length;
+  console.log(`\nDone. updated=${updated} skipped=${skipped} missing=${miss} total=${results.length}`);
 }
 
 main().catch((err) => {

@@ -185,7 +185,9 @@ jobs:
       - name: Start backend (dev mode)
         working-directory: backend
         run: |
-          nohup pnpm dev > backend.log 2>&1 &
+          # Write the log outside backend/ — the Medusa dev watcher watches
+          # this tree and would otherwise restart on its own log writes.
+          nohup pnpm dev > "$RUNNER_TEMP/backend.log" 2>&1 &
           echo $! > backend.pid
 
       - name: Wait for backend health
@@ -198,7 +200,7 @@ jobs:
             sleep 2
           done
           echo "Backend failed to come up"
-          tail -200 backend/backend.log || true
+          tail -200 "$RUNNER_TEMP/backend.log" || true
           exit 1
 
       - name: Resolve publishable key
@@ -233,7 +235,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: e2e-backend-log
-          path: backend/backend.log
+          path: ${{ runner.temp }}/backend.log
           if-no-files-found: ignore
 
       - name: Upload Playwright report

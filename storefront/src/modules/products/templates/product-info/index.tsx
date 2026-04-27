@@ -7,6 +7,7 @@ type ProductInfoProps = {
 
 const ProductInfo = ({ product }: ProductInfoProps) => {
   const meta = (product.metadata || {}) as Record<string, string>
+  const subtitle = product.subtitle?.trim()
 
   return (
     <div id="product-info">
@@ -18,6 +19,14 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
           >
             {product.collection.title}
           </LocalizedClientLink>
+        )}
+        {subtitle && (
+          <p
+            className="text-xs uppercase tracking-wider text-calilean-fog -mb-2"
+            data-testid="product-subtitle"
+          >
+            {subtitle}
+          </p>
         )}
         <h1 className="text-4xl small:text-5xl font-bold tracking-tight" data-testid="product-title">
           {product.title}

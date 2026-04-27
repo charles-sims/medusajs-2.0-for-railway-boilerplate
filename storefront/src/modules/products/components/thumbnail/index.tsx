@@ -1,3 +1,5 @@
+"use client"
+
 import { Container, clx } from "@medusajs/ui"
 import Image from "next/image"
 import React from "react"
@@ -47,7 +49,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
           sizes="(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px"
           fill
           onLoad={(e) => {
-            (e.target as HTMLImageElement).classList.remove("opacity-0")
+            ;(e.target as HTMLImageElement).classList.remove("opacity-0")
             ;(e.target as HTMLImageElement).classList.add("opacity-100")
           }}
         />

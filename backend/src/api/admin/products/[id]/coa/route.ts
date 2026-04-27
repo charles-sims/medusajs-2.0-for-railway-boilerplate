@@ -14,6 +14,7 @@ import {
   buildCoaObjectKey,
   buildCoaPublicUrl,
   CoaPanelPatchInput,
+  deleteBatch,
   filenameForKind,
   filesFieldForKind,
   isCoaFileKind,
@@ -185,6 +186,40 @@ export const PATCH = async (
   }
 
   const nextPanel = applyBatchPatch(product.metadata?.coa_panel, body)
+  const nextMetadata = {
+    ...(product.metadata || {}),
+    coa_panel: nextPanel,
+  }
+
+  const productModuleService = req.scope.resolve(Modules.PRODUCT)
+  await productModuleService.updateProducts(productId, {
+    metadata: nextMetadata,
+  })
+
+  res.json({ coa_panel: nextPanel })
+}
+
+export const DELETE = async (
+  req: MedusaRequest,
+  res: MedusaResponse
+): Promise<void> => {
+  const productId = req.params.id
+  const batchId =
+    typeof req.query.batch_id === "string" ? req.query.batch_id : ""
+  if (!batchId) {
+    res
+      .status(400)
+      .json({ message: "batch_id query parameter is required" })
+    return
+  }
+
+  const product = await loadProduct(req, productId)
+  if (!product) {
+    res.status(404).json({ message: `Product ${productId} not found` })
+    return
+  }
+
+  const nextPanel = deleteBatch(product.metadata?.coa_panel, batchId)
   const nextMetadata = {
     ...(product.metadata || {}),
     coa_panel: nextPanel,

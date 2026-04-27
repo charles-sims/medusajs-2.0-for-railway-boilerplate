@@ -1,0 +1,22 @@
+{
+  "name": "CaliLean",
+  "short_name": "CaliLean",
+  "description": "Research-grade peptides, plainly labeled. Sold for research use only.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F4F2EC",
+  "theme_color": "#3A5A6A",
+  "icons": [
+    {
+      "src": "/favicon-c.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}

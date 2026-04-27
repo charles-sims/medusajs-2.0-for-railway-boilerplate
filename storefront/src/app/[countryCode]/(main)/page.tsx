@@ -7,10 +7,26 @@ import FaqAccordion from "@modules/calilean/components/faq-accordion"
 import { getCollectionsWithProducts } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
 
+const HOME_TITLE = "CaliLean | Research-grade peptides, plainly labeled."
+const HOME_DESCRIPTION =
+  "Third-party assayed, batch-traceable peptides built in the South Bay. Sold for research use only. COA published per batch."
+
 export const metadata: Metadata = {
-  title: "CaliLean | Research-grade peptides, plainly labeled.",
-  description:
-    "Third-party assayed, batch-traceable peptides built in the South Bay. Sold for research use only. COA published per batch.",
+  title: HOME_TITLE,
+  description: HOME_DESCRIPTION,
+  openGraph: {
+    type: "website",
+    siteName: "CaliLean",
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
+    images: [{ url: "/opengraph-image.jpg" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
+    images: ["/twitter-image.jpg"],
+  },
 }
 
 export default async function Home({

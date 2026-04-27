@@ -1,8 +1,9 @@
 import { getBaseURL } from "@lib/util/env"
-import { Metadata } from "next"
+import { Metadata, Viewport } from "next"
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google"
 import "styles/globals.css"
 import AgeGate from "@modules/calilean/components/age-gate"
+import JsonLd from "@modules/common/components/json-ld"
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -23,11 +24,16 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
 })
 
+const SITE_TITLE = "CaliLean | Peptides, plainly labeled."
+const SITE_DESCRIPTION =
+  "Research-grade peptides for the South Bay. Third-party assayed, batch-traceable, plainly labeled. Sold for research use only."
+
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),
-  title: "CaliLean | Peptides, plainly labeled.",
-  description:
-    "Research-grade peptides for the South Bay. Third-party assayed, batch-traceable, plainly labeled. Sold for research use only.",
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  applicationName: "CaliLean",
+  manifest: "/site.webmanifest",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -41,6 +47,34 @@ export const metadata: Metadata = {
       },
     ],
   },
+  openGraph: {
+    type: "website",
+    siteName: "CaliLean",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: getBaseURL(),
+    images: [{ url: "/opengraph-image.jpg" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: ["/twitter-image.jpg"],
+  },
+}
+
+export const viewport: Viewport = {
+  themeColor: "#3A5A6A",
+}
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "CaliLean",
+  legalName: "CaliLean",
+  url: getBaseURL(),
+  logo: `${getBaseURL().replace(/\/$/, "")}/favicon-c.svg`,
+  sameAs: [],
 }
 
 export default function RootLayout(props: { children: React.ReactNode }) {
@@ -49,6 +83,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" data-mode="light" className={fontVars}>
       <body className="bg-calilean-bg text-calilean-ink font-sans">
+        <JsonLd data={organizationJsonLd} />
         <AgeGate />
         <main className="relative">{props.children}</main>
       </body>

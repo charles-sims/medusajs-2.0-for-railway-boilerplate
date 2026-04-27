@@ -20,8 +20,9 @@ const CaliLeanLogo = ({
       className={className}
     >
       <text
-        x="0"
+        x="300"
         y="92"
+        textAnchor="middle"
         fontFamily="var(--font-display), Fraunces, 'GT Sectra Display', 'Domaine Display', 'Times New Roman', serif"
         fontSize="104"
         fontWeight={400}

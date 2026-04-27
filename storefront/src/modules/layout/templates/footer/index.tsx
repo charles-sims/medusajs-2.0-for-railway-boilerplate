@@ -33,8 +33,6 @@ export default async function Footer() {
           <div>
             <h4 className="text-xs font-semibold uppercase tracking-wider text-white/50 mb-4">Company</h4>
             <ul className="space-y-2">
-              <li><LocalizedClientLink href="/store" className="text-sm text-white/80 hover:text-white transition-colors">About Us</LocalizedClientLink></li>
-              <li><LocalizedClientLink href="/store" className="text-sm text-white/80 hover:text-white transition-colors">Contact</LocalizedClientLink></li>
               <li><LocalizedClientLink href="/account" className="text-sm text-white/80 hover:text-white transition-colors">My Account</LocalizedClientLink></li>
               <li><LocalizedClientLink href="/terms" className="text-sm text-white/80 hover:text-white transition-colors">Terms of Service</LocalizedClientLink></li>
               <li><LocalizedClientLink href="/privacy" className="text-sm text-white/80 hover:text-white transition-colors">Privacy Policy</LocalizedClientLink></li>
@@ -44,9 +42,7 @@ export default async function Footer() {
           <div>
             <h4 className="text-xs font-semibold uppercase tracking-wider text-white/50 mb-4">Support</h4>
             <ul className="space-y-2">
-              <li><span className="text-sm text-white/80">research@calilean.bio</span></li>
-              <li><span className="text-sm text-white/80">support@calilean.bio</span></li>
-              <li><span className="text-sm text-white/80">Mon-Fri 9AM-5PM PT</span></li>
+              <li><a href="mailto:hello@calilean.bio" className="text-sm text-white/80 hover:text-white transition-colors">hello@calilean.bio</a></li>
             </ul>
           </div>
         </div>

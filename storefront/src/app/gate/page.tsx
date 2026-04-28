@@ -18,8 +18,19 @@ function SubmitButton({ children }: { children: React.ReactNode }) {
       {pending ? (
         <span className="flex items-center justify-center gap-2">
           <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+            />
           </svg>
           Loading...
         </span>
@@ -30,7 +41,13 @@ function SubmitButton({ children }: { children: React.ReactNode }) {
   )
 }
 
-function AgeSubmitButton({ disabled, children }: { disabled: boolean; children: React.ReactNode }) {
+function AgeSubmitButton({
+  disabled,
+  children,
+}: {
+  disabled: boolean
+  children: React.ReactNode
+}) {
   const { pending } = useFormStatus()
   return (
     <button
@@ -41,8 +58,19 @@ function AgeSubmitButton({ disabled, children }: { disabled: boolean; children: 
       {pending ? (
         <span className="flex items-center justify-center gap-2">
           <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+            />
           </svg>
           Creating account...
         </span>
@@ -61,11 +89,21 @@ export default function GatePage() {
       {/* Animated blue aura */}
       <style jsx>{`
         @keyframes meshMove {
-          0% { background-position: 0% 50%, 100% 50%, 50% 100%; }
-          25% { background-position: 100% 0%, 0% 100%, 80% 20%; }
-          50% { background-position: 50% 100%, 50% 0%, 0% 50%; }
-          75% { background-position: 0% 100%, 100% 0%, 20% 80%; }
-          100% { background-position: 0% 50%, 100% 50%, 50% 100%; }
+          0% {
+            background-position: 0% 50%, 100% 50%, 50% 100%;
+          }
+          25% {
+            background-position: 100% 0%, 0% 100%, 80% 20%;
+          }
+          50% {
+            background-position: 50% 100%, 50% 0%, 0% 50%;
+          }
+          75% {
+            background-position: 0% 100%, 100% 0%, 20% 80%;
+          }
+          100% {
+            background-position: 0% 50%, 100% 50%, 50% 100%;
+          }
         }
       `}</style>
 
@@ -227,15 +265,20 @@ function RegisterForm({ onSwitch }: { onSwitch: () => void }) {
         autoComplete="tel"
         className="w-full bg-calilean-sand border border-transparent rounded-btn px-4 py-3 text-sm text-calilean-ink placeholder:text-calilean-fog/60 outline-none focus:border-calilean-pacific/30 transition-colors"
       />
-      <input
-        name="password"
-        type="password"
-        placeholder="Password"
-        required
-        minLength={8}
-        autoComplete="new-password"
-        className="w-full bg-calilean-sand border border-transparent rounded-btn px-4 py-3 text-sm text-calilean-ink placeholder:text-calilean-fog/60 outline-none focus:border-calilean-pacific/30 transition-colors"
-      />
+      <div>
+        <input
+          name="password"
+          type="password"
+          placeholder="Password"
+          required
+          minLength={8}
+          autoComplete="new-password"
+          className="w-full bg-calilean-sand border border-transparent rounded-btn px-4 py-3 text-sm text-calilean-ink placeholder:text-calilean-fog/60 outline-none focus:border-calilean-pacific/30 transition-colors invalid:[&:not(:placeholder-shown)]:border-calilean-alert/30"
+        />
+        <p className="text-[11px] text-calilean-fog/50 text-left mt-1.5 ml-1">
+          Minimum 8 characters
+        </p>
+      </div>
       <label className="flex items-start gap-2.5 text-left mt-2">
         <input
           type="checkbox"

@@ -1,39 +1,75 @@
 "use client"
 
-import { useState, useActionState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useState, useActionState } from "react"
+import { useFormStatus } from "react-dom"
 import CaliLeanLogo from "@modules/calilean/icons/calilean-logo"
 import { login, signup } from "@lib/data/customer"
 
 type GateView = "sign-in" | "register"
+
+function SubmitButton({ children }: { children: React.ReactNode }) {
+  const { pending } = useFormStatus()
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="w-full bg-calilean-pacific text-white rounded-btn py-3 text-sm font-medium hover:bg-calilean-pacific/90 transition-colors mt-1 disabled:opacity-60 disabled:cursor-not-allowed"
+    >
+      {pending ? (
+        <span className="flex items-center justify-center gap-2">
+          <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          </svg>
+          Loading...
+        </span>
+      ) : (
+        children
+      )}
+    </button>
+  )
+}
+
+function AgeSubmitButton({ disabled, children }: { disabled: boolean; children: React.ReactNode }) {
+  const { pending } = useFormStatus()
+  return (
+    <button
+      type="submit"
+      disabled={disabled || pending}
+      className="w-full bg-calilean-pacific text-white rounded-btn py-3 text-sm font-medium hover:bg-calilean-pacific/90 transition-colors mt-1 disabled:opacity-40 disabled:cursor-not-allowed"
+    >
+      {pending ? (
+        <span className="flex items-center justify-center gap-2">
+          <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          </svg>
+          Creating account...
+        </span>
+      ) : (
+        children
+      )}
+    </button>
+  )
+}
 
 export default function GatePage() {
   const [view, setView] = useState<GateView>("sign-in")
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 relative bg-white overflow-hidden">
-      {/* Animated mesh gradient aura */}
+      {/* Animated blue aura */}
       <style jsx>{`
         @keyframes meshMove {
-          0% {
-            background-position: 0% 50%, 100% 50%, 50% 100%;
-          }
-          25% {
-            background-position: 100% 0%, 0% 100%, 80% 20%;
-          }
-          50% {
-            background-position: 50% 100%, 50% 0%, 0% 50%;
-          }
-          75% {
-            background-position: 0% 100%, 100% 0%, 20% 80%;
-          }
-          100% {
-            background-position: 0% 50%, 100% 50%, 50% 100%;
-          }
+          0% { background-position: 0% 50%, 100% 50%, 50% 100%; }
+          25% { background-position: 100% 0%, 0% 100%, 80% 20%; }
+          50% { background-position: 50% 100%, 50% 0%, 0% 50%; }
+          75% { background-position: 0% 100%, 100% 0%, 20% 80%; }
+          100% { background-position: 0% 50%, 100% 50%, 50% 100%; }
         }
       `}</style>
 
-      {/* Primary aura layer — bold */}
+      {/* Primary aura layer */}
       <div
         className="absolute inset-0"
         style={{
@@ -114,15 +150,7 @@ export default function GatePage() {
 }
 
 function SignInForm({ onSwitch }: { onSwitch: () => void }) {
-  const router = useRouter()
   const [message, formAction] = useActionState(login, null)
-
-  useEffect(() => {
-    if (message === undefined) {
-      router.push("/")
-      router.refresh()
-    }
-  }, [message, router])
 
   return (
     <form action={formAction} className="flex flex-col gap-3">
@@ -145,12 +173,7 @@ function SignInForm({ onSwitch }: { onSwitch: () => void }) {
       {message && typeof message === "string" && (
         <p className="text-calilean-alert text-xs">{message}</p>
       )}
-      <button
-        type="submit"
-        className="w-full bg-calilean-pacific text-white rounded-btn py-3 text-sm font-medium hover:bg-calilean-pacific/90 transition-colors mt-1"
-      >
-        Sign in
-      </button>
+      <SubmitButton>Sign in</SubmitButton>
       <p className="text-calilean-fog text-xs mt-6">
         New here?{" "}
         <button
@@ -166,16 +189,8 @@ function SignInForm({ onSwitch }: { onSwitch: () => void }) {
 }
 
 function RegisterForm({ onSwitch }: { onSwitch: () => void }) {
-  const router = useRouter()
   const [ageConfirmed, setAgeConfirmed] = useState(false)
   const [message, formAction] = useActionState(signup, null)
-
-  useEffect(() => {
-    if (message && typeof message !== "string") {
-      router.push("/")
-      router.refresh()
-    }
-  }, [message, router])
 
   return (
     <form action={formAction} className="flex flex-col gap-3">
@@ -217,6 +232,7 @@ function RegisterForm({ onSwitch }: { onSwitch: () => void }) {
         type="password"
         placeholder="Password"
         required
+        minLength={8}
         autoComplete="new-password"
         className="w-full bg-calilean-sand border border-transparent rounded-btn px-4 py-3 text-sm text-calilean-ink placeholder:text-calilean-fog/60 outline-none focus:border-calilean-pacific/30 transition-colors"
       />
@@ -243,13 +259,7 @@ function RegisterForm({ onSwitch }: { onSwitch: () => void }) {
       {message && typeof message === "string" && (
         <p className="text-calilean-alert text-xs">{message}</p>
       )}
-      <button
-        type="submit"
-        disabled={!ageConfirmed}
-        className="w-full bg-calilean-pacific text-white rounded-btn py-3 text-sm font-medium hover:bg-calilean-pacific/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed mt-1"
-      >
-        Create account
-      </button>
+      <AgeSubmitButton disabled={!ageConfirmed}>Create account</AgeSubmitButton>
       <p className="text-calilean-fog text-xs mt-6">
         Already have an account?{" "}
         <button

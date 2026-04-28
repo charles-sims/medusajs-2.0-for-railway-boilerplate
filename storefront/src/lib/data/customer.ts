@@ -60,9 +60,14 @@ export async function signup(_currentState: unknown, formData: FormData) {
     )
 
     revalidateTag("customer")
-    return createdCustomer
+    redirect("/")
   } catch (error: any) {
-    return error.toString()
+    if (error?.message === "NEXT_REDIRECT") throw error
+    const msg = error?.response?.data?.message || error?.message || ""
+    if (msg.toLowerCase().includes("already exists") || msg.toLowerCase().includes("duplicate")) {
+      return "An account with this email already exists."
+    }
+    return "Something went wrong. Please try again."
   }
 }
 
@@ -71,14 +76,14 @@ export async function login(_currentState: unknown, formData: FormData) {
   const password = formData.get("password") as string
 
   try {
-    await sdk.auth
-      .login("customer", "emailpass", { email, password })
-      .then((token) => {
-        setAuthToken(typeof token === "string" ? token : token.location)
-        revalidateTag("customer")
-      })
+    const token = await sdk.auth.login("customer", "emailpass", { email, password })
+    setAuthToken(typeof token === "string" ? token : token.location)
+    revalidateTag("customer")
+    redirect("/")
   } catch (error: any) {
-    return error.toString()
+    if (error?.message === "NEXT_REDIRECT") throw error
+    if (error?.digest?.startsWith("NEXT_REDIRECT")) throw error
+    return "Invalid email or password."
   }
 }
 
@@ -122,7 +127,7 @@ export async function updatePassword(
   }
 }
 
-export async function signout(countryCode: string) {
+export async function signout(_countryCode?: string) {
   await sdk.auth.logout()
   removeAuthToken()
   revalidateTag("auth")

@@ -2,7 +2,6 @@ import { getBaseURL } from "@lib/util/env"
 import { Metadata, Viewport } from "next"
 import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google"
 import "styles/globals.css"
-import AgeGate from "@modules/calilean/components/age-gate"
 import JsonLd from "@modules/common/components/json-ld"
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -33,10 +32,7 @@ export const metadata: Metadata = {
   applicationName: SITE_NAME,
   manifest: "/site.webmanifest",
   icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "48x48" },
-      { url: "/favicon-192.png", sizes: "192x192", type: "image/png" },
-    ],
+    icon: [{ url: "/favicon-192.png", sizes: "192x192", type: "image/png" }],
   },
   openGraph: {
     type: "website",
@@ -72,9 +68,25 @@ export default function RootLayout(props: { children: React.ReactNode }) {
 
   return (
     <html lang="en" data-mode="light" className={fontVars}>
+      <head>
+        <link
+          rel="icon"
+          href="/favicon-light-32.png"
+          type="image/png"
+          sizes="32x32"
+          media="(prefers-color-scheme: light)"
+        />
+        <link
+          rel="icon"
+          href="/favicon-dark-32.png"
+          type="image/png"
+          sizes="32x32"
+          media="(prefers-color-scheme: dark)"
+        />
+        <link rel="icon" href="/favicon.ico" sizes="48x48" />
+      </head>
       <body className="bg-calilean-bg text-calilean-ink font-sans">
         <JsonLd data={organizationJsonLd} />
-        <AgeGate />
         <main className="relative">{props.children}</main>
       </body>
     </html>

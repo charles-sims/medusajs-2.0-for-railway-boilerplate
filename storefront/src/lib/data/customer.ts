@@ -43,7 +43,7 @@ export async function signup(_currentState: unknown, formData: FormData) {
     })
 
     const customHeaders = { authorization: `Bearer ${token}` }
-    
+
     const { customer: createdCustomer } = await sdk.store.customer.create(
       customerForm,
       {},
@@ -55,7 +55,9 @@ export async function signup(_currentState: unknown, formData: FormData) {
       password,
     })
 
-    setAuthToken(typeof loginToken === 'string' ? loginToken : loginToken.location)
+    setAuthToken(
+      typeof loginToken === "string" ? loginToken : loginToken.location
+    )
 
     revalidateTag("customer")
     return createdCustomer
@@ -72,7 +74,7 @@ export async function login(_currentState: unknown, formData: FormData) {
     await sdk.auth
       .login("customer", "emailpass", { email, password })
       .then((token) => {
-        setAuthToken(typeof token === 'string' ? token : token.location)
+        setAuthToken(typeof token === "string" ? token : token.location)
         revalidateTag("customer")
       })
   } catch (error: any) {
@@ -125,7 +127,7 @@ export async function signout(countryCode: string) {
   removeAuthToken()
   revalidateTag("auth")
   revalidateTag("customer")
-  redirect(`/${countryCode}/account`)
+  redirect("/gate")
 }
 
 export const addCustomerAddress = async (

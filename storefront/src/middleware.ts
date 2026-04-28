@@ -88,6 +88,35 @@ async function getCountryCode(
  * Middleware to handle region selection and onboarding status.
  */
 export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
+
+  // --- Auth gate: redirect unauthenticated users to /gate ---
+  const isPublicRoute =
+    pathname === "/gate" ||
+    pathname.startsWith("/gate/") ||
+    pathname.startsWith("/_next/") ||
+    pathname.startsWith("/brand/") ||
+    pathname.startsWith("/favicon") ||
+    pathname === "/site.webmanifest" ||
+    /\.\w+$/.test(pathname)
+
+  if (!isPublicRoute) {
+    const authToken = request.cookies.get("_medusa_jwt")
+    if (!authToken?.value) {
+      return NextResponse.redirect(new URL("/gate", request.url))
+    }
+  }
+
+  // If on gate page and already authenticated, redirect to home
+  if (pathname === "/gate" || pathname.startsWith("/gate/")) {
+    const authToken = request.cookies.get("_medusa_jwt")
+    if (authToken?.value) {
+      return NextResponse.redirect(new URL("/", request.url))
+    }
+    return NextResponse.next()
+  }
+  // --- End auth gate ---
+
   const searchParams = request.nextUrl.searchParams
   const isOnboarding = searchParams.get("onboarding") === "true"
   const cartId = searchParams.get("cart_id")

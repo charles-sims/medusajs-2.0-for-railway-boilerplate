@@ -14,7 +14,7 @@ export default async function Footer() {
       <div className="content-container py-16">
         <div className="grid grid-cols-1 small:grid-cols-4 gap-12">
           <div className="small:col-span-1">
-            <CaliLeanLogo className="h-10 w-auto mb-4" color="white" />
+            <CaliLeanLogo className="h-20 w-auto mb-4" color="white" />
             <p className="text-sm text-white/60 leading-relaxed">
               Research-grade peptides, built in the South Bay.
             </p>

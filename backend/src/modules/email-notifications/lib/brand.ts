@@ -27,7 +27,8 @@ export const BRAND = {
   name: "CaliLean",
   domain: "calilean.com",
   url: "https://calilean.com",
-  fromEmail: "notifications@calilean.com",
+  fromEmail: "Cali Lean <hello@send.calilean.com>",
+  replyTo: "hello@calilean.com",
   supportEmail: "research@calilean.com",
   signoff: "— The CaliLean team",
 } as const

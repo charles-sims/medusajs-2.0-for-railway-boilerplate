@@ -38,7 +38,10 @@ export default async function Nav() {
 
             <div className="flex items-center h-full">
               <LocalizedClientLink href="/" className="flex items-center">
-                <CaliLeanLogo className="h-9 w-auto" color="black" />
+                <CaliLeanLogo
+                  className="h-20 small:h-24 w-auto"
+                  color="black"
+                />
               </LocalizedClientLink>
             </div>
 

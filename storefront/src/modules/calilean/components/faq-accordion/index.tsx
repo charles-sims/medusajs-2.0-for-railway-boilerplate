@@ -4,7 +4,7 @@ import { useState } from "react"
 
 const faqs = [
   {
-    q: "What does \"research-grade\" actually mean?",
+    q: 'What does "research-grade" actually mean?',
     a: "Each batch ships with an independent Certificate of Analysis confirming identity, mass, and purity by HPLC and mass spectrometry. The COA is on the product page and on the inner box flap. Your vial's lot number is the same one on the report.",
   },
   {
@@ -29,7 +29,7 @@ const faqs = [
   },
   {
     q: "Do you offer bulk pricing for institutional researchers?",
-    a: "Yes. Email research@calilean.bio with your institution and the SKUs you need. We respond within one business day.",
+    a: "Yes. Email research@calilean.com with your institution and the SKUs you need. We respond within one business day.",
   },
   {
     q: "What is the shelf life of an unopened vial?",
@@ -54,13 +54,21 @@ const FaqAccordion = () => {
                 className="w-full flex justify-between items-center py-5 text-left text-lg font-semibold text-calilean-ink"
               >
                 {faq.q}
-                <span className={`text-2xl font-light transition-transform ${open === i ? "rotate-45" : ""}`}>+</span>
+                <span
+                  className={`text-2xl font-light transition-transform ${
+                    open === i ? "rotate-45" : ""
+                  }`}
+                >
+                  +
+                </span>
               </button>
               <div
                 className="overflow-hidden transition-all duration-300"
                 style={{ maxHeight: open === i ? "300px" : "0" }}
               >
-                <p className="pb-5 text-calilean-fog text-base leading-relaxed">{faq.a}</p>
+                <p className="pb-5 text-calilean-fog text-base leading-relaxed">
+                  {faq.a}
+                </p>
               </div>
             </div>
           ))}

@@ -41,7 +41,7 @@ export const COA_PANEL_FIXTURES: CoaPanelFixture[] = [
           hplc_purity_pct: "99.82",
           files: {
             standard_coa_pdf:
-              "https://s3.calilean.bio/coa/sema/B-2026-04/standard-coa.pdf",
+              "https://s3.calilean.com/coa/sema/B-2026-04/standard-coa.pdf",
           },
           issued_at: "2026-04-15",
         },
@@ -55,7 +55,7 @@ export const COA_PANEL_FIXTURES: CoaPanelFixture[] = [
         hplc_purity_pct: "99.82",
         files: {
           standard_coa_pdf:
-            "https://s3.calilean.bio/coa/sema/B-2026-04/standard-coa.pdf",
+            "https://s3.calilean.com/coa/sema/B-2026-04/standard-coa.pdf",
         },
         issued_at: "2026-04-15",
       },
@@ -76,11 +76,11 @@ export const COA_PANEL_FIXTURES: CoaPanelFixture[] = [
           ref_standard_match_pct: "99.4",
           files: {
             standard_coa_pdf:
-              "https://s3.calilean.bio/coa/reta/B-2026-04/standard-coa.pdf",
+              "https://s3.calilean.com/coa/reta/B-2026-04/standard-coa.pdf",
             extended_coa_pdf:
-              "https://s3.calilean.bio/coa/reta/B-2026-04/extended-coa.pdf",
+              "https://s3.calilean.com/coa/reta/B-2026-04/extended-coa.pdf",
             chromatogram:
-              "https://s3.calilean.bio/coa/reta/B-2026-04/chromatogram.pdf",
+              "https://s3.calilean.com/coa/reta/B-2026-04/chromatogram.pdf",
           },
           issued_at: "2026-04-20",
         },
@@ -97,11 +97,11 @@ export const COA_PANEL_FIXTURES: CoaPanelFixture[] = [
         ref_standard_match_pct: "99.4",
         files: {
           standard_coa_pdf:
-            "https://s3.calilean.bio/coa/reta/B-2026-04/standard-coa.pdf",
+            "https://s3.calilean.com/coa/reta/B-2026-04/standard-coa.pdf",
           extended_coa_pdf:
-            "https://s3.calilean.bio/coa/reta/B-2026-04/extended-coa.pdf",
+            "https://s3.calilean.com/coa/reta/B-2026-04/extended-coa.pdf",
           chromatogram:
-            "https://s3.calilean.bio/coa/reta/B-2026-04/chromatogram.pdf",
+            "https://s3.calilean.com/coa/reta/B-2026-04/chromatogram.pdf",
         },
         issued_at: "2026-04-20",
       },
@@ -119,7 +119,7 @@ export const COA_PANEL_FIXTURES: CoaPanelFixture[] = [
           hplc_purity_pct: "99.5",
           files: {
             standard_coa_pdf:
-              "https://s3.calilean.bio/coa/reta/B-2026-04/standard-coa.pdf",
+              "https://s3.calilean.com/coa/reta/B-2026-04/standard-coa.pdf",
           },
         },
       },
@@ -132,7 +132,7 @@ export const COA_PANEL_FIXTURES: CoaPanelFixture[] = [
         hplc_purity_pct: "99.5",
         files: {
           standard_coa_pdf:
-            "https://s3.calilean.bio/coa/reta/B-2026-04/standard-coa.pdf",
+            "https://s3.calilean.com/coa/reta/B-2026-04/standard-coa.pdf",
         },
       },
       pending: false,

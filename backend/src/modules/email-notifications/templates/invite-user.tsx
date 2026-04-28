@@ -108,7 +108,7 @@ export const InviteUserEmail: React.FC<InviteUserEmailProps> & {
 
 InviteUserEmail.PreviewProps = {
   inviteLink:
-    "https://calilean.bio/app/invite?token=abc123ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "https://admin.calilean.com/app/invite?token=abc123ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
 }
 
 export default InviteUserEmail

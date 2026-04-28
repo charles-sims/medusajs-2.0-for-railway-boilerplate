@@ -1,3 +1,8 @@
+> **SUPERSEDED (2026-04-27):** The wordmark is now a delivered PNG asset at
+> `storefront/public/brand/logo/`. This brief described the original Fraunces
+> serif type-set approach which has been retired in the v2 rebrand. Retained
+> for historical reference only.
+
 # CaliLean — Wordmark & Identity System Designer Brief (SKA-9)
 
 > Author: CMO · Date: 2026-04-26 · Version: v1

@@ -300,11 +300,11 @@ describe("misc helpers", () => {
   })
 
   it("buildCoaPublicUrl strips trailing slash on base", () => {
-    expect(buildCoaPublicUrl("https://s3.calilean.bio/", "coa/x/y.pdf")).toBe(
-      "https://s3.calilean.bio/coa/x/y.pdf"
+    expect(buildCoaPublicUrl("https://s3.calilean.com/", "coa/x/y.pdf")).toBe(
+      "https://s3.calilean.com/coa/x/y.pdf"
     )
-    expect(buildCoaPublicUrl("https://s3.calilean.bio", "coa/x/y.pdf")).toBe(
-      "https://s3.calilean.bio/coa/x/y.pdf"
+    expect(buildCoaPublicUrl("https://s3.calilean.com", "coa/x/y.pdf")).toBe(
+      "https://s3.calilean.com/coa/x/y.pdf"
     )
   })
 

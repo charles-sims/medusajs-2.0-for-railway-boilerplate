@@ -8,8 +8,8 @@ Forked from [rpuls/medusajs-2.0-for-railway-boilerplate](https://github.com/rpul
 
 | Service | URL |
 |---------|-----|
-| Storefront | [calilean.bio](https://calilean.bio) |
-| Admin Dashboard | [admin.calilean.bio/app](https://admin.calilean.bio/app) |
+| Storefront | [calilean.com](https://calilean.com) |
+| Admin Dashboard | [admin.calilean.com/app](https://admin.calilean.com/app) |
 
 ## Architecture
 

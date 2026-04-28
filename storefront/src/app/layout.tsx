@@ -1,21 +1,15 @@
 import { getBaseURL } from "@lib/util/env"
 import { Metadata, Viewport } from "next"
-import { Fraunces, Inter, JetBrains_Mono } from "next/font/google"
+import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google"
 import "styles/globals.css"
 import AgeGate from "@modules/calilean/components/age-gate"
 import JsonLd from "@modules/common/components/json-ld"
 
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-display",
-  axes: ["opsz", "SOFT", "WONK"],
-})
-
-const inter = Inter({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-sans",
+  weight: ["300", "400", "500", "600", "700"],
 })
 
 const jetbrainsMono = JetBrains_Mono({
@@ -40,15 +34,8 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon-c.svg", type: "image/svg+xml" },
-    ],
-    other: [
-      {
-        rel: "mask-icon",
-        url: "/safari-pinned-tab.svg",
-        color: "#1F2326",
-      },
+      { url: "/favicon.ico", sizes: "48x48" },
+      { url: "/favicon-192.png", sizes: "192x192", type: "image/png" },
     ],
   },
   openGraph: {
@@ -67,7 +54,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#3A5A6A",
+  themeColor: "#7090AB",
 }
 
 const organizationJsonLd = {
@@ -76,12 +63,12 @@ const organizationJsonLd = {
   name: "CaliLean",
   legalName: "CaliLean",
   url: getBaseURL(),
-  logo: `${getBaseURL().replace(/\/$/, "")}/favicon-c.svg`,
+  logo: `${getBaseURL().replace(/\/$/, "")}/brand/logo/calilean-logo-black.png`,
   sameAs: [],
 }
 
 export default function RootLayout(props: { children: React.ReactNode }) {
-  const fontVars = `${fraunces.variable} ${inter.variable} ${jetbrainsMono.variable}`
+  const fontVars = `${plusJakarta.variable} ${jetbrainsMono.variable}`
 
   return (
     <html lang="en" data-mode="light" className={fontVars}>

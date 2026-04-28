@@ -11,10 +11,10 @@ export default function GlobalError() {
       <Text className="text-calilean-fog max-w-md">
         Refresh, or try again in a minute. If it persists, email{" "}
         <a
-          href="mailto:research@calilean.bio"
+          href="mailto:research@calilean.com"
           className="text-calilean-pacific underline"
         >
-          research@calilean.bio
+          research@calilean.com
         </a>
         .
       </Text>

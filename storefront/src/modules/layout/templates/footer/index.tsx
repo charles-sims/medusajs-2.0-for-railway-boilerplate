@@ -14,32 +14,73 @@ export default async function Footer() {
       <div className="content-container py-16">
         <div className="grid grid-cols-1 small:grid-cols-4 gap-12">
           <div className="small:col-span-1">
-            <CaliLeanLogo className="h-10 mb-4" color="#ffffff" tracking="display" />
+            <CaliLeanLogo className="h-10 w-auto mb-4" color="white" />
             <p className="text-sm text-white/60 leading-relaxed">
               Research-grade peptides, built in the South Bay.
             </p>
           </div>
 
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-white/50 mb-4">Shop</h4>
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-white/50 mb-4">
+              Shop
+            </h4>
             <ul className="space-y-2">
-              <li><LocalizedClientLink href="/store" className="text-sm text-white/80 hover:text-white transition-colors">All Peptides</LocalizedClientLink></li>
+              <li>
+                <LocalizedClientLink
+                  href="/store"
+                  className="text-sm text-white/80 hover:text-white transition-colors"
+                >
+                  All Peptides
+                </LocalizedClientLink>
+              </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-white/50 mb-4">Company</h4>
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-white/50 mb-4">
+              Company
+            </h4>
             <ul className="space-y-2">
-              <li><LocalizedClientLink href="/account" className="text-sm text-white/80 hover:text-white transition-colors">My Account</LocalizedClientLink></li>
-              <li><LocalizedClientLink href="/terms" className="text-sm text-white/80 hover:text-white transition-colors">Terms of Service</LocalizedClientLink></li>
-              <li><LocalizedClientLink href="/privacy" className="text-sm text-white/80 hover:text-white transition-colors">Privacy Policy</LocalizedClientLink></li>
+              <li>
+                <LocalizedClientLink
+                  href="/account"
+                  className="text-sm text-white/80 hover:text-white transition-colors"
+                >
+                  My Account
+                </LocalizedClientLink>
+              </li>
+              <li>
+                <LocalizedClientLink
+                  href="/terms"
+                  className="text-sm text-white/80 hover:text-white transition-colors"
+                >
+                  Terms of Service
+                </LocalizedClientLink>
+              </li>
+              <li>
+                <LocalizedClientLink
+                  href="/privacy"
+                  className="text-sm text-white/80 hover:text-white transition-colors"
+                >
+                  Privacy Policy
+                </LocalizedClientLink>
+              </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-white/50 mb-4">Support</h4>
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-white/50 mb-4">
+              Support
+            </h4>
             <ul className="space-y-2">
-              <li><a href="mailto:hello@calilean.bio" className="text-sm text-white/80 hover:text-white transition-colors">hello@calilean.bio</a></li>
+              <li>
+                <a
+                  href="mailto:hello@calilean.com"
+                  className="text-sm text-white/80 hover:text-white transition-colors"
+                >
+                  hello@calilean.com
+                </a>
+              </li>
             </ul>
           </div>
         </div>

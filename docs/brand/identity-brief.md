@@ -36,7 +36,7 @@ The Manhattan/Hermosa/Redondo/El Segundo/PV adult, 30–55, household income $25
 
 | Pillar | What it means in copy | What it kills |
 |---|---|---|
-| **Coastal minimalism** | Salt-air whites, fog greys, unhurried layouts, no exclamation points. | Pastels, gradients, tropical photography, neon biohacker. |
+| **Coastal minimalism** | Clean whites, Carolina Blue accent, fog greys, unhurried layouts, no exclamation points. | Pastels, gradients, tropical photography, neon biohacker, warm off-whites. |
 | **Research-grade transparency** | COAs published per batch. Mass-spec data linked. "What's in it" before "what it does." | Therapeutic claims. Dosing guidance for humans. Before/after photos. |
 | **Accessible expertise** | Huberman-explained, AG1-sold. Plain English. Footnotes link to PubMed. | Jargon walls. WebMD-tone hedging. PhD cosplay. |
 | **Local first** | South Bay-specific copy, photo locations, partnerships. The 90s zip codes are home. | Generic "wellness" voice. National-feeling launch. |
@@ -101,11 +101,14 @@ The Manhattan/Hermosa/Redondo/El Segundo/PV adult, 30–55, household income $25
 - **Aesop** — restraint, type-led, packaging-as-product, no people on the bottle.
 - **Tracksmith** — coastal/athletic without gym-bro, runner's-eye photography.
 - **Function Health** — clinical without scrubs, data-as-design, charts treated like art.
+- **Apple Health** — white space, geometric sans, clinical confidence.
 
 **Sub-references:**
 - **Athletic Greens (early)** — single-product clarity, hero-shot discipline.
 - **Eight Sleep** — confident technical specs as headline copy.
 - **Maude** — packaging restraint in a regulated category.
+
+**v2 aesthetic direction:** Clean white backgrounds, Carolina Blue (#7090AB) accent, black ink. Geometric sans typography (Plus Jakarta Sans). Clinical confidence over editorial warmth. White space as a structural element. The aesthetic reads medical-grade research supplier, not artisanal wellness brand.
 
 **Anti-references (do not pull from):**
 - Recess, Goop, Olipop — aesthetic pastiche, vibe-over-substance.
@@ -120,68 +123,60 @@ Pre-dawn May Gray light on the Strand. Salt mist. Real 35–55 South Bay athlete
 
 ## 6. Logo direction
 
-**Direction:** custom-drawn lowercase wordmark in a low-contrast modern serif. Wordmark-led. **No mark/icon on day one.** Type does the work.
+**Direction (v2):** PNG wordmark "Cali Lean" with wave/infinity motif. Plus Jakarta Sans-based letterforms, clean geometric sans. Wordmark-led with CL monogram favicon for small surfaces.
 
-**References:** GT Sectra Display, Domaine Display, Editorial New (display weight), Source Serif (as a fallback if the designer goes too display-y).
+**Assets:** delivered PNG set at `storefront/public/brand/logo/`. Primary wordmark, inverse variant, CL monogram favicon.
 
-**Reasoning:** A serif wordmark reads research/library/lab — not gym, not clinic. Lowercase signals coastal restraint. No mark prevents us from prematurely committing to a symbol the brand hasn't earned. We add a monogram in v1.5 once the wordmark is set.
+**Reasoning:** The v2 rebrand moves from the editorial serif approach (Fraunces/GT Sectra) to a clean clinical aesthetic. The geometric sans wordmark with the wave motif carries the coastal reference without relying on serif typography.
 
-Wordmark/lockup specifics, weights, asset list — see the **wordmark designer brief** at `docs/brand/wordmark-brief.md` (SKA-9 deliverable).
+Wordmark/lockup specifics from the original brief — see `docs/brand/wordmark-brief.md` (retained for historical reference; the brief described the v1 Fraunces serif approach which has been superseded).
 
 ---
 
 ## 7. Color & type direction
 
-### 7.1 Palette — three options, one recommendation
+### 7.1 Palette — v2 — White + Carolina Blue + Black (locked)
 
-**Palette A — Salt & Iron (RECOMMENDED, locked unless designer pushes back with reason):**
 | Token | Hex | Use |
 |---|---|---|
-| `--cl-bg` | `#F4F2EC` | Page background. Warm off-white. Not pure white. |
-| `--cl-ink` | `#1F2326` | Body text, wordmark. Near-black with blue undertone. |
-| `--cl-pacific` | `#3A5A6A` | Primary accent. Pacific at dawn, not navy. |
+| `--cl-bg` | `#FFFFFF` | Page background. Clean white. |
+| `--cl-ink` | `#111111` | Body text, wordmark. Near-black. |
+| `--cl-pacific` | `#7090AB` | Primary accent. Carolina Blue. CTAs, links. |
 | `--cl-fog` | `#9CA3A8` | Muted text, dividers. |
-| `--cl-sand` | `#E6E2D6` | Surface variant, cards. |
-| `--cl-coa` | `#0F1417` | "Lab black" for COA / batch / data UI. |
+| `--cl-sand` | `#F0F0F0` | Surface variant, cards. Light grey. |
+| `--cl-coa` | `#111111` | "Lab black" for COA / batch / data UI. |
+| `--cl-alert` | `#A23B2A` | RUO disclaimer accent. Restraint. |
 
-**Palette B — Marine Lab:** swap pacific for `#1B3A4B` (deeper, more clinical). More authority, less coastal. Hold as alternate for institutional moments.
+**Reject:** anything from the Bluum palette. `#C8DAE8` pastel blue, `#FFFDFA` warm cream — too soft, too consumer-wellness. Also reject the v1 Salt & Iron warm off-whites (`#F4F2EC`, `#E6E2D6`) — the v2 direction is clean clinical white, not warm editorial.
 
-**Palette C — Bone & Kelp:** off-white + `#2F3A2C` (deep kelp green). More naturalist. Hold for Education Hub if we want it to read "softer."
-
-**Reject:** anything from the Bluum palette. `#C8DAE8` pastel blue, `#FFFDFA` warm cream — too soft, too consumer-wellness.
-
-### 7.2 Type — Editorial + Precision pairing
+### 7.2 Type — Plus Jakarta Sans (v2, locked)
 
 | Role | Family | Why |
 |---|---|---|
-| Display | **GT Sectra Display** (or alternate: Editorial New, Domaine Display) | Editorial serif. Carries research/library reference. License via web font service. |
-| Body | **Söhne** (or alternate: Inter as cheaper fallback) | Quiet grotesque. Disappears so the copy works. |
-| Mono / data | **Söhne Mono** (or alternate: JetBrains Mono) | For batch numbers, dosages, COA tables. Not a "tech" choice — a "lab" choice. |
+| Display | **Plus Jakarta Sans 700** (SIL OFL, variable) | Clean geometric sans. Confident, clinical, modern. |
+| Body | **Plus Jakarta Sans 400/500/600** (SIL OFL, variable) | Same family, lighter weights. Consistency across the system. |
+| Mono / data | **JetBrains Mono** (Apache 2.0, variable) | For batch numbers, dosages, COA tables. Not a "tech" choice — a "lab" choice. |
 
-**Forbidden:** Switzer (current Bluum font — explicit anti-reference). Any humanist sans (Avenir, Proxima, Gotham — too consumer-wellness). Any geometric-rounded sans (Circular, Visby — too SaaS).
+**Forbidden:** Switzer (current Bluum font — explicit anti-reference). Fraunces (v1 serif — retired in v2 rebrand). GT Sectra Display, Domaine Display (v1 procurement targets — no longer pursued). Söhne (v1 body target — no longer pursued). Any humanist sans (Avenir, Proxima, Gotham — too consumer-wellness). Any geometric-rounded sans (Circular, Visby — too SaaS).
 
-### 7.3 Surface ladder — locked
-
-Pure `#FFFFFF` is **forbidden** as a surface color anywhere on the storefront. It does not exist in the palette and reading a `#F4F2EC` page beside a `#FFFFFF` panel produces the cream→white seam that reads "Hims/telehealth DTC card." Surfaces ladder via warmth and border, never via lift to pure white.
+### 7.3 Surface ladder — v2
 
 | Surface | Token | Hex | Use |
 |---|---|---|---|
-| **Page** | `--cl-bg` | `#F4F2EC` | All page bodies. Default surface for cart, checkout, account, modals. |
-| **Subtle** | `--cl-sand` | `#E6E2D6` | Pressed cards, COA panels, table-of-contents rails. Deeper-warm, not lighter. |
-| **Inverted** | `--cl-coa` | `#0F1417` | Lab black. Banners, footer, batch/data UI. |
-| **Hairline** | `--cl-fog` at 30% opacity | `#9CA3A8` | Borders for card differentiation when no warmth-step is desired. |
-
-**Implementation rule:** any `bg-white`, `bg-grey-0`, or `#FFFFFF` literal in storefront code is a brand bug. Card differentiation comes from a 1px `--cl-fog`/30 border + optional `0 1px 2px` shadow, not from a lighter background.
+| **Page** | `--cl-bg` | `#FFFFFF` | All page bodies. Default surface for cart, checkout, account, modals. |
+| **Subtle** | `--cl-sand` | `#F0F0F0` | Pressed cards, COA panels, table-of-contents rails. Light grey. |
+| **Inverted** | `--cl-coa` | `#111111` | Lab black. Banners, footer, batch/data UI. |
+| **Hairline** | `--cl-fog` at 30% opacity | `#9CA3A8` | Borders for card differentiation. |
 
 ### 7.4 Button contrast — locked
 
-CTAs are high-contrast against `--cl-bg`. **No sand-on-cream buttons.** Sand-on-cream (`#E6E2D6` on `#F4F2EC`) is a Hims signature and explicitly anti-CaliLean.
+CTAs are high-contrast against `--cl-bg`.
 
 | Button role | Background | Text | Use |
 |---|---|---|---|
-| Primary | `--cl-coa` `#0F1417` | `--cl-bg` `#F4F2EC` | "Shop Peptides," "Add to research," "Submit attestation." |
-| Secondary | transparent | `--cl-ink` `#1F2326` | 1.5px `--cl-ink` border. "View COA," "Read the methodology." |
-| Inverse | `--cl-bg` `#F4F2EC` | `--cl-coa` `#0F1417` | Used only inside dark sections (footer, lab banner). |
+| Primary | `--cl-coa` `#111111` | `--cl-bg` `#FFFFFF` | "Shop Peptides," "Add to research," "Submit attestation." |
+| Secondary | transparent | `--cl-ink` `#111111` | 1.5px `--cl-ink` border. "View COA," "Read the methodology." |
+| Inverse | `--cl-bg` `#FFFFFF` | `--cl-coa` `#111111` | Used only inside dark sections (footer, lab banner). |
 
 The legacy `bg-bluum-primary` token (sand) is **not a CTA color**. It is a card or chip background only.
 

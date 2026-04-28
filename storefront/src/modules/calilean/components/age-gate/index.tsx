@@ -8,7 +8,10 @@ const AgeGate = () => {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    if (typeof window !== "undefined" && !sessionStorage.getItem("age-verified")) {
+    if (
+      typeof window !== "undefined" &&
+      !sessionStorage.getItem("age-verified")
+    ) {
       setVisible(true)
       document.body.style.overflow = "hidden"
     }
@@ -33,7 +36,7 @@ const AgeGate = () => {
   return (
     <div className="fixed inset-0 z-[9999] bg-black/65 backdrop-blur-sm flex items-center justify-center">
       <div className="bg-calilean-bg p-10 rounded-2xl text-center max-w-md w-[90%]">
-        <CaliLeanLogo className="h-12 mx-auto mb-6" color="#1F2326" tracking="display" />
+        <CaliLeanLogo className="h-12 w-auto mx-auto mb-6" color="black" />
         <p className="text-lg font-semibold mb-2">{RUO_AGE_GATE_HEADLINE}</p>
         <p className="text-sm text-calilean-fog mb-6">{RUO_AGE_GATE_BODY}</p>
         <div className="flex gap-3 justify-center">

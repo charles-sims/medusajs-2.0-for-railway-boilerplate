@@ -1,37 +1,28 @@
+import Image from "next/image"
+
 type CaliLeanLogoProps = {
   className?: string
-  color?: string
-  tracking?: "nav" | "display" | "packaging"
+  color?: "black" | "white"
 }
 
 const CaliLeanLogo = ({
   className = "",
-  color = "currentColor",
-  tracking = "nav",
+  color = "black",
 }: CaliLeanLogoProps) => {
-  const trackingVar = `var(--brand-wordmark-tracking-${tracking})`
+  const src =
+    color === "white"
+      ? "/brand/logo/calilean-logo-white.png"
+      : "/brand/logo/calilean-logo-black.png"
 
   return (
-    <svg
-      viewBox="0 0 600 120"
-      role="img"
-      aria-label="calilean"
-      xmlns="http://www.w3.org/2000/svg"
+    <Image
+      src={src}
+      alt="CaliLean"
+      width={600}
+      height={120}
       className={className}
-    >
-      <text
-        x="300"
-        y="92"
-        textAnchor="middle"
-        fontFamily="var(--font-display), Fraunces, 'GT Sectra Display', 'Domaine Display', 'Times New Roman', serif"
-        fontSize="104"
-        fontWeight={400}
-        style={{ letterSpacing: trackingVar }}
-        fill={color}
-      >
-        calilean
-      </text>
-    </svg>
+      priority
+    />
   )
 }
 

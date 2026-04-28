@@ -2,7 +2,7 @@
  * Brand constants for transactional email templates.
  *
  * Colors mirror the storefront tokens in
- * `storefront/src/styles/calilean-tokens.css` (Palette A — Salt & Iron).
+ * `storefront/src/styles/calilean-tokens.css` (v2 — White + Carolina Blue + Black).
  * React Email cannot read CSS variables across mail clients, so the hex
  * values are duplicated here. Keep in sync if the palette changes.
  *
@@ -12,22 +12,22 @@
  */
 
 export const COLORS = {
-  bg: "#F4F2EC",
-  ink: "#1F2326",
-  pacific: "#3A5A6A",
+  bg: "#FFFFFF",
+  ink: "#111111",
+  pacific: "#7090AB",
   fog: "#9CA3A8",
-  sand: "#E6E2D6",
-  coa: "#0F1417",
+  sand: "#F0F0F0",
+  coa: "#111111",
   alert: "#A23B2A",
-  border: "#E6E2D6",
-  divider: "#D8D3C5",
+  border: "#F0F0F0",
+  divider: "#E5E5E5",
 } as const
 
 export const BRAND = {
   name: "CaliLean",
-  domain: "calilean.bio",
-  url: "https://calilean.bio",
-  fromEmail: "notifications@calilean.bio",
-  supportEmail: "research@calilean.bio",
+  domain: "calilean.com",
+  url: "https://calilean.com",
+  fromEmail: "notifications@calilean.com",
+  supportEmail: "research@calilean.com",
   signoff: "— The CaliLean team",
 } as const

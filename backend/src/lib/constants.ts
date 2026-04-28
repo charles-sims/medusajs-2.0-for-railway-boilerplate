@@ -72,7 +72,7 @@ export const MINIO_BUCKET = process.env.MINIO_BUCKET; // Optional, if not set bu
  * provisions the production bucket.
  */
 export const MINIO_COA_BUCKET = process.env.MINIO_COA_BUCKET || 'coa';
-export const COA_PUBLIC_BASE = process.env.COA_PUBLIC_BASE || 'https://s3.calilean.bio';
+export const COA_PUBLIC_BASE = process.env.COA_PUBLIC_BASE || 'https://s3.calilean.com';
 
 /**
  * (optional) Resend API Key and from Email - do not set if using SendGrid

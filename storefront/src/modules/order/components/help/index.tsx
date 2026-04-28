@@ -9,7 +9,7 @@ const Help = () => {
       <div className="text-base-regular my-2">
         <ul className="gap-y-2 flex flex-col">
           <li>
-            <a href="mailto:research@calilean.bio">research@calilean.bio</a>
+            <a href="mailto:research@calilean.com">research@calilean.com</a>
           </li>
           <li>Returns within 30 days. Sealed, unopened vials only.</li>
         </ul>

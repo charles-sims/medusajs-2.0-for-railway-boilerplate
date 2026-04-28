@@ -18,7 +18,7 @@
 // Usage:
 //   scripts/migrate-product-images.mjs --dry-run
 //   scripts/migrate-product-images.mjs \
-//     --backend-url https://admin.calilean.bio
+//     --backend-url https://admin.calilean.com
 //   scripts/migrate-product-images.mjs --only bpc-157 --force
 //
 // Env (read from process env or backend/.env):
@@ -55,7 +55,7 @@ if (existsSync(BACKEND_ENV)) {
 }
 
 // 8 launch SKUs. Handle is the Medusa product handle (verified 2026-04-27
-// against admin.calilean.bio); folder is the matching
+// against admin.calilean.com); folder is the matching
 // storefront/public/brand/products/<folder>/pdp-primary.jpg path. The cjc
 // blend uses the truncated `cjc-12-...` slug for both handle and folder —
 // there is a separate `cjc-1295-no-dac` standalone product this script must

@@ -22,13 +22,13 @@ module.exports = {
       },
       colors: {
         calilean: {
-          bg: '#F4F2EC',
-          ink: '#1F2326',
-          pacific: '#3A5A6A',
-          fog: '#9CA3A8',
-          sand: '#E6E2D6',
-          coa: '#0F1417',
-          alert: '#A23B2A',
+          bg: "#FFFFFF",
+          ink: "#111111",
+          pacific: "#7090AB",
+          fog: "#9CA3A8",
+          sand: "#F0F0F0",
+          coa: "#111111",
+          alert: "#A23B2A",
         },
         grey: {
           0: "#FFFFFF",
@@ -51,8 +51,8 @@ module.exports = {
         rounded: "8px",
         large: "16px",
         circle: "9999px",
-        btn: '9px',
-        pill: '32px',
+        btn: "9px",
+        pill: "32px",
       },
       maxWidth: {
         "8xl": "100rem",
@@ -70,12 +70,30 @@ module.exports = {
         "3xl": "2rem",
       },
       fontFamily: {
-        // Pairing 1 — Editorial + Precision. Production fallbacks: Fraunces +
-        // Inter + JetBrains Mono via next/font/google. Procurement target:
-        // GT Sectra Display + Söhne + Söhne Mono. See `/DESIGN.md` §2.
-        sans: ['var(--font-sans)', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
-        display: ['var(--font-display)', 'Fraunces', '"GT Sectra Display"', '"Domaine Display"', 'Georgia', 'serif'],
-        mono: ['var(--font-mono)', '"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+        sans: [
+          "var(--font-sans)",
+          '"Plus Jakarta Sans"',
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "sans-serif",
+        ],
+        display: [
+          "var(--font-sans)",
+          '"Plus Jakarta Sans"',
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "sans-serif",
+        ],
+        mono: [
+          "var(--font-mono)",
+          '"JetBrains Mono"',
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "monospace",
+        ],
       },
       keyframes: {
         ring: {

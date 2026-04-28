@@ -20,11 +20,12 @@ const Hero = () => {
           Peptides, plainly labeled.
         </h1>
         <p className="text-lg text-calilean-fog max-w-xl mx-auto mb-12 leading-relaxed">
-          Recovery, leanness, longevity. Research-grade, independently tested, built in the South Bay.
+          Recovery, leanness, longevity. Research-grade, independently tested,
+          built in the South Bay.
         </p>
         <LocalizedClientLink
           href="/store"
-          className="inline-flex items-center justify-center px-7 py-3 bg-calilean-coa text-calilean-bg rounded-btn font-medium text-base hover:opacity-85 transition-all hover:-translate-y-0.5"
+          className="inline-flex items-center justify-center px-7 py-3 bg-calilean-pacific text-white rounded-btn font-medium text-base hover:opacity-85 transition-all hover:-translate-y-0.5"
         >
           Shop the lineup
         </LocalizedClientLink>

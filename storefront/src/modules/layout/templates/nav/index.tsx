@@ -21,10 +21,16 @@ export default async function Nav() {
                 <SideMenu regions={regions} />
               </div>
               <div className="hidden small:flex items-center gap-x-8 h-full">
-                <LocalizedClientLink href="/" className="font-medium text-calilean-ink hover:opacity-70 transition-opacity">
+                <LocalizedClientLink
+                  href="/"
+                  className="font-medium text-calilean-ink hover:opacity-70 transition-opacity"
+                >
                   Home
                 </LocalizedClientLink>
-                <LocalizedClientLink href="/store" className="font-medium text-calilean-ink hover:opacity-70 transition-opacity">
+                <LocalizedClientLink
+                  href="/store"
+                  className="font-medium text-calilean-ink hover:opacity-70 transition-opacity"
+                >
                   Peptides
                 </LocalizedClientLink>
               </div>
@@ -32,24 +38,33 @@ export default async function Nav() {
 
             <div className="flex items-center h-full">
               <LocalizedClientLink href="/" className="flex items-center">
-                <CaliLeanLogo className="h-9" color="#1F2326" tracking="nav" />
+                <CaliLeanLogo className="h-9 w-auto" color="black" />
               </LocalizedClientLink>
             </div>
 
             <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
               <div className="hidden small:flex items-center gap-x-6 h-full">
                 {process.env.NEXT_PUBLIC_FEATURE_SEARCH_ENABLED && (
-                  <LocalizedClientLink href="/search" className="font-medium text-calilean-ink hover:opacity-70 transition-opacity">
+                  <LocalizedClientLink
+                    href="/search"
+                    className="font-medium text-calilean-ink hover:opacity-70 transition-opacity"
+                  >
                     Search
                   </LocalizedClientLink>
                 )}
-                <LocalizedClientLink href="/account" className="font-medium text-calilean-ink hover:opacity-70 transition-opacity">
+                <LocalizedClientLink
+                  href="/account"
+                  className="font-medium text-calilean-ink hover:opacity-70 transition-opacity"
+                >
                   Account
                 </LocalizedClientLink>
               </div>
               <Suspense
                 fallback={
-                  <LocalizedClientLink href="/cart" className="font-medium text-calilean-ink hover:opacity-70 flex gap-2">
+                  <LocalizedClientLink
+                    href="/cart"
+                    className="font-medium text-calilean-ink hover:opacity-70 flex gap-2"
+                  >
                     Cart (0)
                   </LocalizedClientLink>
                 }

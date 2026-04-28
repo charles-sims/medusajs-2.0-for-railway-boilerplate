@@ -1,21 +1,27 @@
 {
   "name": "CaliLean",
   "short_name": "CaliLean",
-  "description": "Research-grade peptides for the South Bay athlete — recovery, leanness, longevity. Independently tested, batch by batch. Every COA published.",
+  "description": "Research-grade peptides — recovery, leanness, longevity.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F4F2EC",
-  "theme_color": "#3A5A6A",
+  "background_color": "#FFFFFF",
+  "theme_color": "#7090AB",
   "icons": [
     {
-      "src": "/favicon-c.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "any"
     },
     {
       "src": "/favicon.ico",
-      "sizes": "32x32 16x16",
+      "sizes": "48x48 32x32 16x16",
       "type": "image/x-icon"
     }
   ]

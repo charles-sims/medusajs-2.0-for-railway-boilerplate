@@ -8,6 +8,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import { useIntersection } from "@lib/hooks/use-in-view"
 
 import MobileActions from "./mobile-actions"
+import OptionSelect from "./option-select"
 import ProductPrice from "../product-price"
 import { addToCart } from "@lib/data/cart"
 import { HttpTypes } from "@medusajs/types"
@@ -36,15 +37,20 @@ export default function ProductActions({
   const [isAdding, setIsAdding] = useState(false)
   const countryCode = useParams().countryCode as string
 
-  // Always preselect the first variant — multi-size picker hidden per SKA-20
-  // until per-size pricing lands. Backend variant data is intentionally retained.
+  // Preselect the first variant on mount
   useEffect(() => {
     const first = product.variants?.[0]
-    if (first) {
+    if (first && Object.keys(options).length === 0) {
       const variantOptions = optionsAsKeymap(first.options)
       setOptions(variantOptions ?? {})
     }
   }, [product.variants])
+
+  const updateOptions = (title: string, value: string) => {
+    setOptions((prev) => ({ ...prev, [title]: value }))
+  }
+
+  const hasMultipleVariants = (product.variants?.length ?? 0) > 1
 
   const selectedVariant = useMemo(() => {
     if (!product.variants || product.variants.length === 0) {
@@ -103,6 +109,21 @@ export default function ProductActions({
   return (
     <>
       <div className="flex flex-col gap-y-2" ref={actionsRef}>
+        {hasMultipleVariants && (
+          <div className="flex flex-col gap-y-4 mb-2">
+            {(product.options || []).map((option) => (
+              <OptionSelect
+                key={option.id}
+                option={option}
+                current={options[option.title ?? ""]}
+                updateOption={updateOptions}
+                title={option.title ?? ""}
+                disabled={!!disabled || isAdding}
+                data-testid="product-options"
+              />
+            ))}
+          </div>
+        )}
         <ProductPrice product={product} variant={selectedVariant} />
 
         <Button

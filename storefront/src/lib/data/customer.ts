@@ -56,7 +56,7 @@ export async function signup(_currentState: unknown, formData: FormData) {
       password,
     })
 
-    setAuthToken(
+    await setAuthToken(
       typeof loginToken === "string" ? loginToken : loginToken.location
     )
 
@@ -84,7 +84,7 @@ export async function login(_currentState: unknown, formData: FormData) {
       email,
       password,
     })
-    setAuthToken(typeof token === "string" ? token : token.location)
+    await setAuthToken(typeof token === "string" ? token : token.location)
     revalidateTag("customer")
     redirect("/")
   } catch (error: any) {

@@ -7,7 +7,7 @@ type ApplicationProps = {
 
 export const Application: React.FC<ApplicationProps> = ({ title, children }) => {
   return (
-    <div className="rounded-lg border border-calilean-sand bg-white p-4">
+    <div className="rounded-lg border border-calilean-sand bg-calilean-bg p-4">
       <h4 className="text-sm font-semibold text-calilean-ink mb-2">{title}</h4>
       <div className="text-sm text-calilean-fog leading-relaxed">{children}</div>
     </div>

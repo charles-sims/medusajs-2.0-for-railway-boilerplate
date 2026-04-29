@@ -25,7 +25,7 @@ const ComparisonTable: React.FC<ComparisonTableProps> = ({
         <table className="w-full text-sm border-collapse min-w-[500px]">
           <thead>
             <tr className="border-b border-calilean-sand">
-              <th className="text-left py-3 pr-4 text-calilean-fog font-medium w-[120px] sticky left-0 bg-white z-10" />
+              <th className="text-left py-3 pr-4 text-calilean-fog font-medium w-[120px] sticky left-0 bg-calilean-bg z-10" />
               {compounds.map((compound, i) => (
                 <th
                   key={compound}
@@ -43,7 +43,7 @@ const ComparisonTable: React.FC<ComparisonTableProps> = ({
           <tbody className="divide-y divide-calilean-sand">
             {rows.map((row) => (
               <tr key={row.label}>
-                <td className="py-3 pr-4 text-calilean-fog font-medium sticky left-0 bg-white z-10">
+                <td className="py-3 pr-4 text-calilean-fog font-medium sticky left-0 bg-calilean-bg z-10">
                   {row.label}
                 </td>
                 {row.values.map((value, i) => (

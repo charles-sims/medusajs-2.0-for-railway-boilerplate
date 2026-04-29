@@ -10,8 +10,8 @@ type MechanismDiagramProps = {
 }
 
 const stepStyles: Record<Step["type"], string> = {
-  input: "border-calilean-ink bg-white text-calilean-ink font-semibold",
-  pathway: "border-calilean-sand bg-white text-calilean-fog",
+  input: "border-calilean-ink bg-calilean-bg text-calilean-ink font-semibold",
+  pathway: "border-calilean-sand bg-calilean-bg text-calilean-fog",
   output: "border-[#7090AB] bg-[#7090AB]/10 text-[#7090AB] font-semibold",
 }
 

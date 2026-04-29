@@ -5,6 +5,8 @@
 
 :root {
   /* Palette v2 — White + Carolina Blue + Black */
+  /* Page surface — locked v2 per docs/brand/identity-brief.md §7.1/§7.3.
+     Use `bg-calilean-bg` (Tailwind) as the canonical page-bg class. */
   --cl-bg: #FFFFFF;
   --cl-ink: #111111;
   --cl-pacific: #7090AB;

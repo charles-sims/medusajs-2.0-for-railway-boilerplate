@@ -85,7 +85,7 @@ export default function GatePage() {
   const [view, setView] = useState<GateView>("sign-in")
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 relative bg-white overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center px-4 relative bg-calilean-bg overflow-hidden">
       {/* Animated blue aura */}
       <style jsx>{`
         @keyframes meshMove {
@@ -168,7 +168,7 @@ export default function GatePage() {
 
         <div className="max-w-[340px] mx-auto relative">
           <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-b from-[#7090AB]/20 via-transparent to-[#7090AB]/10 pointer-events-none" />
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 relative">
+          <div className="bg-calilean-bg/80 backdrop-blur-sm rounded-2xl p-6 relative">
             {view === "sign-in" ? (
               <SignInForm onSwitch={() => setView("register")} />
             ) : (

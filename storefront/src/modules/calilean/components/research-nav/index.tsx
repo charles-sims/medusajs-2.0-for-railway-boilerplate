@@ -65,7 +65,7 @@ const ResearchNav: React.FC<ResearchNavProps> = ({ headings }) => {
       </nav>
 
       {/* Mobile: horizontal scrollable pill bar */}
-      <nav className="small:hidden sticky top-[64px] z-30 bg-white border-b border-calilean-sand -mx-4 px-4 py-2 overflow-x-auto">
+      <nav className="small:hidden sticky top-[64px] z-30 bg-calilean-bg border-b border-calilean-sand -mx-4 px-4 py-2 overflow-x-auto">
         <div className="flex gap-2 min-w-max">
           {headings.map((h) => (
             <button

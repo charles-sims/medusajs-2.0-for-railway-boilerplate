@@ -13,7 +13,7 @@ const MolecularStructure: React.FC<MolecularStructureProps> = ({ src }) => {
 
   return (
     <div className="float-right ml-6 mb-4 w-[140px] shrink-0">
-      <div className="border border-calilean-sand rounded-lg p-4 bg-white">
+      <div className="border border-calilean-sand rounded-lg p-4 bg-calilean-bg">
         <Image
           src={`/research/structures/${src}.svg`}
           alt={`${src} molecular structure`}

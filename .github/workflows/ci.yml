@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-          cache-dependency-path: backend/pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock.yaml
       - name: Install dependencies
         working-directory: backend
         run: pnpm install --frozen-lockfile
@@ -47,7 +47,7 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-          cache-dependency-path: backend/pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock.yaml
       - name: Install dependencies
         working-directory: backend
         run: pnpm install --frozen-lockfile
@@ -82,7 +82,7 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-          cache-dependency-path: storefront/pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock.yaml
       - name: Install dependencies
         working-directory: storefront
         run: pnpm install --frozen-lockfile
@@ -105,7 +105,7 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-          cache-dependency-path: storefront/pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock.yaml
       - name: Install dependencies
         working-directory: storefront
         run: pnpm install --frozen-lockfile

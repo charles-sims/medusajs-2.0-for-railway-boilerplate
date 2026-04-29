@@ -9,9 +9,12 @@ if (!fs.existsSync(MEDUSA_SERVER_PATH)) {
   throw new Error('.medusa/server directory not found. This indicates the Medusa build process failed. Please check for build errors.');
 }
 
-// Copy pnpm-lock.yaml
+// Copy pnpm-lock.yaml (check workspace root first, then local)
+const localLockfile = path.join(process.cwd(), 'pnpm-lock.yaml');
+const rootLockfile = path.join(process.cwd(), '..', 'pnpm-lock.yaml');
+const lockfileSrc = fs.existsSync(localLockfile) ? localLockfile : rootLockfile;
 fs.copyFileSync(
-  path.join(process.cwd(), 'pnpm-lock.yaml'),
+  lockfileSrc,
   path.join(MEDUSA_SERVER_PATH, 'pnpm-lock.yaml')
 );
 

@@ -1,0 +1,26 @@
+{
+  "name": "calilean",
+  "private": true,
+  "packageManager": "pnpm@10.11.1",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "pnpm -r dev",
+    "build": "pnpm -r build",
+    "start": "turbo start",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "backend:dev": "turbo dev --filter=medusa-2.0-boilerplate-backend",
+    "storefront:dev": "turbo dev --filter=medusa-next"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "19.0.5",
+      "@types/react-dom": "19.0.5"
+    }
+  },
+  "devDependencies": {
+    "turbo": "^2.0.14"
+  }
+}

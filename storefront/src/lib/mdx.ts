@@ -59,8 +59,16 @@ function extractHeadings(source: string): ResearchHeading[] {
   // Component-based sections with their IDs and display names
   const componentSections: Array<{ tag: string; id: string; text: string }> = [
     { tag: "<Overview", id: "overview", text: "Overview" },
-    { tag: "## Mechanism", id: "mechanism-of-action", text: "Mechanism of Action" },
-    { tag: "<ResearchApplications", id: "research-applications", text: "Research Applications" },
+    {
+      tag: "## Mechanism",
+      id: "mechanism-of-action",
+      text: "Mechanism of Action",
+    },
+    {
+      tag: "<ResearchApplications",
+      id: "research-applications",
+      text: "Research Applications",
+    },
     { tag: "<ComparisonTable", id: "compound-comparison", text: "Comparison" },
     { tag: "<Safety", id: "safety-handling", text: "Safety & Handling" },
     { tag: "<References", id: "references", text: "References" },
@@ -75,7 +83,11 @@ function extractHeadings(source: string): ResearchHeading[] {
 
   // Always add specs and COA (rendered from product metadata, not MDX)
   headings.push({ id: "specifications", text: "Specifications", level: 2 })
-  headings.push({ id: "certificate-of-analysis", text: "Certificate of Analysis", level: 2 })
+  headings.push({
+    id: "certificate-of-analysis",
+    text: "Certificate of Analysis",
+    level: 2,
+  })
 
   return headings
 }

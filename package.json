@@ -17,7 +17,9 @@
   "pnpm": {
     "overrides": {
       "@types/react": "19.0.5",
-      "@types/react-dom": "19.0.5"
+      "@types/react-dom": "19.0.5",
+      "fast-xml-parser": "5.5.8",
+      "protobufjs": "7.5.5"
     }
   },
   "devDependencies": {

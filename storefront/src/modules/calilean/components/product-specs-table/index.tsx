@@ -20,19 +20,34 @@ const ProductSpecsTable = ({ product }: Props) => {
   if (specs.length === 0) return null
 
   return (
-    <div className="mt-8">
-      <h2 className="text-xl font-bold mb-4">Product Specifications</h2>
-      <table className="w-full">
-        <tbody className="divide-y divide-calilean-sand">
-          {specs.map((s) => (
-            <tr key={s.label}>
-              <td className="py-3 pr-6 text-sm font-semibold text-calilean-ink w-48 align-top">{s.label}</td>
-              <td className="py-3 text-sm text-calilean-fog">{s.value}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <section id="specifications" className="scroll-mt-24">
+      <h2 className="text-lg font-bold text-calilean-ink mb-4 pb-2 border-b border-calilean-sand">
+        Product Specifications
+      </h2>
+      <div className="rounded-lg border border-calilean-sand overflow-hidden">
+        <table className="w-full text-sm">
+          <tbody>
+            {specs.map((s, i) => (
+              <tr
+                key={s.label}
+                className={i < specs.length - 1 ? "border-b border-calilean-sand" : ""}
+              >
+                <td className="py-3 px-4 font-medium text-calilean-fog bg-calilean-bg w-[140px] align-top">
+                  {s.label}
+                </td>
+                <td className="py-3 px-4 text-calilean-ink">
+                  {s.label === "Chemical Formula" ? (
+                    <span className="font-mono">{s.value}</span>
+                  ) : (
+                    s.value
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
   )
 }
 

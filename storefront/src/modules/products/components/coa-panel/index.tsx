@@ -44,55 +44,44 @@ const HEADINGS: Record<CoaTier, string> = {
 }
 
 const Pill = ({ children }: { children: React.ReactNode }) => (
-  <span className="ml-2 inline-flex items-center rounded-pill border border-bluum-border px-2 py-0.5 text-xs font-medium uppercase tracking-wide text-bluum-muted">
+  <span className="ml-2 inline-flex items-center rounded-full border border-calilean-sand px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-calilean-fog">
     {children}
   </span>
 )
 
 const ValueRow = ({ label, value }: { label: string; value: string }) => (
-  <li className="flex items-baseline justify-between gap-4 py-2 text-sm">
-    <span className="text-bluum-muted">{label}</span>
-    <span className="font-mono font-semibold text-calilean-coa">{value}</span>
-  </li>
+  <div className="rounded-lg border border-calilean-sand p-3">
+    <p className="text-[10px] uppercase tracking-widest text-calilean-fog">{label}</p>
+    <p className="text-sm font-semibold text-calilean-ink mt-1">{value}</p>
+  </div>
 )
 
-const renderValueRows = (batch: CoaBatchValues, tier: CoaTier) => {
-  const rows: { label: string; value: string }[] = []
+const renderValueGrid = (batch: CoaBatchValues, tier: CoaTier) => {
+  const items: { label: string; value: string }[] = []
   if (batch.hplc_purity_pct) {
-    rows.push({ label: "HPLC purity", value: `${batch.hplc_purity_pct}%` })
+    items.push({ label: "HPLC Purity", value: `${batch.hplc_purity_pct}%` })
   }
   if (tier === "extended") {
     if (batch.lcms_identity) {
-      const ref = batch.lcms_identity.method_ref
-      rows.push({
-        label: "LC-MS/MS identity",
-        value: batch.lcms_identity.confirmed
-          ? ref
-            ? `Confirmed · ${ref}`
-            : "Confirmed"
-          : "Not confirmed",
+      items.push({
+        label: "LCMS Identity",
+        value: batch.lcms_identity.confirmed ? "✓ Confirmed" : "Not confirmed",
       })
     }
     if (batch.endotoxin_eu_per_mg) {
-      rows.push({
-        label: "Endotoxin",
-        value: `${batch.endotoxin_eu_per_mg} EU/mg`,
-      })
+      items.push({ label: "Endotoxin", value: `${batch.endotoxin_eu_per_mg} EU/mg` })
     }
     if (batch.ref_standard_match_pct) {
-      rows.push({
-        label: "Reference-standard match",
-        value: `${batch.ref_standard_match_pct}%`,
-      })
+      items.push({ label: "Ref Standard Match", value: `${batch.ref_standard_match_pct}%` })
     }
   }
-  if (rows.length === 0) return null
+  if (items.length === 0) return null
   return (
-    <ul className="mt-4 divide-y divide-bluum-border rounded-base border border-bluum-border bg-calilean-sand/40 px-4">
-      {rows.map((r) => (
-        <ValueRow key={r.label} label={r.label} value={r.value} />
+    <div className="grid grid-cols-2 gap-3 mt-4">
+      {items.map((item) => (
+        <ValueRow key={item.label} label={item.label} value={item.value} />
       ))}
-    </ul>
+    </div>
   )
 }
 
@@ -102,59 +91,78 @@ const COAPanel = ({ product }: Props) => {
   const { tier, effectiveTier, batchId, batch, pending, extendedDeferred } =
     resolved
 
-  const assays = effectiveTier === "extended" ? EXTENDED_ASSAYS : STANDARD_ASSAYS
   const heading = HEADINGS[tier]
   const fileLinks = buildFileLinks(batch?.files)
   const displayBatchId =
     batchId || (typeof meta.batch === "string" ? meta.batch : null)
 
   return (
-    <div className="mt-8" data-testid={`coa-panel-${effectiveTier}`}>
-      <div className="mb-2 flex items-center">
-        <h2 className="text-xl font-bold">{heading}</h2>
+    <section id="certificate-of-analysis" className="scroll-mt-24" data-testid={`coa-panel-${effectiveTier}`}>
+      <h2 className="text-lg font-bold text-calilean-ink mb-4 pb-2 border-b border-calilean-sand">
+        {heading}
         {pending && <Pill>COA pending</Pill>}
         {extendedDeferred && <Pill>Extended panel pending</Pill>}
-      </div>
-      <p className="text-sm text-bluum-muted mb-4">
-        Every batch ships with a Certificate of Analysis covering the assays
-        listed below. Per-batch values
-        {displayBatchId && ` (batch ${displayBatchId})`} are linked from the
-        certificate file.
-      </p>
-      <ul className="divide-y divide-bluum-border">
-        {assays.map((a) => (
-          <li key={a.label} className="py-3">
-            <p className="text-sm font-semibold text-bluum-text">{a.label}</p>
-            <p className="text-sm text-bluum-muted mt-1">{a.detail}</p>
-          </li>
-        ))}
-      </ul>
-      {batch && renderValueRows(batch, effectiveTier)}
-      {fileLinks.length > 0 && (
-        <div className="mt-6">
-          <h3 className="text-sm font-semibold text-bluum-text mb-2">
-            Documents
-          </h3>
-          <ul className="flex flex-col gap-2">
-            {fileLinks.map((link) => (
-              <li key={link.key}>
-                <a
-                  href={link.href}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="inline-flex items-center gap-2 text-sm font-medium text-calilean-coa underline-offset-4 hover:underline"
-                >
-                  <span>{link.label}</span>
-                  <span className="rounded-pill border border-calilean-coa/30 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-calilean-coa">
-                    PDF
-                  </span>
-                </a>
+      </h2>
+
+      <div className="rounded-lg border border-calilean-sand bg-calilean-bg p-5">
+        {displayBatchId && (
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <p className="text-sm font-semibold text-calilean-ink">Batch #{displayBatchId}</p>
+              {batch?.issued_at && (
+                <p className="text-[11px] text-calilean-fog mt-0.5">
+                  Issued: {new Date(batch.issued_at).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+                </p>
+              )}
+            </div>
+            {batch?.hplc_purity_pct && (
+              <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#7090AB]/10 text-[#7090AB] text-xs font-semibold">
+                {batch.hplc_purity_pct}% HPLC Purity
+              </span>
+            )}
+          </div>
+        )}
+
+        {batch && renderValueGrid(batch, effectiveTier)}
+
+        <div className="mt-4">
+          <p className="text-[10px] uppercase tracking-widest text-calilean-fog mb-2">
+            Assays included
+          </p>
+          <ul className="space-y-2">
+            {(effectiveTier === "extended" ? EXTENDED_ASSAYS : STANDARD_ASSAYS).map((a) => (
+              <li key={a.label} className="text-xs text-calilean-fog">
+                <span className="font-medium text-calilean-ink">{a.label}</span>
+                {" — "}
+                {a.detail}
               </li>
             ))}
           </ul>
         </div>
-      )}
-    </div>
+
+        {fileLinks.length > 0 && (
+          <div className="flex flex-wrap gap-2 mt-5 pt-4 border-t border-calilean-sand">
+            {fileLinks.map((link) => (
+              <a
+                key={link.key}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-calilean-sand text-xs font-medium text-[#7090AB] hover:bg-[#7090AB]/5 transition-colors"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                  <polyline points="14,2 14,8 20,8" />
+                  <line x1="16" y1="13" x2="8" y2="13" />
+                  <line x1="16" y1="17" x2="8" y2="17" />
+                </svg>
+                {link.label}
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
   )
 }
 

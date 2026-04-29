@@ -3,10 +3,13 @@ import LoyaltyModuleService from "../../modules/loyalty/service";
 import { LOYALTY_MODULE } from "../../modules/loyalty";
 import { CartData, getCartLoyaltyPromotion } from "../../utils/promo";
 import { MedusaError } from "@medusajs/framework/utils";
+import { FIRST_PURCHASE_PROMOTION_CODE } from "../../constants/first-purchase-discount";
 
 completeCartWorkflow.hooks.validate(
   async ({ cart }, { container }) => {
     const query = container.resolve("query")
+
+    // --- Loyalty points validation ---
     const loyaltyModuleService: LoyaltyModuleService = container.resolve(
       LOYALTY_MODULE
     )
@@ -31,17 +34,46 @@ completeCartWorkflow.hooks.validate(
 
     const loyaltyPromo = getCartLoyaltyPromotion(carts[0] as unknown as CartData)
 
-    if (!loyaltyPromo) {
+    if (loyaltyPromo) {
+      const customerLoyaltyPoints = await loyaltyModuleService.getPoints(carts[0].customer!.id)
+      const requiredPoints = await loyaltyModuleService.calculatePointsFromAmount(loyaltyPromo.application_method!.value as number)
+
+      if (customerLoyaltyPoints < requiredPoints) {
+        throw new MedusaError(
+          MedusaError.Types.INVALID_DATA,
+          `Customer does not have enough loyalty points. Required: ${requiredPoints}, Available: ${customerLoyaltyPoints}`
+        )
+      }
+    }
+
+    // --- First-purchase discount validation ---
+    const hasFirstPurchasePromo = cart.promotions?.some(
+      (promo) => promo?.code === FIRST_PURCHASE_PROMOTION_CODE
+    )
+
+    if (!hasFirstPurchasePromo) {
       return
     }
 
-    const customerLoyaltyPoints = await loyaltyModuleService.getPoints(carts[0].customer!.id)
-    const requiredPoints = await loyaltyModuleService.calculatePointsFromAmount(loyaltyPromo.application_method!.value as number)
-
-    if (customerLoyaltyPoints < requiredPoints) {
+    if (!cart.customer_id) {
       throw new MedusaError(
         MedusaError.Types.INVALID_DATA,
-        `Customer does not have enough loyalty points. Required: ${requiredPoints}, Available: ${customerLoyaltyPoints}`
+        "First purchase discount can only be applied to carts with a customer"
+      )
+    }
+
+    const { data: [customer] } = await query.graph({
+      entity: "customer",
+      fields: ["orders.*", "has_account"],
+      filters: {
+        id: cart.customer_id
+      }
+    })
+
+    if (!customer.has_account || (customer?.orders?.length || 0) > 0) {
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        "First purchase discount can only be applied to carts with no previous orders"
       )
     }
   }

@@ -1,7 +1,7 @@
 {
   "name": "calilean",
   "private": true,
-  "packageManager": "pnpm@10.11.1",
+  "packageManager": "pnpm@9.10.0",
   "engines": {
     "node": ">=20"
   },

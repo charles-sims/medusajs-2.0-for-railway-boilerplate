@@ -10,7 +10,7 @@ type ResearchLayoutProps = {
 const ResearchLayout: React.FC<ResearchLayoutProps> = ({ headings, children }) => {
   return (
     <div className="content-container py-12 border-t border-calilean-sand">
-      <div className="large:flex large:gap-12">
+      <div className="small:flex small:gap-12">
         <ResearchNav headings={headings} />
 
         <div className="flex-1 min-w-0 space-y-10">

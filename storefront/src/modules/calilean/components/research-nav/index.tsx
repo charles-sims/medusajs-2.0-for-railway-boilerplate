@@ -42,7 +42,7 @@ const ResearchNav: React.FC<ResearchNavProps> = ({ headings }) => {
   return (
     <>
       {/* Desktop: sticky side nav */}
-      <nav className="hidden large:block sticky top-24 w-[180px] shrink-0 self-start">
+      <nav className="hidden small:block sticky top-24 w-[180px] shrink-0 self-start">
         <p className="text-[9px] uppercase tracking-widest text-calilean-fog mb-3">
           On this page
         </p>
@@ -65,7 +65,7 @@ const ResearchNav: React.FC<ResearchNavProps> = ({ headings }) => {
       </nav>
 
       {/* Mobile: horizontal scrollable pill bar */}
-      <nav className="large:hidden sticky top-[64px] z-30 bg-white border-b border-calilean-sand -mx-4 px-4 py-2 overflow-x-auto">
+      <nav className="small:hidden sticky top-[64px] z-30 bg-white border-b border-calilean-sand -mx-4 px-4 py-2 overflow-x-auto">
         <div className="flex gap-2 min-w-max">
           {headings.map((h) => (
             <button

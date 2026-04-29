@@ -47,22 +47,35 @@ export type ResearchHeading = {
 }
 
 /**
- * Extract h2/h3 headings from raw MDX source for the sticky nav.
+ * Extract headings from raw MDX source for the sticky nav.
+ * Picks up both markdown ## headings AND component-based sections
+ * (<Overview>, <ResearchApplications>, <ComparisonTable>, <Safety>, <References>).
+ * Also includes the auto-generated "Specifications" and "Certificate of Analysis"
+ * sections that render from product metadata.
  */
 function extractHeadings(source: string): ResearchHeading[] {
   const headings: ResearchHeading[] = []
 
-  const headingRegex = /^(#{2,3})\s+(.+)$/gm
-  let match
-  while ((match = headingRegex.exec(source)) !== null) {
-    const level = match[1].length
-    const text = match[2].trim()
-    const id = text
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)/g, "")
-    headings.push({ id, text, level })
+  // Component-based sections with their IDs and display names
+  const componentSections: Array<{ tag: string; id: string; text: string }> = [
+    { tag: "<Overview", id: "overview", text: "Overview" },
+    { tag: "## Mechanism", id: "mechanism-of-action", text: "Mechanism of Action" },
+    { tag: "<ResearchApplications", id: "research-applications", text: "Research Applications" },
+    { tag: "<ComparisonTable", id: "compound-comparison", text: "Comparison" },
+    { tag: "<Safety", id: "safety-handling", text: "Safety & Handling" },
+    { tag: "<References", id: "references", text: "References" },
+  ]
+
+  // Scan source for each component/heading in order
+  for (const section of componentSections) {
+    if (source.includes(section.tag)) {
+      headings.push({ id: section.id, text: section.text, level: 2 })
+    }
   }
+
+  // Always add specs and COA (rendered from product metadata, not MDX)
+  headings.push({ id: "specifications", text: "Specifications", level: 2 })
+  headings.push({ id: "certificate-of-analysis", text: "Certificate of Analysis", level: 2 })
 
   return headings
 }

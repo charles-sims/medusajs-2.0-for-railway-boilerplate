@@ -24,8 +24,8 @@ const schema = zod.object({
   company_name: zod.string().optional(),
   company_address: zod.string().optional(),
   company_phone: zod.string().optional(),
-  company_email: zod.string().email().optional(),
-  company_logo: zod.string().url().optional(),
+  company_email: zod.email().optional(),
+  company_logo: zod.url().optional(),
   notes: zod.string().optional(),
 })
 

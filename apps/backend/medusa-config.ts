@@ -1,4 +1,4 @@
-import { loadEnv, Modules, defineConfig } from '@medusajs/framework/utils';
+import { loadEnv, Modules, ContainerRegistrationKeys, defineConfig } from '@medusajs/framework/utils';
 import {
   ADMIN_CORS,
   AUTH_CORS,
@@ -27,7 +27,10 @@ import {
   SANITY_API_TOKEN,
   SANITY_PROJECT_ID,
   SANITY_DATASET,
-  SANITY_STUDIO_URL
+  SANITY_STUDIO_URL,
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  GOOGLE_CALLBACK_URL
 } from './src/lib/constants';
 
 loadEnv(process.env.NODE_ENV, process.cwd());
@@ -213,6 +216,28 @@ const medusaConfig = {
     {
       resolve: './src/modules/restock',
     },
+    // Google social auth
+    ...(GOOGLE_CLIENT_ID ? [{
+      resolve: '@medusajs/medusa/auth',
+      dependencies: [Modules.CACHE, ContainerRegistrationKeys.LOGGER],
+      options: {
+        providers: [
+          {
+            resolve: '@medusajs/medusa/auth-emailpass',
+            id: 'emailpass',
+          },
+          {
+            resolve: '@medusajs/medusa/auth-google',
+            id: 'google',
+            options: {
+              clientId: GOOGLE_CLIENT_ID,
+              clientSecret: GOOGLE_CLIENT_SECRET,
+              callbackUrl: GOOGLE_CALLBACK_URL,
+            },
+          },
+        ],
+      },
+    }] : []),
     // Sanity CMS integration
     ...(SANITY_API_TOKEN ? [{
       resolve: './src/modules/sanity',

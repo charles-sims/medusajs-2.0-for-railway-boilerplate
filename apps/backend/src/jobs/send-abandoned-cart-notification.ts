@@ -1,72 +1,70 @@
 import { MedusaContainer } from "@medusajs/framework/types"
-import { sendAbandonedCartsWorkflow, SendAbandonedCartsWorkflowInput } from "../workflows/send-abandoned-carts"
+import { sendAbandonedCartsWorkflow } from "../workflows/send-abandoned-carts"
 
-export default async function abandonedCartJob(
+export default async function sendAbandonedCartNotification(
   container: MedusaContainer
 ) {
-  const logger = container.resolve("logger")
   const query = container.resolve("query")
+  const logger = container.resolve("logger")
 
   const oneDayAgo = new Date()
   oneDayAgo.setDate(oneDayAgo.getDate() - 1)
-  // oneDayAgo.setMinutes(oneDayAgo.getMinutes() - 1) // For testing
-  const limit = 100
+
   let offset = 0
-  let totalCount = 0
-  let abandonedCartsCount = 0
-  do {
-    const {
-      data: abandonedCarts,
-      metadata
-    } = await query.graph({
+  const limit = 100
+  let totalSent = 0
+
+  while (true) {
+    const { data: carts } = await query.graph({
       entity: "cart",
       fields: [
         "id",
         "email",
-        "items.*",
+        "updated_at",
+        "completed_at",
         "metadata",
-        "customer.*"
+        "items.*",
+        "items.variant.*",
+        "items.variant.product.*",
+        "customer.*",
       ],
       filters: {
-        updated_at: {
-          $lt: oneDayAgo
-        },
-        email: {
-          $ne: null
-        },
+        updated_at: { $lt: oneDayAgo },
         completed_at: null,
       },
-      pagination: {
-        skip: offset,
-        take: limit
-      }
+      pagination: { skip: offset, take: limit },
     })
 
-    totalCount = metadata?.count ?? 0
-    const cartsWithItems = abandonedCarts.filter(cart => cart.items?.length > 0 && !cart.metadata?.abandoned_notification)
+    if (!carts.length) break
 
-    try {
-      await sendAbandonedCartsWorkflow(container).run({
-        input: {
-          carts: cartsWithItems
-        } as unknown as SendAbandonedCartsWorkflowInput
-      })
-      abandonedCartsCount += cartsWithItems.length
+    const eligibleCarts = carts.filter(
+      (cart: any) =>
+        cart.email &&
+        cart.items?.length > 0 &&
+        !cart.metadata?.abandoned_notification
+    )
 
-    } catch (error) {
-      logger.error(
-        `Failed to send abandoned cart notification: ${error.message}`
-      )
+    if (eligibleCarts.length > 0) {
+      try {
+        await sendAbandonedCartsWorkflow(container).run({
+          input: { carts: eligibleCarts },
+        })
+        totalSent += eligibleCarts.length
+      } catch (error) {
+        logger.error("Failed to send abandoned cart notifications:", error)
+      }
     }
 
+    if (carts.length < limit) break
     offset += limit
-  } while (offset < totalCount)
+  }
 
-  logger.info(`Sent ${abandonedCartsCount} abandoned cart notifications`)
+  if (totalSent > 0) {
+    logger.info(`Sent ${totalSent} abandoned cart notification(s)`)
+  }
 }
 
 export const config = {
-  name: "abandoned-cart-notification",
-  schedule: "0 0 * * *" // Run at midnight every day
-  // schedule: "* * * * *" // Run every minute for testing
+  name: "send-abandoned-cart-notification",
+  schedule: "0 10 * * *",
 }

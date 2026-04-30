@@ -1,39 +1,32 @@
 import {
   createWorkflow,
-  WorkflowResponse,
   transform,
+  WorkflowResponse,
 } from "@medusajs/framework/workflows-sdk"
-import { sendAbandonedNotificationsStep } from "./steps/send-abandoned-notifications"
 import { updateCartsStep } from "@medusajs/medusa/core-flows"
-import { CartDTO } from "@medusajs/framework/types"
-import { CustomerDTO } from "@medusajs/framework/types"
+import { sendAbandonedNotificationsStep } from "./steps/send-abandoned-notifications"
 
-export type SendAbandonedCartsWorkflowInput = {
-  carts: (CartDTO & {
-    customer: CustomerDTO
-  })[]
+type WorkflowInput = {
+  carts: any[]
 }
 
 export const sendAbandonedCartsWorkflow = createWorkflow(
   "send-abandoned-carts",
-  function(input: SendAbandonedCartsWorkflowInput) {
-    sendAbandonedNotificationsStep(input)
+  ({ carts }: WorkflowInput) => {
+    sendAbandonedNotificationsStep({ carts })
 
-    const updateCartsData = transform(
-      input,
-      (data) => {
-        return data.carts.map((cart) => ({
-          id: cart.id,
-          metadata: {
-            ...cart.metadata,
-            abandoned_notification: new Date().toISOString()
-          }
-        }))
-      }
+    const cartUpdates = transform({ carts }, ({ carts }) =>
+      carts.map((cart: any) => ({
+        id: cart.id,
+        metadata: {
+          ...cart.metadata,
+          abandoned_notification: new Date().toISOString(),
+        },
+      }))
     )
 
-    const updatedCarts = updateCartsStep(updateCartsData)
+    updateCartsStep(cartUpdates)
 
-    return new WorkflowResponse(updatedCarts)
+    return new WorkflowResponse({ carts })
   }
 )

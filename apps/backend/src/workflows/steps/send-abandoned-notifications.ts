@@ -1,48 +1,40 @@
-import {
-  createStep,
-  StepResponse
-} from "@medusajs/framework/workflows-sdk"
+import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 import { Modules } from "@medusajs/framework/utils"
-import { CartDTO, CustomerDTO } from "@medusajs/framework/types"
 
-type SendAbandonedNotificationsStepInput = {
-  carts: (CartDTO & {
-    customer?: CustomerDTO
-  })[]
+type StepInput = {
+  carts: any[]
 }
 
 export const sendAbandonedNotificationsStep = createStep(
   "send-abandoned-notifications",
-  async (input: SendAbandonedNotificationsStepInput, { container }) => {
-    const notificationModuleService: any = container.resolve(
-      Modules.NOTIFICATION
-    )
+  async ({ carts }: StepInput, { container }) => {
+    const notificationModuleService = container.resolve(Modules.NOTIFICATION)
 
-    const notificationData = input.carts.map((cart) => ({
-      to: cart.email!,
-      channel: "email",
-      template: process.env.ABANDONED_CART_TEMPLATE_ID || "",
+    const notifications = carts.map((cart) => ({
+      to: cart.email,
+      channel: "email" as const,
+      template: "abandoned-cart",
       data: {
-        customer: {
-          first_name: cart.customer?.first_name || cart.shipping_address?.first_name,
-          last_name: cart.customer?.last_name || cart.shipping_address?.last_name,
+        emailOptions: {
+          subject: "You left something behind",
+          replyTo: "hello@calilean.com",
         },
+        customer_name: cart.customer?.first_name || "",
         cart_id: cart.id,
-        items: cart.items?.map((item) => ({
-          product_title: item.title,
+        items: (cart.items || []).map((item: any) => ({
+          title: item.variant?.product?.title || item.title,
+          variant_title: item.variant?.title,
           quantity: item.quantity,
           unit_price: item.unit_price,
-          thumbnail: item.thumbnail,
-        }))
-      }
+          thumbnail: item.variant?.product?.thumbnail || item.thumbnail,
+        })),
+      },
     }))
 
-    const notifications = await notificationModuleService.createNotifications(
-      notificationData
+    const created = await notificationModuleService.createNotifications(
+      notifications
     )
 
-    return new StepResponse({
-      notifications
-    })
+    return new StepResponse(created)
   }
 )

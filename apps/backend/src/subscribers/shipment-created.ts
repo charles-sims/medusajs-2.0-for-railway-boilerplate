@@ -8,7 +8,7 @@ export default async function shipmentCreatedHandler({
   const orderService = container.resolve(Modules.ORDER)
   const notificationService = container.resolve(Modules.NOTIFICATION)
 
-  const order = await orderService.retrieveOrder(data.id, {
+  const order: any = await orderService.retrieveOrder(data.id, {
     relations: ["items", "shipping_address", "fulfillments"],
   })
 

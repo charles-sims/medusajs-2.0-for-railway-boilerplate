@@ -10,7 +10,7 @@ type TrackEventStepInput = {
 export const trackEventStep = createStep(
   "track-event",
   async (input: TrackEventStepInput, { container }) => {
-    const analyticsModuleService = container.resolve(
+    const analyticsModuleService: any = container.resolve(
       "analytics"
     )
 

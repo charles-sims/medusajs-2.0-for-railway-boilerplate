@@ -9,7 +9,7 @@ type ValidateVariantOutOfStockStepInput = {
 export const validateVariantOutOfStockStep = createStep(
   "validate-variant-out-of-stock",
   async ({ variant_id, sales_channel_id }: ValidateVariantOutOfStockStepInput, { container }) => {
-    const query = container.resolve("query")
+    const query: any = container.resolve("query")
     const availability = await getVariantAvailability(query, {
       variant_ids: [variant_id],
       sales_channel_id

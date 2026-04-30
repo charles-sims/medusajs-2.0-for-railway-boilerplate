@@ -14,7 +14,7 @@ type SendAbandonedNotificationsStepInput = {
 export const sendAbandonedNotificationsStep = createStep(
   "send-abandoned-notifications",
   async (input: SendAbandonedNotificationsStepInput, { container }) => {
-    const notificationModuleService = container.resolve(
+    const notificationModuleService: any = container.resolve(
       Modules.NOTIFICATION
     )
 

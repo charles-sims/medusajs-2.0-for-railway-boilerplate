@@ -10,7 +10,7 @@ export const getRestockedStep = createStep(
   "get-restocked",
   async (input: GetRestockedStepInput, { container }) => {
     const restocked: GetRestockedStepInput = []
-    const query = container.resolve("query")
+    const query: any = container.resolve("query")
 
     await promiseAll(
       input.map(async (restockSubscription) => {

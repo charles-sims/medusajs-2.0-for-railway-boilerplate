@@ -12,7 +12,7 @@ export const syncStep = createStep(
   { name: "sync-step", async: true},
   async (input: SyncStepInput, { container }) => {
     const sanityModule: SanityModuleService = container.resolve(SANITY_MODULE);
-    const query = container.resolve(ContainerRegistrationKeys.QUERY)
+    const query: any = container.resolve(ContainerRegistrationKeys.QUERY)
 
     let total = 0;
     const upsertMap: {

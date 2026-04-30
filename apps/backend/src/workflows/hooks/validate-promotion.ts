@@ -16,7 +16,7 @@ updateCartPromotionsWorkflow.hooks.validate(
         "First purchase discount can only be applied to carts with a customer"
       )
     }
-    const query = container.resolve("query")
+    const query: any = container.resolve("query")
 
     const { data: [customer] } = await query.graph({
       entity: "customer",

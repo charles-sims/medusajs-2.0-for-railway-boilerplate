@@ -10,7 +10,7 @@ type SendRestockNotificationStepInput = (InferTypeOf<typeof RestockSubscription>
 export const sendRestockNotificationStep = createStep(
   "send-restock-notification",
   async (input: SendRestockNotificationStepInput, { container }) => {
-    const notificationModuleService = container.resolve("notification")
+    const notificationModuleService: any = container.resolve("notification")
 
     const notificationData = input.map((subscription) => ({
       to: subscription.email,

@@ -14,7 +14,7 @@ type CartData = CartDTO & {
 
 completeCartWorkflow.hooks.validate(
   async ({ cart }, { container }) => {
-    const query = container.resolve("query")
+    const query: any = container.resolve("query")
 
     // --- Loyalty points validation ---
     const loyaltyModuleService: InstanceType<typeof LoyaltyModuleService> = container.resolve(

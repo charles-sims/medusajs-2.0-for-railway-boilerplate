@@ -12,7 +12,10 @@
     "lint": "turbo lint",
     "test": "turbo test",
     "backend:dev": "turbo dev --filter=medusa-2.0-boilerplate-backend",
-    "storefront:dev": "turbo dev --filter=medusa-next"
+    "storefront:dev": "turbo dev --filter=medusa-next",
+    "build:brand-book": "node src/internal/brand/export_brand_book_pdf.js",
+    "build:deck": "node src/external/deck/export_pdf.js",
+    "build:all-docs": "npm run build:brand-book && npm run build:deck"
   },
   "pnpm": {
     "overrides": {
@@ -24,6 +27,7 @@
     }
   },
   "devDependencies": {
+    "puppeteer": "^24.42.0",
     "turbo": "^2.0.14"
   }
 }

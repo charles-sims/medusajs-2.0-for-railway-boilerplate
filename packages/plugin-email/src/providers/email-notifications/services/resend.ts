@@ -2,6 +2,7 @@ import { Logger, NotificationTypes } from '@medusajs/framework/types'
 import { AbstractNotificationProviderService, MedusaError } from '@medusajs/framework/utils'
 import { Resend, CreateEmailOptions } from 'resend'
 import { ReactNode } from 'react'
+import { render } from '@react-email/components'
 import { generateEmailTemplate } from '../templates'
 
 type InjectedDependencies = {
@@ -69,11 +70,22 @@ export class ResendNotificationService extends AbstractNotificationProviderServi
 
     const emailOptions = (notification.data?.emailOptions ?? {}) as NotificationEmailOptions
 
+    // Pre-render React to HTML so the Resend SDK doesn't need react-dom/server
+    let html: string
+    try {
+      html = await render(emailContent as React.ReactElement)
+    } catch (error) {
+      throw new MedusaError(
+        MedusaError.Types.UNEXPECTED_STATE,
+        `Failed to render email template "${notification.template}": ${error instanceof Error ? error.message : String(error)}`
+      )
+    }
+
     // Compose the message body to send via API to Resend
     const message: CreateEmailOptions = {
       to: notification.to,
       from: notification.from?.trim() ?? this.config_.from,
-      react: emailContent,
+      html,
       subject: emailOptions.subject ?? 'You have a new notification',
       headers: emailOptions.headers,
       replyTo: emailOptions.replyTo,
@@ -95,17 +107,22 @@ export class ResendNotificationService extends AbstractNotificationProviderServi
 
     // Send the email via Resend
     try {
-      await this.resend.emails.send(message)
+      const { data, error } = await this.resend.emails.send(message)
+      if (error) {
+        throw new MedusaError(
+          MedusaError.Types.UNEXPECTED_STATE,
+          `Failed to send "${notification.template}" email to ${notification.to} via Resend: ${error.name} - ${error.message}`
+        )
+      }
       this.logger_.log(
-        `Successfully sent "${notification.template}" email to ${notification.to} via Resend`
+        `Successfully sent "${notification.template}" email to ${notification.to} via Resend (id: ${data?.id})`
       )
-      return {} // Return an empty object on success
+      return {}
     } catch (error) {
-      const errorCode = error.code
-      const responseError = error.response?.body?.errors?.[0]
+      if (error instanceof MedusaError) throw error
       throw new MedusaError(
         MedusaError.Types.UNEXPECTED_STATE,
-        `Failed to send "${notification.template}" email to ${notification.to} via Resend: ${errorCode} - ${responseError?.message ?? 'unknown error'}`
+        `Failed to send "${notification.template}" email to ${notification.to} via Resend: ${error instanceof Error ? error.message : String(error)}`
       )
     }
   }

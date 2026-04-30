@@ -2,7 +2,7 @@ import { Logger, NotificationTypes } from '@medusajs/framework/types'
 import { AbstractNotificationProviderService, MedusaError } from '@medusajs/framework/utils'
 import { Resend, CreateEmailOptions } from 'resend'
 import { ReactNode } from 'react'
-import { render } from '@react-email/components'
+import { renderToStaticMarkup } from 'react-dom/server'
 import { generateEmailTemplate } from '../templates'
 
 type InjectedDependencies = {
@@ -70,10 +70,12 @@ export class ResendNotificationService extends AbstractNotificationProviderServi
 
     const emailOptions = (notification.data?.emailOptions ?? {}) as NotificationEmailOptions
 
-    // Pre-render React to HTML so the Resend SDK doesn't need react-dom/server
+    // Render React element to HTML using react-dom/server directly.
+    // This avoids @react-email/render's React version mismatch issues
+    // when the plugin is compiled with React 18 but runs under React 19.
     let html: string
     try {
-      html = await render(emailContent as React.ReactElement)
+      html = '<!DOCTYPE html>' + renderToStaticMarkup(emailContent as React.ReactElement)
     } catch (error) {
       throw new MedusaError(
         MedusaError.Types.UNEXPECTED_STATE,

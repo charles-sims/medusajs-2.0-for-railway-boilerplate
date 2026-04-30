@@ -1,7 +1,10 @@
 import {
+  authenticate,
   defineMiddlewares,
+  validateAndTransformBody,
 } from "@medusajs/framework/http"
 import multer from "multer"
+import { PostStoreCreateRestockSubscription } from "./store/restock-subscriptions/validators"
 
 // COA upload
 const coaUpload = multer({
@@ -20,6 +23,17 @@ export default defineMiddlewares({
       method: ["POST"],
       matcher: "/admin/products/:id/coa/files",
       middlewares: [coaUpload.single("file")],
+    },
+    // --- Restock Subscriptions ---
+    {
+      matcher: "/store/restock-subscriptions",
+      method: "POST",
+      middlewares: [
+        authenticate("customer", ["bearer", "session"], {
+          allowUnauthenticated: true,
+        }),
+        validateAndTransformBody(PostStoreCreateRestockSubscription),
+      ],
     },
   ],
 })

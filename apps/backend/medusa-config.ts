@@ -209,6 +209,10 @@ const medusaConfig = {
         }],
       },
     }] : []),
+    // Restock Notification Module
+    {
+      resolve: './src/modules/restock',
+    },
     // Sanity CMS integration
     ...(SANITY_API_TOKEN ? [{
       resolve: './src/modules/sanity',

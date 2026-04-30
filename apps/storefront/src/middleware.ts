@@ -94,6 +94,8 @@ export async function middleware(request: NextRequest) {
   const isPublicRoute =
     pathname === "/gate" ||
     pathname.startsWith("/gate/") ||
+    pathname === "/reset-password" ||
+    pathname.startsWith("/reset-password/") ||
     pathname.startsWith("/_next/") ||
     pathname.startsWith("/brand/") ||
     pathname.startsWith("/favicon") ||

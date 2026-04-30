@@ -4,6 +4,7 @@ import { SubscriberArgs, SubscriberConfig } from '@medusajs/medusa'
 import { EmailTemplates } from '@calilean/plugin-email/providers/email-notifications/templates'
 import { generateInvoicePdfWorkflow } from '@calilean/plugin-invoices/workflows'
 import { handleOrderPointsWorkflow } from '@calilean/plugin-loyalty/workflows'
+import { trackOrderPlacedWorkflow } from '../workflows/track-order-placed'
 
 export default async function orderPlacedHandler({
   event: { data },
@@ -51,6 +52,15 @@ export default async function orderPlacedHandler({
     })
   } catch (error) {
     console.error('Error handling loyalty points:', error)
+  }
+
+  // --- Track order placed analytics event (Segment) ---
+  try {
+    await trackOrderPlacedWorkflow(container).run({
+      input: { id: data.id }
+    })
+  } catch (error) {
+    console.error('Error tracking order placed analytics event:', error)
   }
 }
 

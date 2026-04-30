@@ -22,7 +22,8 @@ import {
   MINIO_BUCKET,
   MEILISEARCH_HOST,
   MEILISEARCH_ADMIN_KEY,
-  SHIPSTATION_API_KEY
+  SHIPSTATION_API_KEY,
+  SEGMENT_WRITE_KEY
 } from './src/lib/constants';
 
 loadEnv(process.env.NODE_ENV, process.cwd());
@@ -189,6 +190,19 @@ const medusaConfig = {
             },
           },
         ],
+      },
+    }] : []),
+    // Analytics Module with Segment
+    ...(SEGMENT_WRITE_KEY ? [{
+      resolve: '@medusajs/medusa/analytics',
+      options: {
+        providers: [{
+          resolve: './src/modules/segment',
+          id: 'segment',
+          options: {
+            writeKey: SEGMENT_WRITE_KEY,
+          },
+        }],
       },
     }] : []),
   ],

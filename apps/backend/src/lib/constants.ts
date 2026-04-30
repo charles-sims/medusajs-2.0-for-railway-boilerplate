@@ -104,6 +104,16 @@ export const MEILISEARCH_ADMIN_KEY = process.env.MEILISEARCH_ADMIN_KEY;
 export const SHIPSTATION_API_KEY = process.env.SHIPSTATION_API_KEY;
 
 /**
+ * (optional) Segment write key for analytics tracking
+ */
+export const SEGMENT_WRITE_KEY = process.env.SEGMENT_WRITE_KEY;
+
+/**
+ * (optional) Sentry DSN for error monitoring
+ */
+export const SENTRY_DSN = process.env.SENTRY_DSN;
+
+/**
  * Worker mode
  */
 export const WORKER_MODE =

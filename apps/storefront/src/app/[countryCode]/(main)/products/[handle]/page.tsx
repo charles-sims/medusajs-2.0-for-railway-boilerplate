@@ -162,8 +162,18 @@ export default async function ProductPage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: `${base}/${params.countryCode}` },
-      { "@type": "ListItem", position: 2, name: "Store", item: `${base}/${params.countryCode}/store` },
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: `${base}/${params.countryCode}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Store",
+        item: `${base}/${params.countryCode}/store`,
+      },
       { "@type": "ListItem", position: 3, name: pricedProduct.title },
     ],
   }

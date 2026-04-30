@@ -30,13 +30,13 @@ const ReturnItemSelector: React.FC<ReturnItemSelectorProps> = ({
   const handleQuantityChange = ({
     item_id,
     quantity,
-    selected_item
+    selected_item,
   }: {
     item_id: string
     quantity: number
     selected_item?: ReturnItemSelection
   }) => {
-    const item = items.find(i => i.id === item_id)
+    const item = items.find((i) => i.id === item_id)
     if (!item || !item.isReturnable) return
 
     const maxQuantity = item.returnableQuantity
@@ -53,7 +53,7 @@ const ReturnItemSelector: React.FC<ReturnItemSelectorProps> = ({
   const handleReturnReasonChange = ({
     item_id,
     return_reason_id,
-    selected_item
+    selected_item,
   }: {
     item_id: string
     return_reason_id: string
@@ -70,7 +70,7 @@ const ReturnItemSelector: React.FC<ReturnItemSelectorProps> = ({
   const handleNoteChange = ({
     item_id,
     note,
-    selected_item
+    selected_item,
   }: {
     item_id: string
     note: string
@@ -87,7 +87,7 @@ const ReturnItemSelector: React.FC<ReturnItemSelectorProps> = ({
   return (
     <div className="space-y-4">
       {items.map((item) => {
-        const itemSelection = selectedItems.find(si => si.id === item.id)
+        const itemSelection = selectedItems.find((si) => si.id === item.id)
         const currentQuantity = itemSelection?.quantity || 0
         const currentReturnReason = itemSelection?.return_reason_id || ""
         const currentNote = itemSelection?.note || ""
@@ -96,25 +96,27 @@ const ReturnItemSelector: React.FC<ReturnItemSelectorProps> = ({
           <div
             key={item.id}
             className={`p-4 border rounded-lg ${
-              !item.isReturnable ? 'opacity-60 bg-gray-50' : ''
+              !item.isReturnable ? "opacity-60 bg-gray-50" : ""
             }`}
           >
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0">
                 <div className="flex w-16">
-                  <Thumbnail thumbnail={item.thumbnail} images={[]} size="square" />
+                  <Thumbnail
+                    thumbnail={item.thumbnail}
+                    images={[]}
+                    size="square"
+                  />
                 </div>
               </div>
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  <h4 className="txt-medium truncate">
-                    {item.title}
-                  </h4>
+                  <h4 className="txt-medium truncate">{item.title}</h4>
                   {!item.isReturnable && (
                     // @ts-ignore
                     <Badge color="grey" size="small">
-                      {!item.isDelivered ? 'Not delivered' : 'Not returnable'}
+                      {!item.isDelivered ? "Not delivered" : "Not returnable"}
                     </Badge>
                   )}
                 </div>
@@ -125,11 +127,21 @@ const ReturnItemSelector: React.FC<ReturnItemSelectorProps> = ({
                 )}
                 <p className="txt-small text-ui-fg-subtle">
                   {item.isReturnable ? (
-                    <>Available to return: {item.returnableQuantity} {item.returnableQuantity === 1 ? 'item' : 'items'}</>
+                    <>
+                      Available to return: {item.returnableQuantity}{" "}
+                      {item.returnableQuantity === 1 ? "item" : "items"}
+                    </>
                   ) : item.isDelivered ? (
-                    <>Delivered: {item.deliveredQuantity} of {item.quantity} {item.quantity === 1 ? 'item' : 'items'} (already processed)</>
+                    <>
+                      Delivered: {item.deliveredQuantity} of {item.quantity}{" "}
+                      {item.quantity === 1 ? "item" : "items"} (already
+                      processed)
+                    </>
                   ) : (
-                    <>Delivered: 0 of {item.quantity} {item.quantity === 1 ? 'item' : 'items'}</>
+                    <>
+                      Delivered: 0 of {item.quantity}{" "}
+                      {item.quantity === 1 ? "item" : "items"}
+                    </>
                   )}
                 </p>
               </div>
@@ -147,11 +159,13 @@ const ReturnItemSelector: React.FC<ReturnItemSelectorProps> = ({
                     {/* @ts-ignore */}
                     <IconButton
                       size="small"
-                      onClick={() => handleQuantityChange({
-                        item_id: item.id,
-                        quantity: currentQuantity - 1,
-                        selected_item: itemSelection
-                      })}
+                      onClick={() =>
+                        handleQuantityChange({
+                          item_id: item.id,
+                          quantity: currentQuantity - 1,
+                          selected_item: itemSelection,
+                        })
+                      }
                       disabled={currentQuantity <= 0}
                     >
                       <Minus />
@@ -164,11 +178,13 @@ const ReturnItemSelector: React.FC<ReturnItemSelectorProps> = ({
                     {/* @ts-ignore */}
                     <IconButton
                       size="small"
-                      onClick={() => handleQuantityChange({
-                        item_id: item.id,
-                        quantity: currentQuantity + 1,
-                        selected_item: itemSelection
-                      })}
+                      onClick={() =>
+                        handleQuantityChange({
+                          item_id: item.id,
+                          quantity: currentQuantity + 1,
+                          selected_item: itemSelection,
+                        })
+                      }
                       disabled={currentQuantity >= item.returnableQuantity}
                     >
                       <Plus />
@@ -190,11 +206,13 @@ const ReturnItemSelector: React.FC<ReturnItemSelectorProps> = ({
                   </label>
                   <Select
                     value={currentReturnReason}
-                    onValueChange={(value) => handleReturnReasonChange({
-                      item_id: item.id,
-                      return_reason_id: value,
-                      selected_item: itemSelection
-                    })}
+                    onValueChange={(value) =>
+                      handleReturnReasonChange({
+                        item_id: item.id,
+                        return_reason_id: value,
+                        selected_item: itemSelection,
+                      })
+                    }
                   >
                     <Select.Trigger>
                       <Select.Value placeholder="Select a reason..." />
@@ -215,11 +233,13 @@ const ReturnItemSelector: React.FC<ReturnItemSelectorProps> = ({
                   </label>
                   <Textarea
                     value={currentNote}
-                    onChange={(e) => handleNoteChange({
-                      item_id: item.id,
-                      note: e.target.value,
-                      selected_item: itemSelection
-                    })}
+                    onChange={(e) =>
+                      handleNoteChange({
+                        item_id: item.id,
+                        note: e.target.value,
+                        selected_item: itemSelection,
+                      })
+                    }
                     placeholder="Please provide any additional information about this return..."
                     rows={2}
                     maxLength={500}
@@ -239,15 +259,22 @@ const ReturnItemSelector: React.FC<ReturnItemSelectorProps> = ({
           <h4 className="txt-medium-plus mb-2">Selected Items Summary</h4>
           <div className="space-y-3">
             {selectedItems.map((selectedItem) => {
-              const item = items.find(i => i.id === selectedItem.id)
+              const item = items.find((i) => i.id === selectedItem.id)
               if (!item) return null
 
-              const returnReason = returnReasons.find(r => r.id === selectedItem.return_reason_id)
+              const returnReason = returnReasons.find(
+                (r) => r.id === selectedItem.return_reason_id
+              )
 
               return (
-                <div key={selectedItem.id} className="border-b border-gray-200 pb-2 last:border-b-0">
+                <div
+                  key={selectedItem.id}
+                  className="border-b border-gray-200 pb-2 last:border-b-0"
+                >
                   <div className="flex justify-between txt-small mb-1">
-                    <span>{item.title} x {selectedItem.quantity}</span>
+                    <span>
+                      {item.title} x {selectedItem.quantity}
+                    </span>
                     <span>
                       {convertToLocale({
                         amount: item.unit_price * selectedItem.quantity,

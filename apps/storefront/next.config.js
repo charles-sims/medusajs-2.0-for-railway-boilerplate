@@ -21,26 +21,48 @@ const nextConfig = {
         hostname: "localhost",
       },
       ...(process.env.NEXT_PUBLIC_BASE_URL
-        ? [{ // Note: needed to serve images from /public folder
-            protocol: process.env.NEXT_PUBLIC_BASE_URL.startsWith("https") ? "https" : "http",
-            hostname: process.env.NEXT_PUBLIC_BASE_URL.replace(/^https?:\/\//, ""),
-          }]
+        ? [
+            {
+              // Note: needed to serve images from /public folder
+              protocol: process.env.NEXT_PUBLIC_BASE_URL.startsWith("https")
+                ? "https"
+                : "http",
+              hostname: process.env.NEXT_PUBLIC_BASE_URL.replace(
+                /^https?:\/\//,
+                ""
+              ),
+            },
+          ]
         : []),
       ...(process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
-        ? [{ // Note: only needed when using local-file for product media
-            protocol: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL.startsWith("https") ? "https" : "http",
-            hostname: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL.replace(/^https?:\/\//, ""),
-          }]
+        ? [
+            {
+              // Note: only needed when using local-file for product media
+              protocol: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL.startsWith(
+                "https"
+              )
+                ? "https"
+                : "http",
+              hostname: process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL.replace(
+                /^https?:\/\//,
+                ""
+              ),
+            },
+          ]
         : []),
       { protocol: "https", hostname: "bluumpeptides.com" },
       { protocol: "https", hostname: "cdn.shopify.com" },
-      ...(process.env.NEXT_PUBLIC_MINIO_ENDPOINT ? [{ // Note: needed when using MinIO bucket storage for media
-        protocol: "https",
-        hostname: process.env.NEXT_PUBLIC_MINIO_ENDPOINT,
-      }] : []),
+      ...(process.env.NEXT_PUBLIC_MINIO_ENDPOINT
+        ? [
+            {
+              // Note: needed when using MinIO bucket storage for media
+              protocol: "https",
+              hostname: process.env.NEXT_PUBLIC_MINIO_ENDPOINT,
+            },
+          ]
+        : []),
     ],
   },
 }
 
 module.exports = nextConfig
-

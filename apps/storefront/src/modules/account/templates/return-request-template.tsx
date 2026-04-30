@@ -65,9 +65,9 @@ const ReturnRequestTemplate: React.FC<ReturnRequestTemplateProps> = ({
     formData.append("order_id", order.id)
     formData.append("items", JSON.stringify(selectedItems))
     formData.append("return_shipping_option_id", selectedShippingOption)
-    const locationId = (shippingOptions.find(
-      (opt) => opt.id === selectedShippingOption
-    ) as any)?.service_zone?.fulfillment_set?.location?.id
+    const locationId = (
+      shippingOptions.find((opt) => opt.id === selectedShippingOption) as any
+    )?.service_zone?.fulfillment_set?.location?.id
     formData.append("location_id", locationId)
     formAction(formData)
   }
@@ -130,7 +130,8 @@ const ReturnRequestTemplate: React.FC<ReturnRequestTemplateProps> = ({
           </div>
           <p className="text-base-regular text-ui-fg-subtle">
             You can request a return for items that have been delivered. Select
-            the items you&apos;d like to return and choose a return shipping option.
+            the items you&apos;d like to return and choose a return shipping
+            option.
           </p>
         </div>
 

@@ -34,8 +34,14 @@ export default async function ReturnRequestPage(props: Props) {
   // Get shipping options and return reasons
   const [shippingOptions, returnReasons] = await Promise.all([
     listReturnShippingOptions((order as any).cart.id),
-    listReturnReasons()
+    listReturnReasons(),
   ])
 
-  return <ReturnRequestTemplate order={order} shippingOptions={shippingOptions} returnReasons={returnReasons} />
+  return (
+    <ReturnRequestTemplate
+      order={order}
+      shippingOptions={shippingOptions}
+      returnReasons={returnReasons}
+    />
+  )
 }

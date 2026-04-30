@@ -1,11 +1,11 @@
-import {ComposeIcon} from "@sanity/icons";
-import { DocumentDefinition } from "sanity";
+import { ComposeIcon } from "@sanity/icons"
+import { DocumentDefinition } from "sanity"
 
 const productSchema: DocumentDefinition = {
   fields: [
     {
       name: "title",
-      type: "string"
+      type: "string",
     },
     {
       group: "content",
@@ -13,8 +13,8 @@ const productSchema: DocumentDefinition = {
       of: [
         {
           fields: [
-            {name: "lang", title: "Language", type: "string"},
-            {name: "title", title: "Title", type: "string"},
+            { name: "lang", title: "Language", type: "string" },
+            { name: "title", title: "Title", type: "string" },
             {
               name: "content",
               rows: 3,
@@ -30,10 +30,10 @@ const productSchema: DocumentDefinition = {
     },
     {
       fields: [
-        {name: "title", title: "Title", type: "string"},
+        { name: "title", title: "Title", type: "string" },
         {
           name: "products",
-          of: [{to: [{type: "product"}], type: "reference"}],
+          of: [{ to: [{ type: "product" }], type: "reference" }],
           title: "Addons",
           type: "array",
           validation: (Rule) => Rule.max(3),
@@ -51,13 +51,15 @@ const productSchema: DocumentDefinition = {
   },
   title: "Product Page",
   type: "document",
-  groups: [{
-    default: true,
-    // @ts-ignore
-    icon: ComposeIcon,
-    name: "content",
-    title: "Content",
-  }],
-};
+  groups: [
+    {
+      default: true,
+      // @ts-ignore
+      icon: ComposeIcon,
+      name: "content",
+      title: "Content",
+    },
+  ],
+}
 
 export default productSchema

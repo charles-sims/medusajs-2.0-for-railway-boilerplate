@@ -13,8 +13,7 @@ import {
   toast,
   DataTablePaginationState
 } from "@medusajs/ui"
-import { useQuery } from "@tanstack/react-query"
-import { useMemo, useState } from "react"
+import { useMemo, useState, useEffect, useCallback } from "react"
 import { sdk } from "../../lib/sdk"
 import { HttpTypes } from "@medusajs/framework/types"
 import { Link } from "react-router-dom"
@@ -138,21 +137,26 @@ const ReviewsPage = () => {
     return pagination.pageIndex * limit
   }, [pagination])
 
-  const { data, isLoading, refetch } = useQuery<{
-    reviews: Review[]
-    count: number
-    limit: number
-    offset: number
-  }>({
-    queryKey: ["reviews", offset, limit],
-    queryFn: () => sdk.client.fetch("/admin/reviews", {
+  const [data, setData] = useState<{ reviews: Review[]; count: number } | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  const fetchReviews = useCallback(() => {
+    setIsLoading(true)
+    sdk.client.fetch<{ reviews: Review[]; count: number }>("/admin/reviews", {
       query: {
         offset: pagination.pageIndex * pagination.pageSize,
         limit: pagination.pageSize,
         order: "-created_at"
       }
-    })
-  })
+    }).then((res) => {
+      setData(res)
+      setIsLoading(false)
+    }).catch(() => setIsLoading(false))
+  }, [pagination])
+
+  useEffect(() => { fetchReviews() }, [fetchReviews])
+
+  const refetch = fetchReviews
 
   const commands = useCommands(refetch)
 

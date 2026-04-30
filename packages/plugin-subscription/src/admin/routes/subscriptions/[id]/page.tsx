@@ -5,17 +5,27 @@ import {
 } from "@medusajs/ui"
 import { useParams, Link } from "react-router-dom"
 import { SubscriptionData } from "../../../types/index.js"
-import { useQuery } from "@tanstack/react-query"
 import { sdk } from "../../../lib/sdk.js"
+import { useCallback, useEffect, useState } from "react"
 
 const SubscriptionPage = () => {
   const { id } = useParams()
-  const { data, isLoading } = useQuery<{
-    subscription: SubscriptionData
-  }>({
-    queryFn: () => sdk.client.fetch(`/admin/subscriptions/${id}`),
-    queryKey: ["subscription", id],
-  })
+  const [data, setData] = useState<{ subscription: SubscriptionData } | undefined>(undefined)
+  const [isLoading, setIsLoading] = useState(true)
+
+  const fetchSubscription = useCallback(async () => {
+    setIsLoading(true)
+    try {
+      const result = await sdk.client.fetch(`/admin/subscriptions/${id}`)
+      setData(result as { subscription: SubscriptionData })
+    } finally {
+      setIsLoading(false)
+    }
+  }, [id])
+
+  useEffect(() => {
+    fetchSubscription()
+  }, [fetchSubscription])
 
   return (
     <Container>

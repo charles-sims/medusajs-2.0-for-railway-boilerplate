@@ -1,6 +1,5 @@
 import { defineRouteConfig } from "@medusajs/admin-sdk"
 import { Container, Heading, Button, Input, Label, Textarea, toast } from "@medusajs/ui"
-import { useMutation, useQuery } from "@tanstack/react-query"
 import { sdk } from "../../../lib/sdk"
 import { useForm } from "react-hook-form"
 import * as zod from "@medusajs/framework/zod"
@@ -8,7 +7,7 @@ import {
   FormProvider,
   Controller,
 } from "react-hook-form"
-import { useCallback, useEffect } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 type InvoiceConfig = {
   id: string;
@@ -30,23 +29,37 @@ const schema = zod.object({
 })
 
 const InvoiceConfigPage = () => {
-  const { data, isLoading, refetch } = useQuery<{
-    invoice_config: InvoiceConfig
-  }>({
-    queryFn: () => sdk.client.fetch("/admin/invoice-config"),
-    queryKey: ["invoice-config"],
-  })
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: (payload: zod.infer<typeof schema>) =>
-      sdk.client.fetch("/admin/invoice-config", {
+  const [data, setData] = useState<{ invoice_config: InvoiceConfig } | undefined>(undefined)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isPending, setIsPending] = useState(false)
+
+  const fetchConfig = useCallback(async () => {
+    setIsLoading(true)
+    try {
+      const result = await sdk.client.fetch("/admin/invoice-config")
+      setData(result as { invoice_config: InvoiceConfig })
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchConfig()
+  }, [fetchConfig])
+
+  const submitConfig = useCallback(async (payload: zod.infer<typeof schema>) => {
+    setIsPending(true)
+    try {
+      await sdk.client.fetch("/admin/invoice-config", {
         method: "POST",
         body: payload,
-      }),
-    onSuccess: () => {
-      refetch()
+      })
+      await fetchConfig()
       toast.success("Invoice config updated successfully")
-    },
-  })
+    } finally {
+      setIsPending(false)
+    }
+  }, [fetchConfig])
 
   const getFormDefaultValues = useCallback(() => {
     return {
@@ -63,7 +76,7 @@ const InvoiceConfigPage = () => {
     defaultValues: getFormDefaultValues(),
   })
 
-  const handleSubmit = form.handleSubmit((formData) => mutateAsync(formData))
+  const handleSubmit = form.handleSubmit((formData) => submitConfig(formData))
 
   const uploadLogo = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]

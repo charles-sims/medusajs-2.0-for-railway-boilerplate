@@ -8,8 +8,7 @@ import {
   createDataTableColumnHelper,
   DataTablePaginationState,
 } from "@medusajs/ui"
-import { useQuery } from "@tanstack/react-query"
-import { useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { sdk } from "../../lib/sdk"
 import { Link } from "react-router-dom"
 import CreateBundledProduct from "../../components/create-bundled-product"
@@ -69,24 +68,35 @@ const BundledProductsPage = () => {
     pageSize: limit,
     pageIndex: 0,
   })
+  const [data, setData] = useState<{
+    bundled_products: BundledProduct[]
+    count: number
+  } | undefined>(undefined)
+  const [isLoading, setIsLoading] = useState(true)
 
   const offset = useMemo(() => {
     return pagination.pageIndex * limit
   }, [pagination])
 
-  const { data, isLoading } = useQuery<{
-    bundled_products: BundledProduct[]
-    count: number
-  }>({
-    queryKey: ["bundled-products", offset, limit],
-    queryFn: () => sdk.client.fetch("/admin/bundled-products", {
-      method: "GET",
-      query: {
-        limit,
-        offset,
-      },
-    }),
-  })
+  const fetchBundledProducts = useCallback(async () => {
+    setIsLoading(true)
+    try {
+      const result = await sdk.client.fetch("/admin/bundled-products", {
+        method: "GET",
+        query: {
+          limit,
+          offset,
+        },
+      })
+      setData(result as { bundled_products: BundledProduct[]; count: number })
+    } finally {
+      setIsLoading(false)
+    }
+  }, [offset])
+
+  useEffect(() => {
+    fetchBundledProducts()
+  }, [fetchBundledProducts])
 
   const table = useDataTable({
     columns,
@@ -104,7 +114,7 @@ const BundledProductsPage = () => {
       <DataTable instance={table}>
         <DataTable.Toolbar className="flex items-start justify-between gap-2 md:flex-row md:items-center">
           <Heading>Bundled Products</Heading>
-          <CreateBundledProduct />
+          <CreateBundledProduct onCreated={fetchBundledProducts} />
         </DataTable.Toolbar>
         <DataTable.Table />
         <DataTable.Pagination />

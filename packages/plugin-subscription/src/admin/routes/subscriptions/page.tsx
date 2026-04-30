@@ -1,9 +1,8 @@
 import { defineRouteConfig } from "@medusajs/admin-sdk"
 import { ClockSolid } from "@medusajs/icons"
 import { Container, Heading, Badge, createDataTableColumnHelper, useDataTable, DataTablePaginationState, DataTable } from "@medusajs/ui"
-import { useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { SubscriptionData, SubscriptionStatus } from "../../types"
-import { useQuery } from "@tanstack/react-query"
 import { sdk } from "../../lib/sdk"
 import { useNavigate } from "react-router-dom"
 
@@ -67,6 +66,11 @@ const SubscriptionsPage = () => {
     pageSize: 4,
     pageIndex: 0,
   })
+  const [data, setData] = useState<{
+    subscriptions: SubscriptionData[],
+    count: number
+  } | undefined>(undefined)
+  const [isLoading, setIsLoading] = useState(true)
 
   const query = useMemo(() => {
     return new URLSearchParams({
@@ -75,13 +79,19 @@ const SubscriptionsPage = () => {
     })
   }, [pagination])
 
-  const { data, isLoading } = useQuery<{
-    subscriptions: SubscriptionData[],
-    count: number
-  }>({
-    queryFn: () => sdk.client.fetch(`/admin/subscriptions?${query.toString()}`),
-    queryKey: ["subscriptions", query.toString()],
-  })
+  const fetchSubscriptions = useCallback(async () => {
+    setIsLoading(true)
+    try {
+      const result = await sdk.client.fetch(`/admin/subscriptions?${query.toString()}`)
+      setData(result as { subscriptions: SubscriptionData[]; count: number })
+    } finally {
+      setIsLoading(false)
+    }
+  }, [query])
+
+  useEffect(() => {
+    fetchSubscriptions()
+  }, [fetchSubscriptions])
 
   const table = useDataTable({
     columns,

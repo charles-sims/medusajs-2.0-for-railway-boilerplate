@@ -7,12 +7,15 @@ import {
   Select,
   toast
 } from "@medusajs/ui"
-import { useState, useRef, useCallback, useMemo } from "react"
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { useState, useRef, useCallback, useMemo, useEffect } from "react"
 import { sdk } from "../lib/sdk"
 import { HttpTypes } from "@medusajs/framework/types"
 
-const CreateBundledProduct = () => {
+type CreateBundledProductProps = {
+  onCreated?: () => void
+}
+
+const CreateBundledProduct = ({ onCreated }: CreateBundledProductProps) => {
   const [open, setOpen] = useState(false)
   const [title, setTitle] = useState("")
   const [items, setItems] = useState<{
@@ -28,23 +31,23 @@ const CreateBundledProduct = () => {
   const productsLimit = 15
   const [currnetProductPage, setCurrentProductPage] = useState(0)
   const [productsCount, setProductsCount] = useState(0)
+  const [isCreating, setIsCreating] = useState(false)
   const hasNextPage = useMemo(() =>
     productsCount ? productsCount > productsLimit : true,
   [productsCount, productsLimit])
-  const queryClient = useQueryClient()
-  useQuery({
-    queryKey: ["products"],
-    queryFn: async () => {
-      const { products, count } = await sdk.admin.product.list({
+
+  useEffect(() => {
+    if (!hasNextPage) return
+    const fetchProducts = async () => {
+      const { products: fetched, count } = await sdk.admin.product.list({
         limit: productsLimit,
         offset: currnetProductPage * productsLimit,
       })
       setProductsCount(count)
-      setProducts((prev) => [...prev, ...products])
-      return products
-    },
-    enabled: hasNextPage,
-  })
+      setProducts((prev) => [...prev, ...fetched])
+    }
+    fetchProducts()
+  }, [currnetProductPage, hasNextPage])
 
   const fetchMoreProducts = () => {
     if (!hasNextPage) {
@@ -53,56 +56,51 @@ const CreateBundledProduct = () => {
     setCurrentProductPage(currnetProductPage + 1)
   }
 
-  const { mutateAsync: createBundledProduct, isPending: isCreating } = useMutation({
-    mutationFn: async (data: Record<string, any>) => {
+  const handleCreate = useCallback(async () => {
+    setIsCreating(true)
+    try {
       await sdk.client.fetch("/admin/bundled-products", {
         method: "POST",
-        body: data
-      })
-    }
-  })
-
-  const handleCreate = async () => {
-    try {
-      await createBundledProduct({
-        title,
-        product: {
+        body: {
           title,
-          options: [
-            {
-              title: "Default",
-              values: ["default"]
-            }
-          ],
-          status: "published",
-          variants: [
-            {
-              title,
-              // You can set prices in the product's page
-              prices: [],
-              options: {
-                Default: "default"
-              },
-              manage_inventory: false
-            }
-          ]
-        },
-        items: items.map((item) => ({
-          product_id: item.product_id,
-          quantity: item.quantity,
-        }))
+          product: {
+            title,
+            options: [
+              {
+                title: "Default",
+                values: ["default"]
+              }
+            ],
+            status: "published",
+            variants: [
+              {
+                title,
+                // You can set prices in the product's page
+                prices: [],
+                options: {
+                  Default: "default"
+                },
+                manage_inventory: false
+              }
+            ]
+          },
+          items: items.map((item) => ({
+            product_id: item.product_id,
+            quantity: item.quantity,
+          }))
+        }
       })
       setOpen(false)
       toast.success("Bundled product created successfully")
-      queryClient.invalidateQueries({
-        queryKey: ["bundled-products"]
-      })
+      onCreated?.()
       setTitle("")
       setItems([{ product_id: undefined, quantity: 1 }])
     } catch (error) {
       toast.error("Failed to create bundled product")
+    } finally {
+      setIsCreating(false)
     }
-  }
+  }, [title, items, onCreated])
 
   return (
     <FocusModal open={open} onOpenChange={setOpen}>

@@ -3,9 +3,9 @@
 import { useState, useActionState } from "react"
 import { useFormStatus } from "react-dom"
 import CaliLeanLogo from "@modules/calilean/icons/calilean-logo"
-import { login, signup } from "@lib/data/customer"
+import { login, signup, requestPasswordReset } from "@lib/data/customer"
 
-type GateView = "sign-in" | "register"
+type GateView = "sign-in" | "register" | "forgot-password"
 
 function SubmitButton({ children }: { children: React.ReactNode }) {
   const { pending } = useFormStatus()
@@ -170,7 +170,12 @@ export default function GatePage() {
           <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-b from-[#7090AB]/20 via-transparent to-[#7090AB]/10 pointer-events-none" />
           <div className="bg-calilean-bg/80 backdrop-blur-sm rounded-2xl p-6 relative">
             {view === "sign-in" ? (
-              <SignInForm onSwitch={() => setView("register")} />
+              <SignInForm
+                onSwitch={() => setView("register")}
+                onForgot={() => setView("forgot-password")}
+              />
+            ) : view === "forgot-password" ? (
+              <ForgotPasswordForm onBack={() => setView("sign-in")} />
             ) : (
               <RegisterForm onSwitch={() => setView("sign-in")} />
             )}
@@ -187,7 +192,13 @@ export default function GatePage() {
   )
 }
 
-function SignInForm({ onSwitch }: { onSwitch: () => void }) {
+function SignInForm({
+  onSwitch,
+  onForgot,
+}: {
+  onSwitch: () => void
+  onForgot: () => void
+}) {
   const [message, formAction] = useActionState(login, null)
 
   return (
@@ -211,6 +222,15 @@ function SignInForm({ onSwitch }: { onSwitch: () => void }) {
       {message && typeof message === "string" && (
         <p className="text-calilean-alert text-xs">{message}</p>
       )}
+      <div className="flex justify-end -mt-1">
+        <button
+          type="button"
+          onClick={onForgot}
+          className="text-calilean-pacific text-xs hover:text-calilean-pacific/80 transition-colors"
+        >
+          Forgot password?
+        </button>
+      </div>
       <SubmitButton>Sign in</SubmitButton>
       <p className="text-calilean-fog text-xs mt-6">
         New here?{" "}
@@ -223,6 +243,78 @@ function SignInForm({ onSwitch }: { onSwitch: () => void }) {
         </button>
       </p>
     </form>
+  )
+}
+
+function ForgotPasswordForm({ onBack }: { onBack: () => void }) {
+  const [state, formAction] = useActionState(requestPasswordReset, null)
+  const sent = state?.success === true
+
+  return (
+    <div className="flex flex-col gap-3">
+      {sent ? (
+        <>
+          <div className="text-center py-2">
+            <div className="w-10 h-10 rounded-full bg-calilean-pacific/10 flex items-center justify-center mx-auto mb-4">
+              <svg
+                className="w-5 h-5 text-calilean-pacific"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                />
+              </svg>
+            </div>
+            <p className="text-calilean-ink text-sm font-medium mb-1">
+              Check your email
+            </p>
+            <p className="text-calilean-fog text-xs leading-relaxed">
+              If an account exists with that email, we sent a link to reset your
+              password.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onBack}
+            className="w-full bg-calilean-pacific text-white rounded-btn py-3 text-sm font-medium hover:bg-calilean-pacific/90 transition-colors mt-2"
+          >
+            Back to sign in
+          </button>
+        </>
+      ) : (
+        <form action={formAction} className="flex flex-col gap-3">
+          <p className="text-calilean-ink text-sm font-medium text-center mb-1">
+            Reset your password
+          </p>
+          <p className="text-calilean-fog text-xs text-center mb-2">
+            Enter your email and we'll send you a reset link.
+          </p>
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            required
+            autoComplete="email"
+            className="w-full bg-calilean-sand border border-transparent rounded-btn px-4 py-3 text-sm text-calilean-ink placeholder:text-calilean-fog/60 outline-none focus:border-calilean-pacific/30 transition-colors"
+          />
+          <SubmitButton>Send reset link</SubmitButton>
+          <p className="text-calilean-fog text-xs mt-4 text-center">
+            <button
+              type="button"
+              onClick={onBack}
+              className="text-calilean-pacific hover:text-calilean-pacific/80 transition-colors"
+            >
+              Back to sign in
+            </button>
+          </p>
+        </form>
+      )}
+    </div>
   )
 }
 

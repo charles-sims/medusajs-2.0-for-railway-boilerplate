@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cali Lean Brand Book</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #FFFFFF;
+    --ink: #111111;
+    --pacific: #7090AB;
+    --fog: #9CA3A8;
+    --sand: #F0F0F0;
+    --alert: #A23B2A;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .slide {
+    width: 1920px;
+    height: 1080px;
+    padding: 80px 120px;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+    background: var(--bg);
+  }
+
+  .slide-meta {
+    position: absolute;
+    top: 40px;
+    right: 60px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--fog);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+  }
+
+  .slide-footer {
+    position: absolute;
+    bottom: 36px;
+    right: 60px;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--fog);
+    letter-spacing: 0.08em;
+  }
+
+  h1 {
+    font-weight: 800;
+    font-size: 56px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 32px;
+  }
+
+  h3 {
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+
+  p {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 720px;
+  }
+
+  .accent-line {
+    width: 64px;
+    height: 3px;
+    background: var(--pacific);
+    margin-bottom: 32px;
+  }
+
+  .accent-line-lg {
+    width: 100%;
+    height: 1px;
+    background: var(--pacific);
+    opacity: 0.4;
+    margin: 40px 0;
+  }
+
+  .tagline {
+    font-weight: 500;
+    font-size: 28px;
+    color: var(--fog);
+    margin-top: 24px;
+  }
+
+  .mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ---- SLIDE 1: COVER ---- */
+  .cover-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .cover-slide .logo-img {
+    max-width: 520px;
+    margin-bottom: 40px;
+  }
+
+  .cover-slide .location {
+    position: absolute;
+    bottom: 80px;
+    left: 120px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--fog);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .cover-slide .confidential-badge {
+    position: absolute;
+    bottom: 80px;
+    right: 120px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--fog);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid rgba(156, 163, 168, 0.3);
+    padding: 6px 16px;
+    border-radius: 4px;
+  }
+
+  /* ---- GRID LAYOUTS ---- */
+  .grid-2x2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+
+  .grid-2x2 .pillar {
+    padding: 36px;
+    border: 1px solid rgba(156, 163, 168, 0.2);
+    border-radius: 8px;
+  }
+
+  .grid-2x2 .pillar h3 {
+    color: var(--pacific);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 16px;
+  }
+
+  .grid-2x2 .pillar h4 {
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .grid-2x2 .pillar p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #444;
+  }
+
+  /* ---- DO/DON'T TABLE ---- */
+  .voice-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    margin-top: 24px;
+  }
+
+  .voice-table th {
+    background: var(--sand);
+    text-align: left;
+    padding: 14px 20px;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+  }
+
+  .voice-table td {
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(156, 163, 168, 0.15);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .voice-table .do-cell {
+    color: var(--ink);
+  }
+
+  .voice-table .dont-cell {
+    color: var(--fog);
+    text-decoration: line-through;
+    text-decoration-color: rgba(156, 163, 168, 0.5);
+  }
+
+  /* ---- COLOR SWATCHES ---- */
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 24px;
+  }
+
+  .swatch {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .swatch-color {
+    height: 120px;
+    display: flex;
+    align-items: flex-end;
+    padding: 14px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .swatch-label {
+    padding: 14px 16px;
+    background: var(--sand);
+  }
+
+  .swatch-label .token {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .swatch-label .usage {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.4;
+  }
+
+  /* ---- TYPOGRAPHY SPECIMENS ---- */
+  .type-specimen {
+    margin-bottom: 16px;
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+  }
+
+  .type-specimen .weight-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--fog);
+    min-width: 48px;
+    text-align: right;
+  }
+
+  .type-specimen .sample {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 32px;
+    line-height: 1.3;
+  }
+
+  .mono-specimen {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    line-height: 1.5;
+    padding: 24px 32px;
+    background: var(--sand);
+    border-radius: 8px;
+    margin-top: 32px;
+  }
+
+  .mono-specimen .weight-label {
+    font-size: 12px;
+    color: var(--fog);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  /* ---- BUTTONS ---- */
+  .btn {
+    display: inline-block;
+    padding: 14px 36px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 9px;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-primary {
+    background: var(--ink);
+    color: #FFFFFF;
+    border: none;
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+  }
+
+  .btn-inverse {
+    background: #FFFFFF;
+    color: var(--ink);
+    border: none;
+  }
+
+  /* ---- SURFACE LADDER ---- */
+  .surface-strip {
+    display: flex;
+    gap: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 100px;
+    margin-top: 24px;
+  }
+
+  .surface-strip > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .surface-strip .surface-name {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+
+  /* ---- INVERTED SECTION ---- */
+  .slide-inverted {
+    background: var(--ink);
+    color: #FFFFFF;
+  }
+
+  .slide-inverted .slide-meta,
+  .slide-inverted .slide-footer {
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .slide-inverted .accent-line {
+    background: var(--pacific);
+  }
+
+  /* ---- RULES LIST ---- */
+  .rules-list {
+    list-style: none;
+    margin-top: 16px;
+  }
+
+  .rules-list li {
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(156, 163, 168, 0.12);
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .rules-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 16px;
+    width: 6px;
+    height: 6px;
+    background: var(--pacific);
+    border-radius: 50%;
+  }
+
+  /* ---- EMAIL MOCKUP ---- */
+  .email-mockup {
+    background: var(--sand);
+    border-radius: 8px;
+    padding: 48px;
+    max-width: 640px;
+  }
+
+  .email-mockup .email-header {
+    text-align: center;
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(156, 163, 168, 0.2);
+    margin-bottom: 32px;
+  }
+
+  .email-mockup .email-body {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #444;
+  }
+
+  .email-mockup .email-body p {
+    margin-bottom: 16px;
+    font-size: 15px;
+  }
+
+  .email-mockup .email-footer {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(156, 163, 168, 0.2);
+    text-align: center;
+    font-size: 12px;
+    color: var(--fog);
+  }
+
+  /* ---- PHOTO DIRECTION ---- */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-top: 16px;
+  }
+
+  .photo-card {
+    padding: 28px;
+    border-radius: 8px;
+  }
+
+  .photo-card h4 {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+
+  .photo-card p, .photo-card li {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+  }
+
+  .photo-card ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .photo-card ul li {
+    padding: 4px 0;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .photo-card ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+  }
+
+  .photo-do li::before { background: var(--pacific); }
+  .photo-dont li::before { background: var(--alert); }
+
+  /* ---- RUO ---- */
+  .ruo-box {
+    background: rgba(162, 59, 42, 0.06);
+    border-left: 3px solid var(--alert);
+    padding: 28px 32px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 24px;
+  }
+
+  .ruo-box p {
+    color: var(--alert);
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .compliance-list {
+    list-style: none;
+    margin-top: 24px;
+  }
+
+  .compliance-list li {
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(156, 163, 168, 0.12);
+    display: flex;
+    gap: 12px;
+  }
+
+  .compliance-list .label {
+    font-weight: 600;
+    min-width: 160px;
+    color: var(--ink);
+  }
+
+  .compliance-list .value {
+    color: #444;
+  }
+
+  /* ---- LOGO USAGE ---- */
+  .logo-rules {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+    margin-top: 32px;
+  }
+
+  .logo-rule-card {
+    padding: 24px;
+    border: 1px solid rgba(156, 163, 168, 0.2);
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .logo-rule-card .rule-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+
+  .logo-rule-card h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .logo-rule-card p {
+    font-size: 13px;
+    color: #666;
+    max-width: 100%;
+  }
+
+  /* ---- CLOSING ---- */
+  .closing-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .closing-slide .logo-img {
+    max-width: 360px;
+    margin-bottom: 32px;
+  }
+
+  .closing-slide .closing-tagline {
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--fog);
+    margin-bottom: 48px;
+  }
+
+  .closing-slide .contact-block {
+    font-size: 14px;
+    color: var(--fog);
+    line-height: 2;
+  }
+
+  .closing-slide .conf-mark {
+    margin-top: 64px;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--fog);
+    border: 1px solid rgba(156, 163, 168, 0.25);
+    padding: 8px 24px;
+    border-radius: 4px;
+  }
+
+  /* ---- TWO COL LAYOUT ---- */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  @media print {
+    .slide { page-break-after: always; }
+    body { margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- SLIDE 1: COVER                                                -->
+<!-- ============================================================ -->
+<div class="slide cover-slide">
+  <span class="slide-meta">01 &middot; Cover</span>
+  <img src="../../../docs/brand/logo/master/calilean-logo-black.png" alt="Cali Lean" class="logo-img">
+  <p class="tagline">Peptides, on the record.</p>
+  <div class="location">El Segundo, CA</div>
+  <div class="confidential-badge">Confidential</div>
+  <span class="slide-footer">Cali Lean &middot; Confidential</span>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2: POSITIONING                                          -->
+<!-- ============================================================ -->
+<div class="slide">
+  <span class="slide-meta">02 &middot; Positioning</span>
+  <div class="accent-line"></div>
+  <h2>Positioning</h2>
+  <h1 style="font-size: 38px; max-width: 900px; margin-bottom: 40px;">Research-grade peptide line for the South Bay athlete who treats their body like a lab.</h1>
+  <div class="accent-line-lg"></div>
+  <div class="two-col" style="margin-top: 40px;">
+    <div>
+      <h3 style="color: var(--pacific); font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 12px;">Context</h3>
+      <p style="font-size: 16px;">The peptide market is noisy with clinic-grade marketing, neon branding, and unsubstantiated health claims. Cali Lean takes the opposite path. We publish COAs per batch. We cite published studies. We say what is in the vial before we say what it does. Every product ships with documentation, not promises.</p>
+    </div>
+    <div>
+      <h3 style="color: var(--pacific); font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 12px;">Audience</h3>
+      <p style="font-size: 16px;">South Bay athletes, biohackers, and research-minded consumers aged 28-55. They listen to Huberman, read abstracts, and cross-reference dosing protocols. They want transparency, not hype. They live in the 90245, 90266, 90254 zip codes and train outdoors year-round.</p>
+    </div>
+  </div>
+  <div style="margin-top: 40px;">
+    <h3 style="color: var(--pacific); font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 12px;">Secondary Tagline</h3>
+    <p style="font-size: 22px; font-weight: 600; color: var(--fog);">Research-grade. South Bay-built.</p>
+  </div>
+  <span class="slide-footer">Cali Lean &middot; Confidential</span>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3: VOICE PILLARS                                        -->
+<!-- ============================================================ -->
+<div class="slide">
+  <span class="slide-meta">03 &middot; Voice Pillars</span>
+  <div class="accent-line"></div>
+  <h2>Voice Pillars</h2>
+  <div class="grid-2x2">
+    <div class="pillar">
+      <h3>01</h3>
+      <h4>Coastal Minimalism</h4>
+      <p>Clean whites, Carolina Blue, no exclamation points. The aesthetic is the Strand at 6 a.m. in May Gray. Quiet confidence. Nothing loud.</p>
+    </div>
+    <div class="pillar">
+      <h3>02</h3>
+      <h4>Research-Grade Transparency</h4>
+      <p>COAs published per batch. We lead with "what is in it" before "what it does." Every claim maps to a published study or says nothing at all.</p>
+    </div>
+    <div class="pillar">
+      <h3>03</h3>
+      <h4>Accessible Expertise</h4>
+      <p>Huberman-explained, AG1-sold. Plain English for complex compounds. We assume intelligence but never assume prior knowledge.</p>
+    </div>
+    <div class="pillar">
+      <h3>04</h3>
+      <h4>Local First</h4>
+      <p>South Bay-specific copy. The 90s zip codes are home. Built in El Segundo, assayed in Irvine. We name neighborhoods, not "California."</p>
+    </div>
+  </div>
+  <span class="slide-footer">Cali Lean &middot; Confidential</span>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4: VOICE RULES                                          -->
+<!-- ============================================================ -->
+<div class="slide">
+  <span class="slide-meta">04 &middot; Voice Rules</span>
+  <div class="accent-line"></div>
+  <h2>Voice Rules</h2>
+  <div class="two-col">
+    <div>
+      <h3 style="margin-bottom: 16px;">Do / Don't Pairs</h3>
+      <table class="voice-table">
+        <thead>
+          <tr><th style="width: 50%;">Do</th><th>Don't</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="do-cell">BPC-157, 5mg vial, lyophilized, batch 240412-A. COA published.</td>
+            <td class="dont-cell">Premium recovery formula.</td>
+          </tr>
+          <tr>
+            <td class="do-cell">Used in published rat-model studies of tendon repair.</td>
+            <td class="dont-cell">Clinically proven to heal injuries.</td>
+          </tr>
+          <tr>
+            <td class="do-cell">For research use only. Not for human consumption.</td>
+            <td class="dont-cell">Discover the future of recovery.</td>
+          </tr>
+          <tr>
+            <td class="do-cell">Built in the South Bay. Assayed in Irvine.</td>
+            <td class="dont-cell">From the heart of California.</td>
+          </tr>
+          <tr>
+            <td class="do-cell">Short sentence. Then stop.</td>
+            <td class="dont-cell">Adjective stack. Three modifiers per noun.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3 style="margin-bottom: 16px;">Rules of Thumb</h3>
+      <ul class="rules-list">
+        <li>Sentence length: average 12 words, never over 25</li>
+        <li>Adjectives: zero or one per noun</li>
+        <li>No em-dashes, no exclamation points</li>
+        <li>No italicized verbs in headlines</li>
+        <li>No DTC trust ribbons</li>
+        <li>Lead with compound name and batch number</li>
+        <li>Cite the study or say nothing</li>
+        <li>RUO disclaimer on every product page</li>
+      </ul>
+    </div>
+  </div>
+  <span class="slide-footer">Cali Lean &middot; Confidential</span>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5: COLOR PALETTE                                        -->
+<!-- ============================================================ -->
+<div class="slide">
+  <span class="slide-meta">05 &middot; Color Palette</span>
+  <div class="accent-line"></div>
+  <h2>Color Palette</h2>
+  <div class="swatch-grid">
+    <div class="swatch">
+      <div class="swatch-color" style="background: #FFFFFF; color: var(--fog); border: 1px solid var(--sand);">#FFFFFF</div>
+      <div class="swatch-label">
+        <div class="token">BG</div>
+        <div class="usage">Page background. Clean white.</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #111111; color: #FFFFFF;">#111111</div>
+      <div class="swatch-label">
+        <div class="token">INK</div>
+        <div class="usage">Body text, headlines, primary buttons.</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #7090AB; color: #FFFFFF;">#7090AB</div>
+      <div class="swatch-label">
+        <div class="token">PACIFIC</div>
+        <div class="usage">Primary accent. Links, dividers, icons.</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #9CA3A8; color: #FFFFFF;">#9CA3A8</div>
+      <div class="swatch-label">
+        <div class="token">FOG</div>
+        <div class="usage">Muted text, captions, dividers.</div>
+      </div>
+    </div>
+  </div>
+  <div class="swatch-grid" style="margin-top: 24px; grid-template-columns: repeat(3, 1fr);">
+    <div class="swatch">
+      <div class="swatch-color" style="background: #F0F0F0; color: var(--fog);">#F0F0F0</div>
+      <div class="swatch-label">
+        <div class="token">SAND</div>
+        <div class="usage">Surface variant. Cards, table headers, code blocks.</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: #A23B2A; color: #FFFFFF;">#A23B2A</div>
+      <div class="swatch-label">
+        <div class="token">ALERT</div>
+        <div class="usage">RUO disclaimer. Legal notices. Restricted use.</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: rgba(156,163,168,0.3); color: var(--fog); border: 1px solid var(--sand);">
+        <span style="font-size: 11px;">#9CA3A8 @ 30%</span>
+      </div>
+      <div class="swatch-label">
+        <div class="token">HAIRLINE</div>
+        <div class="usage">Subtle borders, horizontal rules, dividers.</div>
+      </div>
+    </div>
+  </div>
+  <span class="slide-footer">Cali Lean &middot; Confidential</span>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 6: TYPOGRAPHY                                           -->
+<!-- ============================================================ -->
+<div class="slide">
+  <span class="slide-meta">06 &middot; Typography</span>
+  <div class="accent-line"></div>
+  <h2>Typography</h2>
+  <h3 style="color: var(--pacific); font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 24px;">Display &amp; Body: Plus Jakarta Sans</h3>
+
+  <div class="type-specimen">
+    <span class="weight-label">400</span>
+    <span class="sample" style="font-weight: 400;">Plus Jakarta Sans Regular. Clean and legible.</span>
+  </div>
+  <div class="type-specimen">
+    <span class="weight-label">500</span>
+    <span class="sample" style="font-weight: 500;">Plus Jakarta Sans Medium. Subtle emphasis.</span>
+  </div>
+  <div class="type-specimen">
+    <span class="weight-label">600</span>
+    <span class="sample" style="font-weight: 600;">Plus Jakarta Sans SemiBold. Subheadings.</span>
+  </div>
+  <div class="type-specimen">
+    <span class="weight-label">700</span>
+    <span class="sample" style="font-weight: 700;">Plus Jakarta Sans Bold. Section headers.</span>
+  </div>
+  <div class="type-specimen">
+    <span class="weight-label">800</span>
+    <span class="sample" style="font-weight: 800;">Plus Jakarta Sans ExtraBold. Display.</span>
+  </div>
+
+  <div class="mono-specimen">
+    <span class="weight-label">Mono &amp; Data: JetBrains Mono</span>
+    <div style="font-weight: 400;">JetBrains Mono 400 &mdash; Batch 240412-A &middot; COA-2024-0089</div>
+    <div style="font-weight: 500; margin-top: 8px;">JetBrains Mono 500 &mdash; BPC-157 &middot; 5mg &middot; Lyophilized &middot; 98.7% Purity</div>
+  </div>
+  <span class="slide-footer">Cali Lean &middot; Confidential</span>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 7: LOGO USAGE                                           -->
+<!-- ============================================================ -->
+<div class="slide">
+  <span class="slide-meta">07 &middot; Logo Usage</span>
+  <div class="accent-line"></div>
+  <h2>Logo Usage</h2>
+  <div style="text-align: center; padding: 48px 0; margin-bottom: 16px;">
+    <img src="../../../docs/brand/logo/master/calilean-logo-black.png" alt="Cali Lean" style="max-width: 400px;">
+    <div style="margin-top: 16px; font-size: 13px; color: var(--fog); font-weight: 500; letter-spacing: 0.06em;">Primary wordmark &mdash; black on white</div>
+  </div>
+  <div class="accent-line-lg"></div>
+  <div class="logo-rules">
+    <div class="logo-rule-card">
+      <div style="font-size: 13px; font-weight: 600; color: var(--pacific); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">Clear Space</div>
+      <p style="font-size: 14px; color: #555;">Minimum clear space equals the cap-height of the "C" in Cali on all sides. No elements may intrude into this zone.</p>
+    </div>
+    <div class="logo-rule-card">
+      <div style="font-size: 13px; font-weight: 600; color: var(--pacific); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">Minimum Size</div>
+      <p style="font-size: 14px; color: #555;">Print: 1.5 inches wide minimum. Digital: 120px wide minimum. Below this threshold, use the favicon mark only.</p>
+    </div>
+    <div class="logo-rule-card">
+      <div style="font-size: 13px; font-weight: 600; color: var(--pacific); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">Color Variants</div>
+      <p style="font-size: 14px; color: #555;">Black on white (default). White on INK (#111111) for dark contexts. Never use PACIFIC or ALERT on the logo.</p>
+    </div>
+  </div>
+  <div style="margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
+    <div>
+      <h3 style="color: var(--pacific); font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">Do</h3>
+      <ul class="rules-list">
+        <li>Use on clean, uncluttered backgrounds</li>
+        <li>Maintain proportions when scaling</li>
+        <li>Use black or white variants only</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="color: var(--alert); font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">Don't</h3>
+      <ul class="rules-list">
+        <li style="color: var(--fog);">Place on busy photography or patterns</li>
+        <li style="color: var(--fog);">Rotate, stretch, or add effects</li>
+        <li style="color: var(--fog);">Colorize the logo with brand accent colors</li>
+      </ul>
+    </div>
+  </div>
+  <span class="slide-footer">Cali Lean &middot; Confidential</span>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 8: BUTTONS & UI COMPONENTS                              -->
+<!-- ============================================================ -->
+<div class="slide">
+  <span class="slide-meta">08 &middot; Buttons &amp; UI</span>
+  <div class="accent-line"></div>
+  <h2>Buttons &amp; UI Components</h2>
+  <div class="two-col">
+    <div>
+      <h3 style="color: var(--pacific); font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 24px;">Button Styles</h3>
+      <div style="display: flex; flex-direction: column; gap: 32px;">
+        <div>
+          <div style="font-size: 12px; color: var(--fog); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">Primary</div>
+          <button class="btn btn-primary">Add to Cart</button>
+          <div style="margin-top: 10px; font-size: 12px; color: var(--fog);" class="mono">bg: #111111 &middot; text: #FFFFFF &middot; radius: 9px</div>
+        </div>
+        <div>
+          <div style="font-size: 12px; color: var(--fog); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">Secondary</div>
+          <button class="btn btn-secondary">View COA</button>
+          <div style="margin-top: 10px; font-size: 12px; color: var(--fog);" class="mono">bg: transparent &middot; border: 1.5px #111111 &middot; radius: 9px</div>
+        </div>
+        <div style="background: var(--ink); padding: 24px; border-radius: 8px;">
+          <div style="font-size: 12px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">Inverse (dark sections)</div>
+          <button class="btn btn-inverse">Learn More</button>
+          <div style="margin-top: 10px; font-size: 12px; color: rgba(255,255,255,0.4);" class="mono">bg: #FFFFFF &middot; text: #111111 &middot; radius: 9px</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3 style="color: var(--pacific); font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 24px;">Surface Ladder</h3>
+      <div class="surface-strip">
+        <div style="background: #FFFFFF; border: 1px solid var(--sand);">
+          <span class="surface-name" style="color: var(--fog);">Page</span>
+          <span class="mono" style="font-size: 11px; color: var(--fog);">#FFFFFF</span>
+        </div>
+        <div style="background: #F0F0F0;">
+          <span class="surface-name" style="color: var(--fog);">Subtle</span>
+          <span class="mono" style="font-size: 11px; color: var(--fog);">#F0F0F0</span>
+        </div>
+        <div style="background: #111111;">
+          <span class="surface-name" style="color: rgba(255,255,255,0.5);">Inverted</span>
+          <span class="mono" style="font-size: 11px; color: rgba(255,255,255,0.5);">#111111</span>
+        </div>
+        <div style="background: #FFFFFF; border: 1px solid rgba(156,163,168,0.3);">
+          <span class="surface-name" style="color: var(--fog);">Hairline</span>
+          <span class="mono" style="font-size: 11px; color: var(--fog);">30% FOG</span>
+        </div>
+      </div>
+      <div style="margin-top: 40px;">
+        <h3 style="color: var(--pacific); font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 16px;">Component Notes</h3>
+        <ul class="rules-list">
+          <li>Border-radius: 9px on all interactive elements</li>
+          <li>Cards use SAND background with no border</li>
+          <li>Dividers use HAIRLINE (FOG at 30% opacity)</li>
+          <li>Focus states: 2px PACIFIC outline, 2px offset</li>
+          <li>Hover: primary buttons lighten to #333333</li>
+          <li>Transitions: 150ms ease-out on all states</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <span class="slide-footer">Cali Lean &middot; Confidential</span>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 9: PHOTOGRAPHY DIRECTION                                -->
+<!-- ============================================================ -->
+<div class="slide">
+  <span class="slide-meta">09 &middot; Photography</span>
+  <div class="accent-line"></div>
+  <h2>Photography Direction</h2>
+  <p style="font-size: 16px; color: #555; margin-bottom: 32px; max-width: 800px;">Pre-dawn May Gray on the Strand. Salt mist. Real athletes aged 35-55 from the South Bay. Shot on 35mm film with slight grain. Blue hour palette. No gym interiors. No vials on skin.</p>
+  <div class="photo-grid">
+    <div class="photo-card" style="background: var(--sand);">
+      <h4 style="color: var(--pacific);">Do</h4>
+      <ul class="photo-do">
+        <li>Outdoor South Bay locations: the Strand, Dockweiler, El Porto</li>
+        <li>Natural light, pre-dawn or golden hour only</li>
+        <li>Real athletes in motion or recovery, candid</li>
+        <li>35mm film grain, slightly desaturated palette</li>
+        <li>Blue hour tones that echo PACIFIC accent</li>
+        <li>Product photography on clean white or SAND surfaces</li>
+        <li>Negative space as a design element</li>
+      </ul>
+    </div>
+    <div class="photo-card" style="background: rgba(162, 59, 42, 0.04);">
+      <h4 style="color: var(--alert);">Don't</h4>
+      <ul class="photo-dont">
+        <li>Gym interiors, weight rooms, or treadmills</li>
+        <li>Vials placed on skin or held near injection sites</li>
+        <li>Neon lighting, saturated colors, or HDR processing</li>
+        <li>Stock photography or generic fitness imagery</li>
+        <li>Before/after transformation photos</li>
+        <li>Medical or clinical environments</li>
+        <li>Anything resembling Recess, Goop, or GymShark aesthetic</li>
+      </ul>
+    </div>
+  </div>
+  <div style="margin-top: 32px;">
+    <h3 style="color: var(--pacific); font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 12px;">Anchor Brands</h3>
+    <p style="font-size: 15px; color: #555;">Aesop &middot; Tracksmith &middot; Function Health &middot; Apple Health</p>
+  </div>
+  <span class="slide-footer">Cali Lean &middot; Confidential</span>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10: APPLICATION — EMAIL                                 -->
+<!-- ============================================================ -->
+<div class="slide">
+  <span class="slide-meta">10 &middot; Email Application</span>
+  <div class="accent-line"></div>
+  <h2>Application: Email Template</h2>
+  <div class="two-col">
+    <div class="email-mockup">
+      <div class="email-header">
+        <img src="https://bucket-production-4a36.up.railway.app/medusa-media/brand/calilean-logo-email.png" alt="Cali Lean" style="max-width: 160px; margin-bottom: 8px;">
+        <div style="font-size: 11px; color: var(--fog); text-transform: uppercase; letter-spacing: 0.1em;">Order Confirmation</div>
+      </div>
+      <div class="email-body">
+        <p>Your order has shipped.</p>
+        <p style="font-size: 14px;">BPC-157, 5mg vial, lyophilized<br>
+        <span class="mono" style="font-size: 12px; color: var(--fog);">Batch 240412-A &middot; COA-2024-0089</span></p>
+        <p style="font-size: 14px;">Tracking and batch documentation are linked below. Your COA is published and accessible for 12 months.</p>
+        <div style="margin: 24px 0;">
+          <button class="btn btn-primary" style="font-size: 13px; padding: 12px 28px;">Track Order</button>
+        </div>
+      </div>
+      <div class="email-footer">
+        <p>For research use only. Not for human consumption.</p>
+        <p style="margin-top: 8px;">Cali Lean &middot; El Segundo, CA</p>
+      </div>
+    </div>
+    <div>
+      <h3 style="color: var(--pacific); font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 16px;">Email Guidelines</h3>
+      <ul class="rules-list">
+        <li>Logo centered at top, max 160px wide</li>
+        <li>Single-column layout, 600px max width</li>
+        <li>Body text in Plus Jakarta Sans 400, 15px</li>
+        <li>Batch and COA numbers in JetBrains Mono</li>
+        <li>One primary CTA button per email</li>
+        <li>RUO disclaimer in footer of every email</li>
+        <li>No images below the fold except logo</li>
+        <li>SAND background for content area</li>
+        <li>HAIRLINE dividers between sections</li>
+      </ul>
+      <div style="margin-top: 32px;">
+        <h3 style="color: var(--pacific); font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 12px;">Tone in Transactional Email</h3>
+        <p style="font-size: 14px; color: #555; line-height: 1.6;">Direct and factual. Lead with order status. Include batch number and COA reference. No marketing language in transactional messages. Every email ends with the RUO statement.</p>
+      </div>
+    </div>
+  </div>
+  <span class="slide-footer">Cali Lean &middot; Confidential</span>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 11: RUO COMPLIANCE                                      -->
+<!-- ============================================================ -->
+<div class="slide">
+  <span class="slide-meta">11 &middot; RUO Compliance</span>
+  <div class="accent-line"></div>
+  <h2>RUO Compliance</h2>
+  <div class="ruo-box">
+    <p>For research use only. Not for human consumption.</p>
+  </div>
+  <div class="two-col" style="margin-top: 40px;">
+    <div>
+      <h3 style="color: var(--pacific); font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 16px;">Placement Requirements</h3>
+      <div class="compliance-list">
+        <div style="display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(156,163,168,0.12);">
+          <span class="label">Product pages</span>
+          <span class="value">Above the fold, below product title</span>
+        </div>
+        <div style="display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(156,163,168,0.12);">
+          <span class="label">Checkout</span>
+          <span class="value">Attestation checkbox before payment</span>
+        </div>
+        <div style="display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(156,163,168,0.12);">
+          <span class="label">Email</span>
+          <span class="value">Footer of every transactional email</span>
+        </div>
+        <div style="display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(156,163,168,0.12);">
+          <span class="label">Packaging</span>
+          <span class="value">Printed on label, minimum 8pt type</span>
+        </div>
+        <div style="display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(156,163,168,0.12);">
+          <span class="label">Invoices</span>
+          <span class="value">Footer of every invoice and packing slip</span>
+        </div>
+        <div style="display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(156,163,168,0.12);">
+          <span class="label">Social media</span>
+          <span class="value">Bio line on every brand profile</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3 style="color: var(--pacific); font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 16px;">Attestation Pattern</h3>
+      <div style="background: var(--sand); padding: 24px; border-radius: 8px; margin-bottom: 24px;">
+        <div style="display: flex; gap: 12px; align-items: flex-start;">
+          <div style="width: 18px; height: 18px; border: 1.5px solid var(--ink); border-radius: 3px; flex-shrink: 0; margin-top: 2px;"></div>
+          <p style="font-size: 14px; line-height: 1.5;">I confirm that this purchase is for research purposes only and not for human consumption. I am at least 21 years of age.</p>
+        </div>
+      </div>
+      <h3 style="color: var(--pacific); font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 16px;">Legal Voice Rules</h3>
+      <ul class="rules-list">
+        <li>RUO text always in ALERT (#A23B2A) color</li>
+        <li>Never obscure or minimize the disclaimer</li>
+        <li>Minimum font size: 12px digital, 8pt print</li>
+        <li>No marketing copy adjacent to RUO statement</li>
+        <li>Attestation is blocking: cannot proceed without it</li>
+        <li>Age gate (21+) on first site visit</li>
+      </ul>
+    </div>
+  </div>
+  <span class="slide-footer">Cali Lean &middot; Confidential</span>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 12: CLOSING                                             -->
+<!-- ============================================================ -->
+<div class="slide slide-inverted closing-slide">
+  <span class="slide-meta">12 &middot; Closing</span>
+  <img src="../../../docs/brand/logo/master/calilean-logo-white.png" alt="Cali Lean" class="logo-img" onerror="this.style.display='none'">
+  <p class="closing-tagline">Peptides, on the record.</p>
+  <div class="contact-block">
+    <div>Cali Lean</div>
+    <div>El Segundo, CA 90245</div>
+    <div style="margin-top: 8px; color: var(--pacific);">calilean.com</div>
+  </div>
+  <div class="conf-mark">Confidential</div>
+  <span class="slide-footer">Cali Lean &middot; Confidential</span>
+</div>
+
+</body>
+</html>

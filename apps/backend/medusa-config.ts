@@ -55,7 +55,7 @@ const medusaConfig = {
     }
   },
   admin: {
-    backendUrl: BACKEND_URL,
+    backendUrl: process.env.NODE_ENV === 'production' ? '/' : BACKEND_URL,
     disable: SHOULD_DISABLE_ADMIN,
   },
   modules: [

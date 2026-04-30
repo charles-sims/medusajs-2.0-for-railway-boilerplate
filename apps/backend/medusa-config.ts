@@ -23,7 +23,11 @@ import {
   MEILISEARCH_HOST,
   MEILISEARCH_ADMIN_KEY,
   SHIPSTATION_API_KEY,
-  SEGMENT_WRITE_KEY
+  SEGMENT_WRITE_KEY,
+  SANITY_API_TOKEN,
+  SANITY_PROJECT_ID,
+  SANITY_DATASET,
+  SANITY_STUDIO_URL
 } from './src/lib/constants';
 
 loadEnv(process.env.NODE_ENV, process.cwd());
@@ -203,6 +207,20 @@ const medusaConfig = {
             writeKey: SEGMENT_WRITE_KEY,
           },
         }],
+      },
+    }] : []),
+    // Sanity CMS integration
+    ...(SANITY_API_TOKEN ? [{
+      resolve: './src/modules/sanity',
+      options: {
+        api_token: SANITY_API_TOKEN,
+        project_id: SANITY_PROJECT_ID,
+        api_version: new Date().toISOString().split("T")[0],
+        dataset: SANITY_DATASET || "production",
+        studio_url: SANITY_STUDIO_URL || "http://localhost:3000/studio",
+        type_map: {
+          product: "product",
+        },
       },
     }] : []),
   ],

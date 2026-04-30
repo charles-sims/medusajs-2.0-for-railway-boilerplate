@@ -114,6 +114,14 @@ export const SEGMENT_WRITE_KEY = process.env.SEGMENT_WRITE_KEY;
 export const SENTRY_DSN = process.env.SENTRY_DSN;
 
 /**
+ * (optional) Sanity CMS configuration
+ */
+export const SANITY_API_TOKEN = process.env.SANITY_API_TOKEN;
+export const SANITY_PROJECT_ID = process.env.SANITY_PROJECT_ID;
+export const SANITY_DATASET = process.env.SANITY_DATASET;
+export const SANITY_STUDIO_URL = process.env.SANITY_STUDIO_URL;
+
+/**
  * Worker mode
  */
 export const WORKER_MODE =

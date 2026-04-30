@@ -1,8 +1,6 @@
 import { Logger, NotificationTypes } from '@medusajs/framework/types'
 import { AbstractNotificationProviderService, MedusaError } from '@medusajs/framework/utils'
 import { Resend, CreateEmailOptions } from 'resend'
-import { ReactNode } from 'react'
-import { renderToStaticMarkup } from 'react-dom/server'
 import { generateEmailTemplate } from '../templates'
 
 type InjectedDependencies = {
@@ -29,9 +27,9 @@ type NotificationEmailOptions = Omit<
  */
 export class ResendNotificationService extends AbstractNotificationProviderService {
   static identifier = "RESEND_NOTIFICATION_SERVICE"
-  protected config_: ResendServiceConfig // Configuration for Resend API
-  protected logger_: Logger // Logger for error and event logging
-  protected resend: Resend // Instance of the Resend API client
+  protected config_: ResendServiceConfig
+  protected logger_: Logger
+  protected resend: Resend
 
   constructor({ logger }: InjectedDependencies, options: ResendNotificationServiceOptions) {
     super()
@@ -53,37 +51,22 @@ export class ResendNotificationService extends AbstractNotificationProviderServi
       throw new MedusaError(MedusaError.Types.INVALID_DATA, `SMS notification not supported`)
     }
 
-    // Generate the email content using the template
-    let emailContent: ReactNode
-
+    // generateEmailTemplate returns an HTML string — JSX creation and
+    // renderToStaticMarkup happen in the same module so they always use
+    // the same copy of React, avoiding dual-React mismatches.
+    let html: string
     try {
-      emailContent = generateEmailTemplate(notification.template, notification.data)
+      html = generateEmailTemplate(notification.template, notification.data)
     } catch (error) {
-      if (error instanceof MedusaError) {
-        throw error // Re-throw MedusaError for invalid template data
-      }
+      if (error instanceof MedusaError) throw error
       throw new MedusaError(
         MedusaError.Types.UNEXPECTED_STATE,
-        `Failed to generate email content for template: ${notification.template}`
+        `Failed to generate email template "${notification.template}": ${error instanceof Error ? error.message : String(error)}`
       )
     }
 
     const emailOptions = (notification.data?.emailOptions ?? {}) as NotificationEmailOptions
 
-    // Render React element to HTML using react-dom/server directly.
-    // This avoids @react-email/render's React version mismatch issues
-    // when the plugin is compiled with React 18 but runs under React 19.
-    let html: string
-    try {
-      html = '<!DOCTYPE html>' + renderToStaticMarkup(emailContent as React.ReactElement)
-    } catch (error) {
-      throw new MedusaError(
-        MedusaError.Types.UNEXPECTED_STATE,
-        `Failed to render email template "${notification.template}": ${error instanceof Error ? error.message : String(error)}`
-      )
-    }
-
-    // Compose the message body to send via API to Resend
     const message: CreateEmailOptions = {
       to: notification.to,
       from: notification.from?.trim() ?? this.config_.from,
@@ -107,7 +90,6 @@ export class ResendNotificationService extends AbstractNotificationProviderServi
       scheduledAt: emailOptions.scheduledAt
     }
 
-    // Send the email via Resend
     try {
       const { data, error } = await this.resend.emails.send(message)
       if (error) {

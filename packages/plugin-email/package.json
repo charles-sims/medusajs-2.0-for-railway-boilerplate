@@ -22,7 +22,9 @@
   },
   "dependencies": {
     "resend": "4.0.1",
-    "@react-email/components": "^1.0.1"
+    "@react-email/components": "^1.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@medusajs/admin-sdk": "2.14.1",

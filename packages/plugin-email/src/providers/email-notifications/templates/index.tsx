@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
 import { MedusaError } from '@medusajs/framework/utils'
 import { InviteUserEmail, INVITE_USER, isInviteUserData } from './invite-user'
 import { OrderPlacedTemplate, ORDER_PLACED, isOrderPlacedTemplateData } from './order-placed'
@@ -16,7 +17,17 @@ export const EmailTemplates = {
 
 export type EmailTemplateType = keyof typeof EmailTemplates
 
-export function generateEmailTemplate(templateKey: string, data: unknown): ReactNode {
+/**
+ * Generate an email template and return it as an HTML string.
+ *
+ * We render to HTML here (same module that creates the JSX) so that
+ * React element creation and renderToStaticMarkup use the exact same
+ * copy of React — avoiding the dual-React mismatch that occurs when
+ * the plugin is compiled against React 18 but the host runs React 19.
+ */
+export function generateEmailTemplate(templateKey: string, data: unknown): string {
+  let element: ReactNode
+
   switch (templateKey) {
     case EmailTemplates.INVITE_USER:
       if (!isInviteUserData(data)) {
@@ -25,7 +36,8 @@ export function generateEmailTemplate(templateKey: string, data: unknown): React
           `Invalid data for template "${EmailTemplates.INVITE_USER}"`
         )
       }
-      return <InviteUserEmail {...data} />
+      element = <InviteUserEmail {...data} />
+      break
 
     case EmailTemplates.ORDER_PLACED:
       if (!isOrderPlacedTemplateData(data)) {
@@ -34,7 +46,8 @@ export function generateEmailTemplate(templateKey: string, data: unknown): React
           `Invalid data for template "${EmailTemplates.ORDER_PLACED}"`
         )
       }
-      return <OrderPlacedTemplate {...data} />
+      element = <OrderPlacedTemplate {...data} />
+      break
 
     case EmailTemplates.PASSWORD_RESET:
       if (!isPasswordResetData(data)) {
@@ -43,7 +56,8 @@ export function generateEmailTemplate(templateKey: string, data: unknown): React
           `Invalid data for template "${EmailTemplates.PASSWORD_RESET}"`
         )
       }
-      return <PasswordResetTemplate {...data} />
+      element = <PasswordResetTemplate {...data} />
+      break
 
     case EmailTemplates.SHIPPING_CONFIRMATION:
       if (!isShippingConfirmationData(data)) {
@@ -52,7 +66,8 @@ export function generateEmailTemplate(templateKey: string, data: unknown): React
           `Invalid data for template "${EmailTemplates.SHIPPING_CONFIRMATION}"`
         )
       }
-      return <ShippingConfirmationTemplate {...data} />
+      element = <ShippingConfirmationTemplate {...data} />
+      break
 
     case EmailTemplates.REFUND_CONFIRMATION:
       if (!isRefundConfirmationData(data)) {
@@ -61,7 +76,8 @@ export function generateEmailTemplate(templateKey: string, data: unknown): React
           `Invalid data for template "${EmailTemplates.REFUND_CONFIRMATION}"`
         )
       }
-      return <RefundConfirmationTemplate {...data} />
+      element = <RefundConfirmationTemplate {...data} />
+      break
 
     default:
       throw new MedusaError(
@@ -69,6 +85,8 @@ export function generateEmailTemplate(templateKey: string, data: unknown): React
         `Unknown template key: "${templateKey}"`
       )
   }
+
+  return '<!DOCTYPE html>' + renderToStaticMarkup(element as React.ReactElement)
 }
 
 export { InviteUserEmail, OrderPlacedTemplate, PasswordResetTemplate, ShippingConfirmationTemplate, RefundConfirmationTemplate }

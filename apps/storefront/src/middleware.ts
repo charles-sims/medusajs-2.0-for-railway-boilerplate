@@ -117,6 +117,11 @@ export async function middleware(request: NextRequest) {
     }
     return NextResponse.next()
   }
+
+  // Reset password page — skip region redirect
+  if (pathname === "/reset-password" || pathname.startsWith("/reset-password/")) {
+    return NextResponse.next()
+  }
   // --- End auth gate ---
 
   const searchParams = request.nextUrl.searchParams

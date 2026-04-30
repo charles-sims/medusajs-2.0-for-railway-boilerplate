@@ -5,7 +5,7 @@ import { RadioGroup } from "@headlessui/react"
 import { HttpTypes } from "@medusajs/types"
 import { clx } from "@medusajs/ui"
 import { convertToLocale } from "@lib/util/money"
-import { calculatePriceForShippingOption } from "@lib/data/fulfillment"
+import { calculateReturnShippingPrice } from "@lib/data/returns"
 import { Loader } from "@medusajs/icons"
 import Radio from "@modules/common/components/radio"
 
@@ -35,7 +35,7 @@ const ReturnShippingSelector: React.FC<ReturnShippingSelectorProps> = ({
     if (shippingOptions?.length) {
       const promises = shippingOptions
         .filter((sm) => sm.price_type === "calculated")
-        .map((sm) => calculatePriceForShippingOption(sm.id, cartId))
+        .map((sm) => calculateReturnShippingPrice(sm.id, cartId))
 
       if (promises.length) {
         Promise.allSettled(promises).then((res) => {
@@ -59,17 +59,15 @@ const ReturnShippingSelector: React.FC<ReturnShippingSelectorProps> = ({
     return (
       <div className="p-4 border border-yellow-200 bg-yellow-50 rounded-lg">
         <p className="text-yellow-800 text-sm">
-          No return shipping options are currently available. Please contact customer service for assistance.
+          No return shipping options are currently available. Please contact
+          customer service for assistance.
         </p>
       </div>
     )
   }
 
   return (
-    <RadioGroup
-      value={selectedOption}
-      onChange={onOptionSelect}
-    >
+    <RadioGroup value={selectedOption} onChange={onOptionSelect}>
       <div className="space-y-3">
         {shippingOptions.map((option) => (
           <RadioGroup.Option
@@ -93,9 +91,7 @@ const ReturnShippingSelector: React.FC<ReturnShippingSelectorProps> = ({
 
               <div className="flex-1">
                 <div className="flex items-center justify-between">
-                  <h4 className="txt-medium">
-                    {option.name}
-                  </h4>
+                  <h4 className="txt-medium">{option.name}</h4>
                   <span className="txt-medium">
                     {option.price_type === "flat" ? (
                       convertToLocale({
@@ -115,11 +111,14 @@ const ReturnShippingSelector: React.FC<ReturnShippingSelectorProps> = ({
                   </span>
                 </div>
 
-                {option.data && typeof option.data === 'object' && option.data !== null && 'description' in option.data && (
-                  <p className="txt-small mt-1">
-                    {String(option.data.description)}
-                  </p>
-                )}
+                {option.data &&
+                  typeof option.data === "object" &&
+                  option.data !== null &&
+                  "description" in option.data && (
+                    <p className="txt-small mt-1">
+                      {String(option.data.description)}
+                    </p>
+                  )}
               </div>
             </div>
           </RadioGroup.Option>

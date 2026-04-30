@@ -5,7 +5,9 @@ import { XMark } from "@medusajs/icons"
 import { HttpTypes } from "@medusajs/types"
 import { createReturnRequest } from "@lib/data/returns"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import ReturnItemSelector, { ReturnItemSelection } from "@modules/account/components/return-item-selector"
+import ReturnItemSelector, {
+  ReturnItemSelection,
+} from "@modules/account/components/return-item-selector"
 import ReturnShippingSelector from "@modules/account/components/return-shipping-selector"
 import { convertToLocale } from "@lib/util/money"
 import { enhanceItemsWithReturnStatus } from "@lib/util/returns"
@@ -31,7 +33,9 @@ const ReturnRequestTemplate: React.FC<ReturnRequestTemplateProps> = ({
   })
 
   // Get all items and categorize them based on delivered quantity and returnable quantity
-  const itemsWithDeliveryStatus = enhanceItemsWithReturnStatus(order.items || [])
+  const itemsWithDeliveryStatus = enhanceItemsWithReturnStatus(
+    order.items || []
+  )
 
   const handleItemSelection = ({
     id,
@@ -39,16 +43,16 @@ const ReturnRequestTemplate: React.FC<ReturnRequestTemplateProps> = ({
     return_reason_id,
     note,
   }: ReturnItemSelection) => {
-    setSelectedItems(prev => {
-      const existing = prev.find(item => item.id === id)
+    setSelectedItems((prev) => {
+      const existing = prev.find((item) => item.id === id)
       if (existing) {
         if (quantity === 0) {
-          return prev.filter(item => item.id !== id)
+          return prev.filter((item) => item.id !== id)
         }
-        return prev.map(item => {
-          return item.id === id ?
-            { ...item, quantity, return_reason_id, note } :
-            item
+        return prev.map((item) => {
+          return item.id === id
+            ? { ...item, quantity, return_reason_id, note }
+            : item
         })
       } else if (quantity > 0) {
         return [...prev, { id, quantity, return_reason_id, note }]
@@ -61,8 +65,9 @@ const ReturnRequestTemplate: React.FC<ReturnRequestTemplateProps> = ({
     formData.append("order_id", order.id)
     formData.append("items", JSON.stringify(selectedItems))
     formData.append("return_shipping_option_id", selectedShippingOption)
-    // @ts-expect-error issue in HTTP types
-    const locationId = shippingOptions.find(opt => opt.id === selectedShippingOption)?.service_zone.fulfillment_set.location.id
+    const locationId = (shippingOptions.find(
+      (opt) => opt.id === selectedShippingOption
+    ) as any)?.service_zone?.fulfillment_set?.location?.id
     formData.append("location_id", locationId)
     formAction(formData)
   }
@@ -81,12 +86,16 @@ const ReturnRequestTemplate: React.FC<ReturnRequestTemplateProps> = ({
         </div>
         <div className="bg-white p-6 rounded-lg border">
           <div className="text-center">
-            <h2 className="text-xl-semi mb-4">Return Request Created Successfully</h2>
+            <h2 className="text-xl-semi mb-4">
+              Return Request Created Successfully
+            </h2>
             <p className="text-base-regular mb-4">
-              Your return request has been submitted. Return ID: <strong>{state.return.id}</strong>
+              Your return request has been submitted. Return ID:{" "}
+              <strong>{state.return.id}</strong>
             </p>
             <p className="text-small-regular text-ui-fg-subtle">
-              Our support team may contact you for further information regarding your return.
+              Our support team may contact you for further information regarding
+              your return.
             </p>
           </div>
         </div>
@@ -111,13 +120,17 @@ const ReturnRequestTemplate: React.FC<ReturnRequestTemplateProps> = ({
           <h2 className="text-xl-semi mb-2">Order #{order.display_id}</h2>
           <div className="flex items-center gap-4 text-small-regular text-ui-fg-subtle mb-4">
             <span>Ordered: {new Date(order.created_at).toDateString()}</span>
-            <span>Total: {convertToLocale({
-              amount: order.total,
-              currency_code: order.currency_code,
-            })}</span>
+            <span>
+              Total:{" "}
+              {convertToLocale({
+                amount: order.total,
+                currency_code: order.currency_code,
+              })}
+            </span>
           </div>
           <p className="text-base-regular text-ui-fg-subtle">
-            You can request a return for items that have been delivered. Select the items you'd like to return and choose a return shipping option.
+            You can request a return for items that have been delivered. Select
+            the items you&apos;d like to return and choose a return shipping option.
           </p>
         </div>
 
@@ -150,7 +163,6 @@ const ReturnRequestTemplate: React.FC<ReturnRequestTemplateProps> = ({
               />
             </div>
 
-
             {state.error && (
               <div className="bg-red-50 border border-red-200 rounded-md p-4">
                 <p className="text-red-800 text-sm">{state.error}</p>
@@ -161,7 +173,9 @@ const ReturnRequestTemplate: React.FC<ReturnRequestTemplateProps> = ({
               <Button
                 type="submit"
                 variant="primary"
-                disabled={selectedItems.length === 0 || selectedShippingOption === ""}
+                disabled={
+                  selectedItems.length === 0 || selectedShippingOption === ""
+                }
               >
                 Request Return
               </Button>

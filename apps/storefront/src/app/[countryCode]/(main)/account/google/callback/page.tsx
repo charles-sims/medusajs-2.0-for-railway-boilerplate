@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
+import Link from "next/link"
 import { sdk } from "@lib/config"
 
 export default function GoogleCallbackPage() {
@@ -34,9 +35,9 @@ export default function GoogleCallbackPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
         <p className="text-ui-fg-error mb-4">{error}</p>
-        <a href="/account" className="underline text-ui-fg-interactive">
+        <Link href="/account" className="underline text-ui-fg-interactive">
           Back to login
-        </a>
+        </Link>
       </div>
     )
   }

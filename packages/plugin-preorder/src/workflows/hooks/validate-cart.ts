@@ -12,7 +12,7 @@ function isPreorderVariant(preorderVariant: InferTypeOf<typeof PreorderVariant> 
 
 addToCartWorkflow.hooks.validate(
   (async ({ input, cart }, { container }) => {
-    const query = container.resolve("query")
+    const query: any = container.resolve("query")
 
     const { data: itemsInCart } = await query.graph({
       entity: "line_item",

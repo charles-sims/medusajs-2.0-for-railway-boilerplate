@@ -19,7 +19,7 @@ const getLatestPaymentMethod = (paymentMethods: PaymentMethodDTO[]) => {
 export const getPaymentMethodStep = createStep(
   "get-payment-method",
   async ({ customer }: GetPaymentMethodStepInput, { container }) => {
-    const paymentModuleService = container.resolve(Modules.PAYMENT)
+    const paymentModuleService: any = container.resolve(Modules.PAYMENT)
 
     if (!customer?.account_holder) {
       throw new MedusaError(

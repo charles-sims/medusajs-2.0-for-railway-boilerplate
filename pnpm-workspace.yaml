@@ -1,4 +1,4 @@
 packages:
-  - "backend"
-  - "storefront"
-  - "!backend/.medusa/**"
+  - "apps/**"
+  - "packages/**"
+  - "!apps/backend/.medusa/**"

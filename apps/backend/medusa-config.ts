@@ -97,6 +97,38 @@ const medusaConfig = {
         }
       }
     }] : []),
+    // Caching Module with Redis (v2.11+)
+    ...(REDIS_URL ? [{
+      resolve: '@medusajs/medusa/caching',
+      options: {
+        providers: [{
+          resolve: '@medusajs/caching-redis',
+          id: 'caching-redis',
+          is_default: true,
+          options: {
+            redisUrl: REDIS_URL,
+          },
+        }],
+      },
+    }] : []),
+    // Locking Module with Redis
+    ...(REDIS_URL ? [{
+      resolve: '@medusajs/medusa/locking',
+      options: {
+        providers: [{
+          resolve: '@medusajs/medusa/locking-redis',
+          id: 'locking-redis',
+          is_default: true,
+          options: {
+            redisUrl: REDIS_URL,
+          },
+        }],
+      },
+    }] : []),
+    // Translation Module
+    {
+      resolve: '@medusajs/medusa/translation',
+    },
     ...(SENDGRID_API_KEY && SENDGRID_FROM_EMAIL || RESEND_API_KEY && RESEND_FROM_EMAIL ? [{
       key: Modules.NOTIFICATION,
       resolve: '@medusajs/notification',
@@ -160,6 +192,10 @@ const medusaConfig = {
       },
     }] : []),
   ],
+  featureFlags: {
+    translation: true,
+    caching: true,
+  },
   plugins: [
   "@calilean/plugin-email",
   "@calilean/plugin-loyalty",

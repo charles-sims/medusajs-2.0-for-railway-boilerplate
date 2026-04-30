@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920" />
+  <title>CaliLean — Investor Overview 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ── Brand Tokens ── */
+    :root {
+      --bg:      #FFFFFF;
+      --ink:     #111111;
+      --pacific: #7090AB;
+      --fog:     #9CA3A8;
+      --sand:    #F0F0F0;
+      --sans:    'Plus Jakarta Sans', sans-serif;
+      --mono:    'JetBrains Mono', monospace;
+    }
+
+    body {
+      font-family: var(--sans);
+      color: var(--ink);
+      background: var(--bg);
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* ── Slide ── */
+    .slide {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      overflow: hidden;
+      page-break-after: always;
+      padding: 80px 120px 80px 140px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--pacific);
+    }
+
+    .slide-number {
+      position: absolute;
+      bottom: 40px;
+      right: 60px;
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--fog);
+    }
+
+    /* ── Typography ── */
+    h1 {
+      font-weight: 800;
+      font-size: 52px;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 48px;
+    }
+
+    h2 {
+      font-weight: 700;
+      font-size: 40px;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      margin-bottom: 40px;
+    }
+
+    h3 {
+      font-weight: 600;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    p, li {
+      font-size: 22px;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    .subtitle {
+      font-size: 24px;
+      color: var(--fog);
+      font-weight: 500;
+    }
+
+    .tagline {
+      font-size: 28px;
+      font-weight: 500;
+      color: var(--pacific);
+      letter-spacing: 0.02em;
+    }
+
+    .mono {
+      font-family: var(--mono);
+    }
+
+    .fog { color: var(--fog); }
+    .pacific { color: var(--pacific); }
+
+    /* ── Layout helpers ── */
+    .cols-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .cols-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .card {
+      background: var(--sand);
+      border-radius: 12px;
+      padding: 40px;
+    }
+
+    .card h3 {
+      color: var(--pacific);
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--fog);
+      border: 1px solid var(--fog);
+      border-radius: 4px;
+      padding: 4px 12px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 14px;
+    }
+
+    ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 12px;
+      width: 8px;
+      height: 2px;
+      background: var(--pacific);
+    }
+
+    .pull-quote {
+      border-left: 3px solid var(--pacific);
+      padding: 24px 32px;
+      font-size: 24px;
+      font-weight: 500;
+      font-style: italic;
+      color: var(--ink);
+      background: var(--sand);
+      border-radius: 0 8px 8px 0;
+    }
+
+    .metric {
+      text-align: center;
+    }
+
+    .metric-value {
+      font-family: var(--mono);
+      font-size: 56px;
+      font-weight: 500;
+      color: var(--pacific);
+      margin-bottom: 8px;
+    }
+
+    .metric-label {
+      font-size: 18px;
+      color: var(--fog);
+      font-weight: 500;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-top: 24px;
+      border-top: 3px solid var(--pacific);
+    }
+
+    .timeline-item .time {
+      font-family: var(--mono);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--pacific);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .timeline-item h3 {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    .timeline-item p {
+      font-size: 18px;
+      color: var(--fog);
+    }
+
+    .founder-card {
+      background: var(--sand);
+      border-radius: 12px;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .founder-card .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--pacific);
+      opacity: 0.2;
+      margin: 0 auto 24px;
+    }
+
+    .founder-card h3 {
+      margin-bottom: 4px;
+    }
+
+    .founder-card .role {
+      font-size: 16px;
+      color: var(--pacific);
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .founder-card .bio {
+      font-size: 18px;
+      color: var(--fog);
+    }
+
+    .sku-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .sku-table th {
+      text-align: left;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--pacific);
+      padding: 0 0 12px;
+    }
+
+    .sku-table td {
+      font-size: 20px;
+      padding: 8px 0;
+      border-top: 1px solid var(--sand);
+    }
+
+    .sku-table .price {
+      font-family: var(--mono);
+      font-weight: 500;
+    }
+
+    .category-label {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--pacific);
+      margin-bottom: 20px;
+    }
+
+    /* ── Dark slide ── */
+    .slide--dark {
+      background: var(--ink);
+      color: var(--bg);
+    }
+
+    .slide--dark::before {
+      background: var(--pacific);
+    }
+
+    .slide--dark .tagline {
+      color: var(--pacific);
+    }
+
+    /* ── Cover centering ── */
+    .slide--cover {
+      text-align: center;
+      align-items: center;
+    }
+
+    .logo {
+      max-width: 280px;
+      height: auto;
+      margin-bottom: 40px;
+    }
+
+    .logo--white {
+      filter: invert(1);
+    }
+
+    .row {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .biz-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .biz-item {
+      background: var(--sand);
+      border-radius: 12px;
+      padding: 32px 40px;
+    }
+
+    .biz-item .label {
+      font-size: 16px;
+      color: var(--fog);
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .biz-item .value {
+      font-family: var(--mono);
+      font-size: 40px;
+      font-weight: 500;
+      color: var(--pacific);
+    }
+
+    .note {
+      font-size: 18px;
+      color: var(--fog);
+      font-style: italic;
+      margin-top: 24px;
+    }
+
+    .contact-line {
+      font-size: 20px;
+      margin-bottom: 12px;
+      color: var(--fog);
+    }
+
+    .contact-line a {
+      color: var(--pacific);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 1 — COVER
+       ════════════════════════════════════════════════════════════════ -->
+  <section class="slide slide--cover">
+    <img src="../../../docs/brand/logo/master/calilean-logo-black.png" alt="CaliLean" class="logo" />
+    <p class="tagline" style="margin-bottom: 24px;">Peptides, on the record.</p>
+    <p class="subtitle" style="margin-bottom: 48px;">Investor Overview · 2026</p>
+    <p class="subtitle" style="margin-bottom: 32px;">El Segundo, CA</p>
+    <span class="badge">Confidential</span>
+    <span class="slide-number">01</span>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 2 — PROBLEM
+       ════════════════════════════════════════════════════════════════ -->
+  <section class="slide">
+    <h1>The peptide market has a<br/>transparency problem.</h1>
+    <div class="cols-2">
+      <div>
+        <ul>
+          <li>No third-party batch testing as industry standard</li>
+          <li>Gray-market sourcing with unverified origins</li>
+          <li>Certificates of Analysis missing or fabricated</li>
+          <li>Zero enforceable quality control across the supply chain</li>
+        </ul>
+      </div>
+      <div>
+        <div class="pull-quote">
+          "The gap between what's on the label and what's in the vial is the industry's open secret."
+        </div>
+      </div>
+    </div>
+    <span class="slide-number">02</span>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 3 — SOLUTION
+       ════════════════════════════════════════════════════════════════ -->
+  <section class="slide">
+    <h1>Research-grade. Every batch tested.<br/>Every result published.</h1>
+    <div class="cols-3">
+      <div class="card">
+        <h3>Certificate of Analysis</h3>
+        <p>Third-party assay on every batch. Results published on-site before the lot ships.</p>
+      </div>
+      <div class="card">
+        <h3>Lot Traceability</h3>
+        <p>Every vial tied to a batch number. Full chain-of-custody from synthesis to shipment.</p>
+      </div>
+      <div class="card">
+        <h3>RUO Compliance</h3>
+        <p>Research-use-only posture with checkout attestation. Clean regulatory positioning.</p>
+      </div>
+    </div>
+    <span class="slide-number">03</span>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 4 — PRODUCT
+       ════════════════════════════════════════════════════════════════ -->
+  <section class="slide">
+    <h1>8 launch SKUs across 3 categories.</h1>
+    <div class="cols-3">
+      <div>
+        <p class="category-label">Repair</p>
+        <table class="sku-table">
+          <tr><td>BPC-157</td><td class="price">$89</td></tr>
+          <tr><td>TB-500</td><td class="price">$95</td></tr>
+          <tr><td>Recovery Stack</td><td class="price">$159</td></tr>
+        </table>
+      </div>
+      <div>
+        <p class="category-label">GH Axis</p>
+        <table class="sku-table">
+          <tr><td>Ipamorelin</td><td class="price">$79</td></tr>
+          <tr><td>CJC-1295</td><td class="price">$89</td></tr>
+          <tr><td>GH Axis Stack</td><td class="price">$149</td></tr>
+        </table>
+      </div>
+      <div>
+        <p class="category-label">Longevity</p>
+        <table class="sku-table">
+          <tr><td>NAD+</td><td class="price">$119</td></tr>
+          <tr><td>Glutathione</td><td class="price">$69</td></tr>
+        </table>
+      </div>
+    </div>
+    <p class="note">Retatrutide (flagship, $499 / 15 mg) launches Q2.</p>
+    <span class="slide-number">04</span>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 5 — MARKET
+       ════════════════════════════════════════════════════════════════ -->
+  <section class="slide">
+    <h1>The South Bay athlete.</h1>
+    <p class="subtitle" style="margin-bottom: 48px;">30–55, $250 k+ HHI. Strand runners. Huberman listeners.</p>
+    <div class="cols-3">
+      <div class="metric">
+        <div class="metric-value">$4.2B</div>
+        <div class="metric-label">TAM — US peptide market</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">$380M</div>
+        <div class="metric-label">SAM — direct-to-researcher</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">$12M</div>
+        <div class="metric-label">SOM — South Bay + digital (Y1)</div>
+      </div>
+    </div>
+    <span class="slide-number">05</span>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 6 — BUSINESS MODEL
+       ════════════════════════════════════════════════════════════════ -->
+  <section class="slide">
+    <h1>DTC + subscription.</h1>
+    <div class="biz-row">
+      <div class="biz-item">
+        <div class="label">Average Order Value</div>
+        <div class="value">$145</div>
+      </div>
+      <div class="biz-item">
+        <div class="label">Subscription Rate Target</div>
+        <div class="value">40%</div>
+      </div>
+      <div class="biz-item">
+        <div class="label">Gross Margin Target</div>
+        <div class="value">72%</div>
+      </div>
+    </div>
+    <p class="note">Unit economics driven by in-house formulation and direct fulfillment. Subscription cohorts expected to reach 6-month LTV of $870.</p>
+    <span class="slide-number">06</span>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 7 — GO-TO-MARKET
+       ════════════════════════════════════════════════════════════════ -->
+  <section class="slide">
+    <h1>Local first. 90-day launch arc.</h1>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="time">Day 0</div>
+        <h3>Quiet Launch</h3>
+        <p>Founding-100 invites. Controlled onboarding, feedback loop.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="time">Days 1–30</div>
+        <h3>Local Partnerships</h3>
+        <p>20 South Bay venues — gyms, clinics, biohacking spaces.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="time">Days 30–60</div>
+        <h3>Open + Referrals</h3>
+        <p>Public storefront. Referral program. Earned media push.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="time">Days 60–90</div>
+        <h3>National Press</h3>
+        <p>Tier-2 SKU launch. National press outreach. Paid acquisition.</p>
+      </div>
+    </div>
+    <p class="note">Pre-launch budget: ~$7,000</p>
+    <span class="slide-number">07</span>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 8 — TEAM
+       ════════════════════════════════════════════════════════════════ -->
+  <section class="slide">
+    <h1>Founded in El Segundo.</h1>
+    <div class="cols-3">
+      <div class="founder-card">
+        <div class="avatar"></div>
+        <h3>[Founder Name]</h3>
+        <p class="role">CEO</p>
+        <p class="bio">Operations and brand strategy. Previously built and scaled DTC wellness brands.</p>
+      </div>
+      <div class="founder-card">
+        <div class="avatar"></div>
+        <h3>[Founder Name]</h3>
+        <p class="role">CTO</p>
+        <p class="bio">Engineering and platform architecture. Background in e-commerce infrastructure.</p>
+      </div>
+      <div class="founder-card">
+        <div class="avatar"></div>
+        <h3>[Founder Name]</h3>
+        <p class="role">CSO</p>
+        <p class="bio">Formulation and compliance. Research background in peptide biochemistry.</p>
+      </div>
+    </div>
+    <span class="slide-number">08</span>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       SLIDE 9 — CLOSING
+       ════════════════════════════════════════════════════════════════ -->
+  <section class="slide slide--dark slide--cover">
+    <img src="../../../docs/brand/logo/master/calilean-logo-black.png" alt="CaliLean" class="logo logo--white" />
+    <p class="tagline" style="margin-bottom: 48px;">Peptides, on the record.</p>
+    <p class="contact-line"><a href="mailto:research@calilean.com">research@calilean.com</a></p>
+    <p class="contact-line" style="margin-bottom: 48px;"><a href="https://calilean.com">calilean.com</a></p>
+    <span class="badge" style="color: var(--fog); border-color: var(--fog);">Confidential</span>
+    <span class="slide-number" style="color: var(--fog);">09</span>
+  </section>
+
+</body>
+</html>

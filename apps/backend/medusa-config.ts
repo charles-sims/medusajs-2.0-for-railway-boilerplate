@@ -181,8 +181,7 @@ const medusaConfig = {
       },
     }] : []),
     ...(SHIPSTATION_API_KEY ? [{
-      key: Modules.FULFILLMENT,
-      resolve: '@medusajs/fulfillment',
+      resolve: '@medusajs/medusa/fulfillment',
       options: {
         providers: [
           {

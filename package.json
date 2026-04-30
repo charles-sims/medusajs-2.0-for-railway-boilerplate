@@ -13,13 +13,13 @@
     "test": "turbo test",
     "backend:dev": "turbo dev --filter=medusa-2.0-boilerplate-backend",
     "storefront:dev": "turbo dev --filter=medusa-next",
-    "build:brand-book": "node src/internal/brand/export_brand_book_pdf.js",
-    "build:deck": "node src/external/deck/export_pdf.js",
+    "build:brand-book": "node docs/generators/internal/brand/export_brand_book_pdf.js",
+    "build:deck": "node docs/generators/external/deck/export_pdf.js",
     "build:all-docs": "npm run build:brand-book && npm run build:deck",
-    "drive:push:all": "python3 src/drive/sync_drive.py push --all",
-    "drive:push:check": "python3 src/drive/sync_drive.py push --all --check-conflicts",
-    "drive:status": "python3 src/drive/sync_drive.py status",
-    "drive:check-conflicts": "python3 src/drive/sync_drive.py check-conflicts"
+    "drive:push:all": "python3 docs/generators/drive/sync_drive.py push --all",
+    "drive:push:check": "python3 docs/generators/drive/sync_drive.py push --all --check-conflicts",
+    "drive:status": "python3 docs/generators/drive/sync_drive.py status",
+    "drive:check-conflicts": "python3 docs/generators/drive/sync_drive.py check-conflicts"
   },
   "pnpm": {
     "overrides": {

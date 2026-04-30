@@ -4,7 +4,7 @@ const fs = require("fs");
 
 async function exportDeck() {
   const htmlPath = path.resolve(__dirname, "CaliLean_Pitch_Deck.html");
-  const outputDir = path.resolve(__dirname, "..", "..", "..", "output", "external", "deck");
+  const outputDir = path.resolve(__dirname, "..", "..", "output", "external", "deck");
   const outputPath = path.join(outputDir, "CaliLean_Pitch_Deck.pdf");
 
   if (!fs.existsSync(htmlPath)) {

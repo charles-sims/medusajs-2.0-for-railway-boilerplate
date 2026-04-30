@@ -1,0 +1,20 @@
+[phases.setup]
+nixPkgs = ["pnpm"]
+
+[phases.install]
+cmds = ["pnpm install --frozen-lockfile"]
+cacheDirectories = ["node_modules", "apps/storefront/node_modules", "apps/backend/node_modules"]
+
+[phases.build]
+cacheDirectories = [
+  "apps/storefront/.next/cache",
+  "apps/backend/.medusa",
+  "packages/plugin-email/.medusa",
+  "packages/plugin-invoices/.medusa",
+  "packages/plugin-loyalty/.medusa",
+  "packages/plugin-reviews/.medusa",
+  "packages/plugin-bundles/.medusa",
+  "packages/plugin-preorder/.medusa",
+  "packages/plugin-shipstation/.medusa",
+  "packages/plugin-subscription/.medusa",
+]

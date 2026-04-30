@@ -4,7 +4,7 @@ const fs = require("fs");
 
 async function exportBrandBook() {
   const htmlPath = path.resolve(__dirname, "CaliLean_Brand_Book.html");
-  const outputDir = path.resolve(__dirname, "..", "..", "..", "output", "internal", "brand");
+  const outputDir = path.resolve(__dirname, "..", "..", "output", "internal", "brand");
   const outputPath = path.join(outputDir, "CaliLean_Brand_Book.pdf");
 
   if (!fs.existsSync(htmlPath)) {

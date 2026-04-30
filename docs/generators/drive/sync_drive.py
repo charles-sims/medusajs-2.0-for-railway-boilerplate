@@ -10,14 +10,14 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-PROJECT_ROOT = SCRIPT_DIR.parent.parent
+PROJECT_ROOT = SCRIPT_DIR.parent.parent.parent
 
 RCLONE_REMOTE = 'CaliLean'
 DRIVE_ROOT = ''
 
 SYNC_MAP = {
-    'output/internal/brand/': ('CaliLean_Core/Brand/', ['.pdf']),
-    'output/external/deck/': ('CaliLean_Core/External/Deck/', ['.pdf']),
+    'docs/generators/output/internal/brand/': ('CaliLean_Core/Brand/', ['.pdf']),
+    'docs/generators/output/external/deck/': ('CaliLean_Core/External/Deck/', ['.pdf']),
 }
 
 MANIFEST_PATH = PROJECT_ROOT / '.sync-state.json'

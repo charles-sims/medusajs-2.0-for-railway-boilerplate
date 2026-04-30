@@ -1,0 +1,6 @@
+[build]
+# Nixpacks caches these directories between deploys.
+# node_modules is the big one — pnpm install with frozen lockfile
+# becomes a near-noop when cached. .next/cache holds Next.js
+# incremental build artifacts. .medusa holds compiled plugin output.
+nixpacksConfigPath = "nixpacks.toml"

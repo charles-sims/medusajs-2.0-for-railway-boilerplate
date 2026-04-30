@@ -25,5 +25,6 @@ coverage/
 docs/brand/imagery/renders/raw/*.png
 
 # Drive sync
-output/
+docs/generators/output/
 .sync-state.json
+.superpowers/

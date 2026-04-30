@@ -23,3 +23,7 @@ coverage/
 # git as the audit trail. Raw Imagen PNGs are uploaded to MinIO out-of-band
 # via scripts/upload-brand-image.mjs.
 docs/brand/imagery/renders/raw/*.png
+
+# Drive sync
+output/
+.sync-state.json

@@ -15,7 +15,11 @@
     "storefront:dev": "turbo dev --filter=medusa-next",
     "build:brand-book": "node src/internal/brand/export_brand_book_pdf.js",
     "build:deck": "node src/external/deck/export_pdf.js",
-    "build:all-docs": "npm run build:brand-book && npm run build:deck"
+    "build:all-docs": "npm run build:brand-book && npm run build:deck",
+    "drive:push:all": "python3 src/drive/sync_drive.py push --all",
+    "drive:push:check": "python3 src/drive/sync_drive.py push --all --check-conflicts",
+    "drive:status": "python3 src/drive/sync_drive.py status",
+    "drive:check-conflicts": "python3 src/drive/sync_drive.py check-conflicts"
   },
   "pnpm": {
     "overrides": {

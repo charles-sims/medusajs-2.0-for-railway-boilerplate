@@ -22,17 +22,17 @@ export const isRefundConfirmationData = (
   typeof data.currency_code === "string"
 
 const sectionHeading: React.CSSProperties = {
-  fontSize: 14,
+  fontSize: 11,
   fontWeight: 700,
-  letterSpacing: "0.04em",
+  letterSpacing: "0.06em",
   textTransform: "uppercase",
   color: COLORS.fog,
-  margin: "0 0 8px",
+  margin: "0 0 10px",
 }
 
 const bodyText: React.CSSProperties = {
-  fontSize: 14,
-  lineHeight: "22px",
+  fontSize: 15,
+  lineHeight: "24px",
   color: COLORS.ink,
   margin: "0 0 6px",
 }
@@ -44,7 +44,7 @@ export const RefundConfirmationTemplate: React.FC<RefundConfirmationTemplateProp
   refund_amount,
   currency_code,
   reason,
-  preview = "Your CaliLean refund has been processed.",
+  preview = "Your Cali Lean refund has been processed.",
 }) => {
   return (
     <Base preview={preview}>
@@ -53,7 +53,8 @@ export const RefundConfirmationTemplate: React.FC<RefundConfirmationTemplateProp
           fontSize: 22,
           fontWeight: 600,
           color: COLORS.ink,
-          margin: "0 0 12px",
+          margin: "0 0 16px",
+          letterSpacing: "-0.01em",
         }}
       >
         Refund processed
@@ -61,30 +62,39 @@ export const RefundConfirmationTemplate: React.FC<RefundConfirmationTemplateProp
 
       <Text style={bodyText}>
         We've processed a refund for your order. The amount should appear on your
-        original payment method within 5–10 business days.
+        original payment method within 5-10 business days.
       </Text>
 
-      <Hr style={{ borderColor: COLORS.divider, margin: "24px 0 16px" }} />
+      <Hr style={{ borderColor: COLORS.divider, margin: "28px 0 20px" }} />
 
       <Section>
         <Text style={sectionHeading}>Refund details</Text>
-        <Text style={bodyText}>Order ID: {order.display_id}</Text>
-        <Text style={bodyText}>
-          Refund amount: {refund_amount} {currency_code.toUpperCase()}
+        <Text style={bodyText}>Order #{order.display_id}</Text>
+        <Text
+          style={{
+            ...bodyText,
+            fontWeight: 600,
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 14,
+          }}
+        >
+          {refund_amount} {currency_code.toUpperCase()}
         </Text>
         {reason && (
-          <Text style={bodyText}>Reason: {reason}</Text>
+          <Text style={{ ...bodyText, fontSize: 14, color: COLORS.fog }}>
+            Reason: {reason}
+          </Text>
         )}
       </Section>
 
-      <Hr style={{ borderColor: COLORS.divider, margin: "24px 0 16px" }} />
+      <Hr style={{ borderColor: COLORS.divider, margin: "24px 0 20px" }} />
 
-      <Text style={bodyText}>
-        If you have any questions about this refund, reply to this email or
+      <Text style={{ ...bodyText, fontSize: 14, color: COLORS.fog }}>
+        If you have questions about this refund, reply to this email or
         contact us at {BRAND.supportEmail}.
       </Text>
 
-      <Text style={{ ...bodyText, marginTop: 16, color: COLORS.fog }}>
+      <Text style={{ fontSize: 14, color: COLORS.fog, margin: "16px 0 0" }}>
         {BRAND.signoff}
       </Text>
     </Base>

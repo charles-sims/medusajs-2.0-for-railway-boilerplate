@@ -21,7 +21,7 @@ export const PasswordResetTemplate: React.FC<PasswordResetTemplateProps> & {
 } = ({
   reset_url,
   email,
-  preview = "Reset your CaliLean password.",
+  preview = "Reset your Cali Lean password.",
 }) => {
   return (
     <Base preview={preview}>
@@ -30,7 +30,8 @@ export const PasswordResetTemplate: React.FC<PasswordResetTemplateProps> & {
           fontSize: 22,
           fontWeight: 600,
           color: COLORS.ink,
-          margin: "0 0 12px",
+          margin: "0 0 16px",
+          letterSpacing: "-0.01em",
         }}
       >
         Reset your password
@@ -38,18 +39,18 @@ export const PasswordResetTemplate: React.FC<PasswordResetTemplateProps> & {
 
       <Text
         style={{
-          fontSize: 14,
-          lineHeight: "22px",
+          fontSize: 15,
+          lineHeight: "24px",
           color: COLORS.ink,
-          margin: "0 0 6px",
+          margin: "0 0 8px",
         }}
       >
         We received a request to reset the password
         {email ? ` for ${email}` : ""}.
-        Click the button below to choose a new password.
+        Click below to choose a new password.
       </Text>
 
-      <Section style={{ margin: "24px 0" }}>
+      <Section style={{ margin: "28px 0" }}>
         <Button
           href={reset_url}
           style={{
@@ -58,8 +59,9 @@ export const PasswordResetTemplate: React.FC<PasswordResetTemplateProps> & {
             color: "#FFFFFF",
             fontSize: 14,
             fontWeight: 600,
-            padding: "12px 20px",
+            padding: "14px 24px",
             textDecoration: "none",
+            letterSpacing: "0.01em",
           }}
         >
           Reset password
@@ -68,9 +70,9 @@ export const PasswordResetTemplate: React.FC<PasswordResetTemplateProps> & {
 
       <Text
         style={{
-          fontSize: 14,
-          lineHeight: "22px",
-          color: COLORS.ink,
+          fontSize: 13,
+          lineHeight: "20px",
+          color: COLORS.fog,
           margin: "0 0 6px",
         }}
       >
@@ -86,7 +88,7 @@ export const PasswordResetTemplate: React.FC<PasswordResetTemplateProps> & {
       >
         <Link
           href={reset_url}
-          style={{ color: COLORS.pacific, textDecoration: "none" }}
+          style={{ color: COLORS.pacific, textDecoration: "none", fontSize: 13 }}
         >
           {reset_url}
         </Link>
@@ -103,7 +105,7 @@ export const PasswordResetTemplate: React.FC<PasswordResetTemplateProps> & {
         }}
       >
         This link expires in 1 hour. If you didn't request a password reset you
-        can safely ignore this email — your password will remain unchanged.
+        can safely ignore this email.
       </Text>
 
       <Text

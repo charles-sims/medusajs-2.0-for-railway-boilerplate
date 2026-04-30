@@ -22,8 +22,8 @@ export default async function userInviteHandler({
       template: EmailTemplates.INVITE_USER,
       data: {
         emailOptions: {
-          replyTo: 'info@example.com',
-          subject: "You've been invited to Medusa!"
+          replyTo: 'hello@calilean.com',
+          subject: "You've been invited to Cali Lean",
         },
         inviteLink: `${BACKEND_URL}/app/invite?token=${invite.token}`,
         preview: 'The administration dashboard awaits...'

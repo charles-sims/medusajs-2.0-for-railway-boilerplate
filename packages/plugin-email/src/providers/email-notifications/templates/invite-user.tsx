@@ -24,17 +24,30 @@ export const InviteUserEmail: React.FC<InviteUserEmailProps> & {
     <Base preview={preview}>
       <Text
         style={{
-          fontSize: 18,
-          lineHeight: "26px",
+          fontSize: 22,
+          fontWeight: 600,
           color: COLORS.ink,
           margin: "0 0 16px",
+          letterSpacing: "-0.01em",
+        }}
+      >
+        You're invited
+      </Text>
+
+      <Text
+        style={{
+          fontSize: 15,
+          lineHeight: "24px",
+          color: COLORS.ink,
+          margin: "0 0 8px",
         }}
       >
         You've been invited to be an administrator on{" "}
-        <strong>{BRAND.name}</strong>.
+        <strong>{BRAND.name}</strong>. Click below to accept and set up your
+        account.
       </Text>
 
-      <Section style={{ margin: "24px 0" }}>
+      <Section style={{ margin: "28px 0" }}>
         <Button
           href={inviteLink}
           style={{
@@ -43,8 +56,9 @@ export const InviteUserEmail: React.FC<InviteUserEmailProps> & {
             color: "#FFFFFF",
             fontSize: 14,
             fontWeight: 600,
-            padding: "12px 20px",
+            padding: "14px 24px",
             textDecoration: "none",
+            letterSpacing: "0.01em",
           }}
         >
           Accept invitation
@@ -53,9 +67,9 @@ export const InviteUserEmail: React.FC<InviteUserEmailProps> & {
 
       <Text
         style={{
-          fontSize: 14,
-          lineHeight: "22px",
-          color: COLORS.ink,
+          fontSize: 13,
+          lineHeight: "20px",
+          color: COLORS.fog,
           margin: "0 0 6px",
         }}
       >
@@ -71,7 +85,7 @@ export const InviteUserEmail: React.FC<InviteUserEmailProps> & {
       >
         <Link
           href={inviteLink}
-          style={{ color: COLORS.pacific, textDecoration: "none" }}
+          style={{ color: COLORS.pacific, textDecoration: "none", fontSize: 13 }}
         >
           {inviteLink}
         </Link>
@@ -88,8 +102,7 @@ export const InviteUserEmail: React.FC<InviteUserEmailProps> & {
         }}
       >
         If you weren't expecting this invitation you can ignore this email; the
-        invitation will expire in 24 hours. If you're concerned about your
-        account's safety, reply to this email and we'll get back to you.
+        invitation will expire in 24 hours.
       </Text>
 
       <Text
@@ -108,7 +121,7 @@ export const InviteUserEmail: React.FC<InviteUserEmailProps> & {
 
 InviteUserEmail.PreviewProps = {
   inviteLink:
-    "https://admin.calilean.com/app/invite?token=abc123ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "https://admin.calilean.com/app/invite?token=abc123",
 }
 
 export default InviteUserEmail

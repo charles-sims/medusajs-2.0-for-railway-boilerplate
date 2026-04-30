@@ -24,14 +24,27 @@ export const COLORS = {
 } as const
 
 export const BRAND = {
-  name: "CaliLean",
+  name: "Cali Lean",
   domain: "calilean.com",
   url: "https://calilean.com",
   fromEmail: "Cali Lean <hello@send.calilean.com>",
   replyTo: "hello@calilean.com",
   supportEmail: "research@calilean.com",
-  signoff: "— The CaliLean team",
+  signoff: "— The Cali Lean team",
+  logoUrl:
+    "https://bucket-production-4a36.up.railway.app/medusa-media/brand/calilean-logo-email.png",
+  logoWidth: 160,
+  logoHeight: 30,
+  tagline: "Peptides, plainly labeled.",
 } as const
+
+/**
+ * Email-safe font stack. Plus Jakarta Sans is the brand display font but
+ * email clients don't support @font-face reliably, so we lead with system
+ * geometric sans-serifs that share the same visual weight.
+ */
+export const FONT_STACK =
+  "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
 
 /**
  * RUO short-form disclaimer — mirrored from `apps/backend/src/lib/ruo.ts`

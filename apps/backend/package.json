@@ -35,6 +35,7 @@
     "@calilean/plugin-reviews": "workspace:*",
     "@calilean/plugin-shipstation": "workspace:*",
     "@calilean/plugin-subscription": "workspace:*",
+    "@medusajs/loyalty-plugin": "^2.14.1",
     "@medusajs/admin-sdk": "2.14.1",
     "@medusajs/admin-shared": "2.14.1",
     "@medusajs/cli": "2.14.1",

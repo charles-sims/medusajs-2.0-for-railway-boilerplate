@@ -205,6 +205,10 @@ const medusaConfig = {
   "@calilean/plugin-shipstation",
   "@calilean/plugin-subscription",
   "@calilean/plugin-preorder",
+  {
+    resolve: "@medusajs/loyalty-plugin",
+    options: {},
+  },
   ...(MEILISEARCH_HOST && MEILISEARCH_ADMIN_KEY ? [{
       resolve: '@rokmohar/medusa-plugin-meilisearch',
       options: {

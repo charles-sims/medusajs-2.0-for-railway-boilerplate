@@ -174,6 +174,6 @@ export const config = {
   // SEO routes (sitemap/robots/manifest) and static assets bypass region detection
   // so they stay reachable even if the Medusa backend is briefly unreachable.
   matcher: [
-    "/((?!api|_next/static|favicon.ico|sitemap.xml|robots.txt|site.webmanifest|opengraph-image.jpg|twitter-image.jpg|.*\\.png|.*\\.jpg|.*\\.gif|.*\\.svg).*)",
+    "/((?!api|_next|favicon.ico|sitemap.xml|robots.txt|site.webmanifest|opengraph-image.jpg|twitter-image.jpg|.*\\.png|.*\\.jpg|.*\\.gif|.*\\.svg).*)",
   ],
 }

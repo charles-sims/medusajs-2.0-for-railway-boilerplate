@@ -18,6 +18,9 @@
   "scripts": {
     "build": "medusa plugin:build",
     "dev": "medusa plugin:develop",
+    "test": "jest",
+    "test:integration": "TEST_TYPE=integration:http jest --runInBand",
+    "test:unit": "TEST_TYPE=unit jest",
     "prepublishOnly": "medusa plugin:build"
   },
   "devDependencies": {

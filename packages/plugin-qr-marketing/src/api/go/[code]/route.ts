@@ -2,8 +2,8 @@ import {
   MedusaRequest,
   MedusaResponse,
 } from "@medusajs/framework/http"
-import { QR_MARKETING_MODULE } from "../../../../modules/qr-marketing"
-import QrMarketingModuleService from "../../../../modules/qr-marketing/service"
+import { QR_MARKETING_MODULE } from "../../../modules/qr-marketing"
+import QrMarketingModuleService from "../../../modules/qr-marketing/service"
 import { Modules } from "@medusajs/framework/utils"
 
 const STOREFRONT_URL = process.env.STOREFRONT_URL || "https://calilean.com"

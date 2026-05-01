@@ -10,6 +10,8 @@ import { useIntersection } from "@lib/hooks/use-in-view"
 import MobileActions from "./mobile-actions"
 import OptionSelect from "./option-select"
 import ProductPrice from "../product-price"
+import QuantitySelector from "../quantity-selector"
+import StackAndSave from "../stack-and-save"
 import { addToCart } from "@lib/data/cart"
 import { HttpTypes } from "@medusajs/types"
 
@@ -42,6 +44,7 @@ export default function ProductActions({
 }: ProductActionsProps) {
   const [options, setOptions] = useState<Record<string, string | undefined>>({})
   const [isAdding, setIsAdding] = useState(false)
+  const [quantity, setQuantity] = useState(1)
   const countryCode = useParams().countryCode as string
 
   // Preselect the first variant on mount
@@ -69,6 +72,13 @@ export default function ProductActions({
       return isEqual(variantOptions, options)
     })
   }, [product.variants, options])
+
+  // Get the base unit price for Stack and Save display
+  const unitPrice = useMemo(() => {
+    if (!selectedVariant) return undefined
+    const calc = (selectedVariant as any)?.calculated_price
+    return calc?.calculated_amount ?? undefined
+  }, [selectedVariant])
 
   // check if the selected variant is in stock
   const inStock = useMemo(() => {
@@ -106,7 +116,7 @@ export default function ProductActions({
 
     await addToCart({
       variantId: selectedVariant.id,
-      quantity: 1,
+      quantity,
       countryCode,
     })
 
@@ -115,9 +125,9 @@ export default function ProductActions({
 
   return (
     <>
-      <div className="flex flex-col gap-y-2" ref={actionsRef}>
+      <div className="flex flex-col gap-y-4" ref={actionsRef}>
         {hasMultipleVariants && (
-          <div className="flex flex-col gap-y-4 mb-2">
+          <div className="flex flex-col gap-y-4">
             {(product.options || []).map((option) => (
               <OptionSelect
                 key={option.id}
@@ -133,6 +143,14 @@ export default function ProductActions({
         )}
         <ProductPrice product={product} variant={selectedVariant} />
 
+        <QuantitySelector
+          quantity={quantity}
+          onChange={setQuantity}
+          disabled={!!disabled || isAdding}
+        />
+
+        <StackAndSave quantity={quantity} unitPrice={unitPrice} />
+
         <Button
           onClick={handleAddToCart}
           disabled={!inStock || !selectedVariant || !!disabled || isAdding}
@@ -145,6 +163,8 @@ export default function ProductActions({
             ? "Select variant"
             : !inStock
             ? "Out of stock"
+            : quantity > 1
+            ? `Add ${quantity} to cart`
             : "Add to cart"}
         </Button>
         <MobileActions

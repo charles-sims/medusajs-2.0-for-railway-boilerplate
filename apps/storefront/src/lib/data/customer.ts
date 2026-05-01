@@ -128,12 +128,7 @@ export async function resetPassword(
   }
 
   try {
-    await sdk.auth.updateProvider(
-      "customer",
-      "emailpass",
-      { password },
-      token
-    )
+    await sdk.auth.updateProvider("customer", "emailpass", { password }, token)
     return { success: true, error: null }
   } catch (error: any) {
     return {

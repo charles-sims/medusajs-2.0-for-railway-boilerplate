@@ -97,7 +97,7 @@ class ShipStationProviderService extends AbstractFulfillmentProviderService {
 
     const packageWeight = items.reduce((sum, item) => {
       // @ts-ignore
-      return sum + (item.variant.weight || 0)
+      return sum + (item.variant?.weight || 0) * (item.quantity || 1)
     }, 0)
 
     return await this.client.getShippingRates({

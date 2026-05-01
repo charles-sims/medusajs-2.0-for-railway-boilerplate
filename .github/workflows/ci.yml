@@ -26,6 +26,8 @@ jobs:
           cache-dependency-path: pnpm-lock.yaml
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Build plugins
+        run: pnpm --filter './packages/plugin-*' build
       - name: Build
         working-directory: apps/backend
         run: pnpm build
@@ -45,6 +47,8 @@ jobs:
           cache-dependency-path: pnpm-lock.yaml
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Build plugins
+        run: pnpm --filter './packages/plugin-*' build
       - name: Unit tests + coverage
         working-directory: apps/backend
         run: pnpm test:coverage
@@ -161,6 +165,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Build plugins
+        run: pnpm --filter './packages/plugin-*' build
 
       - name: Initialize backend (migrate + seed)
         working-directory: apps/backend

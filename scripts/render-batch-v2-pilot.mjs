@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // v2 line-coherence pilot — SKA-47 CEO reopen.
-// Two Ultra renders (Retatrutide + NAD+) with a single locked prompt that
+// Two Ultra renders (CL-3R + NAD+) with a single locked prompt that
 // varies only {compound, lot}, plus a fixed seed, to test whether Imagen 4
 // Ultra converges to identical-twin compositions when the prompt language
 // is itself prescriptive about scale/centering/background. If this pilot
@@ -55,7 +55,7 @@ function buildPrompt({ compound, dosage, lot }) {
 }
 
 const TARGETS = [
-  { label: "pdp-primary-retatrutide.v2-pilot", meta: { compound: "RETATRUTIDE", dosage: "15", lot: "24-0438" } },
+  { label: "pdp-primary-cl-3r.v2-pilot", meta: { compound: "CL-3R", dosage: "15", lot: "24-0438" } },
   { label: "pdp-primary-nad.v2-pilot",          meta: { compound: "NAD+",        dosage: "100", lot: "24-0410" } },
 ];
 

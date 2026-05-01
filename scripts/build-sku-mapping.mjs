@@ -55,7 +55,8 @@ const SKU_CODE_MAP = {
   'sermorelin': 'SER',
   'ghrp-2': 'GH2',
   'ghrp-6': 'GH6',
-  'retatrutide': 'RET',
+  'cl-3r': 'GL3',
+  'retatrutide': 'RET',  // legacy handle, kept for backwards compat
   'melanotan-i': 'MT1',
   'melanotan-ii': 'MT2',
   'mazdutide': 'MAZ',

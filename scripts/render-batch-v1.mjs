@@ -63,7 +63,7 @@ const TARGETS = [
   { label: "pdp-primary-glutathione",                      aspect: "1:1", meta: { compound: "GLUTATHIONE",                 dosage: "200",      lot: "24-0433" } },
   { label: "pdp-primary-mots-c",                           aspect: "1:1", meta: { compound: "MOTS-C",                      dosage: "10",       lot: "24-0356" } },
   { label: "pdp-primary-nad",                              aspect: "1:1", meta: { compound: "NAD+",                        dosage: "100",      lot: "24-0410" } },
-  { label: "pdp-primary-retatrutide",                      aspect: "1:1", meta: { compound: "RETATRUTIDE",                 dosage: "15",       lot: "24-0438" } },
+  { label: "pdp-primary-cl-3r",                             aspect: "1:1", meta: { compound: "CL-3R",                      dosage: "15",       lot: "24-0438" } },
   { label: "pdp-primary-tb-500",                           aspect: "1:1", meta: { compound: "TB-500",                      dosage: "5",        lot: "24-0327" } },
 ];
 

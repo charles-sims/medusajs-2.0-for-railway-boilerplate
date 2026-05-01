@@ -114,7 +114,7 @@ DRAFT_IDS=(
   "prod_01KKVY3VX003ZTME9NRMECB0RQ"  # Sermorelin
   "prod_01KKVY3WFGQ9V033A2XNTJ648E"  # GHRP-2
   "prod_01KKVY3X1YG3M0J05M28C3S13R"  # GHRP-6
-  "prod_01KKVY3XNMNTMD3KDCVGDABN6F"  # Retatrutide
+  "prod_01KKVY3XNMNTMD3KDCVGDABN6F"  # CL-3R (was Retatrutide)
   "prod_01KKVY3Y7KFPTECA84TYNC4W09"  # Melanotan I
   "prod_01KKVY3ZB4SAF4RVY4987G5N5M"  # Mazdutide
   "prod_01KKVY3ZXKD1PMK76DSAHHSHHT"  # Semax
@@ -194,20 +194,20 @@ echo "════════════════════════�
 echo "  STEP 3: Create new products"
 echo "═══════════════════════════════════════"
 
-# GLP1-S
-create_product "GLP1-S" "glp1-s" "published" \
+# CL-1S (GLP-1 Receptor Agonist)
+create_product "CL-1S" "cl-1s" "published" \
   "10mg" "CL-GL1-0010" 15900 \
   "20mg" "CL-GL1-0020" 28900 \
   "30mg" "CL-GL1-0030" 39900
 
-# GLP2-T
-create_product "GLP2-T" "glp2-t" "published" \
+# CL-2T (Dual GIP/GLP-1 Receptor Agonist)
+create_product "CL-2T" "cl-2t" "published" \
   "10mg" "CL-GL2-0010" 15900 \
   "20mg" "CL-GL2-0020" 28900 \
   "30mg" "CL-GL2-0030" 39900
 
-# GLP3-R
-create_product "GLP3-R" "glp3-r" "published" \
+# CL-3R (Triple GIP/GLP-1/Glucagon Receptor Agonist)
+create_product "CL-3R" "cl-3r" "published" \
   "10mg" "CL-GL3-0010" 17900 \
   "20mg" "CL-GL3-0020" 32900 \
   "30mg" "CL-GL3-0030" 44900

@@ -108,8 +108,8 @@ const SKUS = [
     lot: "LOT 24-0424",
   },
   {
-    slug: "retatrutide",
-    compound: "RETATRUTIDE",
+    slug: "cl-3r",
+    compound: "CL-3R",
     dosage: "15 mg",
     lot: "LOT 24-0543",
   },

@@ -7,7 +7,7 @@
 //             imagen-4.0-ultra-generate-001.
 //   mots-c  : v1 vial sat ~25% from left edge with the calilean wordmark's
 //             leading "c" clipped (read as "alilean"). Mitigation: explicit
-//             centering language matching the Retatrutide v1 composition,
+//             centering language matching the CL-3R v1 composition,
 //             guard against any edge cropping of the label.
 //
 // Renders multiple candidates per SKU into v1.1/raw/ as {label}.cand-N.png

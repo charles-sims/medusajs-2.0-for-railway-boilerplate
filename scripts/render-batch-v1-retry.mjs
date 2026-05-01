@@ -4,7 +4,7 @@
 //   bpc-157-tb-500-blend : decorative blue stripe in place of hairline rule
 //   glutathione        : silver cap instead of Eucalyptus sage
 //   nad                : full drift to mountain landscape photo (no vial)
-//   retatrutide        : invented "C" monogram + ® + side gibberish text
+//   cl-3r (was retatrutide) : invented "C" monogram + ® + side gibberish text
 // Prompt fixes: removed all hex literals (replaced with plain color words so
 // Imagen has nothing to render-as-text), reinforced cap color twice, banned
 // invented logos / ® / ™ / monograms / decorative stripes.
@@ -64,7 +64,7 @@ const TARGETS = [
   { label: "pdp-primary-bpc-157-tb-500-blend",             aspect: "1:1", meta: { compound: "BPC-157 / TB-500",            dosage: "5 / 5 mg / vial", lot: "24-0395" } },
   { label: "pdp-primary-glutathione",                      aspect: "1:1", meta: { compound: "GLUTATHIONE",                 dosage: "200",      lot: "24-0433" } },
   { label: "pdp-primary-nad",                              aspect: "1:1", meta: { compound: "NAD+",                        dosage: "100",      lot: "24-0410" } },
-  { label: "pdp-primary-retatrutide",                      aspect: "1:1", meta: { compound: "RETATRUTIDE",                 dosage: "15",       lot: "24-0438" } },
+  { label: "pdp-primary-cl-3r",                             aspect: "1:1", meta: { compound: "CL-3R",                      dosage: "15",       lot: "24-0438" } },
 ];
 
 async function renderOne(item, sharp) {

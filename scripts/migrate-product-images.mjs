@@ -67,7 +67,7 @@ const LAUNCH_SKUS = [
   { handle: "glutathione", folder: "glutathione" },
   { handle: "mots-c", folder: "mots-c" },
   { handle: "nad", folder: "nad" },
-  { handle: "retatrutide", folder: "retatrutide" },
+  { handle: "cl-3r", folder: "cl-3r" },
   { handle: "tb-500", folder: "tb-500" },
 ];
 

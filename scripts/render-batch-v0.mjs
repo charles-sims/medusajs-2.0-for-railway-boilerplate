@@ -57,23 +57,23 @@ function vialBlock({ compound, dosage, lot, accent, packaging }) {
 const RENDERS = [
   // ── Hero ─────────────────────────────────────────────────────────────────
   {
-    label: "hero-16x9-retatrutide",
+    label: "hero-16x9-cl-3r",
     surface: "hero-16x9",
     aspect: "16:9",
     model: "ultra",
     sku: "calilean-launch",
     sceneType: "hero",
-    sku_meta: { compound: "RETATRUTIDE", dosage: "15", lot: "24-0438", accent: "pacific", packaging: "single" },
+    sku_meta: { compound: "CL-3R", dosage: "15", lot: "24-0438", accent: "pacific", packaging: "single" },
     extraScene: `The vial is the single subject in the left third. The Pacific horizon behind it is intentionally featureless — calm gray water meeting calm gray sky, no detail. This is a launch hero for a metabolic-research compound; the visual brief is "serious research catalog, not recovery-peptide store".`,
   },
-  // ── Tier 1 PDP primary (Retatrutide + lab-book trio) ─────────────────────
+  // ── Tier 1 PDP primary (CL-3R + lab-book trio) ─────────────────────
   {
-    label: "pdp-primary-retatrutide",
+    label: "pdp-primary-cl-3r",
     surface: "pdp-primary",
     aspect: "1:1",
     model: "ultra",
-    sku: "retatrutide",
-    sku_meta: { compound: "RETATRUTIDE", dosage: "15", lot: "24-0438", accent: "pacific", packaging: "single" },
+    sku: "cl-3r",
+    sku_meta: { compound: "CL-3R", dosage: "15", lot: "24-0438", accent: "pacific", packaging: "single" },
   },
   {
     label: "pdp-primary-bpc-157",

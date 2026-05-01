@@ -25,6 +25,8 @@ coverage/
 docs/brand/imagery/renders/raw/*.png
 
 # Drive sync
-docs/generators/output/
+# Generated PDFs (co-located with their sources)
+docs/brand/brand-book/*.pdf
+docs/deliverables/pitch-deck/*.pdf
 .sync-state.json
 .superpowers/

@@ -2,13 +2,13 @@ const puppeteer = require("puppeteer");
 const path = require("path");
 const fs = require("fs");
 
-async function exportBrandBook() {
-  const htmlPath = path.resolve(__dirname, "CaliLean_Brand_Book.html");
-  const outputDir = path.resolve(__dirname, "..", "..", "output", "internal", "brand");
-  const outputPath = path.join(outputDir, "CaliLean_Brand_Book.pdf");
+async function exportDeck() {
+  const htmlPath = path.resolve(__dirname, "CaliLean_Pitch_Deck.html");
+  const outputDir = __dirname;
+  const outputPath = path.join(outputDir, "CaliLean_Pitch_Deck.pdf");
 
   if (!fs.existsSync(htmlPath)) {
-    console.error(`Brand book HTML not found: ${htmlPath}`);
+    console.error(`Deck HTML not found: ${htmlPath}`);
     process.exit(1);
   }
 
@@ -28,10 +28,10 @@ async function exportBrandBook() {
   });
 
   await browser.close();
-  console.log(`Brand book exported: ${outputPath}`);
+  console.log(`Pitch deck exported: ${outputPath}`);
 }
 
-exportBrandBook().catch((err) => {
+exportDeck().catch((err) => {
   console.error("Export failed:", err);
   process.exit(1);
 });

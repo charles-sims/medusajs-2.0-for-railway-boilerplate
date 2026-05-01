@@ -43,12 +43,13 @@ const QrCampaignDetailPage = () => {
     sdk.client
       .fetch<DetailResponse>(`/admin/qr-campaigns/${id}`)
       .then((res) => {
+        console.log("QR campaign response:", JSON.stringify(res, null, 2))
         setData(res)
         setIsLoading(false)
       })
       .catch((err) => {
         console.error("Failed to fetch campaign:", err)
-        setError(err?.message || err?.toString() || "Unknown error")
+        setError(JSON.stringify(err, Object.getOwnPropertyNames(err || {}), 2) || "Unknown error")
         setIsLoading(false)
       })
   }, [id])
@@ -81,8 +82,14 @@ const QrCampaignDetailPage = () => {
     link.click()
   }
 
-  if (isLoading) return <Container><Text>Loading...</Text></Container>
-  if (!data) return <Container><Text>Campaign not found{error ? `: ${error}` : ""}</Text></Container>
+  if (isLoading) return <Container><Text>Loading campaign {id}...</Text></Container>
+  if (!data) return (
+    <Container>
+      <Text>Campaign not found for ID: {id}</Text>
+      {error && <Text className="text-ui-fg-error mt-2">Error: {error}</Text>}
+      <Text className="text-ui-fg-subtle mt-2 text-xs">Check browser console for full details</Text>
+    </Container>
+  )
 
   const { qr_campaign: c, qr_data_url, qr_url } = data
 

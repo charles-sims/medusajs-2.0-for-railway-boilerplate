@@ -2,22 +2,63 @@
 
 import { clx } from "@medusajs/ui"
 
-const TIERS = [
-  { min: 4, max: 5, discount: 10, label: "4–5 Vials" },
-  { min: 6, max: 9, discount: 15, label: "6–9 Vials" },
-  { min: 10, max: Infinity, discount: 20, label: "10+ Vials" },
-] as const
+type PriceTier = {
+  min_quantity: number | null
+  max_quantity: number | null
+  amount: number
+  currency_code: string
+}
+
+type Tier = {
+  min: number
+  max: number
+  discount: number
+  label: string
+  tierPrice: number
+}
 
 type StackAndSaveProps = {
   quantity: number
-  unitPrice?: number
+  prices?: PriceTier[]
 }
 
-export default function StackAndSave({
-  quantity,
-  unitPrice,
-}: StackAndSaveProps) {
-  const activeTier = TIERS.find(
+function buildTiers(prices: PriceTier[]): Tier[] {
+  if (!prices?.length) return []
+
+  // Base price = the one with no min_quantity (or min_quantity of 1/null)
+  const basePrice = prices.find(
+    (p) => p.min_quantity == null || p.min_quantity <= 1
+  )
+  if (!basePrice || basePrice.amount <= 0) return []
+
+  // Quantity-tiered prices = those with min_quantity > 1
+  const tieredPrices = prices
+    .filter((p) => p.min_quantity != null && p.min_quantity > 1)
+    .sort((a, b) => (a.min_quantity ?? 0) - (b.min_quantity ?? 0))
+
+  if (!tieredPrices.length) return []
+
+  return tieredPrices.map((tp) => {
+    const discount = Math.round(
+      ((basePrice.amount - tp.amount) / basePrice.amount) * 100
+    )
+    const min = tp.min_quantity ?? 2
+    const max = tp.max_quantity ?? Infinity
+    const label =
+      max === Infinity || max == null
+        ? `${min}+ Vials`
+        : `${min}–${max} Vials`
+
+    return { min, max, discount, label, tierPrice: tp.amount }
+  })
+}
+
+export default function StackAndSave({ quantity, prices }: StackAndSaveProps) {
+  const tiers = buildTiers(prices ?? [])
+
+  if (!tiers.length) return null
+
+  const activeTier = tiers.find(
     (tier) => quantity >= tier.min && quantity <= tier.max
   )
 
@@ -37,7 +78,7 @@ export default function StackAndSave({
 
       {/* Tiers */}
       <div className="divide-y divide-calilean-sand">
-        {TIERS.map((tier) => {
+        {tiers.map((tier) => {
           const isActive = quantity >= tier.min && quantity <= tier.max
           const isUnlocked = quantity >= tier.min
 
@@ -53,7 +94,6 @@ export default function StackAndSave({
               )}
             >
               <div className="flex items-center gap-3">
-                {/* Status indicator */}
                 <div
                   className={clx(
                     "w-2 h-2 rounded-full transition-colors duration-200",
@@ -84,9 +124,9 @@ export default function StackAndSave({
                 >
                   {tier.discount}% off
                 </span>
-                {isActive && unitPrice != null && unitPrice > 0 && (
+                {isActive && (
                   <span className="text-xs text-calilean-fog tabular-nums">
-                    (${(unitPrice * (1 - tier.discount / 100)).toFixed(2)}/ea)
+                    (${tier.tierPrice.toFixed(2)}/ea)
                   </span>
                 )}
               </div>

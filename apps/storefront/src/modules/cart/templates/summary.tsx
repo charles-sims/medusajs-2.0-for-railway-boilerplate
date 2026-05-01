@@ -33,12 +33,18 @@ const Summary = ({ cart }: SummaryProps) => {
     0
   ) ?? 0
 
+  // Extract variant prices (with quantity tiers) from the first cart item
+  const firstVariant = cart.items?.[0]?.variant as any
+  const variantPrices = firstVariant?.prices ?? firstVariant?.product?.variants?.find(
+    (v: any) => v.id === cart.items?.[0]?.variant_id
+  )?.prices
+
   return (
     <div className="flex flex-col gap-y-4">
       <Heading level="h2" className="text-[2rem] leading-[2.75rem]">
         Summary
       </Heading>
-      <StackAndSave quantity={cartQuantity} />
+      <StackAndSave quantity={cartQuantity} prices={variantPrices} />
       <DiscountCode cart={cart} />
       <Divider />
       <CartTotals totals={cart} />

@@ -265,7 +265,7 @@ const medusaConfig = {
   "@calilean/plugin-shipstation",
   "@calilean/plugin-subscription",
   "@calilean/plugin-preorder",
-  "@calilean/plugin-qr-marketing",
+  // "@calilean/plugin-qr-marketing", // disabled — routes not loading, blocking backend startup. Debug locally before re-enabling.
   // "@medusajs/loyalty-plugin" disabled — admin widget crashes (missing QueryClientProvider)
   ...(MEILISEARCH_HOST && MEILISEARCH_ADMIN_KEY ? [{
       resolve: '@rokmohar/medusa-plugin-meilisearch',

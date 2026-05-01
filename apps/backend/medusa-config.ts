@@ -265,7 +265,7 @@ const medusaConfig = {
   "@calilean/plugin-shipstation",
   "@calilean/plugin-subscription",
   "@calilean/plugin-preorder",
-  "@calilean/plugin-qr-marketing",
+  // "@calilean/plugin-qr-marketing", // temporarily disabled — debugging route registration
   // "@medusajs/loyalty-plugin" disabled — admin widget crashes (missing QueryClientProvider)
   ...(MEILISEARCH_HOST && MEILISEARCH_ADMIN_KEY ? [{
       resolve: '@rokmohar/medusa-plugin-meilisearch',

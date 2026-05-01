@@ -51,6 +51,23 @@ export async function getOrSetCart(countryCode: string) {
     const cartResp = await sdk.store.cart.create({ region_id: region.id })
     cart = cartResp.cart
     await setCartId(cart.id)
+    // Attach QR attribution if present
+    const { cookies } = await import("next/headers")
+    const cookieStore = await cookies()
+    const attributionCookie = cookieStore.get("__cl_attribution")
+    if (attributionCookie?.value) {
+      try {
+        const attribution = JSON.parse(attributionCookie.value)
+        await sdk.store.cart.update(
+          cart.id,
+          { metadata: { attribution } },
+          {},
+          await getAuthHeaders()
+        )
+      } catch {
+        // Invalid cookie — skip
+      }
+    }
     revalidateTag("cart")
   }
 

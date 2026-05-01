@@ -667,6 +667,10 @@ importers:
         version: 5.4.21(@types/node@20.19.39)(terser@5.46.2)
 
   packages/plugin-qr-marketing:
+    dependencies:
+      qrcode:
+        specifier: ^1.5.4
+        version: 1.5.4
     devDependencies:
       '@medusajs/admin-sdk':
         specifier: 2.14.1
@@ -716,9 +720,6 @@ importers:
       prop-types:
         specifier: ^15.8.1
         version: 15.8.1
-      qrcode:
-        specifier: ^1.5.4
-        version: 1.5.4
       react:
         specifier: ^18.2.0
         version: 18.3.1

@@ -89,8 +89,19 @@ const Payment = ({
         isStripeFunc(selectedPaymentMethod) && !activeSession
 
       if (!activeSession) {
+        const isSubscription =
+          cart?.metadata?.subscription_interval &&
+          cart?.metadata?.subscription_period
+
         await initiatePaymentSession(cart, {
           provider_id: selectedPaymentMethod,
+          ...(isSubscription
+            ? {
+                data: {
+                  setup_future_usage: "off_session",
+                },
+              }
+            : {}),
         })
       }
 

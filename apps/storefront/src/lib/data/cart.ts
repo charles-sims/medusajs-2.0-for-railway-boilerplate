@@ -390,19 +390,62 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
   return null
 }
 
+export enum SubscriptionInterval {
+  MONTHLY = "monthly",
+  YEARLY = "yearly",
+}
+
+export async function updateSubscriptionData(
+  subscription_interval: SubscriptionInterval,
+  subscription_period: number
+) {
+  const cartId = await getCartId()
+  if (!cartId) {
+    throw new Error("No existing cart found when setting subscription data")
+  }
+
+  await updateCart({
+    metadata: {
+      subscription_interval,
+      subscription_period,
+    },
+  })
+  revalidateTag("cart")
+}
+
 export async function placeOrder() {
   const cartId = await getCartId()
   if (!cartId) {
     throw new Error("No existing cart found when placing an order")
   }
 
-  const cartRes = await sdk.store.cart
-    .complete(cartId, {}, await getAuthHeaders())
-    .then((cartRes) => {
-      revalidateTag("cart")
-      return cartRes
+  // Check if this cart has subscription metadata
+  const cart = await retrieveCart()
+  const isSubscription =
+    cart?.metadata?.subscription_interval && cart?.metadata?.subscription_period
+
+  let cartRes: any
+
+  if (isSubscription) {
+    // Use the custom subscribe endpoint for subscription orders
+    cartRes = await sdk.client.fetch<{
+      type: "cart" | "order"
+      cart?: HttpTypes.StoreCart
+      order?: HttpTypes.StoreOrder
+    }>(`/store/carts/${cartId}/subscribe`, {
+      method: "POST",
+      headers: await getAuthHeaders(),
     })
-    .catch(medusaError)
+    revalidateTag("cart")
+  } else {
+    cartRes = await sdk.store.cart
+      .complete(cartId, {}, await getAuthHeaders())
+      .then((cartRes) => {
+        revalidateTag("cart")
+        return cartRes
+      })
+      .catch(medusaError)
+  }
 
   if (cartRes?.type === "order") {
     const countryCode =

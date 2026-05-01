@@ -180,7 +180,7 @@ const medusaConfig = {
         ],
       },
     }] : []),
-    ...(SHIPSTATION_API_KEY ? [{
+    {
       resolve: '@medusajs/medusa/fulfillment',
       options: {
         providers: [
@@ -188,16 +188,16 @@ const medusaConfig = {
             resolve: '@medusajs/medusa/fulfillment-manual',
             id: 'manual',
           },
-          {
+          ...(SHIPSTATION_API_KEY ? [{
             resolve: '@calilean/plugin-shipstation/providers/shipstation',
             id: 'shipstation',
             options: {
               api_key: SHIPSTATION_API_KEY,
             },
-          },
+          }] : []),
         ],
       },
-    }] : []),
+    },
     // Analytics Module with Segment
     ...(SEGMENT_WRITE_KEY ? [{
       resolve: '@medusajs/medusa/analytics',

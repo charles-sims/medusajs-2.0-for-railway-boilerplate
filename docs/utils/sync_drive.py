@@ -12,7 +12,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent.parent
 
-RCLONE_REMOTE = 'CaliLean'
+RCLONE_REMOTE = 'Cali Lean'
 DRIVE_ROOT = ''
 
 SYNC_MAP = {

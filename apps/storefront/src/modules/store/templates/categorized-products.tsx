@@ -44,9 +44,7 @@ export default async function CategorizedProducts({
   ])
 
   // Find top-level categories and their children
-  const topLevel = categories.filter(
-    (c: any) => !c.parent_category_id && c.is_active
-  )
+  const topLevel = categories.filter((c: any) => !c.parent_category_id)
 
   // Build a flat list of display categories:
   // If a top-level category has children, show the children as sections

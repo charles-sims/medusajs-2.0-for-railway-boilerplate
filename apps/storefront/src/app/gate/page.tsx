@@ -2,6 +2,7 @@
 
 import { useState, useActionState } from "react"
 import { useFormStatus } from "react-dom"
+import { useSearchParams } from "next/navigation"
 import CaliLeanLogo from "@modules/calilean/icons/calilean-logo"
 import { login, signup, requestPasswordReset } from "@lib/data/customer"
 
@@ -82,6 +83,8 @@ function AgeSubmitButton({
 }
 
 export default function GatePage() {
+  const searchParams = useSearchParams()
+  const redirectTo = searchParams.get("redirect") || ""
   const [view, setView] = useState<GateView>("sign-in")
 
   return (
@@ -173,11 +176,12 @@ export default function GatePage() {
               <SignInForm
                 onSwitch={() => setView("register")}
                 onForgot={() => setView("forgot-password")}
+                redirectTo={redirectTo}
               />
             ) : view === "forgot-password" ? (
               <ForgotPasswordForm onBack={() => setView("sign-in")} />
             ) : (
-              <RegisterForm onSwitch={() => setView("sign-in")} />
+              <RegisterForm onSwitch={() => setView("sign-in")} redirectTo={redirectTo} />
             )}
           </div>
         </div>
@@ -195,14 +199,17 @@ export default function GatePage() {
 function SignInForm({
   onSwitch,
   onForgot,
+  redirectTo,
 }: {
   onSwitch: () => void
   onForgot: () => void
+  redirectTo: string
 }) {
   const [message, formAction] = useActionState(login, null)
 
   return (
     <form action={formAction} className="flex flex-col gap-3">
+      {redirectTo && <input type="hidden" name="redirect" value={redirectTo} />}
       <input
         name="email"
         type="email"
@@ -318,12 +325,13 @@ function ForgotPasswordForm({ onBack }: { onBack: () => void }) {
   )
 }
 
-function RegisterForm({ onSwitch }: { onSwitch: () => void }) {
+function RegisterForm({ onSwitch, redirectTo }: { onSwitch: () => void; redirectTo: string }) {
   const [ageConfirmed, setAgeConfirmed] = useState(false)
   const [message, formAction] = useActionState(signup, null)
 
   return (
     <form action={formAction} className="flex flex-col gap-3">
+      {redirectTo && <input type="hidden" name="redirect" value={redirectTo} />}
       <div className="grid grid-cols-2 gap-3">
         <input
           name="first_name"

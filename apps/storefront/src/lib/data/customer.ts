@@ -61,7 +61,10 @@ export async function signup(_currentState: unknown, formData: FormData) {
     )
 
     revalidateTag("customer")
-    redirect("/")
+    const redirectTo = formData.get("redirect") as string
+    // Only allow relative paths to prevent open redirect
+    const safePath = redirectTo?.startsWith("/") ? redirectTo : "/"
+    redirect(safePath)
   } catch (error: any) {
     if (isRedirectError(error)) throw error
     const msg = error?.response?.data?.message || error?.message || ""
@@ -86,7 +89,9 @@ export async function login(_currentState: unknown, formData: FormData) {
     })
     await setAuthToken(typeof token === "string" ? token : token.location)
     revalidateTag("customer")
-    redirect("/")
+    const redirectTo = formData.get("redirect") as string
+    const safePath = redirectTo?.startsWith("/") ? redirectTo : "/"
+    redirect(safePath)
   } catch (error: any) {
     if (isRedirectError(error)) throw error
     return "Invalid email or password."

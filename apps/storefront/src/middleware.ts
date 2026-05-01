@@ -105,15 +105,23 @@ export async function middleware(request: NextRequest) {
   if (!isPublicRoute) {
     const authToken = request.cookies.get("_medusa_jwt")
     if (!authToken?.value) {
-      return NextResponse.redirect(new URL("/gate", request.url))
+      const gateUrl = new URL("/gate", request.url)
+      // Preserve the original path + query (including UTM params) so the
+      // gate page can redirect back after authentication.
+      const returnTo = request.nextUrl.pathname + request.nextUrl.search
+      if (returnTo && returnTo !== "/") {
+        gateUrl.searchParams.set("redirect", returnTo)
+      }
+      return NextResponse.redirect(gateUrl)
     }
   }
 
-  // If on gate page and already authenticated, redirect to home
+  // If on gate page and already authenticated, redirect to intended destination
   if (pathname === "/gate" || pathname.startsWith("/gate/")) {
     const authToken = request.cookies.get("_medusa_jwt")
     if (authToken?.value) {
-      return NextResponse.redirect(new URL("/", request.url))
+      const redirectTo = request.nextUrl.searchParams.get("redirect") || "/"
+      return NextResponse.redirect(new URL(redirectTo, request.url))
     }
     return NextResponse.next()
   }

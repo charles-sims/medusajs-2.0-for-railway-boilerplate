@@ -29,7 +29,10 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
             {subtitle}
           </p>
         )}
-        <h1 className="text-4xl small:text-5xl font-bold tracking-tight" data-testid="product-title">
+        <h1
+          className="text-4xl small:text-5xl font-bold tracking-tight"
+          data-testid="product-title"
+        >
           {product.title}
         </h1>
 
@@ -56,7 +59,10 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         )}
 
         {product.description && (
-          <p className="text-base text-calilean-fog leading-relaxed whitespace-pre-line" data-testid="product-description">
+          <p
+            className="text-base text-calilean-fog leading-relaxed whitespace-pre-line"
+            data-testid="product-description"
+          >
             {product.description}
           </p>
         )}

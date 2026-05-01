@@ -2,21 +2,21 @@ const puppeteer = require("puppeteer");
 const path = require("path");
 const fs = require("fs");
 
-async function exportBrandBook() {
-  const htmlPath = path.resolve(__dirname, "CaliLean_Brand_Book.html");
-  const outputDir = __dirname;
-  const outputPath = path.join(outputDir, "CaliLean_Brand_Book.pdf");
+const pages = [
+  { html: "CaliLean_Brand_Book.html", pdf: "CaliLean_Brand_Book.pdf" },
+  { html: "CaliLean_Brand_Elements.html", pdf: "CaliLean_Brand_Elements.pdf" },
+];
+
+async function exportPage(browser, { html, pdf }) {
+  const htmlPath = path.resolve(__dirname, html);
+  const outputPath = path.join(__dirname, pdf);
 
   if (!fs.existsSync(htmlPath)) {
-    console.error(`Brand book HTML not found: ${htmlPath}`);
-    process.exit(1);
+    console.error(`HTML not found: ${htmlPath}`);
+    return false;
   }
 
-  fs.mkdirSync(outputDir, { recursive: true });
-
-  const browser = await puppeteer.launch({ headless: "new" });
   const page = await browser.newPage();
-
   await page.goto(`file://${htmlPath}`, { waitUntil: "networkidle0", timeout: 30000 });
 
   await page.pdf({
@@ -27,11 +27,25 @@ async function exportBrandBook() {
     preferCSSPageSize: true,
   });
 
-  await browser.close();
-  console.log(`Brand book exported: ${outputPath}`);
+  await page.close();
+  console.log(`Exported: ${outputPath}`);
+  return true;
 }
 
-exportBrandBook().catch((err) => {
+async function exportAll() {
+  fs.mkdirSync(__dirname, { recursive: true });
+
+  const browser = await puppeteer.launch({ headless: "new" });
+
+  for (const entry of pages) {
+    await exportPage(browser, entry);
+  }
+
+  await browser.close();
+  console.log("All exports complete.");
+}
+
+exportAll().catch((err) => {
   console.error("Export failed:", err);
   process.exit(1);
 });

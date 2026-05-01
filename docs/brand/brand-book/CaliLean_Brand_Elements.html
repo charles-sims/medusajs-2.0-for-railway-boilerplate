@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cali Lean — Brand Elements</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #FFFFFF;
+    --ink: #111111;
+    --pacific: #7090AB;
+    --fog: #9CA3A8;
+    --sand: #F0F0F0;
+    --coa: #111111;
+    --alert: #A23B2A;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    width: 1920px;
+    height: 1080px;
+    padding: 56px 80px 48px;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  /* ── Header ── */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 40px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--sand);
+  }
+  .header h1 {
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .header .confidential {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--fog);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+
+  /* ── Layout ── */
+  .columns {
+    display: flex;
+    gap: 64px;
+    height: calc(100% - 140px);
+  }
+  .col-left {
+    flex: 0 0 58%;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+  .col-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  /* ── Section labels ── */
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--fog);
+    margin-bottom: 14px;
+  }
+
+  /* ── Color Palette ── */
+  .swatches {
+    display: flex;
+    gap: 12px;
+  }
+  .swatch {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .swatch-rect {
+    width: 100%;
+    height: 64px;
+    border-radius: 6px;
+  }
+  .swatch-rect.has-border {
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+  }
+  .swatch-hex {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--ink);
+  }
+  .swatch-token {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--fog);
+    margin-top: -4px;
+  }
+
+  /* ── Typography ── */
+  .type-specimens {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .type-row {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+  }
+  .type-meta {
+    flex: 0 0 220px;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--fog);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: right;
+    padding-top: 2px;
+  }
+  .type-sample {
+    font-size: 20px;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+  .type-sample.w400 { font-weight: 400; }
+  .type-sample.w600 { font-weight: 600; }
+  .type-sample.w800 { font-weight: 800; font-size: 28px; letter-spacing: 0.06em; }
+  .type-sample.mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--pacific);
+  }
+
+  /* ── Buttons ── */
+  .buttons-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 32px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    border-radius: 9px;
+    cursor: default;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+  }
+  .btn-inverse-wrap {
+    background: var(--ink);
+    padding: 12px 16px;
+    border-radius: 12px;
+    display: inline-flex;
+  }
+  .btn-inverse {
+    background: var(--bg);
+    color: var(--ink);
+    border: none;
+  }
+  .btn-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--fog);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 8px;
+    text-align: center;
+  }
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ── Logo ── */
+  .logo-box {
+    background: var(--sand);
+    border-radius: 10px;
+    padding: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .logo-box img {
+    max-width: 280px;
+    height: auto;
+  }
+
+  /* ── Favicon ── */
+  .favicon-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  .favicon-box {
+    width: 72px;
+    height: 72px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .favicon-box.light {
+    background: var(--sand);
+  }
+  .favicon-box.dark {
+    background: var(--ink);
+  }
+  .favicon-box img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+  }
+
+  /* ── Surface Ladder ── */
+  .surface-ladder {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .surface-step {
+    height: 52px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    justify-content: space-between;
+  }
+  .surface-name {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+  .surface-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 400;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    position: absolute;
+    bottom: 28px;
+    left: 80px;
+    right: 80px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--fog);
+    letter-spacing: 0.06em;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>Cali Lean — Brand Elements</h1>
+    <span class="confidential">Confidential · For design use only</span>
+  </div>
+
+  <div class="columns">
+
+    <!-- ════ LEFT COLUMN (60%) ════ -->
+    <div class="col-left">
+
+      <!-- Color Palette -->
+      <div>
+        <div class="section-label">Color Palette</div>
+        <div class="swatches">
+          <div class="swatch">
+            <div class="swatch-rect has-border" style="background: #FFFFFF;"></div>
+            <span class="swatch-hex">#FFFFFF</span>
+            <span class="swatch-token">BG</span>
+          </div>
+          <div class="swatch">
+            <div class="swatch-rect" style="background: #111111;"></div>
+            <span class="swatch-hex">#111111</span>
+            <span class="swatch-token">INK</span>
+          </div>
+          <div class="swatch">
+            <div class="swatch-rect" style="background: #7090AB;"></div>
+            <span class="swatch-hex">#7090AB</span>
+            <span class="swatch-token">PACIFIC</span>
+          </div>
+          <div class="swatch">
+            <div class="swatch-rect" style="background: #9CA3A8;"></div>
+            <span class="swatch-hex">#9CA3A8</span>
+            <span class="swatch-token">FOG</span>
+          </div>
+          <div class="swatch">
+            <div class="swatch-rect has-border" style="background: #F0F0F0;"></div>
+            <span class="swatch-hex">#F0F0F0</span>
+            <span class="swatch-token">SAND</span>
+          </div>
+          <div class="swatch">
+            <div class="swatch-rect" style="background: #111111;"></div>
+            <span class="swatch-hex">#111111</span>
+            <span class="swatch-token">COA</span>
+          </div>
+          <div class="swatch">
+            <div class="swatch-rect" style="background: #A23B2A;"></div>
+            <span class="swatch-hex">#A23B2A</span>
+            <span class="swatch-token">ALERT</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Typography -->
+      <div>
+        <div class="section-label">Typography</div>
+        <div class="type-specimens">
+          <div class="type-row">
+            <div class="type-meta">Plus Jakarta Sans 400</div>
+            <div class="type-sample w400">The quick brown fox jumps over the lazy dog</div>
+          </div>
+          <div class="type-row">
+            <div class="type-meta">Plus Jakarta Sans 600</div>
+            <div class="type-sample w600">Peptides, plainly labeled.</div>
+          </div>
+          <div class="type-row">
+            <div class="type-meta">Plus Jakarta Sans 800</div>
+            <div class="type-sample w800">CALI LEAN</div>
+          </div>
+          <div class="type-row">
+            <div class="type-meta">JetBrains Mono 400</div>
+            <div class="type-sample mono">Batch 240412-A · COA-2024-0089 · 5mg</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div>
+        <div class="section-label">Buttons</div>
+        <div class="buttons-row">
+          <div class="btn-group">
+            <div class="btn btn-primary">Add to Cart</div>
+            <div class="btn-label">Primary</div>
+          </div>
+          <div class="btn-group">
+            <div class="btn btn-secondary">Learn More</div>
+            <div class="btn-label">Secondary</div>
+          </div>
+          <div class="btn-group">
+            <div class="btn-inverse-wrap">
+              <div class="btn btn-inverse">Shop Now</div>
+            </div>
+            <div class="btn-label">Inverse</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ════ RIGHT COLUMN (40%) ════ -->
+    <div class="col-right">
+
+      <!-- Logo -->
+      <div>
+        <div class="section-label">Logo — Wordmark</div>
+        <div class="logo-box">
+          <img src="../assets/logo/master/calilean-logo-black.png" alt="Cali Lean wordmark">
+        </div>
+      </div>
+
+      <!-- Favicon -->
+      <div>
+        <div class="section-label">Favicon</div>
+        <div class="favicon-row">
+          <div class="favicon-box light">
+            <img src="../assets/logo/master/calilean-favicon-black.png" alt="Favicon black">
+          </div>
+          <div class="favicon-box dark">
+            <img src="../assets/logo/master/calilean-favicon-white.png" alt="Favicon white">
+          </div>
+        </div>
+      </div>
+
+      <!-- Surface Ladder -->
+      <div>
+        <div class="section-label">Surface Ladder</div>
+        <div class="surface-ladder">
+          <div class="surface-step" style="background: #FFFFFF; border: 1px solid #E0E0E0; border-bottom: none; border-radius: 10px 10px 0 0;">
+            <span class="surface-name" style="color: #111111;">Page</span>
+            <span class="surface-value" style="color: #9CA3A8;">#FFFFFF</span>
+          </div>
+          <div class="surface-step" style="background: #F0F0F0; border-left: 1px solid #E0E0E0; border-right: 1px solid #E0E0E0;">
+            <span class="surface-name" style="color: #111111;">Subtle</span>
+            <span class="surface-value" style="color: #9CA3A8;">#F0F0F0</span>
+          </div>
+          <div class="surface-step" style="background: rgba(156,163,168,0.3); border-left: 1px solid #E0E0E0; border-right: 1px solid #E0E0E0;">
+            <span class="surface-name" style="color: #111111;">Hairline</span>
+            <span class="surface-value" style="color: #9CA3A8;">#9CA3A8 @ 30%</span>
+          </div>
+          <div class="surface-step" style="background: #111111; border-radius: 0 0 10px 10px;">
+            <span class="surface-name" style="color: #FFFFFF;">Inverted</span>
+            <span class="surface-value" style="color: rgba(255,255,255,0.5);">#111111</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <span>research@calilean.com · calilean.com</span>
+    <span>Cali Lean · Brand Elements · 2026</span>
+  </div>
+
+</div>
+
+</body>
+</html>

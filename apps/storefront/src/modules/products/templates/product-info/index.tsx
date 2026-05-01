@@ -1,5 +1,6 @@
 import { HttpTypes } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import RatingSummary from "@modules/products/components/rating-summary"
 
 type ProductInfoProps = {
   product: HttpTypes.StoreProduct
@@ -31,6 +32,8 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         <h1 className="text-4xl small:text-5xl font-bold tracking-tight" data-testid="product-title">
           {product.title}
         </h1>
+
+        <RatingSummary productId={product.id} />
 
         {(meta.batch || meta.report || meta.purity) && (
           <div className="flex flex-wrap gap-2 mt-2">

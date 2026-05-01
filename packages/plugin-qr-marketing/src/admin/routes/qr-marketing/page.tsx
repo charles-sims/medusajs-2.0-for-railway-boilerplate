@@ -10,8 +10,10 @@ import {
   Toaster,
   DataTablePaginationState,
   Button,
+  Text,
 } from "@medusajs/ui"
-import { useState, useEffect, useCallback } from "react"
+import { useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 import { sdk } from "../../lib/sdk"
 
 type QrCampaign = {
@@ -27,6 +29,7 @@ type QrCampaign = {
   is_active: boolean
   product_id?: string
   notes?: string
+  guest_key?: string | null
   created_at: string
   updated_at: string
 }
@@ -37,7 +40,10 @@ const columns = [
   columnHelper.accessor("name", {
     header: "Name",
     cell: ({ row }) => (
-      <a href={`/app/qr-marketing/${row.original.id}`} className="text-ui-fg-interactive hover:underline">
+      <a
+        href={`/app/qr-marketing/${row.original.id}`}
+        className="text-ui-fg-interactive hover:underline"
+      >
         {row.original.name}
       </a>
     ),
@@ -68,38 +74,43 @@ const columns = [
       </StatusBadge>
     ),
   }),
+  columnHelper.display({
+    id: "guest_access",
+    header: "Guest",
+    cell: ({ row }) =>
+      row.original.guest_key ? (
+        <StatusBadge color="purple">Enabled</StatusBadge>
+      ) : null,
+  }),
 ]
 
-const limit = 20
+const PAGE_SIZE = 20
+const QR_CAMPAIGNS_QUERY_KEY = "qr-campaigns"
 
 const QrMarketingPage = () => {
   const [pagination, setPagination] = useState<DataTablePaginationState>({
-    pageSize: limit,
+    pageSize: PAGE_SIZE,
     pageIndex: 0,
   })
-  const [data, setData] = useState<{ qr_campaigns: QrCampaign[]; count: number } | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
 
-  const fetchCampaigns = useCallback(() => {
-    setIsLoading(true)
-    sdk.client
-      .fetch<{ qr_campaigns: QrCampaign[]; count: number }>("/admin/qr-campaigns", {
-        query: {
-          offset: pagination.pageIndex * pagination.pageSize,
-          limit: pagination.pageSize,
-          order: "-created_at",
-        },
-      })
-      .then((res) => {
-        setData(res)
-        setIsLoading(false)
-      })
-      .catch(() => setIsLoading(false))
-  }, [pagination])
-
-  useEffect(() => {
-    fetchCampaigns()
-  }, [fetchCampaigns])
+  const { data, isLoading, error } = useQuery({
+    queryKey: [
+      QR_CAMPAIGNS_QUERY_KEY,
+      pagination.pageIndex,
+      pagination.pageSize,
+    ],
+    queryFn: () =>
+      sdk.client.fetch<{ qr_campaigns: QrCampaign[]; count: number }>(
+        "/admin/qr-campaigns",
+        {
+          query: {
+            offset: pagination.pageIndex * pagination.pageSize,
+            limit: pagination.pageSize,
+            order: "-created_at",
+          },
+        }
+      ),
+  })
 
   const table = useDataTable({
     columns,
@@ -112,6 +123,18 @@ const QrMarketingPage = () => {
     },
     getRowId: (row) => row.id,
   })
+
+  if (error) {
+    return (
+      <Container>
+        <Heading className="mb-2">QR Campaigns</Heading>
+        <Text className="text-ui-fg-error">
+          Failed to load campaigns:{" "}
+          {error instanceof Error ? error.message : "Unknown error"}
+        </Text>
+      </Container>
+    )
+  }
 
   return (
     <Container>

@@ -51,7 +51,7 @@ const Addresses = ({
   useEffect(() => {
     if (submitted.current && message === null) {
       submitted.current = false
-      router.push(pathname + "?step=delivery", { scroll: false })
+      router.push(pathname + "?step=subscription", { scroll: false })
     }
   }, [message, router, pathname])
 

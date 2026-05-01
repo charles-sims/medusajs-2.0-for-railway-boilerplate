@@ -45,6 +45,7 @@ export const POST = async (
 ) => {
   const { id } = req.params
   const service: QrMarketingModuleService = req.scope.resolve(QR_MARKETING_MODULE)
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
   const { enable_guest_access, ...updateData } = req.validatedBody
 
@@ -54,9 +55,15 @@ export const POST = async (
     ;(updateData as any).guest_key = null
   }
 
-  const qr_campaign = await service.updateQrCampaigns({
-    id,
-    ...updateData,
+  await service.updateQrCampaigns({ id, ...updateData })
+
+  // Re-fetch with query.graph to return consistent, complete data
+  const {
+    data: [qr_campaign],
+  } = await query.graph({
+    entity: "qr_campaign",
+    filters: { id },
+    ...req.queryConfig,
   })
 
   res.json({ qr_campaign })

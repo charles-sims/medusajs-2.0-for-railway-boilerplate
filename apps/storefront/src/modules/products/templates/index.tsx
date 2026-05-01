@@ -81,7 +81,10 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
       )}
 
       {/* Product reviews */}
-      <div className="content-container my-16 small:my-24 border-t border-calilean-sand pt-16">
+      <div
+        id="reviews"
+        className="content-container my-16 small:my-24 border-t border-calilean-sand pt-16 scroll-mt-24"
+      >
         <ProductReviews productId={product.id} />
       </div>
 

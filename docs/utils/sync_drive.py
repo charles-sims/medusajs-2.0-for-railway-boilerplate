@@ -18,6 +18,9 @@ DRIVE_ROOT = ''
 SYNC_MAP = {
     'docs/brand/brand-book/': ('Cali Lean/Brand/', ['.pdf']),
     'docs/deliverables/pitch-deck/': ('Cali Lean/External/Deck/', ['.pdf']),
+    'docs/ops/': ('Cali Lean/Ops/', ['.xlsx', '.csv']),
+    'docs/strategy/': ('Cali Lean/Strategy/', ['.md', '.pdf']),
+    'docs/brand/': ('Cali Lean/Brand/', ['.md', '.pdf']),
 }
 
 MANIFEST_PATH = PROJECT_ROOT / '.sync-state.json'
@@ -161,7 +164,8 @@ def push_directory(local_dir, dry_run=False):
     local_str = str(local_dir)
 
     files = [f for f in local_dir.rglob('*')
-             if f.is_file() and f.name != '.DS_Store' and not f.name.startswith('~$')]
+             if f.is_file() and f.name != '.DS_Store' and not f.name.startswith('~$')
+             and 'archive' not in f.relative_to(local_dir).parts]
     if ext_filter:
         files = [f for f in files if f.suffix.lower() in ext_filter]
 

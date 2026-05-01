@@ -29,7 +29,7 @@ const faqs = [
   },
   {
     q: "Do you offer bulk pricing for institutional researchers?",
-    a: "Yes. Email research@calilean.com with your institution and the SKUs you need. We respond within one business day.",
+    a: "Yes. Email hello@calilean.com with your institution and the SKUs you need. We respond within one business day.",
   },
   {
     q: "What is the shelf life of an unopened vial?",

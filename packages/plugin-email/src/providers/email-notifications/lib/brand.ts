@@ -29,7 +29,7 @@ export const BRAND = {
   url: "https://calilean.com",
   fromEmail: "Cali Lean <hello@send.calilean.com>",
   replyTo: "hello@calilean.com",
-  supportEmail: "research@calilean.com",
+  supportEmail: "hello@calilean.com",
   signoff: "— The Cali Lean team",
   logoUrl:
     "https://bucket-production-4a36.up.railway.app/medusa-media/brand/calilean-logo-email.png",

@@ -107,7 +107,7 @@ const ShippingInfoTab = () => {
           <div>
             <span className="font-semibold">Returns within 30 days</span>
             <p className="max-w-sm">
-              Sealed, unopened vials only. Email research@calilean.com with your
+              Sealed, unopened vials only. Email hello@calilean.com with your
               order number; we issue refunds when the box is back in El Segundo.
             </p>
           </div>

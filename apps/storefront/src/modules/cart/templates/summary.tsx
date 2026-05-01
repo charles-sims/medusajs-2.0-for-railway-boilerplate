@@ -6,6 +6,7 @@ import CartTotals from "@modules/common/components/cart-totals"
 import Divider from "@modules/common/components/divider"
 import RUODisclaimer from "@modules/common/components/ruo-disclaimer"
 import DiscountCode from "@modules/checkout/components/discount-code"
+import StackAndSave from "@modules/products/components/stack-and-save"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { HttpTypes } from "@medusajs/types"
 
@@ -27,12 +28,17 @@ function getCheckoutStep(cart: HttpTypes.StoreCart) {
 
 const Summary = ({ cart }: SummaryProps) => {
   const step = getCheckoutStep(cart)
+  const cartQuantity = cart.items?.reduce(
+    (sum, item) => sum + (item.quantity || 0),
+    0
+  ) ?? 0
 
   return (
     <div className="flex flex-col gap-y-4">
       <Heading level="h2" className="text-[2rem] leading-[2.75rem]">
         Summary
       </Heading>
+      <StackAndSave quantity={cartQuantity} />
       <DiscountCode cart={cart} />
       <Divider />
       <CartTotals totals={cart} />

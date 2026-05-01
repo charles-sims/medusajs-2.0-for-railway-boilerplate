@@ -19,6 +19,7 @@ type ProductActionsProps = {
   product: HttpTypes.StoreProduct
   region: HttpTypes.StoreRegion
   disabled?: boolean
+  cartQuantity?: number
 }
 
 const optionsAsKeymap = (variantOptions: any) => {
@@ -41,6 +42,7 @@ export default function ProductActions({
   product,
   region,
   disabled,
+  cartQuantity = 0,
 }: ProductActionsProps) {
   const [options, setOptions] = useState<Record<string, string | undefined>>({})
   const [isAdding, setIsAdding] = useState(false)
@@ -149,7 +151,7 @@ export default function ProductActions({
           disabled={!!disabled || isAdding}
         />
 
-        <StackAndSave quantity={quantity} unitPrice={unitPrice} />
+        <StackAndSave quantity={cartQuantity + quantity} unitPrice={unitPrice} />
 
         <Button
           onClick={handleAddToCart}

@@ -5,18 +5,16 @@ import ProductPreview from "@modules/products/components/product-preview"
 import { HttpTypes } from "@medusajs/types"
 
 const CATEGORY_DESCRIPTIONS: Record<string, string> = {
-  "Recovery":
+  Recovery:
     "Peptides studied in tendon, ligament, and gut-tissue repair models.",
   "Weight Management":
     "Multi-receptor agonists studied in metabolic pathway research.",
   "Growth & Anti-Aging":
     "Secretagogue compounds targeting the growth-hormone release axis.",
-  "Longevity":
+  Longevity:
     "Compounds studied in cellular metabolism, oxidative stress, and mitochondrial function.",
-  "Cosmetic":
-    "Peptides studied in skin, hair, and pigmentation research.",
-  "Supplies":
-    "Reconstitution and preparation essentials.",
+  Cosmetic: "Peptides studied in skin, hair, and pigmentation research.",
+  Supplies: "Reconstitution and preparation essentials.",
 }
 
 export default async function CategorizedProducts({
@@ -27,7 +25,12 @@ export default async function CategorizedProducts({
   const region = await getRegion(countryCode)
   if (!region) return null
 
-  const [categories, { response: { products } }] = await Promise.all([
+  const [
+    categories,
+    {
+      response: { products },
+    },
+  ] = await Promise.all([
     listCategories(),
     getProductsListWithSort({
       page: 1,
@@ -48,7 +51,8 @@ export default async function CategorizedProducts({
   // Build a flat list of display categories:
   // If a top-level category has children, show the children as sections
   // If it has no children (e.g. Supplies), show it directly
-  const displayCategories: { id: string; name: string; description: string }[] = []
+  const displayCategories: { id: string; name: string; description: string }[] =
+    []
 
   for (const parent of topLevel) {
     const children = (parent as any).category_children || []

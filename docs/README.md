@@ -5,10 +5,13 @@ docs/
 ├── brand/              # Visual assets + brand book
 │   ├── assets/         # logos, favicon, imagery, renders
 │   ├── brand-book/     # source HTML + export script + output PDF
-│   └── archive/        # retired assets
-├── strategy/           # Positioning, voice, copy, launch, product lineup
-├── compliance/         # Legal posture, C&D playbook, state matrix
-├── ops/                # Runbooks, SKUs, audits
+│   ├── packaging/      # label color system, box design, render prompts
+│   └── archive/        # retired assets (v1 renders, old favicon, wordmark brief)
+├── strategy/           # Positioning, voice, launch narrative, product lineup
+│   └── archive/        # executed docs (storefront copy swap)
+├── compliance/         # Legal posture, C&D playbook, state matrix, GLP naming
+├── ops/                # Runbooks, SKUs, pricing, per-state suppression
+│   └── archive/        # point-in-time audits
 ├── deliverables/       # External-facing generated docs
 │   └── pitch-deck/     # source HTML + export script + output PDF
 ├── utils/              # Shared tooling (brand constants, PDF conversion, Drive sync)

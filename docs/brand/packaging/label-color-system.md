@@ -67,9 +67,9 @@ No two products share the same combination. You can identify any vial without re
 
 | Product | Cap Color | Cap Hex | Visual Contrast |
 |---------|-----------|---------|-----------------|
-| **CL-1S** (Semaglutide) | Amber | `#C4842D` | Warm gold-orange, the "original" GLP |
-| **CL-2T** (Tirzepatide) | Burnt Sienna | `#A0522D` | Deeper/redder than Amber |
-| **CL-3R** (Retatrutide) | Rust | `#8B3A2E` | Darkest of the three — the triple agonist |
+| **CL-1S** (Semaglutide) | Antique Gold | `#8A7D5A` | Desaturated olive-gold. Cooled from Amber `#C4842D` for box harmony. |
+| **CL-2T** (Tirzepatide) | Burnt Sienna | `#7A4A35` | Deeper/darker, cooled from `#A0522D` |
+| **CL-3R** (Retatrutide) | Rust | `#6B3A2E` | Darkest of the three — the triple agonist. Cooled from `#8B3A2E` |
 
 ### GH Axis Category — Slate `=` mark
 
@@ -89,9 +89,9 @@ No two products share the same combination. You can identify any vial without re
 
 | Product | Cap Color | Cap Hex | Visual Contrast |
 |---------|-----------|---------|-----------------|
-| **GLOW** | Sand Gold | `#C2A878` | Warm, luminous — fits "GLOW" name |
-| **KLOW** | Clay | `#8E7360` | Earthy mid-tone |
-| **Melanotan 2** | Bronze | `#6B4E3D` | Dark warm — fits melanin/tanning association |
+| **GLOW** | Pewter Gold | `#9A9478` | Muted pewter-gold. Cooled from Sand Gold `#C2A878` for box harmony. |
+| **KLOW** | Clay | `#7A6B5E` | Earthy mid-tone, slightly adjusted from `#8E7360` |
+| **Melanotan 2** | Bronze | `#5E4538` | Dark warm, slightly deepened from `#6B4E3D` |
 
 ### Accessory Category — Fog `=` mark
 
@@ -107,16 +107,16 @@ No two products share the same combination. You can identify any vial without re
 |---|---------|----------|--------------|-----------|---------|-------------|
 | 1 | BPC-157 | Repair | Pacific `#3A5A6A` | Pacific Blue | `#3A5A6A` | Pacific + Pacific |
 | 2 | TB-500 | Repair | Pacific `#3A5A6A` | Deep Teal | `#2A6B6B` | Pacific + Teal |
-| 3 | GHK-Cu | Repair | Pacific `#3A5A6A` | Copper | `#8B5E3C` | Pacific + Copper |
+| 3 | GHK-Cu | Repair | Pacific `#3A5A6A` | Patina | `#6B7E6B` | Pacific + Patina |
 | 4 | Wolverine | Repair | Pacific `#3A5A6A` | Charcoal | `#3D3D3D` | Pacific + Charcoal |
-| 5 | CL-1S | Metabolic | Ember `#B8622E` | Amber | `#C4842D` | Ember + Amber |
-| 6 | CL-2T | Metabolic | Ember `#B8622E` | Burnt Sienna | `#A0522D` | Ember + Sienna |
-| 7 | CL-3R | Metabolic | Ember `#B8622E` | Rust | `#8B3A2E` | Ember + Rust |
+| 5 | CL-1S | Metabolic | Ember `#B8622E` | Antique Gold | `#8A7D5A` | Ember + Gold |
+| 6 | CL-2T | Metabolic | Ember `#B8622E` | Burnt Sienna | `#7A4A35` | Ember + Sienna |
+| 7 | CL-3R | Metabolic | Ember `#B8622E` | Rust | `#6B3A2E` | Ember + Rust |
 | 8 | Ipamorelin | GH Axis | Slate `#5B6E8A` | Steel Blue | `#4682B4` | Slate + Steel |
 | 9 | Tesamorelin | GH Axis | Slate `#5B6E8A` | Navy | `#2C3E50` | Slate + Navy |
 | 10 | MOTS-c | Longevity | Eucalyptus `#7C8A78` | Sage | `#7C8A78` | Eucalyptus + Sage |
 | 11 | SS-31 | Longevity | Eucalyptus `#7C8A78` | Forest | `#4A6350` | Eucalyptus + Forest |
-| 12 | GLOW | Specialty | Driftwood `#8A6E5B` | Sand Gold | `#C2A878` | Driftwood + Gold |
+| 12 | GLOW | Specialty | Driftwood `#8A6E5B` | Pewter Gold | `#9A9478` | Driftwood + Gold |
 | 13 | KLOW | Specialty | Driftwood `#8A6E5B` | Clay | `#8E7360` | Driftwood + Clay |
 | 14 | Melanotan 2 | Specialty | Driftwood `#8A6E5B` | Bronze | `#6B4E3D` | Driftwood + Bronze |
 | 15 | Bac Water | Accessory | Fog `#8B9298` | Light Gray | `#B0B8BF` | Fog + Gray |
@@ -186,11 +186,11 @@ Size variants (5mg vs 10mg, 10mg vs 30mg) share the same color combo. Only the d
 |---|---------|------|---------|---------|--------|
 | 1 | BPC-157 | Single vial + box | `#3A5A6A` | `#3A5A6A` | Re-render (fix dosage to 5mg or 10mg) |
 | 2 | TB-500 | Single vial + box | `#2A6B6B` | `#3A5A6A` | Re-render (add color) |
-| 3 | GHK-Cu | Single vial + box | `#8B5E3C` | `#3A5A6A` | **NEW** |
+| 3 | GHK-Cu | Single vial + box | `#6B7E6B` | `#3A5A6A` | **NEW** |
 | 4 | Wolverine | 2-vial stack + box | `#3D3D3D` | `#3A5A6A` | Re-render (add color) |
-| 5 | CL-1S | Single vial + box | `#C4842D` | `#B8622E` | **NEW** |
-| 6 | CL-2T | Single vial + box | `#A0522D` | `#B8622E` | **NEW** |
-| 7 | CL-3R | Single vial + box | `#8B3A2E` | `#B8622E` | Re-render (fix naming + add color) |
+| 5 | CL-1S | Single vial + box | `#8A7D5A` | `#B8622E` | **NEW** |
+| 6 | CL-2T | Single vial + box | `#7A4A35` | `#B8622E` | **NEW** |
+| 7 | CL-3R | Single vial + box | `#6B3A2E` | `#B8622E` | Re-render (fix naming + add color) |
 | 8 | Ipamorelin | Single vial + box | `#4682B4` | `#5B6E8A` | **NEW** (standalone, not CJC stack) |
 | 9 | Tesamorelin | Single vial + box | `#2C3E50` | `#5B6E8A` | **NEW** |
 | 10 | MOTS-c | Single vial + box | `#7C8A78` | `#7C8A78` | Re-render (add color) |

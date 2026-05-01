@@ -24,17 +24,21 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
       productId,
       limit: defaultLimit,
       offset: (page - 1) * defaultLimit,
-    }).then(({ reviews: paginatedReviews, average_rating, count, limit }) => {
-      setReviews((prev) => {
-        const newReviews = paginatedReviews.filter(
-          (review) => !prev.some((r) => r.id === review.id)
-        )
-        return [...prev, ...newReviews]
-      })
-      setRating(Math.round(average_rating))
-      setHasMoreReviews(count > limit * page)
-      setCount(count)
     })
+      .then(({ reviews: paginatedReviews, average_rating, count, limit }) => {
+        setReviews((prev) => {
+          const newReviews = paginatedReviews.filter(
+            (review) => !prev.some((r) => r.id === review.id)
+          )
+          return [...prev, ...newReviews]
+        })
+        setRating(Math.round(average_rating))
+        setHasMoreReviews(count > limit * page)
+        setCount(count)
+      })
+      .catch((err) => {
+        console.error("Failed to fetch reviews:", err)
+      })
   }, [page])
 
   return (

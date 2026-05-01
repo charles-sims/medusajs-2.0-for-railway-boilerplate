@@ -347,13 +347,8 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
   return null
 }
 
-export enum SubscriptionInterval {
-  MONTHLY = "monthly",
-  YEARLY = "yearly",
-}
-
 export async function updateSubscriptionData(
-  subscription_interval: SubscriptionInterval,
+  subscription_interval: string,
   subscription_period: number
 ) {
   const cartId = await getCartId()

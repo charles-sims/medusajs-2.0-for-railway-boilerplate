@@ -7,12 +7,11 @@ import { useCallback, useState } from "react"
 import Divider from "@modules/common/components/divider"
 import Input from "@modules/common/components/input"
 import NativeSelect from "@modules/common/components/native-select"
-import { SubscriptionInterval, updateSubscriptionData } from "@lib/data/cart"
+import { updateSubscriptionData } from "@lib/data/cart"
 
 const SubscriptionForm = ({ cart }: { cart: any }) => {
-  const [interval, setInterval] = useState<SubscriptionInterval>(
-    (cart?.metadata?.subscription_interval as SubscriptionInterval) ||
-      SubscriptionInterval.MONTHLY
+  const [interval, setInterval] = useState<string>(
+    (cart?.metadata?.subscription_interval as string) || "monthly"
   )
   const [period, setPeriod] = useState(
     Number(cart?.metadata?.subscription_period) || 1
@@ -93,13 +92,11 @@ const SubscriptionForm = ({ cart }: { cart: any }) => {
             <NativeSelect
               placeholder="Interval"
               value={interval}
-              onChange={(e) =>
-                setInterval(e.target.value as SubscriptionInterval)
-              }
+              onChange={(e) => setInterval(e.target.value)}
               required
             >
-              <option value={SubscriptionInterval.MONTHLY}>Monthly</option>
-              <option value={SubscriptionInterval.YEARLY}>Yearly</option>
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
             </NativeSelect>
             <Input
               label="Period"
@@ -110,7 +107,7 @@ const SubscriptionForm = ({ cart }: { cart: any }) => {
               type="number"
             />
             <p className="text-xs text-ui-fg-muted">
-              {interval === SubscriptionInterval.MONTHLY
+              {interval === "monthly"
                 ? `Renews every month for ${period} month${
                     period > 1 ? "s" : ""
                   }`

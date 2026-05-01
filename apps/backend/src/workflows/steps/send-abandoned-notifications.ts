@@ -1,5 +1,6 @@
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 import { Modules } from "@medusajs/framework/utils"
+import { INotificationModuleService } from "@medusajs/framework/types"
 
 type StepInput = {
   carts: any[]
@@ -8,7 +9,7 @@ type StepInput = {
 export const sendAbandonedNotificationsStep = createStep(
   "send-abandoned-notifications",
   async ({ carts }: StepInput, { container }) => {
-    const notificationModuleService = container.resolve(Modules.NOTIFICATION)
+    const notificationModuleService: INotificationModuleService = container.resolve(Modules.NOTIFICATION)
 
     const notifications = carts.map((cart) => ({
       to: cart.email,

@@ -16,8 +16,8 @@ RCLONE_REMOTE = 'Cali Lean'
 DRIVE_ROOT = ''
 
 SYNC_MAP = {
-    'docs/brand/brand-book/': ('CaliLean_Core/Brand/', ['.pdf']),
-    'docs/deliverables/pitch-deck/': ('CaliLean_Core/External/Deck/', ['.pdf']),
+    'docs/brand/brand-book/': ('Cali Lean/Brand/', ['.pdf']),
+    'docs/deliverables/pitch-deck/': ('Cali Lean/External/Deck/', ['.pdf']),
 }
 
 MANIFEST_PATH = PROJECT_ROOT / '.sync-state.json'

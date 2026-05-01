@@ -10,7 +10,6 @@ import {
   Toaster,
 } from "@medusajs/ui"
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
 import { sdk } from "../../../lib/sdk"
 
 const UTM_MEDIUM_OPTIONS = [
@@ -26,7 +25,6 @@ const slugify = (text: string) =>
   text.toUpperCase().replace(/[^A-Z0-9]+/g, "-").replace(/(^-|-$)/g, "")
 
 const CreateQrCampaignPage = () => {
-  const navigate = useNavigate()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [form, setForm] = useState({
     name: "",
@@ -60,7 +58,7 @@ const CreateQrCampaignPage = () => {
         body,
       })
       toast.success("Campaign created")
-      navigate(`/qr-marketing/${res.qr_campaign.id}`)
+      window.location.href = `/app/qr-marketing/${res.qr_campaign.id}`
     } catch {
       toast.error("Failed to create campaign")
       setIsSubmitting(false)
@@ -138,7 +136,7 @@ const CreateQrCampaignPage = () => {
           <Button onClick={handleSubmit} isLoading={isSubmitting}>
             Create Campaign
           </Button>
-          <Button variant="secondary" onClick={() => navigate("/qr-marketing")}>
+          <Button variant="secondary" onClick={() => window.location.href = "/app/qr-marketing"}>
             Cancel
           </Button>
         </div>

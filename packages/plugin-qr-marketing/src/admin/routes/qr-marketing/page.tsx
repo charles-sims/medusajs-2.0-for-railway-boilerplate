@@ -11,9 +11,8 @@ import {
   DataTablePaginationState,
   Button,
 } from "@medusajs/ui"
-import { useMemo, useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { sdk } from "../../lib/sdk"
-import { Link } from "react-router-dom"
 
 type QrCampaign = {
   id: string
@@ -38,9 +37,9 @@ const columns = [
   columnHelper.accessor("name", {
     header: "Name",
     cell: ({ row }) => (
-      <Link to={`/qr-marketing/${row.original.id}`} className="text-ui-fg-interactive hover:underline">
+      <a href={`/app/qr-marketing/${row.original.id}`} className="text-ui-fg-interactive hover:underline">
         {row.original.name}
-      </Link>
+      </a>
     ),
   }),
   columnHelper.accessor("code", {
@@ -119,9 +118,9 @@ const QrMarketingPage = () => {
       <DataTable instance={table}>
         <DataTable.Toolbar className="flex items-center justify-between">
           <Heading>QR Campaigns</Heading>
-          <Link to="/qr-marketing/create">
+          <a href="/app/qr-marketing/create">
             <Button size="small">Create</Button>
-          </Link>
+          </a>
         </DataTable.Toolbar>
         <DataTable.Table />
         <DataTable.Pagination />

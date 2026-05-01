@@ -8,7 +8,7 @@ import {
   Toaster,
 } from "@medusajs/ui"
 import { useEffect, useState } from "react"
-import { useParams, useNavigate } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { sdk } from "../../../lib/sdk"
 
 type QrCampaign = {
@@ -35,7 +35,6 @@ type DetailResponse = {
 
 const QrCampaignDetailPage = () => {
   const { id } = useParams<{ id: string }>()
-  const navigate = useNavigate()
   const [data, setData] = useState<DetailResponse | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -66,7 +65,7 @@ const QrCampaignDetailPage = () => {
   const handleDelete = async () => {
     await sdk.client.fetch(`/admin/qr-campaigns/${id}`, { method: "DELETE" })
     toast.success("Campaign deleted")
-    navigate("/qr-marketing")
+    window.location.href = "/app/qr-marketing"
   }
 
   const handleDownloadQR = () => {

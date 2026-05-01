@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useActionState } from "react"
+import { Suspense, useState, useActionState } from "react"
 import { useFormStatus } from "react-dom"
 import { useSearchParams } from "next/navigation"
 import CaliLeanLogo from "@modules/calilean/icons/calilean-logo"
@@ -83,6 +83,14 @@ function AgeSubmitButton({
 }
 
 export default function GatePage() {
+  return (
+    <Suspense>
+      <GatePageInner />
+    </Suspense>
+  )
+}
+
+function GatePageInner() {
   const searchParams = useSearchParams()
   const redirectTo = searchParams.get("redirect") || ""
   const [view, setView] = useState<GateView>("sign-in")
@@ -181,7 +189,10 @@ export default function GatePage() {
             ) : view === "forgot-password" ? (
               <ForgotPasswordForm onBack={() => setView("sign-in")} />
             ) : (
-              <RegisterForm onSwitch={() => setView("sign-in")} redirectTo={redirectTo} />
+              <RegisterForm
+                onSwitch={() => setView("sign-in")}
+                redirectTo={redirectTo}
+              />
             )}
           </div>
         </div>
@@ -325,7 +336,13 @@ function ForgotPasswordForm({ onBack }: { onBack: () => void }) {
   )
 }
 
-function RegisterForm({ onSwitch, redirectTo }: { onSwitch: () => void; redirectTo: string }) {
+function RegisterForm({
+  onSwitch,
+  redirectTo,
+}: {
+  onSwitch: () => void
+  redirectTo: string
+}) {
   const [ageConfirmed, setAgeConfirmed] = useState(false)
   const [message, formAction] = useActionState(signup, null)
 

@@ -8,6 +8,7 @@ import RUODisclaimer from "@modules/common/components/ruo-disclaimer"
 import ProductSpecsTable from "@modules/calilean/components/product-specs-table"
 import COAPanel from "@modules/products/components/coa-panel"
 import ResearchLayout from "@modules/calilean/components/research-layout"
+import ProductReviews from "@modules/products/components/reviews"
 import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
 import { notFound } from "next/navigation"
 import ProductActionsWrapper from "./product-actions-wrapper"
@@ -32,7 +33,10 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
   return (
     <>
       {/* Hero section — unchanged */}
-      <div className="content-container py-8 small:py-12" data-testid="product-container">
+      <div
+        className="content-container py-8 small:py-12"
+        data-testid="product-container"
+      >
         <div className="grid grid-cols-1 small:grid-cols-2 gap-12 items-start">
           <div className="small:sticky small:top-24">
             <ImageGallery images={product?.images || []} />
@@ -42,7 +46,13 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
             <ProductInfo product={product} />
 
             <Suspense
-              fallback={<ProductActions disabled={true} product={product} region={region} />}
+              fallback={
+                <ProductActions
+                  disabled={true}
+                  product={product}
+                  region={region}
+                />
+              }
             >
               <ProductActionsWrapper id={product.id} region={region} />
             </Suspense>
@@ -70,8 +80,16 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
         </ResearchLayout>
       )}
 
+      {/* Product reviews */}
+      <div className="content-container my-16 small:my-24 border-t border-calilean-sand pt-16">
+        <ProductReviews productId={product.id} />
+      </div>
+
       {/* Related products — unchanged */}
-      <div className="content-container my-16 small:my-24 border-t border-calilean-sand pt-16" data-testid="related-products-container">
+      <div
+        className="content-container my-16 small:my-24 border-t border-calilean-sand pt-16"
+        data-testid="related-products-container"
+      >
         <Suspense fallback={<SkeletonRelatedProducts />}>
           <RelatedProducts product={product} countryCode={countryCode} />
         </Suspense>

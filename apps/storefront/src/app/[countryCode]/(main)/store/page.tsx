@@ -6,7 +6,7 @@ import StoreTemplate from "@modules/store/templates"
 export const metadata: Metadata = {
   title: "The Lineup | CaliLean",
   description:
-    "Eight research-grade compounds across repair, GH axis, longevity, and metabolic pathways. Every vial batch-tested.",
+    "Fifteen research-grade compounds across recovery, metabolic, longevity, and cosmetic pathways. Every vial batch-tested.",
 }
 
 type Params = {

@@ -21,8 +21,17 @@ const UTM_MEDIUM_OPTIONS = [
   { value: "other", label: "Other" },
 ]
 
+const DEFAULT_COUNTRY = "us"
+
 const slugify = (text: string) =>
   text.toUpperCase().replace(/[^A-Z0-9]+/g, "-").replace(/(^-|-$)/g, "")
+
+const normalizeDestUrl = (url: string) => {
+  if (url.startsWith("http")) return url
+  const path = url.startsWith("/") ? url : `/${url}`
+  if (/^\/[a-z]{2}\//.test(path)) return path
+  return `/${DEFAULT_COUNTRY}${path}`
+}
 
 const CreateQrCampaignPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -49,6 +58,7 @@ const CreateQrCampaignPage = () => {
     try {
       const body = {
         ...form,
+        destination_url: normalizeDestUrl(form.destination_url),
         utm_source: "qr",
         utm_content: form.utm_content || null,
         notes: form.notes || null,
@@ -88,7 +98,7 @@ const CreateQrCampaignPage = () => {
         <div>
           <Label>Destination URL</Label>
           <Input
-            placeholder="/products/bpc-157-pen"
+            placeholder="/products/bpc-157 (auto-prefixes /us/)"
             value={form.destination_url}
             onChange={(e) => setForm((p) => ({ ...p, destination_url: e.target.value }))}
           />

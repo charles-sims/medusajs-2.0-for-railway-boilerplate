@@ -21,34 +21,16 @@ type DiscountCodeProps = {
 const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
   const [isOpen, setIsOpen] = React.useState(false)
 
-  const { items = [], promotions: allPromotions = [] } = cart
+  const { promotions: allPromotions = [] } = cart
 
-  // Only show the highest-tier automatic STACK promotion to avoid confusion
-  // (e.g. showing STACK10 + STACK15 + STACK20 looks like 45% off when it's just 20%)
-  const stackPromotions = allPromotions.filter(
-    (p) => p.is_automatic && p.code?.startsWith("STACK")
-  )
-  const nonStackPromotions = allPromotions.filter(
-    (p) => !(p.is_automatic && p.code?.startsWith("STACK"))
-  )
-  const highestStack = stackPromotions.length > 0
-    ? stackPromotions.reduce((best, p) => {
-        const val = Number(p.application_method?.value ?? 0)
-        const bestVal = Number(best.application_method?.value ?? 0)
-        return val > bestVal ? p : best
-      })
-    : null
-  const promotions = [
-    ...nonStackPromotions,
-    ...(highestStack ? [highestStack] : []),
-  ]
+  const promotions = allPromotions
   const removePromotionCode = async (code: string) => {
     const validPromotions = allPromotions.filter(
       (promotion) => promotion.code !== code
     )
 
     await applyPromotions(
-      validPromotions.filter((p) => p.code === undefined).map((p) => p.code!)
+      validPromotions.filter((p) => p.code !== undefined).map((p) => p.code!)
     )
   }
 
@@ -59,7 +41,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
     }
     const input = document.getElementById("promotion-input") as HTMLInputElement
     const codes = allPromotions
-      .filter((p) => p.code === undefined)
+      .filter((p) => p.code !== undefined)
       .map((p) => p.code!)
     codes.push(code.toString())
 

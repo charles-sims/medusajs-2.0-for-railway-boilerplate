@@ -11,7 +11,7 @@ type LineItemPriceProps = {
 }
 
 const LineItemPrice = ({ item, style = "default" }: LineItemPriceProps) => {
-  const { currency_code, calculated_price_number, original_price_number } =
+  const { currency_code, original_price_number } =
     getPricesForVariant(item.variant) ?? {}
 
   const adjustmentsSum = (item.adjustments || []).reduce(
@@ -19,8 +19,10 @@ const LineItemPrice = ({ item, style = "default" }: LineItemPriceProps) => {
     0
   )
 
-  const originalPrice = original_price_number * item.quantity
-  const currentPrice = calculated_price_number * item.quantity - adjustmentsSum
+  // Use cart line item's unit_price which reflects quantity-based pricing
+  const originalPrice =
+    (original_price_number ?? item.unit_price) * item.quantity
+  const currentPrice = item.unit_price * item.quantity - adjustmentsSum
   const hasReducedPrice = currentPrice < originalPrice
 
   return (

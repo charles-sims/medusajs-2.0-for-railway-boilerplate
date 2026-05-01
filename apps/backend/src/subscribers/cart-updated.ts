@@ -1,27 +1,15 @@
-import { SubscriberArgs, SubscriberConfig } from "@medusajs/medusa"
-import { applyStackDiscountWorkflow } from "../workflows/apply-stack-discount"
+import { SubscriberConfig } from "@medusajs/medusa"
 
 /**
- * Listens to cart.updated events and applies the correct
- * Stack and Save volume discount based on total cart quantity.
+ * Cart-updated subscriber.
  *
- * Tiers:
- *   4-5 items  → STACK10 (10% off)
- *   6-9 items  → STACK15 (15% off)
- *   10+ items  → STACK20 (20% off)
+ * Stack & Save volume discounts are handled entirely by quantity-based
+ * pricing on each variant (min_quantity / max_quantity price tiers).
+ * No promotion workflow is needed here — Medusa's pricing engine
+ * applies the correct tier price automatically.
  */
-export default async function cartUpdatedHandler({
-  event: { data },
-  container,
-}: SubscriberArgs<{ id: string }>) {
-  try {
-    await applyStackDiscountWorkflow(container).run({
-      input: { cart_id: data.id },
-    })
-  } catch (error) {
-    // Don't block cart operations if discount logic fails
-    console.error("Stack discount error:", error)
-  }
+export default async function cartUpdatedHandler() {
+  // noop — reserved for future cart-update hooks
 }
 
 export const config: SubscriberConfig = {

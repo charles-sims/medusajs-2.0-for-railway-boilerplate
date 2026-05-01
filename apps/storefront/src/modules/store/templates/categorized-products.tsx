@@ -36,7 +36,7 @@ export default async function CategorizedProducts({
       page: 1,
       queryParams: {
         limit: 100,
-        fields: "*variants.calculated_price,+categories",
+        fields: "*variants.calculated_price,+categories.*",
       },
       sortBy: "created_at",
       countryCode,

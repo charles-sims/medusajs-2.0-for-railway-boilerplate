@@ -5,6 +5,7 @@ import {
   Input,
   Label,
   Select,
+  Switch,
   Textarea,
   toast,
   Toaster,
@@ -35,6 +36,7 @@ const normalizeDestUrl = (url: string) => {
 
 const CreateQrCampaignPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [enableGuestAccess, setEnableGuestAccess] = useState(false)
   const [form, setForm] = useState({
     name: "",
     code: "",
@@ -62,6 +64,7 @@ const CreateQrCampaignPage = () => {
         utm_source: "qr",
         utm_content: form.utm_content || null,
         notes: form.notes || null,
+        enable_guest_access: enableGuestAccess,
       }
       const res = await sdk.client.fetch<{ qr_campaign: { id: string } }>("/admin/qr-campaigns", {
         method: "POST",
@@ -133,6 +136,15 @@ const CreateQrCampaignPage = () => {
             value={form.utm_content}
             onChange={(e) => setForm((p) => ({ ...p, utm_content: e.target.value }))}
           />
+        </div>
+        <div className="flex items-center justify-between rounded-lg border border-ui-border-base p-3">
+          <div>
+            <Label>Guest Access</Label>
+            <p className="text-ui-fg-subtle text-xs mt-0.5">
+              Allow visitors to browse without an account. Checkout still requires sign-up.
+            </p>
+          </div>
+          <Switch checked={enableGuestAccess} onCheckedChange={setEnableGuestAccess} />
         </div>
         <div>
           <Label>Notes (optional)</Label>

@@ -4,6 +4,7 @@ import {
   Text,
   Button,
   StatusBadge,
+  Switch,
   toast,
   Toaster,
 } from "@medusajs/ui"
@@ -24,6 +25,7 @@ type QrCampaign = {
   is_active: boolean
   product_id?: string
   notes?: string
+  guest_key?: string | null
   created_at: string
 }
 
@@ -66,6 +68,24 @@ const QrCampaignDetailPage = () => {
       qr_campaign: { ...data.qr_campaign, is_active: newStatus },
     })
     toast.success(newStatus ? "Campaign activated" : "Campaign deactivated")
+  }
+
+  const handleToggleGuestAccess = async () => {
+    if (!data) return
+    const enabling = !data.qr_campaign.guest_key
+    try {
+      const res = await sdk.client.fetch<{ qr_campaign: QrCampaign }>(
+        `/admin/qr-campaigns/${id}`,
+        {
+          method: "POST",
+          body: { enable_guest_access: enabling },
+        }
+      )
+      setData({ ...data, qr_campaign: res.qr_campaign })
+      toast.success(enabling ? "Guest access enabled" : "Guest access disabled")
+    } catch {
+      toast.error("Failed to update guest access")
+    }
   }
 
   const handleDelete = async () => {
@@ -147,6 +167,25 @@ const QrCampaignDetailPage = () => {
             </div>
           )}
         </div>
+      </Container>
+
+      <Container>
+        <div className="flex items-center justify-between mb-4">
+          <Heading level="h2">Guest Access</Heading>
+          <Switch
+            checked={!!c.guest_key}
+            onCheckedChange={handleToggleGuestAccess}
+          />
+        </div>
+        <Text size="small" className="text-ui-fg-subtle">
+          Allow visitors to browse without creating an account. Checkout still requires sign-up.
+        </Text>
+        {c.guest_key && (
+          <div className="mt-3 rounded-lg border border-ui-border-base bg-ui-bg-subtle p-3">
+            <Text size="small" className="text-ui-fg-subtle">Guest Key</Text>
+            <Text className="font-mono text-xs mt-1 break-all">{c.guest_key}</Text>
+          </div>
+        )}
       </Container>
 
       <Container>

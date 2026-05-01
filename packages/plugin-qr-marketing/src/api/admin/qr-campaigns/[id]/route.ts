@@ -2,6 +2,7 @@ import {
   AuthenticatedMedusaRequest,
   MedusaResponse,
 } from "@medusajs/framework/http"
+import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
 import { QR_MARKETING_MODULE } from "../../../../modules/qr-marketing"
 import QrMarketingModuleService from "../../../../modules/qr-marketing/service"
 import { PostQrCampaignUpdateSchemaType } from "../../../middlewares"
@@ -14,9 +15,18 @@ export const GET = async (
   res: MedusaResponse
 ) => {
   const { id } = req.params
-  const service: QrMarketingModuleService = req.scope.resolve(QR_MARKETING_MODULE)
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
-  const qr_campaign = await service.retrieveQrCampaign(id)
+  const { data: [qr_campaign] } = await query.graph({
+    entity: "qr_campaign",
+    filters: { id },
+    ...req.queryConfig,
+  })
+
+  if (!qr_campaign) {
+    res.status(404).json({ message: "Campaign not found" })
+    return
+  }
 
   const qrUrl = `${STOREFRONT_URL}/store/go/${qr_campaign.code}`
   const qr_data_url = await QRCode.toDataURL(qrUrl, {

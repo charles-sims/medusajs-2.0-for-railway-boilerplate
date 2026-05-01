@@ -45,7 +45,10 @@ const QrCampaignDetailPage = () => {
         setData(res)
         setIsLoading(false)
       })
-      .catch(() => setIsLoading(false))
+      .catch((err) => {
+        console.error("Failed to fetch campaign:", err)
+        setIsLoading(false)
+      })
   }, [id])
 
   const handleToggleActive = async () => {

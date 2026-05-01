@@ -32,6 +32,7 @@
     "@calilean/plugin-invoices": "workspace:*",
     "@calilean/plugin-loyalty": "workspace:*",
     "@calilean/plugin-preorder": "workspace:*",
+    "@calilean/plugin-qr-marketing": "workspace:*",
     "@calilean/plugin-reviews": "workspace:*",
     "@calilean/plugin-shipstation": "workspace:*",
     "@calilean/plugin-subscription": "workspace:*",

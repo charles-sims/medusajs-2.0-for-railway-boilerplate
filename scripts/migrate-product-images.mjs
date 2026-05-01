@@ -41,7 +41,7 @@ import { fileURLToPath } from "node:url";
 const HERE = fileURLToPath(new URL(".", import.meta.url));
 const REPO_ROOT = resolvePath(HERE, "..");
 
-const BACKEND_ENV = resolvePath(REPO_ROOT, "backend", ".env");
+const BACKEND_ENV = resolvePath(REPO_ROOT, "apps", "backend", ".env");
 if (existsSync(BACKEND_ENV)) {
   for (const line of readFileSync(BACKEND_ENV, "utf8").split("\n")) {
     const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/);
@@ -114,23 +114,15 @@ async function findProductByHandle(backendUrl, token, handle) {
 
 async function uploadPrimary(backendUrl, token, absPath) {
   const buf = readFileSync(absPath);
-  const body = {
-    files: [
-      {
-        filename: PRIMARY_FILENAME,
-        mimeType: PRIMARY_MIME,
-        access: "public",
-        content: buf.toString("base64"),
-      },
-    ],
-  };
+  const blob = new Blob([buf], { type: PRIMARY_MIME });
+  const form = new FormData();
+  form.append("files", blob, PRIMARY_FILENAME);
   const res = await fetch(`${backendUrl}/admin/uploads`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
     },
-    body: JSON.stringify(body),
+    body: form,
   });
   if (!res.ok) {
     fail(`upload failed for ${absPath}: ${res.status} ${await res.text()}`);
@@ -206,6 +198,7 @@ async function main() {
   const plan = targets.map((sku) => {
     const absPath = resolvePath(
       REPO_ROOT,
+      "apps",
       "storefront",
       "public",
       "brand",

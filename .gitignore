@@ -29,5 +29,8 @@ docs/brand/imagery/renders/raw/*.png
 # Generated PDFs (co-located with their sources)
 docs/brand/brand-book/*.pdf
 docs/deliverables/pitch-deck/*.pdf
+# Large binary assets and stale archives — live in Drive, not git
+docs/**/archive/
+docs/**/assets/
 .sync-state.json
 .superpowers/

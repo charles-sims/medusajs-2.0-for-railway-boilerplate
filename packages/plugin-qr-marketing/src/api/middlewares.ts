@@ -4,9 +4,13 @@ import {
   validateAndTransformQuery,
 } from "@medusajs/framework/http"
 import { z } from "zod"
-import { createFindParams } from "@medusajs/medusa/api/utils/validators"
 
-export const GetQrCampaignsSchema = createFindParams()
+export const GetQrCampaignsSchema = z.object({
+  limit: z.preprocess((val) => val && Number(val), z.number().optional()),
+  offset: z.preprocess((val) => val && Number(val), z.number().optional()),
+  fields: z.string().optional(),
+  order: z.string().optional(),
+})
 
 export const PostQrCampaignSchema = z.object({
   code: z.string().min(1).max(100),

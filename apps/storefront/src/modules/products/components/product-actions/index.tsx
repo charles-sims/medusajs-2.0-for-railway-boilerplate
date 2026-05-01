@@ -75,12 +75,8 @@ export default function ProductActions({
     })
   }, [product.variants, options])
 
-  // Get the base unit price for Stack and Save display
-  const unitPrice = useMemo(() => {
-    if (!selectedVariant) return undefined
-    const calc = (selectedVariant as any)?.calculated_price
-    return calc?.calculated_amount ?? undefined
-  }, [selectedVariant])
+  // Get variant prices for dynamic Stack and Save tiers
+  const variantPrices = (selectedVariant as any)?.prices
 
   // check if the selected variant is in stock
   const inStock = useMemo(() => {
@@ -151,7 +147,7 @@ export default function ProductActions({
           disabled={!!disabled || isAdding}
         />
 
-        <StackAndSave quantity={cartQuantity + quantity} unitPrice={unitPrice} />
+        <StackAndSave quantity={cartQuantity + quantity} prices={variantPrices} />
 
         <Button
           onClick={handleAddToCart}

@@ -28,8 +28,7 @@ export const GET = async (
     return
   }
 
-  const BACKEND_URL = process.env.BACKEND_URL || "https://admin.calilean.com"
-  const qrUrl = `${BACKEND_URL}/go/${qr_campaign.code}`
+  const qrUrl = `${STOREFRONT_URL}/go/${qr_campaign.code}`
   const qr_data_url = await QRCode.toDataURL(qrUrl, {
     width: 512,
     margin: 2,

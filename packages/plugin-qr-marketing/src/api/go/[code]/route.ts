@@ -8,6 +8,19 @@ import { Modules } from "@medusajs/framework/utils"
 
 const STOREFRONT_URL = process.env.STOREFRONT_URL || "https://calilean.com"
 
+/**
+ * GET /go/:code
+ *
+ * Returns campaign data as JSON so the storefront route handler can perform
+ * the redirect on the public domain (calilean.com/go/[code]).
+ *
+ * Also increments scan_count and fires a Segment analytics event as
+ * side-effects (fire-and-forget).
+ *
+ * Response shape:
+ *   200 — { campaign, redirect_url }
+ *   404 — { error: "..." }
+ */
 export const GET = async (
   req: MedusaRequest,
   res: MedusaResponse
@@ -20,11 +33,11 @@ export const GET = async (
     const campaigns = await service.listQrCampaigns({ code })
     campaign = campaigns[0]
   } catch {
-    return res.redirect(302, STOREFRONT_URL)
+    return res.status(404).json({ error: "Campaign not found" })
   }
 
   if (!campaign || !campaign.is_active) {
-    return res.redirect(302, STOREFRONT_URL)
+    return res.status(404).json({ error: "Campaign not found or inactive" })
   }
 
   // Increment scan count (fire and forget)
@@ -65,5 +78,16 @@ export const GET = async (
   }
   url.searchParams.set("qr_code", campaign.code)
 
-  return res.redirect(302, url.toString())
+  return res.json({
+    campaign: {
+      code: campaign.code,
+      name: campaign.name,
+      destination_url: campaign.destination_url,
+      utm_source: campaign.utm_source,
+      utm_medium: campaign.utm_medium,
+      utm_campaign: campaign.utm_campaign,
+      utm_content: campaign.utm_content,
+    },
+    redirect_url: url.toString(),
+  })
 }

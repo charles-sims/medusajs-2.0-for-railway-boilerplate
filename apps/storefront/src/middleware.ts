@@ -96,6 +96,7 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith("/gate/") ||
     pathname === "/reset-password" ||
     pathname.startsWith("/reset-password/") ||
+    pathname.startsWith("/go/") ||
     pathname.startsWith("/_next/") ||
     pathname.startsWith("/brand/") ||
     pathname.startsWith("/favicon") ||
@@ -131,6 +132,12 @@ export async function middleware(request: NextRequest) {
     pathname === "/reset-password" ||
     pathname.startsWith("/reset-password/")
   ) {
+    return NextResponse.next()
+  }
+
+  // QR redirect routes — handled by the /go/[code] route handler directly,
+  // skip region detection and country-code prefixing
+  if (pathname.startsWith("/go/")) {
     return NextResponse.next()
   }
   // --- End auth gate ---

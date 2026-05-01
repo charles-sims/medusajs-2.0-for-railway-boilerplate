@@ -127,6 +127,21 @@ export async function middleware(request: NextRequest) {
   }
   // --- End auth gate ---
 
+  // --- UTM Attribution capture ---
+  const utmSource = request.nextUrl.searchParams.get("utm_source")
+  if (utmSource && !request.cookies.get("__cl_attribution")) {
+    const attribution = JSON.stringify({
+      source: utmSource,
+      medium: request.nextUrl.searchParams.get("utm_medium") || "",
+      campaign: request.nextUrl.searchParams.get("utm_campaign") || "",
+      content: request.nextUrl.searchParams.get("utm_content") || "",
+      campaign_code: request.nextUrl.searchParams.get("qr_code") || "",
+      landed_at: new Date().toISOString(),
+    })
+    request.headers.set("x-cl-attribution", attribution)
+  }
+  // --- End UTM Attribution ---
+
   const searchParams = request.nextUrl.searchParams
   const isOnboarding = searchParams.get("onboarding") === "true"
   const cartId = searchParams.get("cart_id")
@@ -175,6 +190,16 @@ export async function middleware(request: NextRequest) {
   // Set a cookie to indicate that we're onboarding. This is used to show the onboarding flow.
   if (isOnboarding) {
     response.cookies.set("_medusa_onboarding", "true", { maxAge: 60 * 60 * 24 })
+  }
+
+  // Attach attribution cookie if captured
+  const pendingAttribution = request.headers.get("x-cl-attribution")
+  if (pendingAttribution) {
+    response.cookies.set("__cl_attribution", pendingAttribution, {
+      maxAge: 60 * 60 * 24 * 30,
+      path: "/",
+      sameSite: "lax",
+    })
   }
 
   return response

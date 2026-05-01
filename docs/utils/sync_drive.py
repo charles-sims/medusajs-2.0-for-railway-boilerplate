@@ -19,8 +19,9 @@ SYNC_MAP = {
     'docs/brand/brand-book/': ('Cali Lean/Brand/', ['.pdf']),
     'docs/deliverables/pitch-deck/': ('Cali Lean/External/Deck/', ['.pdf']),
     'docs/ops/': ('Cali Lean/Ops/', ['.xlsx', '.csv']),
-    'docs/strategy/': ('Cali Lean/Strategy/', ['.md', '.pdf']),
-    'docs/brand/': ('Cali Lean/Brand/', ['.md', '.pdf']),
+    'docs/build/docs/strategy/': ('Cali Lean/Strategy/', ['.docx']),
+    'docs/build/docs/brand/packaging/ideation/': ('Cali Lean/Brand/Packaging/Ideation/', ['.docx']),
+    'docs/build/docs/brand/assets/imagery/': ('Cali Lean/Brand/Imagery/', ['.docx']),
 }
 
 MANIFEST_PATH = PROJECT_ROOT / '.sync-state.json'

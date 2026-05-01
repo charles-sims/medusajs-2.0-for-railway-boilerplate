@@ -15,8 +15,10 @@
     "storefront:dev": "turbo dev --filter=medusa-next",
     "build:brand-book": "node docs/brand/brand-book/export_brand_book_pdf.js",
     "build:deck": "node docs/deliverables/pitch-deck/export_pdf.js",
-    "build:all-docs": "npm run build:brand-book && npm run build:deck",
-    "drive:push:all": "python3 docs/utils/sync_drive.py push --all",
+    "build:docx": "python3 docs/utils/md_to_docx.py --all",
+    "build:docx:clean": "python3 docs/utils/md_to_docx.py --clean",
+    "build:all-docs": "npm run build:brand-book && npm run build:deck && npm run build:docx",
+    "drive:push:all": "npm run build:docx && python3 docs/utils/sync_drive.py push --all",
     "drive:push:check": "python3 docs/utils/sync_drive.py push --all --check-conflicts",
     "drive:status": "python3 docs/utils/sync_drive.py status",
     "drive:check-conflicts": "python3 docs/utils/sync_drive.py check-conflicts"

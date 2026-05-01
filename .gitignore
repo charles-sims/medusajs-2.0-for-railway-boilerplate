@@ -15,6 +15,9 @@ build/
 coverage/
 *.log
 
+# Generated DOCX files (built from source MDs)
+docs/build/
+
 # Workspace-local secrets
 .env.secrets
 

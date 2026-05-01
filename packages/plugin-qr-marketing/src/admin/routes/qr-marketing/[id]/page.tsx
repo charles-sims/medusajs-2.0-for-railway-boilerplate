@@ -8,7 +8,7 @@ import {
   toast,
   Toaster,
 } from "@medusajs/ui"
-import { useEffect, useState } from "react"
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { useParams } from "react-router-dom"
 import { sdk } from "../../../lib/sdk"
 
@@ -35,64 +35,61 @@ type DetailResponse = {
   qr_url: string
 }
 
+const QR_CAMPAIGN_QUERY_KEY = "qr-campaign-detail"
+
 const QrCampaignDetailPage = () => {
   const { id } = useParams<{ id: string }>()
-  const [data, setData] = useState<DetailResponse | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const queryClient = useQueryClient()
 
-  useEffect(() => {
-    sdk.client
-      .fetch<DetailResponse>(`/admin/qr-campaigns/${id}`)
-      .then((res) => {
-        console.log("QR campaign response:", JSON.stringify(res, null, 2))
-        setData(res)
-        setIsLoading(false)
-      })
-      .catch((err) => {
-        console.error("Failed to fetch campaign:", err)
-        setError(JSON.stringify(err, Object.getOwnPropertyNames(err || {}), 2) || "Unknown error")
-        setIsLoading(false)
-      })
-  }, [id])
+  const { data, isLoading, error } = useQuery({
+    queryKey: [QR_CAMPAIGN_QUERY_KEY, id],
+    queryFn: () =>
+      sdk.client.fetch<DetailResponse>(`/admin/qr-campaigns/${id}`),
+  })
 
-  const handleToggleActive = async () => {
-    if (!data) return
-    const newStatus = !data.qr_campaign.is_active
-    await sdk.client.fetch(`/admin/qr-campaigns/${id}`, {
-      method: "POST",
-      body: { is_active: newStatus },
-    })
-    setData({
-      ...data,
-      qr_campaign: { ...data.qr_campaign, is_active: newStatus },
-    })
-    toast.success(newStatus ? "Campaign activated" : "Campaign deactivated")
-  }
-
-  const handleToggleGuestAccess = async () => {
-    if (!data) return
-    const enabling = !data.qr_campaign.guest_key
-    try {
-      const res = await sdk.client.fetch<{ qr_campaign: QrCampaign }>(
+  const toggleActive = useMutation({
+    mutationFn: (newStatus: boolean) =>
+      sdk.client.fetch<{ qr_campaign: QrCampaign }>(
         `/admin/qr-campaigns/${id}`,
-        {
-          method: "POST",
-          body: { enable_guest_access: enabling },
-        }
+        { method: "POST", body: { is_active: newStatus } }
+      ),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QR_CAMPAIGN_QUERY_KEY, id] })
+      toast.success(
+        data?.qr_campaign.is_active
+          ? "Campaign deactivated"
+          : "Campaign activated"
       )
-      setData({ ...data, qr_campaign: res.qr_campaign })
-      toast.success(enabling ? "Guest access enabled" : "Guest access disabled")
-    } catch {
-      toast.error("Failed to update guest access")
-    }
-  }
+    },
+    onError: () => toast.error("Failed to update status"),
+  })
 
-  const handleDelete = async () => {
-    await sdk.client.fetch(`/admin/qr-campaigns/${id}`, { method: "DELETE" })
-    toast.success("Campaign deleted")
-    window.location.href = "/app/qr-marketing"
-  }
+  const toggleGuestAccess = useMutation({
+    mutationFn: (enabling: boolean) =>
+      sdk.client.fetch<{ qr_campaign: QrCampaign }>(
+        `/admin/qr-campaigns/${id}`,
+        { method: "POST", body: { enable_guest_access: enabling } }
+      ),
+    onSuccess: (res) => {
+      queryClient.invalidateQueries({ queryKey: [QR_CAMPAIGN_QUERY_KEY, id] })
+      toast.success(
+        res.qr_campaign.guest_key
+          ? "Guest access enabled"
+          : "Guest access disabled"
+      )
+    },
+    onError: () => toast.error("Failed to update guest access"),
+  })
+
+  const deleteCampaign = useMutation({
+    mutationFn: () =>
+      sdk.client.fetch(`/admin/qr-campaigns/${id}`, { method: "DELETE" }),
+    onSuccess: () => {
+      toast.success("Campaign deleted")
+      window.location.href = "/app/qr-marketing"
+    },
+    onError: () => toast.error("Failed to delete campaign"),
+  })
 
   const handleDownloadQR = () => {
     if (!data?.qr_data_url) return
@@ -102,98 +99,172 @@ const QrCampaignDetailPage = () => {
     link.click()
   }
 
-  if (isLoading) return <Container><Text>Loading campaign {id}...</Text></Container>
-  if (!data) return (
-    <Container>
-      <Text>Campaign not found for ID: {id}</Text>
-      {error && <Text className="text-ui-fg-error mt-2">Error: {error}</Text>}
-      <Text className="text-ui-fg-subtle mt-2 text-xs">Check browser console for full details</Text>
-    </Container>
-  )
+  if (isLoading) {
+    return (
+      <Container>
+        <Text>Loading campaign...</Text>
+      </Container>
+    )
+  }
+
+  if (error || !data) {
+    return (
+      <Container>
+        <Heading className="mb-2">Campaign not found</Heading>
+        <Text className="text-ui-fg-subtle">
+          Could not load campaign {id}.
+        </Text>
+        {error && (
+          <Text size="small" className="text-ui-fg-error mt-2">
+            {error instanceof Error ? error.message : "Unknown error"}
+          </Text>
+        )}
+        <Button
+          size="small"
+          variant="secondary"
+          className="mt-4"
+          onClick={() => (window.location.href = "/app/qr-marketing")}
+        >
+          Back to campaigns
+        </Button>
+      </Container>
+    )
+  }
 
   const { qr_campaign: c, qr_data_url, qr_url } = data
 
   return (
     <div className="flex flex-col gap-4">
+      {/* Campaign Info */}
       <Container>
         <div className="flex items-center justify-between mb-4">
           <Heading>{c.name}</Heading>
           <div className="flex gap-2">
-            <Button size="small" variant="secondary" onClick={handleToggleActive}>
+            <Button
+              size="small"
+              variant="secondary"
+              onClick={() => toggleActive.mutate(!c.is_active)}
+              isLoading={toggleActive.isPending}
+            >
               {c.is_active ? "Deactivate" : "Activate"}
             </Button>
-            <Button size="small" variant="danger" onClick={handleDelete}>
+            <Button
+              size="small"
+              variant="danger"
+              onClick={() => deleteCampaign.mutate()}
+              isLoading={deleteCampaign.isPending}
+            >
               Delete
             </Button>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Text size="small" className="text-ui-fg-subtle">Code</Text>
+            <Text size="small" className="text-ui-fg-subtle">
+              Code
+            </Text>
             <Text>{c.code}</Text>
           </div>
           <div>
-            <Text size="small" className="text-ui-fg-subtle">Status</Text>
+            <Text size="small" className="text-ui-fg-subtle">
+              Status
+            </Text>
             <StatusBadge color={c.is_active ? "green" : "grey"}>
               {c.is_active ? "Active" : "Inactive"}
             </StatusBadge>
           </div>
           <div>
-            <Text size="small" className="text-ui-fg-subtle">Destination</Text>
+            <Text size="small" className="text-ui-fg-subtle">
+              Destination
+            </Text>
             <Text>{c.destination_url}</Text>
           </div>
           <div>
-            <Text size="small" className="text-ui-fg-subtle">Scans</Text>
+            <Text size="small" className="text-ui-fg-subtle">
+              Scans
+            </Text>
             <StatusBadge color="blue">{String(c.scan_count)}</StatusBadge>
           </div>
           <div>
-            <Text size="small" className="text-ui-fg-subtle">UTM Medium</Text>
+            <Text size="small" className="text-ui-fg-subtle">
+              UTM Medium
+            </Text>
             <Text>{c.utm_medium}</Text>
           </div>
           <div>
-            <Text size="small" className="text-ui-fg-subtle">UTM Campaign</Text>
+            <Text size="small" className="text-ui-fg-subtle">
+              UTM Campaign
+            </Text>
             <Text>{c.utm_campaign}</Text>
           </div>
           {c.utm_content && (
             <div>
-              <Text size="small" className="text-ui-fg-subtle">UTM Content</Text>
+              <Text size="small" className="text-ui-fg-subtle">
+                UTM Content
+              </Text>
               <Text>{c.utm_content}</Text>
             </div>
           )}
           {c.notes && (
             <div className="col-span-2">
-              <Text size="small" className="text-ui-fg-subtle">Notes</Text>
+              <Text size="small" className="text-ui-fg-subtle">
+                Notes
+              </Text>
               <Text>{c.notes}</Text>
             </div>
           )}
         </div>
       </Container>
 
+      {/* Guest Access */}
       <Container>
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-2">
           <Heading level="h2">Guest Access</Heading>
           <Switch
             checked={!!c.guest_key}
-            onCheckedChange={handleToggleGuestAccess}
+            onCheckedChange={(checked) => toggleGuestAccess.mutate(checked)}
+            disabled={toggleGuestAccess.isPending}
           />
         </div>
         <Text size="small" className="text-ui-fg-subtle">
-          Allow visitors to browse without creating an account. Checkout still requires sign-up.
+          Allow visitors to browse without creating an account. Checkout still
+          requires sign-up.
         </Text>
         {c.guest_key && (
           <div className="mt-3 rounded-lg border border-ui-border-base bg-ui-bg-subtle p-3">
-            <Text size="small" className="text-ui-fg-subtle">Guest Key</Text>
-            <Text className="font-mono text-xs mt-1 break-all">{c.guest_key}</Text>
+            <Text size="small" className="text-ui-fg-subtle">
+              Guest Key
+            </Text>
+            <Text className="font-mono text-xs mt-1 break-all">
+              {c.guest_key}
+            </Text>
           </div>
         )}
       </Container>
 
+      {/* QR Code */}
       <Container>
-        <Heading level="h2" className="mb-4">QR Code</Heading>
+        <Heading level="h2" className="mb-4">
+          QR Code
+        </Heading>
         <div className="flex items-start gap-6">
-          <img src={qr_data_url} alt={`QR code for ${c.code}`} className="w-48 h-48 border rounded" />
+          {qr_data_url ? (
+            <img
+              src={qr_data_url}
+              alt={`QR code for ${c.code}`}
+              className="w-48 h-48 border rounded"
+            />
+          ) : (
+            <div className="w-48 h-48 border rounded bg-ui-bg-subtle flex items-center justify-center">
+              <Text size="small" className="text-ui-fg-subtle">
+                No QR code
+              </Text>
+            </div>
+          )}
           <div className="flex flex-col gap-2">
-            <Text size="small" className="text-ui-fg-subtle">Scan URL</Text>
+            <Text size="small" className="text-ui-fg-subtle">
+              Scan URL
+            </Text>
             <Text className="font-mono text-sm">{qr_url}</Text>
             <Button size="small" variant="secondary" onClick={handleDownloadQR}>
               Download PNG

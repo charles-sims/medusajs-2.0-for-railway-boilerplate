@@ -2,6 +2,7 @@ import {
   AuthenticatedMedusaRequest,
   MedusaResponse,
 } from "@medusajs/framework/http"
+import crypto from "crypto"
 import { QR_MARKETING_MODULE } from "../../../modules/qr-marketing"
 import QrMarketingModuleService from "../../../modules/qr-marketing/service"
 import { PostQrCampaignSchemaType } from "../../middlewares"
@@ -34,7 +35,13 @@ export const POST = async (
 ) => {
   const service: QrMarketingModuleService = req.scope.resolve(QR_MARKETING_MODULE)
 
-  const qr_campaign = await service.createQrCampaigns(req.validatedBody)
+  const { enable_guest_access, ...campaignData } = req.validatedBody
+
+  if (enable_guest_access) {
+    ;(campaignData as any).guest_key = crypto.randomBytes(16).toString("hex")
+  }
+
+  const qr_campaign = await service.createQrCampaigns(campaignData)
 
   res.status(201).json({ qr_campaign })
 }

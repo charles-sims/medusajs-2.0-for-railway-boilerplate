@@ -23,6 +23,7 @@ export const PostQrCampaignSchema = z.object({
   is_active: z.boolean().optional(),
   product_id: z.string().nullable().optional(),
   notes: z.string().nullable().optional(),
+  enable_guest_access: z.boolean().optional(),
 })
 export type PostQrCampaignSchemaType = z.infer<typeof PostQrCampaignSchema>
 
@@ -37,13 +38,14 @@ export const PostQrCampaignUpdateSchema = z.object({
   is_active: z.boolean().optional(),
   product_id: z.string().nullable().optional(),
   notes: z.string().nullable().optional(),
+  enable_guest_access: z.boolean().optional(),
 })
 export type PostQrCampaignUpdateSchemaType = z.infer<typeof PostQrCampaignUpdateSchema>
 
 const qrCampaignFields = [
   "id", "code", "name", "destination_url",
   "utm_source", "utm_medium", "utm_campaign", "utm_content",
-  "scan_count", "is_active", "product_id", "notes",
+  "scan_count", "is_active", "product_id", "notes", "guest_key",
   "created_at", "updated_at",
 ]
 

@@ -13,6 +13,7 @@ const QrCampaign = model.define("qr_campaign", {
   is_active: model.boolean().default(true),
   product_id: model.text().nullable(),
   notes: model.text().nullable(),
+  guest_key: model.text().nullable(),
   metadata: model.json().nullable(),
 })
 

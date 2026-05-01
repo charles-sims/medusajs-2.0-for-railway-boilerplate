@@ -89,5 +89,6 @@ export const GET = async (
       utm_content: campaign.utm_content,
     },
     redirect_url: url.toString(),
+    guest_key: campaign.guest_key || null,
   })
 }

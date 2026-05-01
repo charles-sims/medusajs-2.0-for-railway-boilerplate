@@ -13,6 +13,11 @@ const STOREFRONT_URL =
  * Calls the Medusa backend to resolve the campaign, then 302-redirects
  * the visitor to the destination URL with UTM parameters.
  *
+ * If the campaign has guest access enabled (guest_key), sets a _cl_guest
+ * cookie so the middleware bypasses the auth gate for browsing. The key
+ * is per-campaign, allowing many concurrent users from the same QR code.
+ * Account creation is still required at checkout.
+ *
  * This keeps the admin domain hidden — QR codes point to
  * calilean.com/go/[code] instead of admin.calilean.com/go/[code].
  */
@@ -23,13 +28,16 @@ export async function GET(
   const { code } = await params
 
   try {
-    const res = await fetch(`${MEDUSA_BACKEND_URL}/go/${encodeURIComponent(code)}`, {
-      // No caching — each scan should be counted
-      cache: "no-store",
-      headers: {
-        "Accept": "application/json",
-      },
-    })
+    const res = await fetch(
+      `${MEDUSA_BACKEND_URL}/go/${encodeURIComponent(code)}`,
+      {
+        // No caching — each scan should be counted
+        cache: "no-store",
+        headers: {
+          Accept: "application/json",
+        },
+      }
+    )
 
     if (!res.ok) {
       // Campaign not found or inactive — send to homepage
@@ -42,7 +50,21 @@ export async function GET(
       return NextResponse.redirect(STOREFRONT_URL, 302)
     }
 
-    return NextResponse.redirect(data.redirect_url, 302)
+    const response = NextResponse.redirect(data.redirect_url, 302)
+
+    // Set guest access cookie when campaign has a guest_key.
+    // This lets the middleware bypass the auth gate for browsing.
+    if (data.guest_key) {
+      response.cookies.set("_cl_guest", data.guest_key, {
+        maxAge: 60 * 60 * 24, // 24 hours
+        path: "/",
+        sameSite: "lax",
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+      })
+    }
+
+    return response
   } catch {
     // Backend unreachable — graceful fallback to homepage
     return NextResponse.redirect(STOREFRONT_URL, 302)

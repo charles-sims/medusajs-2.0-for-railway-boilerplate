@@ -106,14 +106,31 @@ export async function middleware(request: NextRequest) {
   if (!isPublicRoute) {
     const authToken = request.cookies.get("_medusa_jwt")
     if (!authToken?.value) {
-      const gateUrl = new URL("/gate", request.url)
-      // Preserve the original path + query (including UTM params) so the
-      // gate page can redirect back after authentication.
-      const returnTo = request.nextUrl.pathname + request.nextUrl.search
-      if (returnTo && returnTo !== "/") {
-        gateUrl.searchParams.set("redirect", returnTo)
+      // Guest access: visitors arriving via a guest-enabled QR campaign
+      // have a _cl_guest cookie set by the /go/[code] route handler.
+      // They can browse the store freely, but must create an account to
+      // reach checkout. The key is per-campaign so many visitors can
+      // share the same QR code concurrently.
+      const guestCookie = request.cookies.get("_cl_guest")
+      const isCheckoutRoute =
+        /^\/[a-z]{2}\/checkout/.test(pathname) ||
+        pathname.startsWith("/checkout")
+
+      if (guestCookie?.value && !isCheckoutRoute) {
+        // Allow guest browsing — fall through to region detection below
+      } else {
+        const gateUrl = new URL("/gate", request.url)
+        // Preserve the original path + query (including UTM params) so the
+        // gate page can redirect back after authentication.
+        const returnTo = request.nextUrl.pathname + request.nextUrl.search
+        if (returnTo && returnTo !== "/") {
+          gateUrl.searchParams.set("redirect", returnTo)
+        }
+        if (guestCookie?.value && isCheckoutRoute) {
+          gateUrl.searchParams.set("guest_checkout", "1")
+        }
+        return NextResponse.redirect(gateUrl)
       }
-      return NextResponse.redirect(gateUrl)
     }
   }
 

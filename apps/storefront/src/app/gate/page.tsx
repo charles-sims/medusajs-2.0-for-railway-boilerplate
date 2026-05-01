@@ -93,7 +93,10 @@ export default function GatePage() {
 function GatePageInner() {
   const searchParams = useSearchParams()
   const redirectTo = searchParams.get("redirect") || ""
-  const [view, setView] = useState<GateView>("sign-in")
+  const isGuestCheckout = searchParams.get("guest_checkout") === "1"
+  const [view, setView] = useState<GateView>(
+    isGuestCheckout ? "register" : "sign-in"
+  )
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 relative bg-calilean-bg overflow-hidden">
@@ -178,6 +181,17 @@ function GatePageInner() {
         </h1>
 
         <div className="max-w-[340px] mx-auto relative">
+          {isGuestCheckout && (
+            <div className="mb-4 bg-calilean-pacific/10 border border-calilean-pacific/20 rounded-xl px-4 py-3 text-left">
+              <p className="text-calilean-ink text-sm font-medium">
+                Create an account to checkout
+              </p>
+              <p className="text-calilean-fog text-xs mt-1 leading-relaxed">
+                Your cart is saved. Sign in or create an account to complete
+                your purchase.
+              </p>
+            </div>
+          )}
           <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-b from-[#7090AB]/20 via-transparent to-[#7090AB]/10 pointer-events-none" />
           <div className="bg-calilean-bg/80 backdrop-blur-sm rounded-2xl p-6 relative">
             {view === "sign-in" ? (

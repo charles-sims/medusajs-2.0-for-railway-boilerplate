@@ -37,6 +37,7 @@ const QrCampaignDetailPage = () => {
   const { id } = useParams<{ id: string }>()
   const [data, setData] = useState<DetailResponse | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     sdk.client
@@ -47,6 +48,7 @@ const QrCampaignDetailPage = () => {
       })
       .catch((err) => {
         console.error("Failed to fetch campaign:", err)
+        setError(err?.message || err?.toString() || "Unknown error")
         setIsLoading(false)
       })
   }, [id])
@@ -80,7 +82,7 @@ const QrCampaignDetailPage = () => {
   }
 
   if (isLoading) return <Container><Text>Loading...</Text></Container>
-  if (!data) return <Container><Text>Campaign not found</Text></Container>
+  if (!data) return <Container><Text>Campaign not found{error ? `: ${error}` : ""}</Text></Container>
 
   const { qr_campaign: c, qr_data_url, qr_url } = data
 

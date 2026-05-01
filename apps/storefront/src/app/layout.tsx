@@ -1,6 +1,10 @@
 import { getBaseURL } from "@lib/util/env"
 import { Metadata, Viewport } from "next"
-import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google"
+import {
+  Plus_Jakarta_Sans,
+  JetBrains_Mono,
+  Instrument_Serif,
+} from "next/font/google"
 import "styles/globals.css"
 import JsonLd from "@modules/common/components/json-ld"
 
@@ -9,6 +13,14 @@ const plusJakarta = Plus_Jakarta_Sans({
   display: "swap",
   variable: "--font-sans",
   weight: ["300", "400", "500", "600", "700"],
+})
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-display",
+  weight: "400",
+  style: ["normal", "italic"],
 })
 
 const jetbrainsMono = JetBrains_Mono({
@@ -64,7 +76,7 @@ const organizationJsonLd = {
 }
 
 export default function RootLayout(props: { children: React.ReactNode }) {
-  const fontVars = `${plusJakarta.variable} ${jetbrainsMono.variable}`
+  const fontVars = `${plusJakarta.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`
 
   return (
     <html lang="en" data-mode="light" className={fontVars}>

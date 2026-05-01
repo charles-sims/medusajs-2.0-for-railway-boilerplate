@@ -17,14 +17,15 @@ COA      = "#111111"
 ALERT    = "#A23B2A"
 
 # ── Typography ────────────────────────────────────────────────────────
-DISPLAY_FONT = "Plus Jakarta Sans"
+DISPLAY_FONT = "Instrument Serif"
 BODY_FONT    = "Plus Jakarta Sans"
 MONO_FONT    = "JetBrains Mono"
 
-DISPLAY_STACK = f"'{DISPLAY_FONT}', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
+DISPLAY_STACK = f"'{DISPLAY_FONT}', Georgia, serif"
+BODY_STACK    = f"'{BODY_FONT}', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
 MONO_STACK    = f"'{MONO_FONT}', 'SF Mono', 'Fira Code', Consolas, monospace"
 
-GOOGLE_FONTS_URL = "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+GOOGLE_FONTS_URL = "https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
 
 # ── Sizes (px for HTML) ──────────────────────────────────────────────
 TITLE_SIZE   = 36

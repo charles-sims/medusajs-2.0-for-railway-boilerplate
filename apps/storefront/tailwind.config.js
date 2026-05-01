@@ -79,12 +79,10 @@ module.exports = {
           "sans-serif",
         ],
         display: [
-          "var(--font-sans)",
-          '"Plus Jakarta Sans"',
-          "-apple-system",
-          "BlinkMacSystemFont",
-          "Segoe UI",
-          "sans-serif",
+          "var(--font-display)",
+          '"Instrument Serif"',
+          "Georgia",
+          "serif",
         ],
         mono: [
           "var(--font-mono)",

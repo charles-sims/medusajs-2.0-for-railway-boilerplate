@@ -1,17 +1,17 @@
 import { ImageResponse } from "next/og"
 
 // CaliLean OG/Twitter card — shared generator.
-// Spec source: docs/brand/identity-brief.md §3 + §7 (Salt & Iron palette, Fraunces wordmark).
-// Used by app/opengraph-image.tsx and app/twitter-image.tsx.
+// Three-font system: Instrument Serif (display), Plus Jakarta Sans (body), JetBrains Mono (data).
 
 export const OG_SIZE = { width: 1200, height: 630 }
 export const OG_CONTENT_TYPE = "image/png"
 export const OG_ALT =
-  "CaliLean — Peptides, on the record. South Bay, California."
+  "Cali Lean — Peptides, plainly labeled. South Bay, California."
 
-const SALT = "#F4F2EC"
-const IRON = "#1F2326"
-const PACIFIC = "#3A5A6A"
+const BG = "#FFFFFF"
+const INK = "#111111"
+const PACIFIC = "#7090AB"
+const FOG = "#9CA3A8"
 
 async function loadGoogleFont(family: string, text: string) {
   const url = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(
@@ -19,7 +19,7 @@ async function loadGoogleFont(family: string, text: string) {
   )}&text=${encodeURIComponent(text)}`
   const css = await (await fetch(url)).text()
   const match = css.match(
-    /src:\s*url\((.+?)\)\s*format\('(?:opentype|truetype)'\)/
+    /src:\s*url\((.+?)\)\s*format\('(?:opentype|truetype|woff2)'\)/
   )
   if (!match) throw new Error(`Failed to parse font URL for ${family}`)
   const fontRes = await fetch(match[1])
@@ -28,20 +28,18 @@ async function loadGoogleFont(family: string, text: string) {
 }
 
 export async function renderOgImage() {
-  // Render text we'll display so Google returns a minimal subset.
-  const wordmarkText = "calilean"
-  const taglineText = "Peptides, on the record."
+  const displayText = "Peptides, plainly labeled."
   const locationText = "south bay · california"
   const subset = Array.from(
-    new Set((wordmarkText + taglineText + locationText).split(""))
+    new Set((displayText + locationText + "CaliLean").split(""))
   ).join("")
 
-  let fraunces: ArrayBuffer | null = null
-  let inter: ArrayBuffer | null = null
+  let instrumentSerif: ArrayBuffer | null = null
+  let plusJakarta: ArrayBuffer | null = null
   try {
-    ;[fraunces, inter] = await Promise.all([
-      loadGoogleFont("Fraunces:opsz,wght@9..144,400", subset),
-      loadGoogleFont("Inter:wght@400;500", subset),
+    ;[instrumentSerif, plusJakarta] = await Promise.all([
+      loadGoogleFont("Instrument+Serif", subset),
+      loadGoogleFont("Plus+Jakarta+Sans:wght@500", subset),
     ])
   } catch {
     // Fall through with null fonts; satori will use its default fallback.
@@ -53,17 +51,21 @@ export async function renderOgImage() {
     style: "normal"
     weight: 400 | 500
   }> = []
-  if (fraunces) {
+  if (instrumentSerif) {
     fonts.push({
-      name: "Fraunces",
-      data: fraunces,
+      name: "Instrument Serif",
+      data: instrumentSerif,
       style: "normal",
       weight: 400,
     })
   }
-  if (inter) {
-    fonts.push({ name: "Inter", data: inter, style: "normal", weight: 400 })
-    fonts.push({ name: "Inter", data: inter, style: "normal", weight: 500 })
+  if (plusJakarta) {
+    fonts.push({
+      name: "Plus Jakarta Sans",
+      data: plusJakarta,
+      style: "normal",
+      weight: 500,
+    })
   }
 
   return new ImageResponse(
@@ -74,11 +76,11 @@ export async function renderOgImage() {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          background: SALT,
-          color: IRON,
+          background: BG,
+          color: INK,
           padding: "80px 96px",
           position: "relative",
-          fontFamily: "Inter, sans-serif",
+          fontFamily: "'Plus Jakarta Sans', sans-serif",
         }}
       >
         <div
@@ -88,31 +90,30 @@ export async function renderOgImage() {
             alignItems: "center",
             justifyContent: "center",
             flex: 1,
-            paddingTop: "20px",
           }}
         >
           <div
             style={{
-              fontFamily: "Fraunces, serif",
-              fontSize: 192,
-              letterSpacing: "0.01em",
-              lineHeight: 1,
-              color: IRON,
+              fontFamily: "'Instrument Serif', serif",
+              fontSize: 80,
+              letterSpacing: "-0.01em",
+              lineHeight: 1.1,
+              color: INK,
             }}
           >
-            calilean
+            Peptides, plainly labeled.
           </div>
           <div
             style={{
-              fontSize: 36,
-              fontWeight: 400,
-              marginTop: 36,
-              color: IRON,
-              opacity: 0.78,
+              fontSize: 22,
+              fontWeight: 500,
+              marginTop: 24,
+              color: FOG,
               letterSpacing: "0.01em",
             }}
           >
-            Peptides, on the record.
+            Recovery, leanness, longevity. Research-grade, built in the South
+            Bay.
           </div>
         </div>
 
@@ -121,7 +122,7 @@ export async function renderOgImage() {
             position: "absolute",
             bottom: 56,
             right: 96,
-            fontSize: 18,
+            fontSize: 16,
             fontWeight: 500,
             letterSpacing: "0.16em",
             textTransform: "uppercase",
@@ -136,9 +137,9 @@ export async function renderOgImage() {
             position: "absolute",
             bottom: 56,
             left: 96,
-            width: 56,
+            width: 48,
             height: 2,
-            background: IRON,
+            background: PACIFIC,
             opacity: 0.6,
           }}
         />

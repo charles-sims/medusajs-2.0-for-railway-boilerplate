@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { getCustomer } from "@lib/data/customer"
-import { addProductReview } from "@lib/data/products"
+import { addProductReview } from "@lib/data/reviews"
 import { HttpTypes } from "@medusajs/types"
 import { Button, Input, Label, Textarea, toast, Toaster } from "@medusajs/ui"
 import { Star, StarSolid } from "@medusajs/icons"

@@ -1,6 +1,6 @@
 "use client"
 
-import { getProductReviews } from "@lib/data/products"
+import { getProductReviews } from "@lib/data/reviews"
 import { Star, StarSolid } from "@medusajs/icons"
 import { StoreProductReview } from "../../../../types/reviews"
 import { Button } from "@medusajs/ui"

@@ -32,7 +32,7 @@ const StoreTemplate = ({
             The lineup.
           </h1>
           <p className="text-calilean-fog mt-3">
-            Fifteen research-grade compounds. Every vial batch-tested.
+            Research-grade compounds. Every vial batch-tested.
           </p>
         </div>
 

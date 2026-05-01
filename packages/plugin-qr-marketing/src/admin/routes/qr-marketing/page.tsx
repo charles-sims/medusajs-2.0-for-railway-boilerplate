@@ -1,5 +1,5 @@
 import { defineRouteConfig } from "@medusajs/admin-sdk"
-import { Crosshair } from "@medusajs/icons"
+import { Target } from "@medusajs/icons"
 import {
   createDataTableColumnHelper,
   Container,
@@ -133,7 +133,7 @@ const QrMarketingPage = () => {
 
 export const config = defineRouteConfig({
   label: "QR Marketing",
-  icon: Crosshair,
+  icon: Target,
 })
 
 export default QrMarketingPage

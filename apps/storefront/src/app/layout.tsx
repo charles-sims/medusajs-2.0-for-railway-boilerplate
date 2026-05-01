@@ -83,14 +83,14 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       <head>
         <link
           rel="icon"
-          href="/favicon-light-32.png"
+          href="/favicon-dark-32.png"
           type="image/png"
           sizes="32x32"
           media="(prefers-color-scheme: light)"
         />
         <link
           rel="icon"
-          href="/favicon-dark-32.png"
+          href="/favicon-light-32.png"
           type="image/png"
           sizes="32x32"
           media="(prefers-color-scheme: dark)"

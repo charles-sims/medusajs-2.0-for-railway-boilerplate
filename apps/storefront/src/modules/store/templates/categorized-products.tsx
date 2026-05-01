@@ -32,7 +32,7 @@ const CATEGORIES: Category[] = [
     name: "Metabolic",
     description:
       "Multi-receptor agonists studied in metabolic pathway research.",
-    handles: ["retatrutide"],
+    handles: ["cl-3r"],
   },
 ]
 

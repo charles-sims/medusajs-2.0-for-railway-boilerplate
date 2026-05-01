@@ -116,8 +116,8 @@
     "category": "Repair"
   },
   {
-    "title": "GLP1-S",
-    "handle": "glp1-s",
+    "title": "CL-1S",
+    "handle": "cl-1s",
     "sku_code": "GL1",
     "description": "GLP-1 receptor agonist peptide for metabolic pathway and incretin signaling research. Lyophilized powder in sealed research-grade vial.",
     "thumbnail": "",
@@ -145,8 +145,8 @@
     "category": "Metabolic"
   },
   {
-    "title": "GLP2-T",
-    "handle": "glp2-t",
+    "title": "CL-2T",
+    "handle": "cl-2t",
     "sku_code": "GL2",
     "description": "Dual GIP/GLP-1 receptor agonist peptide for metabolic pathway research. Lyophilized powder in sealed research-grade vial.",
     "thumbnail": "",
@@ -174,11 +174,11 @@
     "category": "Metabolic"
   },
   {
-    "title": "GLP3-R",
-    "handle": "glp3-r",
+    "title": "CL-3R",
+    "handle": "cl-3r",
     "sku_code": "GL3",
     "description": "Triple agonist (GIP/GLP-1/glucagon receptor) peptide for metabolic pathway research. Lyophilized powder in sealed research-grade vial.",
-    "thumbnail": "/brand/products/retatrutide/pdp-primary.jpg",
+    "thumbnail": "/brand/products/cl-3r/pdp-primary.jpg",
     "metadata": {
       "batch": "543218",
       "report": "12232",
@@ -200,7 +200,7 @@
       }
     ],
     "price": "$179.00",
-    "image": "/brand/products/retatrutide/pdp-primary.jpg",
+    "image": "/brand/products/cl-3r/pdp-primary.jpg",
     "category": "Metabolic"
   },
   {

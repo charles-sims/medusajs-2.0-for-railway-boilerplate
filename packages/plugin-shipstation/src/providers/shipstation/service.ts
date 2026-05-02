@@ -271,8 +271,16 @@ class ShipStationProviderService extends AbstractFulfillmentProviderService {
       data: {
         ...(fulfillment.data as object || {}),
         label_id: label.label_id,
-        shipment_id: label.shipment_id
+        shipment_id: label.shipment_id,
+        tracking_number: label.tracking_number,
+        tracking_status: label.tracking_status,
+        label_url: label.label_download?.pdf || label.label_download?.href
       },
+      labels: [{
+        tracking_number: label.tracking_number,
+        tracking_url: "",
+        label_url: label.label_download?.pdf || label.label_download?.href
+      }],
     }
   }
 

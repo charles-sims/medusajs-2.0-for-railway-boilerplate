@@ -362,6 +362,14 @@ export async function updateSubscriptionData(
       subscription_period,
     },
   })
+
+  // Apply subscription discount
+  await sdk.client.fetch(\`/store/carts/\${cartId}/subscription-discount\`, {
+    method: "POST",
+    body: { action: "add" },
+    headers: await getAuthHeaders(),
+  })
+
   revalidateTag("cart")
 }
 
@@ -377,6 +385,13 @@ export async function removeSubscriptionData() {
       subscription_interval: null,
       subscription_period: null,
     },
+  })
+
+  // Remove subscription discount
+  await sdk.client.fetch(\`/store/carts/\${cartId}/subscription-discount\`, {
+    method: "POST",
+    body: { action: "remove" },
+    headers: await getAuthHeaders(),
   })
   
   revalidateTag("cart")

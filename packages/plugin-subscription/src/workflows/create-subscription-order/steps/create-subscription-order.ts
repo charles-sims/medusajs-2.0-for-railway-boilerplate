@@ -19,12 +19,20 @@ export type CreateSubscriptionOrderStepInput = {
 }
 
 function getOrderData (cart: CartWorkflowDTO) {
+  // We filter promos to only include the perpetual subscription discount
+  // and exclude one-time 'intro' offers for recurring shipments.
+  const perpetualPromos = ["SUBSCRIBE_SAVE_15"]
+  const activePromos = cart.promotions
+    ?.filter((p: any) => perpetualPromos.includes(p.code))
+    .map((p: any) => p.code) || []
+
   return {
     region_id: cart.region_id,
     customer_id: cart.customer_id,
     sales_channel_id: cart.sales_channel_id,
     email: cart.email,
     currency_code: cart.currency_code,
+    promo_codes: activePromos,
     shipping_address: cart.shipping_address ? {
       first_name: cart.shipping_address.first_name,
       last_name: cart.shipping_address.last_name,

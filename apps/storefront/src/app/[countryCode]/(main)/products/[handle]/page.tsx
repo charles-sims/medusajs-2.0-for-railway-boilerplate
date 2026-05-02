@@ -7,8 +7,9 @@ import { getBaseURL } from "@lib/util/env"
 import { getRegion, listRegions } from "@lib/data/regions"
 import { getProductByHandle, getProductsList } from "@lib/data/products"
 
+type Params = { countryCode: string; handle: string }
 type Props = {
-  params: { countryCode: string; handle: string }
+  params: Promise<Params>
 }
 
 export async function generateStaticParams() {
@@ -59,9 +60,9 @@ function buildProductDescription(product: {
   return raw.length > 160 ? `${raw.slice(0, 157)}…` : raw
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { handle } = params
-  const region = await getRegion(params.countryCode)
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const { handle, countryCode } = await props.params
+  const region = await getRegion(countryCode)
 
   if (!region) {
     notFound()
@@ -144,19 +145,20 @@ function buildProductJsonLd(
   }
 }
 
-export default async function ProductPage({ params }: Props) {
-  const region = await getRegion(params.countryCode)
+export default async function ProductPage(props: Props) {
+  const { countryCode, handle } = await props.params
+  const region = await getRegion(countryCode)
 
   if (!region) {
     notFound()
   }
 
-  const pricedProduct = await getProductByHandle(params.handle, region.id)
+  const pricedProduct = await getProductByHandle(handle, region.id)
   if (!pricedProduct) {
     notFound()
   }
 
-  const productJsonLd = buildProductJsonLd(pricedProduct, params.countryCode)
+  const productJsonLd = buildProductJsonLd(pricedProduct, countryCode)
   const base = getBaseURL().replace(/\/$/, "")
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -166,13 +168,13 @@ export default async function ProductPage({ params }: Props) {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: `${base}/${params.countryCode}`,
+        item: `${base}/${countryCode}`,
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Store",
-        item: `${base}/${params.countryCode}/store`,
+        item: `${base}/${countryCode}/store`,
       },
       { "@type": "ListItem", position: 3, name: pricedProduct.title },
     ],
@@ -185,7 +187,7 @@ export default async function ProductPage({ params }: Props) {
       <ProductTemplate
         product={pricedProduct}
         region={region}
-        countryCode={params.countryCode}
+        countryCode={countryCode}
       />
     </>
   )

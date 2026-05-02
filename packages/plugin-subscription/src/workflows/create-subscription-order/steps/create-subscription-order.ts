@@ -25,15 +25,41 @@ function getOrderData (cart: CartWorkflowDTO) {
     sales_channel_id: cart.sales_channel_id,
     email: cart.email,
     currency_code: cart.currency_code,
-    shipping_address: {
-      ...cart.shipping_address,
-      id: null
-    },
-    billing_address: {
-      ...cart.billing_address,
-      id: null
-    },
-    items: cart.items,
+    shipping_address: cart.shipping_address ? {
+      first_name: cart.shipping_address.first_name,
+      last_name: cart.shipping_address.last_name,
+      address_1: cart.shipping_address.address_1,
+      address_2: cart.shipping_address.address_2,
+      city: cart.shipping_address.city,
+      country_code: cart.shipping_address.country_code,
+      province: cart.shipping_address.province,
+      postal_code: cart.shipping_address.postal_code,
+      phone: cart.shipping_address.phone,
+      company: cart.shipping_address.company,
+      metadata: cart.shipping_address.metadata
+    } : undefined,
+    billing_address: cart.billing_address ? {
+      first_name: cart.billing_address.first_name,
+      last_name: cart.billing_address.last_name,
+      address_1: cart.billing_address.address_1,
+      address_2: cart.billing_address.address_2,
+      city: cart.billing_address.city,
+      country_code: cart.billing_address.country_code,
+      province: cart.billing_address.province,
+      postal_code: cart.billing_address.postal_code,
+      phone: cart.billing_address.phone,
+      company: cart.billing_address.company,
+      metadata: cart.billing_address.metadata
+    } : undefined,
+    items: cart.items?.map((item) => ({
+      title: item.title,
+      subtitle: item.subtitle,
+      thumbnail: item.thumbnail,
+      quantity: item.quantity,
+      variant_id: item.variant_id,
+      unit_price: item.unit_price,
+      metadata: item.metadata
+    })),
     shipping_methods: cart.shipping_methods?.map((method) => ({
       name: method.name,
       amount: method.amount,

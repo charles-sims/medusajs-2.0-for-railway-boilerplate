@@ -16,12 +16,6 @@ export default async function expireSubscriptionOrdersJob(
   let pagesCount = 0
 
   do {
-    const beginningToday = moment(new Date()).set({
-      second: 0,
-      minute: 0,
-      hour: 0,
-    })
-    .toDate()
     const endToday = moment(new Date()).set({
       second: 59,
       minute: 59,
@@ -32,7 +26,6 @@ export default async function expireSubscriptionOrdersJob(
     const [subscriptions, count] = await subscriptionModuleService
       .listAndCountSubscriptions({
         expiration_date: {
-          $gte: beginningToday,
           $lte: endToday
         },
         status: SubscriptionStatus.ACTIVE

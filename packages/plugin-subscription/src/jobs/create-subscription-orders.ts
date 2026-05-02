@@ -17,12 +17,6 @@ export default async function createSubscriptionOrdersJob(
   let pagesCount = 0
 
   do {
-    const beginningToday = moment(new Date()).set({
-      second: 0,
-      minute: 0,
-      hour: 0,
-    })
-    .toDate()
     const endToday = moment(new Date()).set({
       second: 59,
       minute: 59,
@@ -33,7 +27,6 @@ export default async function createSubscriptionOrdersJob(
     const [subscriptions, count] = await subscriptionModuleService
       .listAndCountSubscriptions({
         next_order_date: {
-          $gte: beginningToday,
           $lte: endToday
         },
         status: SubscriptionStatus.ACTIVE

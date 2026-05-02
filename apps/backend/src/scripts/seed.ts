@@ -4,57 +4,30 @@ import {
   Modules,
   ProductStatus,
 } from "@medusajs/framework/utils";
-import {
-  createApiKeysWorkflow,
-  createInventoryLevelsWorkflow,
-  createProductCategoriesWorkflow,
-  createProductsWorkflow,
-  createRegionsWorkflow,
-  createSalesChannelsWorkflow,
-  createShippingOptionsWorkflow,
-  createShippingProfilesWorkflow,
-  createStockLocationsWorkflow,
-  createTaxRegionsWorkflow,
-  linkSalesChannelsToApiKeyWorkflow,
-  linkSalesChannelsToStockLocationWorkflow,
-  updateStoresStep,
-  updateStoresWorkflow,
-} from "@medusajs/medusa/core-flows";
-import {
-  createWorkflow,
-  transform,
-  WorkflowResponse,
-} from "@medusajs/framework/workflows-sdk";
-
-const updateStoreCurrencies = createWorkflow(
-  "update-store-currencies",
-  (input: {
-    supported_currencies: { currency_code: string; is_default?: boolean }[];
-    store_id: string;
-  }) => {
-    const normalizedInput = transform({ input }, (data) => {
-      return {
-        selector: { id: data.input.store_id },
-        update: {
-          supported_currencies: data.input.supported_currencies.map(
-            (currency) => {
-              return {
-                currency_code: currency.currency_code,
-                is_default: currency.is_default ?? false,
-              };
-            }
-          ),
-        },
-      };
-    });
-
-    const stores = updateStoresStep(normalizedInput);
-
-    return new WorkflowResponse(stores);
-  }
-);
 
 export default async function seedDemoData({ container }: ExecArgs) {
+  // Dynamic import prevents ts-node from loading a second pnpm virtual-store
+  // instance of @medusajs/core-flows at module-eval time. Static top-level
+  // imports caused module-scope createWorkflow() calls (e.g. create-fulfillment-
+  // workflow) to re-run after Medusa had already registered them during boot,
+  // throwing "workflow already exists". A dynamic import at call time reuses
+  // the already-cached module from require.cache instead.
+  const {
+    createApiKeysWorkflow,
+    createInventoryLevelsWorkflow,
+    createProductCategoriesWorkflow,
+    createProductsWorkflow,
+    createRegionsWorkflow,
+    createSalesChannelsWorkflow,
+    createShippingOptionsWorkflow,
+    createShippingProfilesWorkflow,
+    createStockLocationsWorkflow,
+    createTaxRegionsWorkflow,
+    linkSalesChannelsToApiKeyWorkflow,
+    linkSalesChannelsToStockLocationWorkflow,
+    updateStoresWorkflow,
+  } = await import("@medusajs/medusa/core-flows")
+
   const logger = container.resolve(ContainerRegistrationKeys.LOGGER);
   const link = container.resolve(ContainerRegistrationKeys.LINK);
   const query = container.resolve(ContainerRegistrationKeys.QUERY);
@@ -86,19 +59,11 @@ export default async function seedDemoData({ container }: ExecArgs) {
     defaultSalesChannel = salesChannelResult;
   }
 
-  await updateStoreCurrencies(container).run({
-    input: {
-      store_id: store.id,
-      supported_currencies: [
-        {
-          currency_code: "eur",
-          is_default: true,
-        },
-        {
-          currency_code: "usd",
-        },
-      ],
-    },
+  await storeModuleService.updateStores(store.id, {
+    supported_currencies: [
+      { currency_code: "eur", is_default: true },
+      { currency_code: "usd", is_default: false },
+    ],
   });
 
   await updateStoresWorkflow(container).run({

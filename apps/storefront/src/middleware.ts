@@ -20,6 +20,9 @@ async function getRegionMap() {
   ) {
     // Fetch regions from Medusa. We can't use the JS client here because middleware is running on Edge and the client needs a Node environment.
     try {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 second timeout
+
       const response = await fetch(`${BACKEND_URL}/store/regions`, {
         headers: {
           "x-publishable-api-key": PUBLISHABLE_API_KEY!,
@@ -28,7 +31,10 @@ async function getRegionMap() {
           revalidate: 3600,
           tags: ["regions"],
         },
+        signal: controller.signal,
       })
+
+      clearTimeout(timeoutId)
 
       if (!response.ok) {
         throw new Error(`Failed to fetch regions: ${response.statusText}`)

@@ -365,6 +365,23 @@ export async function updateSubscriptionData(
   revalidateTag("cart")
 }
 
+export async function removeSubscriptionData() {
+  const cartId = await getCartId()
+  if (!cartId) {
+    throw new Error("No existing cart found when removing subscription data")
+  }
+
+  // Clear metadata in Medusa 2.0
+  await updateCart({
+    metadata: {
+      subscription_interval: null,
+      subscription_period: null,
+    },
+  })
+  
+  revalidateTag("cart")
+}
+
 export async function placeOrder() {
   const cartId = await getCartId()
   if (!cartId) {

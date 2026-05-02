@@ -26,7 +26,7 @@ type NotificationEmailOptions = Omit<
  * Service to handle email notifications using the Resend API.
  */
 export class ResendNotificationService extends AbstractNotificationProviderService {
-  static identifier = "RESEND_NOTIFICATION_SERVICE"
+  static identifier = "resend"
   protected config_: ResendServiceConfig
   protected logger_: Logger
   protected resend: Resend
@@ -41,6 +41,44 @@ export class ResendNotificationService extends AbstractNotificationProviderServi
     this.resend = new Resend(this.config_.apiKey)
   }
 
+  static validateOptions(options: Record<any, any>) {
+    if (!options.api_key) {
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        "Option `api_key` is required in the provider's options."
+      )
+    }
+    if (!options.from) {
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        "Option `from` is required in the provider's options."
+      )
+    }
+  }
+
+  protected getSubject(template: string, emailOptions: NotificationEmailOptions): string {
+    if (emailOptions.subject) {
+      return emailOptions.subject
+    }
+
+    switch (template) {
+      case 'invite-user':
+        return 'You have been invited'
+      case 'order-placed':
+        return 'Order Confirmation'
+      case 'password-reset':
+        return 'Password Reset'
+      case 'shipping-confirmation':
+        return 'Shipping Confirmation'
+      case 'refund-confirmation':
+        return 'Refund Confirmation'
+      case 'abandoned-cart':
+        return 'You left something in your cart'
+      default:
+        return 'New Notification'
+    }
+  }
+
   async send(
     notification: NotificationTypes.ProviderSendNotificationDTO
   ): Promise<NotificationTypes.ProviderSendNotificationResultsDTO> {
@@ -51,9 +89,6 @@ export class ResendNotificationService extends AbstractNotificationProviderServi
       throw new MedusaError(MedusaError.Types.INVALID_DATA, `SMS notification not supported`)
     }
 
-    // generateEmailTemplate returns an HTML string — JSX creation and
-    // renderToStaticMarkup happen in the same module so they always use
-    // the same copy of React, avoiding dual-React mismatches.
     let html: string
     try {
       html = generateEmailTemplate(notification.template, notification.data)
@@ -71,7 +106,7 @@ export class ResendNotificationService extends AbstractNotificationProviderServi
       to: notification.to,
       from: notification.from?.trim() ?? this.config_.from,
       html,
-      subject: emailOptions.subject ?? 'You have a new notification',
+      subject: this.getSubject(notification.template, emailOptions),
       headers: emailOptions.headers,
       replyTo: emailOptions.replyTo,
       cc: emailOptions.cc,
@@ -101,7 +136,7 @@ export class ResendNotificationService extends AbstractNotificationProviderServi
       this.logger_.log(
         `Successfully sent "${notification.template}" email to ${notification.to} via Resend (id: ${data?.id})`
       )
-      return {}
+      return { id: data?.id }
     } catch (error) {
       if (error instanceof MedusaError) throw error
       throw new MedusaError(

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { sdk } from "@lib/config"
+import { setGoogleAuthToken } from "@lib/data/customer"
 
 export default function GoogleCallbackPage() {
   const [error, setError] = useState<string | null>(null)
@@ -17,8 +18,11 @@ export default function GoogleCallbackPage() {
         const token = await sdk.auth.callback("customer", "google", queryParams)
 
         if (typeof token === "string") {
-          // Authentication successful, redirect to account
-          router.push("/account")
+          // Persist JWT as httpOnly cookie so middleware recognises the session
+          await setGoogleAuthToken(token)
+          const dest = sessionStorage.getItem("_cl_google_redirect") || "/"
+          sessionStorage.removeItem("_cl_google_redirect")
+          router.replace(dest)
           return
         }
 

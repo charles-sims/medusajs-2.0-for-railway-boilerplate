@@ -64,7 +64,7 @@ export async function signup(_currentState: unknown, formData: FormData) {
     const redirectTo = formData.get("redirect") as string
     // Only allow relative paths to prevent open redirect
     const safePath = redirectTo?.startsWith("/") ? redirectTo : "/"
-    redirect(safePath)
+    return { success: true as const, firstName: customerForm.first_name, redirectTo: safePath }
   } catch (error: any) {
     if (isRedirectError(error)) throw error
     const msg = error?.response?.data?.message || error?.message || ""
@@ -76,6 +76,11 @@ export async function signup(_currentState: unknown, formData: FormData) {
     }
     return "Something went wrong. Please try again."
   }
+}
+
+export async function setGoogleAuthToken(token: string) {
+  await setAuthToken(token)
+  revalidateTag("customer")
 }
 
 export async function login(_currentState: unknown, formData: FormData) {

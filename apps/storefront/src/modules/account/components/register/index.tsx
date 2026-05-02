@@ -1,6 +1,7 @@
 "use client"
 
-import { useActionState } from "react"
+import { useActionState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 
 import Input from "@modules/common/components/input"
 import { LOGIN_VIEW } from "@modules/account/templates/login-template"
@@ -16,6 +17,15 @@ type Props = {
 
 const Register = ({ setCurrentView }: Props) => {
   const [message, formAction] = useActionState(signup, null)
+  const router = useRouter()
+
+  const isSuccess =
+    message && typeof message === "object" && message.success === true
+
+  useEffect(() => {
+    if (!isSuccess) return
+    router.replace((message as { redirectTo: string }).redirectTo)
+  }, [isSuccess, message, router])
 
   return (
     <div
@@ -68,7 +78,10 @@ const Register = ({ setCurrentView }: Props) => {
             data-testid="password-input"
           />
         </div>
-        <ErrorMessage error={message} data-testid="register-error" />
+        <ErrorMessage
+          error={typeof message === "string" ? message : null}
+          data-testid="register-error"
+        />
         <span className="text-center text-ui-fg-base text-small-regular mt-6">
           By creating an account, you agree to CaliLean&apos;s{" "}
           <LocalizedClientLink

@@ -1,8 +1,8 @@
 "use client"
 
-import { Suspense, useState, useActionState } from "react"
+import { Suspense, useState, useActionState, useEffect } from "react"
 import { useFormStatus } from "react-dom"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams, useRouter } from "next/navigation"
 import CaliLeanLogo from "@modules/calilean/icons/calilean-logo"
 import ParticleSwarm from "@modules/common/components/particle-swarm"
 import { login, signup, requestPasswordReset } from "@lib/data/customer"
@@ -230,6 +230,7 @@ function SignInForm({
       </div>
       <GoogleAuthButton
         action="login"
+        redirectTo={redirectTo || "/"}
         className="bg-white border-calilean-sand hover:bg-calilean-sand/50"
       />
       <p className="text-calilean-fog text-xs mt-6">
@@ -327,6 +328,59 @@ function RegisterForm({
 }) {
   const [ageConfirmed, setAgeConfirmed] = useState(false)
   const [message, formAction] = useActionState(signup, null)
+  const router = useRouter()
+
+  const isSuccess =
+    message && typeof message === "object" && message.success === true
+
+  useEffect(() => {
+    if (!isSuccess) return
+    const timer = setTimeout(
+      () => router.replace((message as { redirectTo: string }).redirectTo),
+      2500
+    )
+    return () => clearTimeout(timer)
+  }, [isSuccess, message, router])
+
+  if (isSuccess) {
+    const { firstName, redirectTo: dest } = message as {
+      firstName: string
+      redirectTo: string
+    }
+    return (
+      <div className="flex flex-col items-center gap-4 py-4 text-center">
+        <div className="w-12 h-12 rounded-full bg-calilean-pacific/10 flex items-center justify-center">
+          <svg
+            className="w-6 h-6 text-calilean-pacific"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+        </div>
+        <div>
+          <p className="text-calilean-ink text-base font-semibold mb-1">
+            Welcome, {firstName}!
+          </p>
+          <p className="text-calilean-fog text-xs leading-relaxed">
+            Your account is ready. Signing you in now…
+          </p>
+        </div>
+        <button
+          onClick={() => router.replace(dest)}
+          className="w-full bg-calilean-pacific text-white rounded-btn py-3 text-sm font-medium hover:bg-calilean-pacific/90 transition-colors mt-2"
+        >
+          Continue
+        </button>
+      </div>
+    )
+  }
 
   return (
     <form action={formAction} className="flex flex-col gap-3">
@@ -411,6 +465,7 @@ function RegisterForm({
       </div>
       <GoogleAuthButton
         action="register"
+        redirectTo={redirectTo || "/"}
         className="bg-white border-calilean-sand hover:bg-calilean-sand/50"
       />
       <p className="text-calilean-fog text-xs mt-6">

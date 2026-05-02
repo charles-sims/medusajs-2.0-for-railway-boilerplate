@@ -5,11 +5,20 @@ import { sdk } from "@lib/config"
 type Props = {
   action?: "login" | "register"
   className?: string
+  redirectTo?: string
 }
 
-const GoogleAuthButton = ({ action = "login", className = "" }: Props) => {
+const GoogleAuthButton = ({
+  action = "login",
+  className = "",
+  redirectTo,
+}: Props) => {
   const handleGoogleAuth = async () => {
     try {
+      // Stash the intended destination so the callback page can restore it
+      if (redirectTo) {
+        sessionStorage.setItem("_cl_google_redirect", redirectTo)
+      }
       const result = await sdk.auth.login("customer", "google", {})
       if (typeof result === "object" && result.location) {
         window.location.href = result.location
@@ -17,7 +26,7 @@ const GoogleAuthButton = ({ action = "login", className = "" }: Props) => {
       }
       if (typeof result === "string") {
         // Already authenticated, refresh
-        window.location.href = "/"
+        window.location.href = redirectTo || "/"
         return
       }
     } catch (error) {

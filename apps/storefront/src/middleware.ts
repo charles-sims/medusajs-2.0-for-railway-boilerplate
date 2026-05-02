@@ -115,6 +115,8 @@ export async function middleware(request: NextRequest) {
   const isPublicRoute =
     pathname === "/gate" ||
     pathname.startsWith("/gate/") ||
+    pathname === "/age-gate" ||
+    pathname.startsWith("/age-gate/") ||
     pathname === "/reset-password" ||
     pathname.startsWith("/reset-password/") ||
     pathname.startsWith("/go/") ||
@@ -138,7 +140,19 @@ export async function middleware(request: NextRequest) {
         pathname.startsWith("/checkout")
 
       if (guestCookie?.value && !isCheckoutRoute) {
-        // Allow guest browsing — fall through to region detection below
+        // Guest browsing allowed — but require age verification first.
+        // Authenticated users verified age at account creation; guests need
+        // a separate lightweight check via the /age-gate page.
+        const ageOk = request.cookies.get("_cl_age_ok")
+        if (!ageOk?.value) {
+          const ageGateUrl = new URL("/age-gate", request.url)
+          const returnTo = request.nextUrl.pathname + request.nextUrl.search
+          if (returnTo && returnTo !== "/") {
+            ageGateUrl.searchParams.set("redirect", returnTo)
+          }
+          return NextResponse.redirect(ageGateUrl)
+        }
+        // Age verified — fall through to region detection below
       } else {
         const gateUrl = new URL("/gate", request.url)
         // Preserve the original path + query (including UTM params) so the
@@ -153,6 +167,16 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(gateUrl)
       }
     }
+  }
+
+  // If on age-gate page and already verified, skip ahead
+  if (pathname === "/age-gate" || pathname.startsWith("/age-gate/")) {
+    const ageOk = request.cookies.get("_cl_age_ok")
+    if (ageOk?.value) {
+      const redirectTo = request.nextUrl.searchParams.get("redirect") || "/"
+      return NextResponse.redirect(new URL(redirectTo, request.url))
+    }
+    return NextResponse.next()
   }
 
   // If on gate page and already authenticated, redirect to intended destination

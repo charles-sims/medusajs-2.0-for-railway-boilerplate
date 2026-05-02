@@ -7,13 +7,12 @@ import {
   useDataTable,
   Heading,
   StatusBadge,
+  Text,
   Toaster,
   DataTablePaginationState,
   Button,
-  Text,
 } from "@medusajs/ui"
-import { useState } from "react"
-import { useQuery } from "@tanstack/react-query"
+import { useState, useEffect, useCallback } from "react"
 import { sdk } from "../../lib/sdk"
 
 type QrCampaign = {
@@ -85,22 +84,24 @@ const columns = [
 ]
 
 const PAGE_SIZE = 20
-const QR_CAMPAIGNS_QUERY_KEY = "qr-campaigns"
 
 const QrMarketingPage = () => {
   const [pagination, setPagination] = useState<DataTablePaginationState>({
     pageSize: PAGE_SIZE,
     pageIndex: 0,
   })
+  const [data, setData] = useState<{
+    qr_campaigns: QrCampaign[]
+    count: number
+  } | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: [
-      QR_CAMPAIGNS_QUERY_KEY,
-      pagination.pageIndex,
-      pagination.pageSize,
-    ],
-    queryFn: () =>
-      sdk.client.fetch<{ qr_campaigns: QrCampaign[]; count: number }>(
+  const fetchCampaigns = useCallback(() => {
+    setIsLoading(true)
+    setError(null)
+    sdk.client
+      .fetch<{ qr_campaigns: QrCampaign[]; count: number }>(
         "/admin/qr-campaigns",
         {
           query: {
@@ -109,8 +110,20 @@ const QrMarketingPage = () => {
             order: "-created_at",
           },
         }
-      ),
-  })
+      )
+      .then((res) => {
+        setData(res)
+        setIsLoading(false)
+      })
+      .catch((err) => {
+        setError(err instanceof Error ? err.message : "Failed to load campaigns")
+        setIsLoading(false)
+      })
+  }, [pagination])
+
+  useEffect(() => {
+    fetchCampaigns()
+  }, [fetchCampaigns])
 
   const table = useDataTable({
     columns,
@@ -128,10 +141,7 @@ const QrMarketingPage = () => {
     return (
       <Container>
         <Heading className="mb-2">QR Campaigns</Heading>
-        <Text className="text-ui-fg-error">
-          Failed to load campaigns:{" "}
-          {error instanceof Error ? error.message : "Unknown error"}
-        </Text>
+        <Text className="text-ui-fg-error">{error}</Text>
       </Container>
     )
   }

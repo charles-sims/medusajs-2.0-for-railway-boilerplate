@@ -8,7 +8,7 @@ import {
   toast,
   Toaster,
 } from "@medusajs/ui"
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { sdk } from "../../../lib/sdk"
 
@@ -35,61 +35,83 @@ type DetailResponse = {
   qr_url: string
 }
 
-const QR_CAMPAIGN_QUERY_KEY = "qr-campaign-detail"
-
 const QrCampaignDetailPage = () => {
   const { id } = useParams<{ id: string }>()
-  const queryClient = useQueryClient()
+  const [data, setData] = useState<DetailResponse | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [togglingActive, setTogglingActive] = useState(false)
+  const [togglingGuest, setTogglingGuest] = useState(false)
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: [QR_CAMPAIGN_QUERY_KEY, id],
-    queryFn: () =>
-      sdk.client.fetch<DetailResponse>(`/admin/qr-campaigns/${id}`),
-  })
+  const fetchCampaign = () => {
+    setIsLoading(true)
+    setError(null)
+    sdk.client
+      .fetch<DetailResponse>(`/admin/qr-campaigns/${id}`)
+      .then((res) => {
+        setData(res)
+        setIsLoading(false)
+      })
+      .catch((err) => {
+        setError(
+          err instanceof Error ? err.message : "Failed to load campaign"
+        )
+        setIsLoading(false)
+      })
+  }
 
-  const toggleActive = useMutation({
-    mutationFn: (newStatus: boolean) =>
-      sdk.client.fetch<{ qr_campaign: QrCampaign }>(
+  useEffect(() => {
+    fetchCampaign()
+  }, [id])
+
+  const handleToggleActive = async () => {
+    if (!data) return
+    setTogglingActive(true)
+    try {
+      const newStatus = !data.qr_campaign.is_active
+      const res = await sdk.client.fetch<{ qr_campaign: QrCampaign }>(
         `/admin/qr-campaigns/${id}`,
         { method: "POST", body: { is_active: newStatus } }
-      ),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QR_CAMPAIGN_QUERY_KEY, id] })
-      toast.success(
-        data?.qr_campaign.is_active
-          ? "Campaign deactivated"
-          : "Campaign activated"
       )
-    },
-    onError: () => toast.error("Failed to update status"),
-  })
+      setData({ ...data, qr_campaign: res.qr_campaign })
+      toast.success(newStatus ? "Campaign activated" : "Campaign deactivated")
+    } catch {
+      toast.error("Failed to update status")
+    } finally {
+      setTogglingActive(false)
+    }
+  }
 
-  const toggleGuestAccess = useMutation({
-    mutationFn: (enabling: boolean) =>
-      sdk.client.fetch<{ qr_campaign: QrCampaign }>(
+  const handleToggleGuestAccess = async (enabling: boolean) => {
+    if (!data) return
+    setTogglingGuest(true)
+    try {
+      const res = await sdk.client.fetch<{ qr_campaign: QrCampaign }>(
         `/admin/qr-campaigns/${id}`,
         { method: "POST", body: { enable_guest_access: enabling } }
-      ),
-    onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: [QR_CAMPAIGN_QUERY_KEY, id] })
-      toast.success(
-        res.qr_campaign.guest_key
-          ? "Guest access enabled"
-          : "Guest access disabled"
       )
-    },
-    onError: () => toast.error("Failed to update guest access"),
-  })
+      setData({ ...data, qr_campaign: res.qr_campaign })
+      toast.success(
+        enabling ? "Guest access enabled" : "Guest access disabled"
+      )
+    } catch {
+      toast.error("Failed to update guest access")
+    } finally {
+      setTogglingGuest(false)
+    }
+  }
 
-  const deleteCampaign = useMutation({
-    mutationFn: () =>
-      sdk.client.fetch(`/admin/qr-campaigns/${id}`, { method: "DELETE" }),
-    onSuccess: () => {
+  const handleDelete = async () => {
+    try {
+      await sdk.client.fetch(`/admin/qr-campaigns/${id}`, {
+        method: "DELETE",
+      })
       toast.success("Campaign deleted")
       window.location.href = "/app/qr-marketing"
-    },
-    onError: () => toast.error("Failed to delete campaign"),
-  })
+    } catch {
+      toast.error("Failed to delete campaign")
+    }
+  }
 
   const handleDownloadQR = () => {
     if (!data?.qr_data_url) return
@@ -116,7 +138,7 @@ const QrCampaignDetailPage = () => {
         </Text>
         {error && (
           <Text size="small" className="text-ui-fg-error mt-2">
-            {error instanceof Error ? error.message : "Unknown error"}
+            {error}
           </Text>
         )}
         <Button
@@ -143,17 +165,12 @@ const QrCampaignDetailPage = () => {
             <Button
               size="small"
               variant="secondary"
-              onClick={() => toggleActive.mutate(!c.is_active)}
-              isLoading={toggleActive.isPending}
+              onClick={handleToggleActive}
+              isLoading={togglingActive}
             >
               {c.is_active ? "Deactivate" : "Activate"}
             </Button>
-            <Button
-              size="small"
-              variant="danger"
-              onClick={() => deleteCampaign.mutate()}
-              isLoading={deleteCampaign.isPending}
-            >
+            <Button size="small" variant="danger" onClick={handleDelete}>
               Delete
             </Button>
           </div>
@@ -222,8 +239,8 @@ const QrCampaignDetailPage = () => {
           <Heading level="h2">Guest Access</Heading>
           <Switch
             checked={!!c.guest_key}
-            onCheckedChange={(checked) => toggleGuestAccess.mutate(checked)}
-            disabled={toggleGuestAccess.isPending}
+            onCheckedChange={handleToggleGuestAccess}
+            disabled={togglingGuest}
           />
         </div>
         <Text size="small" className="text-ui-fg-subtle">

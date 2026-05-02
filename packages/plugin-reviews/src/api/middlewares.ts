@@ -16,7 +16,9 @@ export default defineMiddlewares({
       matcher: "/store/reviews",
       method: ["POST"],
       middlewares: [
-        authenticate("customer", ["session", "bearer"]),
+        authenticate("customer", ["session", "bearer"], {
+          allowUnregistered: true,
+        }),
         validateAndTransformBody(PostStoreReviewSchema),
       ],
     },

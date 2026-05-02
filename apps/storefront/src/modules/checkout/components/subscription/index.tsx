@@ -27,6 +27,10 @@ const SubscriptionForm = ({ cart }: { cart: any }) => {
   const hasData =
     cart?.metadata?.subscription_interval && cart?.metadata?.subscription_period
 
+  // Address must be filled before this step becomes reachable
+  const addressReady =
+    !!cart?.shipping_address?.address_1 && !!cart?.email
+
   const createQueryString = useCallback(
     (name: string, value: string) => {
       const params = new URLSearchParams(searchParams)
@@ -64,14 +68,15 @@ const SubscriptionForm = ({ cart }: { cart: any }) => {
           className={clx(
             "flex flex-row text-3xl-regular gap-x-2 items-baseline",
             {
-              "opacity-50 pointer-events-none select-none": !isOpen,
+              "opacity-50 pointer-events-none select-none":
+                !isOpen && !addressReady,
             }
           )}
         >
           Subscription
           {!isOpen && hasData && <CheckCircleSolid />}
         </Heading>
-        {!isOpen && hasData && (
+        {!isOpen && addressReady && (
           <Text>
             <button
               onClick={handleEdit}

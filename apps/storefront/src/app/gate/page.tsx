@@ -5,6 +5,7 @@ import { useFormStatus } from "react-dom"
 import { useSearchParams } from "next/navigation"
 import CaliLeanLogo from "@modules/calilean/icons/calilean-logo"
 import { login, signup, requestPasswordReset } from "@lib/data/customer"
+import GoogleAuthButton from "@modules/account/components/google-auth-button"
 
 type GateView = "sign-in" | "register" | "forgot-password"
 
@@ -264,6 +265,17 @@ function SignInForm({
         </button>
       </div>
       <SubmitButton>Sign in</SubmitButton>
+      <div className="flex items-center w-full my-4">
+        <div className="flex-1 border-t border-calilean-fog/20" />
+        <span className="px-3 text-[10px] text-calilean-fog/40 uppercase tracking-widest">
+          or
+        </span>
+        <div className="flex-1 border-t border-calilean-fog/20" />
+      </div>
+      <GoogleAuthButton
+        action="login"
+        className="bg-white border-calilean-sand hover:bg-calilean-sand/50"
+      />
       <p className="text-calilean-fog text-xs mt-6">
         New here?{" "}
         <button
@@ -434,6 +446,17 @@ function RegisterForm({
         <p className="text-calilean-alert text-xs">{message}</p>
       )}
       <AgeSubmitButton disabled={!ageConfirmed}>Create account</AgeSubmitButton>
+      <div className="flex items-center w-full my-4">
+        <div className="flex-1 border-t border-calilean-fog/20" />
+        <span className="px-3 text-[10px] text-calilean-fog/40 uppercase tracking-widest">
+          or
+        </span>
+        <div className="flex-1 border-t border-calilean-fog/20" />
+      </div>
+      <GoogleAuthButton
+        action="register"
+        className="bg-white border-calilean-sand hover:bg-calilean-sand/50"
+      />
       <p className="text-calilean-fog text-xs mt-6">
         Already have an account?{" "}
         <button

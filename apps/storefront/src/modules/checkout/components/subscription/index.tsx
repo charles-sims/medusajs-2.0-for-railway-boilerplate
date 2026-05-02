@@ -17,7 +17,7 @@ const SubscriptionForm = ({ cart }: { cart: any }) => {
     (cart?.metadata?.subscription_interval as string) || "monthly"
   )
   const [period, setPeriod] = useState(
-    Number(cart?.metadata?.subscription_period) || 3
+    Number(cart?.metadata?.subscription_period) || (interval === "monthly" ? 3 : 1)
   )
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -40,6 +40,13 @@ const SubscriptionForm = ({ cart }: { cart: any }) => {
       setPurchaseType("one-time")
     }
   }, [cart])
+
+  // Set default period when interval changes IF we are just setting it up
+  useEffect(() => {
+    if (!cart?.metadata?.subscription_interval) {
+      setPeriod(interval === "monthly" ? 3 : 1)
+    }
+  }, [interval, cart?.metadata?.subscription_interval])
 
   const createQueryString = useCallback(
     (name: string, value: string) => {

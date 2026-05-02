@@ -8,6 +8,7 @@ import ErrorMessage from "@modules/checkout/components/error-message"
 import { SubmitButton } from "@modules/checkout/components/submit-button"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { signup } from "@lib/data/customer"
+import GoogleAuthButton from "@modules/account/components/google-auth-button"
 
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
@@ -89,6 +90,13 @@ const Register = ({ setCurrentView }: Props) => {
           Join
         </SubmitButton>
       </form>
+      {/* Google OAuth divider and button */}
+      <div className="flex items-center w-full my-6">
+        <div className="flex-1 border-t border-ui-border-base" />
+        <span className="px-4 text-small-regular text-ui-fg-muted">or</span>
+        <div className="flex-1 border-t border-ui-border-base" />
+      </div>
+      <GoogleAuthButton action="register" />
       <span className="text-center text-ui-fg-base text-small-regular mt-6">
         Already a member?{" "}
         <button

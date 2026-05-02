@@ -57,7 +57,7 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals, cart }) => {
         {cart?.promotions?.map((promo: any) => (
           <div key={promo.id} className="flex items-center justify-between">
             <span className="flex items-center gap-x-1 italic">
-              {promo.code === "SUBSCRIBE_SAVE_15" ? "Subscription Savings (15%)" : \`Promo: \${promo.code}\`}
+              {promo.code === "SUBSCRIBE_SAVE_15" ? "Subscription Savings (15%)" : `Promo: ${promo.code}`}
             </span>
             <span
               className="text-calilean-pacific font-medium"

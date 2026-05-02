@@ -12,13 +12,19 @@ import { createOrderWorkflow } from "@medusajs/medusa/core-flows"
 import { SubscriptionData } from "../../../modules/subscription/types"
 import { SUBSCRIPTION_MODULE } from "../../../modules/subscription"
 
+type CartWithPromotions = CartWorkflowDTO & {
+  promotions?: {
+    code?: string | null
+  }[]
+}
+
 export type CreateSubscriptionOrderStepInput = {
   subscription: SubscriptionData
   cart: CartWorkflowDTO
   payment_collection: PaymentCollectionDTO
 }
 
-function getOrderData (cart: CartWorkflowDTO) {
+function getOrderData (cart: CartWithPromotions) {
   // We filter promos to only include the perpetual subscription discount
   // and exclude one-time 'intro' offers for recurring shipments.
   const perpetualPromos = ["SUBSCRIBE_SAVE_15"]

@@ -364,7 +364,7 @@ export async function updateSubscriptionData(
   })
 
   // Apply subscription discount
-  await sdk.client.fetch(\`/store/carts/\${cartId}/subscription-discount\`, {
+  await sdk.client.fetch(`/store/carts/${cartId}/subscription-discount`, {
     method: "POST",
     body: { action: "add" },
     headers: await getAuthHeaders(),
@@ -388,7 +388,7 @@ export async function removeSubscriptionData() {
   })
 
   // Remove subscription discount
-  await sdk.client.fetch(\`/store/carts/\${cartId}/subscription-discount\`, {
+  await sdk.client.fetch(`/store/carts/${cartId}/subscription-discount`, {
     method: "POST",
     body: { action: "remove" },
     headers: await getAuthHeaders(),

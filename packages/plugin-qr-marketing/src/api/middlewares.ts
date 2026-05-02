@@ -34,20 +34,27 @@ export const PostQrCampaignUpdateSchema = z.object({
 })
 export type PostQrCampaignUpdateSchemaType = z.infer<typeof PostQrCampaignUpdateSchema>
 
+const validatePostQrCampaignBody = validateAndTransformBody(
+  PostQrCampaignSchema as any
+)
+const validatePostQrCampaignUpdateBody = validateAndTransformBody(
+  PostQrCampaignUpdateSchema as any
+)
+
 export default defineMiddlewares({
   routes: [
     {
       matcher: "/admin/qr-campaigns",
       method: ["POST"],
       middlewares: [
-        validateAndTransformBody(PostQrCampaignSchema),
+        validatePostQrCampaignBody,
       ],
     },
     {
       matcher: "/admin/qr-campaigns/:id",
       method: ["POST"],
       middlewares: [
-        validateAndTransformBody(PostQrCampaignUpdateSchema),
+        validatePostQrCampaignUpdateBody,
       ],
     },
   ],

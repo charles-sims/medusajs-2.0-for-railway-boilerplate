@@ -31,6 +31,7 @@ const createSubscriptionOrderWorkflow = createWorkflow(
         "cart.items.*",
         "cart.items.tax_lines.*",
         "cart.items.adjustments.*",
+        "cart.promotions.*",
         "cart.shipping_address.*",
         "cart.billing_address.*",
         "cart.shipping_methods.*",

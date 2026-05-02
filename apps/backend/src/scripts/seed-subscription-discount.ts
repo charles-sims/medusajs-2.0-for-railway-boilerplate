@@ -24,6 +24,7 @@ export default async function seedSubscriptionDiscount({ container }: ExecArgs) 
     {
       code: SUBSCRIPTION_PROMOTION_CODE,
       type: PromotionType.STANDARD,
+      status: "active",
       application_method: {
         type: "percentage",
         target_type: "items",

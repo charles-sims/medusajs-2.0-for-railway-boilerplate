@@ -22,7 +22,7 @@ cacheDirectories = [
   "packages/plugin-preorder/.medusa",
   "packages/plugin-shipstation/.medusa",
   "packages/plugin-subscription/.medusa",
-  "packages/plugin-qr-marketing/.medusa",
+  # "packages/plugin-qr-marketing/.medusa", -- removed to force rebuild with new migration
 ]
 
 [start]

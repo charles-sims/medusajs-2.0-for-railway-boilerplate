@@ -13,6 +13,7 @@ import ProductPrice from "../product-price"
 import QuantitySelector from "../quantity-selector"
 import StackAndSave from "../stack-and-save"
 import { addToCart } from "@lib/data/cart"
+import { sdk } from "@lib/config"
 import { HttpTypes } from "@medusajs/types"
 
 type ProductActionsProps = {
@@ -75,8 +76,30 @@ export default function ProductActions({
     })
   }, [product.variants, options])
 
-  // Get variant prices for dynamic Stack and Save tiers
-  const variantPrices = (selectedVariant as any)?.prices
+  // Fetch variant prices from custom API for Stack and Save tiers
+  const [variantPricesMap, setVariantPricesMap] = useState<
+    Record<string, any[]>
+  >({})
+
+  useEffect(() => {
+    if (!product.id) return
+    sdk.client
+      .fetch<{ variants: { id: string; prices: any[] }[] }>(
+        `/store/products/${product.id}/prices`
+      )
+      .then(({ variants: vp }) => {
+        const map: Record<string, any[]> = {}
+        for (const v of vp) {
+          map[v.id] = v.prices
+        }
+        setVariantPricesMap(map)
+      })
+      .catch(() => {})
+  }, [product.id])
+
+  const variantPrices = selectedVariant
+    ? variantPricesMap[selectedVariant.id]
+    : undefined
 
   // check if the selected variant is in stock
   const inStock = useMemo(() => {
@@ -147,7 +170,10 @@ export default function ProductActions({
           disabled={!!disabled || isAdding}
         />
 
-        <StackAndSave quantity={cartQuantity + quantity} prices={variantPrices} />
+        <StackAndSave
+          quantity={cartQuantity + quantity}
+          prices={variantPrices}
+        />
 
         <Button
           onClick={handleAddToCart}

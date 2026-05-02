@@ -1,6 +1,7 @@
 "use client"
 
 import { Button, Heading } from "@medusajs/ui"
+import { useEffect, useState } from "react"
 
 import CartTotals from "@modules/common/components/cart-totals"
 import Divider from "@modules/common/components/divider"
@@ -8,6 +9,7 @@ import RUODisclaimer from "@modules/common/components/ruo-disclaimer"
 import DiscountCode from "@modules/checkout/components/discount-code"
 import StackAndSave from "@modules/products/components/stack-and-save"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { sdk } from "@lib/config"
 import { HttpTypes } from "@medusajs/types"
 
 type SummaryProps = {
@@ -28,16 +30,27 @@ function getCheckoutStep(cart: HttpTypes.StoreCart) {
 
 const Summary = ({ cart }: SummaryProps) => {
   const step = getCheckoutStep(cart)
-  const cartQuantity = cart.items?.reduce(
-    (sum, item) => sum + (item.quantity || 0),
-    0
-  ) ?? 0
+  const cartQuantity =
+    cart.items?.reduce((sum, item) => sum + (item.quantity || 0), 0) ?? 0
 
-  // Extract variant prices (with quantity tiers) from the first cart item
-  const firstVariant = cart.items?.[0]?.variant as any
-  const variantPrices = firstVariant?.prices ?? firstVariant?.product?.variants?.find(
-    (v: any) => v.id === cart.items?.[0]?.variant_id
-  )?.prices
+  // Fetch variant prices from custom API for Stack and Save tiers
+  const [variantPrices, setVariantPrices] = useState<any[] | undefined>()
+  const firstItem = cart.items?.[0]
+  const productId = firstItem?.product_id
+  const variantId = firstItem?.variant_id
+
+  useEffect(() => {
+    if (!productId) return
+    sdk.client
+      .fetch<{ variants: { id: string; prices: any[] }[] }>(
+        `/store/products/${productId}/prices`
+      )
+      .then(({ variants }) => {
+        const match = variants.find((v) => v.id === variantId)
+        setVariantPrices(match?.prices)
+      })
+      .catch(() => {})
+  }, [productId, variantId])
 
   return (
     <div className="flex flex-col gap-y-4">

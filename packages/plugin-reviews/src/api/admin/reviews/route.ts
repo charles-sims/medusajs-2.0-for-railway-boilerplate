@@ -1,8 +1,10 @@
 import {
+  AuthenticatedMedusaRequest,
   MedusaRequest,
   MedusaResponse,
 } from "@medusajs/framework/http"
 import { createFindParams } from "@medusajs/medusa/api/utils/validators"
+import { createReviewWorkflow } from "../../../workflows/create-review"
 
 export const GetAdminReviewsSchema = createFindParams()
 
@@ -30,4 +32,15 @@ export const GET = async (
     limit: take,
     offset: skip,
   })
+}
+
+export const POST = async (
+  req: AuthenticatedMedusaRequest,
+  res: MedusaResponse
+) => {
+  const { result } = await createReviewWorkflow(req.scope).run({
+    input: req.body as any,
+  })
+
+  res.json(result)
 }

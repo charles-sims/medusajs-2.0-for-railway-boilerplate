@@ -7,26 +7,36 @@ import { QR_MARKETING_MODULE } from "../../../modules/qr-marketing"
 import QrMarketingModuleService from "../../../modules/qr-marketing/service"
 import { PostQrCampaignSchemaType } from "../../middlewares"
 
+const QR_FIELDS = [
+  "id", "code", "name", "destination_url",
+  "utm_source", "utm_medium", "utm_campaign", "utm_content",
+  "scan_count", "is_active", "product_id", "notes", "guest_key",
+  "created_at", "updated_at",
+]
+
 export const GET = async (
   req: AuthenticatedMedusaRequest,
   res: MedusaResponse
 ) => {
-  const query = req.scope.resolve("query")
+  const service: QrMarketingModuleService = req.scope.resolve(QR_MARKETING_MODULE)
 
-  const {
-    data: qr_campaigns,
-    metadata: { count, take, skip } = { count: 0, take: 20, skip: 0 },
-  } = await query.graph({
-    entity: "qr_campaign",
-    ...req.queryConfig,
-  })
+  const limit = Math.min(Number(req.query.limit) || 20, 100)
+  const offset = Number(req.query.offset) || 0
+  const orderParam = (req.query.order as string) || "-created_at"
+  const orderField = orderParam.startsWith("-") ? orderParam.slice(1) : orderParam
+  const orderDir = orderParam.startsWith("-") ? "DESC" : "ASC"
 
-  res.json({
-    qr_campaigns,
-    count,
-    limit: take,
-    offset: skip,
-  })
+  const [qr_campaigns, count] = await service.listAndCountQrCampaigns(
+    {},
+    {
+      take: limit,
+      skip: offset,
+      order: { [orderField]: orderDir },
+      select: QR_FIELDS,
+    }
+  )
+
+  res.json({ qr_campaigns, count, limit, offset })
 }
 
 export const POST = async (

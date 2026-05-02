@@ -1,16 +1,8 @@
 import {
   defineMiddlewares,
   validateAndTransformBody,
-  validateAndTransformQuery,
 } from "@medusajs/framework/http"
 import { z } from "zod"
-
-export const GetQrCampaignsSchema = z.object({
-  limit: z.preprocess((val) => val && Number(val), z.number().optional()),
-  offset: z.preprocess((val) => val && Number(val), z.number().optional()),
-  fields: z.string().optional(),
-  order: z.string().optional(),
-})
 
 export const PostQrCampaignSchema = z.object({
   code: z.string().min(1).max(100),
@@ -42,40 +34,13 @@ export const PostQrCampaignUpdateSchema = z.object({
 })
 export type PostQrCampaignUpdateSchemaType = z.infer<typeof PostQrCampaignUpdateSchema>
 
-const qrCampaignFields = [
-  "id", "code", "name", "destination_url",
-  "utm_source", "utm_medium", "utm_campaign", "utm_content",
-  "scan_count", "is_active", "product_id", "notes", "guest_key",
-  "created_at", "updated_at",
-]
-
 export default defineMiddlewares({
   routes: [
-    {
-      matcher: "/admin/qr-campaigns",
-      method: ["GET"],
-      middlewares: [
-        validateAndTransformQuery(GetQrCampaignsSchema, {
-          isList: true,
-          defaults: qrCampaignFields,
-        }),
-      ],
-    },
     {
       matcher: "/admin/qr-campaigns",
       method: ["POST"],
       middlewares: [
         validateAndTransformBody(PostQrCampaignSchema),
-      ],
-    },
-    {
-      matcher: "/admin/qr-campaigns/:id",
-      method: ["GET"],
-      middlewares: [
-        validateAndTransformQuery(GetQrCampaignsSchema, {
-          isList: false,
-          defaults: qrCampaignFields,
-        }),
       ],
     },
     {

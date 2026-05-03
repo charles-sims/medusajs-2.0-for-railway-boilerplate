@@ -26,10 +26,15 @@ export interface IErpProvider {
   isConnected(): Promise<boolean>
   getConnectionStatus(): Promise<ConnectionStatus>
 
-  // Orders
+  // Orders — instant payment (CC/crypto)
   createSalesReceipt(order: OrderDTO): Promise<string>
   voidSalesReceipt(externalId: string): Promise<void>
   updateOrderStatus(externalId: string, status: string): Promise<void>
+
+  // Orders — deferred payment (ACH)
+  createInvoice(order: OrderDTO): Promise<string>
+  receivePayment(invoiceExternalId: string, amount: number, currencyCode: string): Promise<string>
+  voidInvoice(externalId: string): Promise<void>
 
   // Payments
   recordPayment(paymentId: string, orderId: string, amount: number, currencyCode: string): Promise<string>

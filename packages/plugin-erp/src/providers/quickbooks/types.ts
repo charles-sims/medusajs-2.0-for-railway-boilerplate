@@ -51,6 +51,28 @@ export type QboItem = {
   Active?: boolean
 }
 
+export type QboInvoice = {
+  Id?: string
+  CustomerRef: { value: string }
+  TxnDate: string
+  DueDate?: string
+  Line: QboLine[]
+  CurrencyRef: { value: string }
+  PrivateNote?: string
+}
+
+export type QboPayment = {
+  Id?: string
+  CustomerRef: { value: string }
+  TotalAmt: number
+  CurrencyRef: { value: string }
+  Line: {
+    Amount: number
+    LinkedTxn: { TxnId: string; TxnType: "Invoice" }[]
+  }[]
+  PrivateNote?: string
+}
+
 export type QboRefundReceipt = {
   Id?: string
   CustomerRef: { value: string }

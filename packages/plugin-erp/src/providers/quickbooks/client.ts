@@ -122,6 +122,37 @@ export class QboClient {
     })
   }
 
+  // --- Invoices (ACH deferred payment) ---
+
+  async createInvoice(invoice: any): Promise<any> {
+    return this.fetchWithRetry(this.url("invoice"), {
+      method: "POST",
+      body: JSON.stringify(invoice),
+    })
+  }
+
+  async getInvoice(id: string): Promise<any> {
+    return this.fetchWithRetry(this.url(`invoice/${id}`))
+  }
+
+  async voidInvoice(id: string, syncToken: string): Promise<any> {
+    return this.fetchWithRetry(this.url("invoice?operation=void"), {
+      method: "POST",
+      body: JSON.stringify({ Id: id, SyncToken: syncToken, sparse: true }),
+    })
+  }
+
+  // --- Payments (receive payment against invoice) ---
+
+  async createPayment(payment: any): Promise<any> {
+    return this.fetchWithRetry(this.url("payment"), {
+      method: "POST",
+      body: JSON.stringify(payment),
+    })
+  }
+
+  // --- Refund Receipts ---
+
   async createRefundReceipt(refund: any): Promise<any> {
     return this.fetchWithRetry(this.url("refundreceipt"), {
       method: "POST",

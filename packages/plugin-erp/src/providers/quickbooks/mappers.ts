@@ -1,5 +1,5 @@
 import { OrderDTO, CustomerDTO } from "@medusajs/framework/types"
-import { QboSalesReceipt, QboCustomer, QboItem, QboLine, QboRefundReceipt } from "./types"
+import { QboSalesReceipt, QboInvoice, QboCustomer, QboItem, QboLine, QboRefundReceipt } from "./types"
 
 export function mapOrderToSalesReceipt(order: OrderDTO): QboSalesReceipt {
   const lines: QboLine[] = (order.items || []).map((item) => ({
@@ -19,6 +19,32 @@ export function mapOrderToSalesReceipt(order: OrderDTO): QboSalesReceipt {
     Line: lines,
     CurrencyRef: { value: (order.currency_code || "USD").toUpperCase() },
     PrivateNote: `Medusa Order #${order.display_id} (${order.id})`,
+  }
+}
+
+export function mapOrderToInvoice(order: OrderDTO): QboInvoice {
+  const lines: QboLine[] = (order.items || []).map((item) => ({
+    Amount: Number(item.total || 0) / 100,
+    DetailType: "SalesItemLineDetail" as const,
+    SalesItemLineDetail: {
+      ItemRef: { value: "1", name: item.title },
+      Qty: item.quantity,
+      UnitPrice: Number(item.unit_price || 0) / 100,
+    },
+    Description: item.title,
+  }))
+
+  // Due date 7 days out (ACH typically clears in 3-5 days)
+  const dueDate = new Date(order.created_at)
+  dueDate.setDate(dueDate.getDate() + 7)
+
+  return {
+    CustomerRef: { value: "1" },
+    TxnDate: new Date(order.created_at).toISOString().split("T")[0],
+    DueDate: dueDate.toISOString().split("T")[0],
+    Line: lines,
+    CurrencyRef: { value: (order.currency_code || "USD").toUpperCase() },
+    PrivateNote: `Medusa Order #${order.display_id} (${order.id}) — ACH pending settlement`,
   }
 }
 

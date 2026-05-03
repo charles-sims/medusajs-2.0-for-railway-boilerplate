@@ -1,7 +1,7 @@
 import { IErpProvider, ConnectionStatus, ErpInventoryLevel } from "../../modules/erp/types"
 import { QboClient } from "./client"
 import { QboOptions } from "./types"
-import { mapOrderToSalesReceipt, mapCustomerToQbo, mapProductToQboItem, mapDisputeToRefundReceipt } from "./mappers"
+import { mapOrderToSalesReceipt, mapOrderToInvoice, mapCustomerToQbo, mapProductToQboItem, mapDisputeToRefundReceipt } from "./mappers"
 import { OrderDTO, CustomerDTO } from "@medusajs/framework/types"
 
 export class QboErpProviderService implements IErpProvider {
@@ -66,6 +66,34 @@ export class QboErpProviderService implements IErpProvider {
       PrivateNote: `${existing.SalesReceipt.PrivateNote || ""} | Status: ${status}`,
       sparse: true,
     })
+  }
+
+  async createInvoice(order: OrderDTO): Promise<string> {
+    await this.ensureClient()
+    const invoice = mapOrderToInvoice(order)
+    const result = await this.client.createInvoice(invoice)
+    return result.Invoice.Id
+  }
+
+  async receivePayment(invoiceExternalId: string, amount: number, currencyCode: string): Promise<string> {
+    await this.ensureClient()
+    const result = await this.client.createPayment({
+      CustomerRef: { value: "1" },
+      TotalAmt: amount / 100,
+      CurrencyRef: { value: currencyCode.toUpperCase() },
+      Line: [{
+        Amount: amount / 100,
+        LinkedTxn: [{ TxnId: invoiceExternalId, TxnType: "Invoice" }],
+      }],
+      PrivateNote: `ACH payment settled for Invoice ${invoiceExternalId}`,
+    })
+    return result.Payment.Id
+  }
+
+  async voidInvoice(externalId: string): Promise<void> {
+    await this.ensureClient()
+    const existing = await this.client.getInvoice(externalId)
+    await this.client.voidInvoice(externalId, existing.Invoice.SyncToken)
   }
 
   async recordPayment(paymentId: string, orderId: string, amount: number, currencyCode: string): Promise<string> {

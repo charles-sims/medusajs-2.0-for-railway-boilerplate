@@ -50,6 +50,38 @@ export class ErpNextProviderService implements IErpProvider {
     })
   }
 
+  // ACH deferred payment — same as Sales Invoice in ERPNext, just unpaid
+  async createInvoice(order: OrderDTO): Promise<string> {
+    const invoice = mapOrderToSalesInvoice(order)
+    // ERPNext Sales Invoice starts as unpaid (Draft → Submitted)
+    const result = await this.client.createDocument("Sales Invoice", invoice)
+    return result.data.name
+  }
+
+  async receivePayment(invoiceExternalId: string, amount: number, currencyCode: string): Promise<string> {
+    const result = await this.client.createDocument("Payment Entry", {
+      payment_type: "Receive",
+      party_type: "Customer",
+      party: "Walk-in Customer",
+      paid_amount: amount / 100,
+      received_amount: amount / 100,
+      reference_no: invoiceExternalId,
+      reference_date: new Date().toISOString().split("T")[0],
+      paid_to: "Cash - C",
+      paid_from: "Debtors - C",
+      references: [{
+        reference_doctype: "Sales Invoice",
+        reference_name: invoiceExternalId,
+        allocated_amount: amount / 100,
+      }],
+    })
+    return result.data.name
+  }
+
+  async voidInvoice(externalId: string): Promise<void> {
+    await this.client.cancelDocument("Sales Invoice", externalId)
+  }
+
   async recordPayment(paymentId: string, orderId: string, amount: number, currencyCode: string): Promise<string> {
     const result = await this.client.createDocument("Payment Entry", {
       payment_type: "Receive",

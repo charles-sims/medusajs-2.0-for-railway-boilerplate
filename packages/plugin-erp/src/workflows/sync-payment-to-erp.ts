@@ -12,7 +12,7 @@ export const syncPaymentToErpWorkflow = createWorkflow(
   (input: WorkflowInput) => {
     const { data: payments } = useQueryGraphStep({
       entity: "payment",
-      fields: ["*", "payment_collection.*"],
+      fields: ["*", "payment_collection.*", "payment_collection.order.*"],
       filters: { id: input.payment_id },
     })
 
@@ -21,16 +21,32 @@ export const syncPaymentToErpWorkflow = createWorkflow(
       const event = data.input.event_name
 
       if (event === "payment.captured") {
+        // Check if this order used ACH (invoice was created on order.placed)
+        // If so, receive payment against the invoice instead of creating a new record
+        const order = payment.payment_collection?.order
+        const erpType = order?.metadata?.erp_type as string | undefined
+        const erpIds = order?.metadata?.erp_ids as Record<string, string> | undefined
+
+        if (erpType === "invoice" && erpIds) {
+          // ACH settled — receive payment against the existing invoice
+          return {
+            action: "receivePayment",
+            entity_id: payment.id,
+            payload: [Object.values(erpIds)[0], Number(payment.amount), payment.currency_code],
+          }
+        }
+
+        // CC/crypto — Sales Receipt was already created on order.placed, no-op for payment
         return {
           action: "recordPayment",
           entity_id: payment.id,
-          payload: [payment.id, payment.payment_collection?.id, Number(payment.amount), payment.currency_code],
+          payload: [payment.id, order?.id, Number(payment.amount), payment.currency_code],
         }
       } else if (event === "payment.refunded") {
         return {
           action: "recordRefund",
           entity_id: payment.id,
-          payload: [payment.id, payment.payment_collection?.id, Number(payment.amount), payment.currency_code],
+          payload: [payment.id, payment.payment_collection?.order?.id, Number(payment.amount), payment.currency_code],
         }
       }
 

@@ -41,14 +41,11 @@
     "@medusajs/medusa": "2.14.1",
     "@medusajs/test-utils": "2.14.1",
     "@medusajs/ui": "4.1.8",
-    "@tanstack/react-query": "^5.100.5",
     "@swc/core": "^1.7.28",
     "@types/node": "^20.0.0",
     "@types/react": "^18.3.2",
     "@types/react-dom": "^18.2.25",
     "prop-types": "^15.8.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "react-hook-form": "^7.74.0",
     "react-router-dom": "^6.30.3",
     "ts-node": "^10.9.2",
@@ -57,7 +54,10 @@
   },
   "peerDependencies": {
     "@medusajs/framework": "2.14.1",
-    "@medusajs/medusa": "2.14.1"
+    "@medusajs/medusa": "2.14.1",
+    "@tanstack/react-query": "^5.100.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "engines": {
     "node": ">=20"

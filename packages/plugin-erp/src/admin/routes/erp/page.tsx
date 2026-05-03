@@ -64,9 +64,27 @@ const ErpPage = () => {
         
         <div>
           <Heading level="h2" className="mb-4">Recent Sync Jobs</Heading>
-          <Text className="text-ui-fg-subtle">
+          <Text className="text-ui-fg-subtle mb-4">
             Sync functionality is active. Check individual orders for detailed synchronization status.
           </Text>
+          
+          <div className="bg-ui-bg-subtle border rounded-lg p-4 mt-8">
+            <Heading level="h2" className="mb-2 text-ui-fg-subtle">Diagnostic Info</Heading>
+            <div className="flex flex-col gap-y-2">
+              <div className="flex justify-between border-b pb-2">
+                <Text size="small">Registered Providers</Text>
+                <Text size="small" className="font-mono">
+                  {syncStatus?.providers ? Object.keys(syncStatus.providers).join(", ") || "none" : "loading..."}
+                </Text>
+              </div>
+              <div className="flex justify-between">
+                <Text size="small">Environment</Text>
+                <Text size="small" className="font-mono">
+                  {window.location.hostname === "localhost" ? "Local" : "Production (Railway)"}
+                </Text>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </Container>

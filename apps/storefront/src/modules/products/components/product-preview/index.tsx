@@ -27,7 +27,10 @@ export default async function ProductPreview({
   const subtitle = product.subtitle?.trim()
 
   return (
-    <LocalizedClientLink href={`/products/${product.handle}`} className="group block">
+    <LocalizedClientLink
+      href={`/products/${product.handle}`}
+      className="group block"
+    >
       <div className="border border-calilean-sand rounded-lg overflow-hidden transition-all hover:-translate-y-1 hover:shadow-lg">
         <Thumbnail
           thumbnail={pricedProduct.thumbnail}
@@ -44,7 +47,10 @@ export default async function ProductPreview({
               {subtitle}
             </p>
           )}
-          <h3 className="text-base font-semibold text-calilean-ink" data-testid="product-title">
+          <h3
+            className="text-base font-semibold text-calilean-ink"
+            data-testid="product-title"
+          >
             {product.title}
           </h3>
           <div className="mt-1">

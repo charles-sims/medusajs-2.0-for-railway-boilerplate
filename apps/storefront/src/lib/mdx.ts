@@ -2,9 +2,19 @@ import fs from "fs"
 import path from "path"
 import matter from "gray-matter"
 import { compileMDX } from "next-mdx-remote/rsc"
+import { createClient } from "@sanity/client"
 import { mdxComponents } from "@modules/calilean/components/mdx-components"
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "research")
+
+type ResearchContentInput = {
+  productId?: string
+  handle: string
+}
+
+type SanityProductResearch = {
+  researchMdx?: string | null
+}
 
 /**
  * Check if an MDX research file exists for a given product handle.
@@ -18,11 +28,23 @@ export function hasResearchContent(handle: string): boolean {
  * Load and compile MDX content for a product handle.
  * Returns null if no MDX file exists.
  */
-export async function getResearchContent(handle: string) {
+export async function getResearchContent(input: string | ResearchContentInput) {
+  const { productId, handle } =
+    typeof input === "string" ? { handle: input } : input
+
+  const sanitySource = await getSanityResearchMdx({ productId, handle })
+  if (sanitySource) {
+    return compileResearchSource(sanitySource)
+  }
+
   const filePath = path.join(CONTENT_DIR, `${handle}.mdx`)
   if (!fs.existsSync(filePath)) return null
 
   const source = fs.readFileSync(filePath, "utf-8")
+  return compileResearchSource(source)
+}
+
+async function compileResearchSource(source: string) {
   const { content, data: frontmatter } = matter(source)
 
   const { content: compiled } = await compileMDX({
@@ -37,6 +59,47 @@ export async function getResearchContent(handle: string) {
     content: compiled,
     frontmatter,
     headings,
+  }
+}
+
+async function getSanityResearchMdx({
+  productId,
+  handle,
+}: ResearchContentInput): Promise<string | null> {
+  const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
+  const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
+
+  if (!projectId || !dataset) {
+    return null
+  }
+
+  const client = createClient({
+    projectId,
+    dataset,
+    apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2024-11-18",
+    useCdn: false,
+  })
+
+  try {
+    const doc = await client.fetch<SanityProductResearch | null>(
+      `*[
+        _type == "product" &&
+        defined(researchMdx) &&
+        (
+          ($productId != "" && _id == $productId) ||
+          productHandle == $handle
+        )
+      ][0]{researchMdx}`,
+      {
+        productId: productId || "",
+        handle,
+      }
+    )
+
+    return doc?.researchMdx?.trim() || null
+  } catch (error) {
+    console.warn("Falling back to local research MDX after Sanity error", error)
+    return null
   }
 }
 

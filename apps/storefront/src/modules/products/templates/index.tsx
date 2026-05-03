@@ -28,7 +28,10 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
 }) => {
   if (!product || !product.id) return notFound()
 
-  const research = await getResearchContent(product.handle || "")
+  const research = await getResearchContent({
+    productId: product.id,
+    handle: product.handle || "",
+  })
 
   return (
     <>

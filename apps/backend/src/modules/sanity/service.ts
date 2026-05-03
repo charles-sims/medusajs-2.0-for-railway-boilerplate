@@ -150,6 +150,7 @@ export default class SanityModuleService {
     return {
       set: {
         title: product.title,
+        productHandle: product.handle,
       },
     };
   };
@@ -159,6 +160,7 @@ export default class SanityModuleService {
       _type: this.typeMap[SyncDocumentTypes.PRODUCT],
       _id: product.id,
       title: product.title,
+      productHandle: product.handle,
       specs: [
         {
           // needs to be a random gen key

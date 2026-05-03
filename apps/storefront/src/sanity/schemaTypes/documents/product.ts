@@ -8,6 +8,21 @@ const productSchema: DocumentDefinition = {
       type: "string",
     },
     {
+      name: "productHandle",
+      title: "Product Handle",
+      type: "string",
+      readOnly: true,
+    },
+    {
+      group: "content",
+      name: "researchMdx",
+      title: "Research MDX",
+      description:
+        "Product research section rendered on the storefront. Supports the existing CaliLean MDX components.",
+      type: "text",
+      rows: 30,
+    },
+    {
       group: "content",
       name: "specs",
       of: [

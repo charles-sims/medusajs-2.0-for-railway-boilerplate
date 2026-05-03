@@ -9,7 +9,7 @@ import ErrorMessage from "../error-message"
 import Spinner from "@modules/common/icons/spinner"
 import { placeOrder } from "@lib/data/cart"
 import { HttpTypes } from "@medusajs/types"
-import { isManual, isPaypal, isStripe } from "@lib/constants"
+import { isManual, isNmiAch, isPaypal, isStripe } from "@lib/constants"
 
 type PaymentButtonProps = {
   cart: HttpTypes.StoreCart
@@ -44,6 +44,14 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
     case isStripe(paymentSession?.provider_id):
       return (
         <StripePaymentButton
+          notReady={notReady}
+          cart={cart}
+          data-testid={dataTestId}
+        />
+      )
+    case isNmiAch(paymentSession?.provider_id):
+      return (
+        <NmiAchPaymentButton
           notReady={notReady}
           cart={cart}
           data-testid={dataTestId}
@@ -260,6 +268,55 @@ const PayPalPaymentButton = ({
       </>
     )
   }
+}
+
+const NmiAchPaymentButton = ({
+  cart,
+  notReady,
+  "data-testid": dataTestId,
+}: {
+  cart: HttpTypes.StoreCart
+  notReady: boolean
+  "data-testid"?: string
+}) => {
+  const [submitting, setSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+  const onPaymentCompleted = async () => {
+    await placeOrder()
+      .catch((err) => {
+        setErrorMessage(err.message)
+      })
+      .finally(() => {
+        setSubmitting(false)
+      })
+  }
+
+  const handlePayment = () => {
+    setSubmitting(true)
+    // ACH authorization happens server-side during cart completion.
+    // The bank details were passed to the payment session context
+    // during initiatePaymentSession in the payment step.
+    onPaymentCompleted()
+  }
+
+  return (
+    <>
+      <Button
+        disabled={notReady}
+        isLoading={submitting}
+        onClick={handlePayment}
+        size="large"
+        data-testid={dataTestId}
+      >
+        Place order
+      </Button>
+      <ErrorMessage
+        error={errorMessage}
+        data-testid="nmi-ach-payment-error-message"
+      />
+    </>
+  )
 }
 
 const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {

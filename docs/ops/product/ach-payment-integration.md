@@ -1,6 +1,6 @@
 # ACH Payment Integration — CaliLean/Bluum
 
-## Status: Planning (waiting on merchant account)
+## Status: Sandbox Ready (module built, awaiting production merchant account)
 
 ## Context
 
@@ -18,59 +18,108 @@ All viable processors for this vertical route through **NMI** (Network Merchants
 | Paycron | NMI | Yes (eCheck focus) | Same-day | US-based, no FDA warnings |
 | Vector Payments | NMI | Yes | 1-3 days | Compliance docs required |
 
-## NMI Sandbox (Free)
+## Implementation
 
-- **Sandbox URL**: `https://sandbox.nmi.com/api/transact.php`
+### Files Created
+
+```
+apps/backend/src/modules/payment-nmi/
+├── index.ts          # ModuleProvider(Modules.PAYMENT, { services: [NmiAchPaymentProviderService] })
+├── service.ts        # Extends AbstractPaymentProvider — NMI transaction API
+└── types.ts          # NMI request/response types, NmiOptions
+```
+
+### Environment Variables
+
+**Backend** (`apps/backend/.env`):
+```bash
+NMI_API_KEY=<merchant-key>          # "api (Payment and Query APIs)" key from NMI
+NMI_TOKENIZATION_KEY=<public-key>   # "tokenization (Collect.js)" key from NMI
+NMI_SANDBOX=true                    # "true" = sandbox endpoint, unset/false = production
+```
+
+**Storefront** (`apps/storefront/.env.local`):
+```bash
+NEXT_PUBLIC_NMI_TOKENIZATION_KEY=<public-key>  # Same tokenization key, for Collect.js
+```
+
+**Railway**: Add same vars to Railway service environment.
+
+### Provider Registration
+
+Registered in `medusa-config.ts` alongside Stripe. Either or both can be active based on env vars:
+- Stripe loads when `STRIPE_API_KEY` + `STRIPE_WEBHOOK_SECRET` are set
+- NMI loads when `NMI_API_KEY` is set
+
+Provider ID in Medusa: `pp_nmi-ach_nmi-ach`
+
+### Payment Flow
+
+```
+1. Customer selects "Pay with Bank Account" at checkout
+2. initiatePayment() → returns tokenization key + session metadata
+3. Storefront loads Collect.js, customer enters bank details
+4. Collect.js tokenizes → returns payment_token
+5. Cart completion → authorizePayment() sends ACH sale to NMI with token
+6. NMI returns success → order created
+7. ACH settles in 3-5 business days
+```
+
+### Method Mapping (actual implementation)
+
+| Medusa Method | NMI Action | Notes |
+|---------------|------------|-------|
+| `initiatePayment()` | No NMI call | Returns tokenization key for storefront |
+| `authorizePayment()` | `type=sale, payment=check` | ACH is sale-only (no auth-then-capture) |
+| `capturePayment()` | No-op | Already captured at sale time |
+| `refundPayment()` | `type=refund` | Requires `nmi_transaction_id` from data |
+| `cancelPayment()` | `type=void` | Only works before settlement |
+| `getPaymentStatus()` | Status from stored data | Returns authorized if txn ID exists |
+| `getWebhookActionAndData()` | Processes NMI webhooks | Route: `/hooks/payment/nmi-ach_nmi-ach` |
+
+### Storefront Collect.js Integration (TODO)
+
+The storefront checkout needs a new payment option component that:
+1. Loads `https://secure.nmi.com/token/Collect.js` with the tokenization key
+2. Renders bank detail fields (name, routing, account, type)
+3. On submit, tokenizes via Collect.js
+4. Passes `payment_token` to the Medusa payment session
+
+### Direct Bank Details (Testing Only)
+
+For sandbox testing without Collect.js, use NMI's official test ACH credentials:
+```json
+{
+  "checkname": "John Doe",
+  "checkaba": "490000018",
+  "checkaccount": "24413815",
+  "account_type": "checking"
+}
+```
+
+## NMI Sandbox
+
+- **Sandbox endpoint**: `https://sandbox.nmi.com/api/transact.php`
 - **Portal**: Login at `guide.nmi.com` to get sandbox API keys
 - Test accounts are free — no transaction or monthly fees
-- Can process test transactions for all gateway functions (card + ACH)
-- Never use real API keys when testing — always use sandbox keys
+- Process test transactions for all gateway functions (card + ACH)
+- Never use real API keys when testing
 
 ### Test Mode
 
 NMI allows toggling any gateway account into Test Mode. Transactions submitted in test mode are not live and do not charge real accounts.
 
-## Architecture: Medusa Custom Payment Module Provider
+## Go-Live Checklist
 
-```
-backend/src/modules/payment-nmi/
-├── index.ts          # ModuleProvider(Modules.PAYMENT, ...)
-├── service.ts        # Extends AbstractPaymentProvider — NMI API calls
-└── types.ts          # NMI request/response types
-```
-
-### NMI ACH API Basics
-
-- REST POST to transaction endpoint
-- Parameters: `type=sale`, `payment=check`, `checkname`, `checkaba` (routing), `checkaccount`, `account_type`
-- Returns transaction ID + response code
-- Supports: sale, auth, capture, void, refund for both card and eCheck
-
-### Medusa ↔ NMI Method Mapping
-
-| Medusa Method | NMI Action |
-|---------------|------------|
-| `initiatePayment()` | Create pending transaction record |
-| `authorizePayment()` | `type=auth` or `type=sale` with `payment=check` |
-| `capturePayment()` | `type=capture` (if auth-only) |
-| `refundPayment()` | `type=refund` |
-| `cancelPayment()` | `type=void` |
-| `getPaymentStatus()` | Query transaction status |
-
-### Storefront Checkout Form
-
-No JS SDK needed. Collect via standard form:
-- Account holder name
-- Routing number (ABA)
-- Account number
-- Account type (checking/savings)
-
-## Prerequisites Before Building
-
-1. **High-risk merchant account** — Apply with a provider above
-2. **NMI gateway credentials** — API security key from merchant account provider
-3. **LegitScript certification** — Some processors require it
-4. **6+ months in business** — Most require this minimum
+- [ ] Get high-risk merchant account (AllayPay, Corepay, etc.)
+- [ ] Receive production NMI API key from merchant account provider
+- [ ] Set `NMI_SANDBOX=false` (or remove) in Railway env
+- [ ] Update `NMI_API_KEY` to production key in Railway env
+- [ ] Enable NMI ACH provider in Medusa Admin (Settings > Regions > US)
+- [ ] Build storefront Collect.js checkout component
+- [ ] Configure NMI webhook to `https://backend.calilean.com/hooks/payment/nmi-ach_nmi-ach`
+- [ ] Test end-to-end with real bank account
+- [ ] Consider LegitScript certification for credibility
 
 ## Regulatory Notes
 
@@ -84,5 +133,7 @@ No JS SDK needed. Collect via standard form:
 - [NMI Developer Docs](https://docs.nmi.com/)
 - [NMI Transaction API](https://docs.nmi.com/reference/transactions-processing)
 - [NMI Sandbox Testing](https://docs.nmi.com/docs/testing-sandbox)
+- [NMI Collect.js](https://docs.nmi.com/docs/payment-component)
 - [Medusa: Create Payment Module Provider](https://docs.medusajs.com/resources/references/payment/provider)
 - [Medusa: Payment Provider Overview](https://docs.medusajs.com/resources/commerce-modules/payment/payment-provider)
+- [Medusa: Webhook Events](https://docs.medusajs.com/resources/commerce-modules/payment/webhook-events)

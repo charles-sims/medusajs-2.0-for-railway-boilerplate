@@ -11,7 +11,11 @@ import { StripeCardElementOptions } from "@stripe/stripe-js"
 
 import Divider from "@modules/common/components/divider"
 import PaymentContainer from "@modules/checkout/components/payment-container"
-import { isStripe as isStripeFunc, paymentInfoMap } from "@lib/constants"
+import {
+  isStripe as isStripeFunc,
+  isNmiAch as isNmiAchFunc,
+  paymentInfoMap,
+} from "@lib/constants"
 import { StripeContext } from "@modules/checkout/components/payment-wrapper"
 import { initiatePaymentSession } from "@lib/data/cart"
 
@@ -41,7 +45,20 @@ const Payment = ({
   const isOpen = searchParams.get("step") === "payment"
 
   const isStripe = isStripeFunc(activeSession?.provider_id)
+  const isNmiAch = isNmiAchFunc(selectedPaymentMethod)
   const stripeReady = useContext(StripeContext)
+
+  // ACH bank detail state
+  const [achName, setAchName] = useState("")
+  const [achRouting, setAchRouting] = useState("")
+  const [achAccount, setAchAccount] = useState("")
+  const [achAccountType, setAchAccountType] = useState<"checking" | "savings">(
+    "checking"
+  )
+  const achComplete =
+    achName.length > 0 &&
+    achRouting.length === 9 &&
+    achAccount.length >= 4
 
   const paidByGiftcard =
     cart?.gift_cards && cart?.gift_cards?.length > 0 && cart?.total === 0
@@ -93,15 +110,22 @@ const Payment = ({
           cart?.metadata?.subscription_interval &&
           cart?.metadata?.subscription_period
 
+        // For NMI ACH, pass bank details via data so they flow to authorizePayment
+        const isAch = isNmiAchFunc(selectedPaymentMethod)
+
         await initiatePaymentSession(cart, {
           provider_id: selectedPaymentMethod,
-          ...(isSubscription
-            ? {
-                data: {
-                  setup_future_usage: "off_session",
-                },
-              }
-            : {}),
+          data: {
+            ...(isSubscription ? { setup_future_usage: "off_session" } : {}),
+            ...(isAch
+              ? {
+                  checkname: achName,
+                  checkaba: achRouting,
+                  checkaccount: achAccount,
+                  account_type: achAccountType,
+                }
+              : {}),
+          },
         })
       }
 
@@ -192,6 +216,69 @@ const Payment = ({
                   />
                 </div>
               )}
+              {isNmiAch && (
+                <div className="mt-5 transition-all duration-150 ease-in-out space-y-3">
+                  <Text className="txt-medium-plus text-ui-fg-base mb-1">
+                    Enter your bank account details:
+                  </Text>
+                  <input
+                    type="text"
+                    placeholder="Account holder name"
+                    value={achName}
+                    onChange={(e) => setAchName(e.target.value)}
+                    className="pt-3 pb-1 block w-full h-11 px-4 bg-ui-bg-field border rounded-md appearance-none focus:outline-none focus:ring-0 focus:shadow-borders-interactive-with-active border-ui-border-base hover:bg-ui-bg-field-hover transition-all duration-300 ease-in-out text-base-regular"
+                    data-testid="ach-name-input"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Routing number (9 digits)"
+                    value={achRouting}
+                    onChange={(e) => {
+                      const v = e.target.value.replace(/\D/g, "").slice(0, 9)
+                      setAchRouting(v)
+                    }}
+                    inputMode="numeric"
+                    className="pt-3 pb-1 block w-full h-11 px-4 bg-ui-bg-field border rounded-md appearance-none focus:outline-none focus:ring-0 focus:shadow-borders-interactive-with-active border-ui-border-base hover:bg-ui-bg-field-hover transition-all duration-300 ease-in-out text-base-regular"
+                    data-testid="ach-routing-input"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Account number"
+                    value={achAccount}
+                    onChange={(e) => {
+                      const v = e.target.value.replace(/\D/g, "").slice(0, 17)
+                      setAchAccount(v)
+                    }}
+                    inputMode="numeric"
+                    className="pt-3 pb-1 block w-full h-11 px-4 bg-ui-bg-field border rounded-md appearance-none focus:outline-none focus:ring-0 focus:shadow-borders-interactive-with-active border-ui-border-base hover:bg-ui-bg-field-hover transition-all duration-300 ease-in-out text-base-regular"
+                    data-testid="ach-account-input"
+                  />
+                  <div className="flex gap-4">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="account_type"
+                        value="checking"
+                        checked={achAccountType === "checking"}
+                        onChange={() => setAchAccountType("checking")}
+                        className="text-ui-fg-interactive"
+                      />
+                      <Text className="text-base-regular">Checking</Text>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="account_type"
+                        value="savings"
+                        checked={achAccountType === "savings"}
+                        onChange={() => setAchAccountType("savings")}
+                        className="text-ui-fg-interactive"
+                      />
+                      <Text className="text-base-regular">Savings</Text>
+                    </label>
+                  </div>
+                </div>
+              )}
             </>
           )}
 
@@ -222,6 +309,7 @@ const Payment = ({
             disabled={
               isLoading ||
               (isStripe && !cardComplete) ||
+              (isNmiAch && !achComplete) ||
               (!selectedPaymentMethod && !paidByGiftcard)
             }
             data-testid="submit-payment-button"

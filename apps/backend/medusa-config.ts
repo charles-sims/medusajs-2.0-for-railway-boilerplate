@@ -30,7 +30,10 @@ import {
   SANITY_STUDIO_URL,
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
-  GOOGLE_CALLBACK_URL
+  GOOGLE_CALLBACK_URL,
+  NMI_API_KEY,
+  NMI_TOKENIZATION_KEY,
+  NMI_SANDBOX,
 } from './src/lib/constants';
 
 loadEnv(process.env.NODE_ENV, process.cwd());
@@ -163,12 +166,13 @@ const medusaConfig = {
         ]
       }
     }] : []),
-    ...(STRIPE_API_KEY && STRIPE_WEBHOOK_SECRET ? [{
+    // Payment Module — conditionally loads Stripe and/or NMI ACH providers
+    ...((STRIPE_API_KEY && STRIPE_WEBHOOK_SECRET) || NMI_API_KEY ? [{
       key: Modules.PAYMENT,
       resolve: '@medusajs/payment',
       options: {
         providers: [
-          {
+          ...(STRIPE_API_KEY && STRIPE_WEBHOOK_SECRET ? [{
             resolve: '@medusajs/payment-stripe',
             id: 'stripe',
             options: {
@@ -176,7 +180,18 @@ const medusaConfig = {
               webhookSecret: STRIPE_WEBHOOK_SECRET,
               capture: true,
             },
-          },
+          }] : []),
+          ...(NMI_API_KEY ? [{
+            resolve: './src/modules/payment-nmi',
+            id: 'nmi-ach',
+            options: {
+              apiKey: NMI_API_KEY,
+              tokenizationKey: NMI_TOKENIZATION_KEY,
+              endpoint: NMI_SANDBOX === 'true'
+                ? 'https://sandbox.nmi.com/api/transact.php'
+                : 'https://secure.nmi.com/api/transact.php',
+            },
+          }] : []),
         ],
       },
     }] : []),

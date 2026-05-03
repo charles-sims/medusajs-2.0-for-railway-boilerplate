@@ -84,6 +84,14 @@ export const STRIPE_API_KEY = process.env.STRIPE_API_KEY;
 export const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
 
 /**
+ * (optional) NMI payment gateway — ACH/eCheck processing for high-risk merchants.
+ * Get sandbox keys at https://guide.nmi.com
+ */
+export const NMI_API_KEY = process.env.NMI_API_KEY;
+export const NMI_TOKENIZATION_KEY = process.env.NMI_TOKENIZATION_KEY;
+export const NMI_SANDBOX = process.env.NMI_SANDBOX;
+
+/**
  * (optional) Meilisearch configuration
  */
 export const MEILISEARCH_HOST = process.env.MEILISEARCH_HOST;

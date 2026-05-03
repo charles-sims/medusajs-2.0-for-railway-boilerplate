@@ -18,6 +18,7 @@
 
 # production
 /build
+/.sanity
 
 # misc
 .DS_Store

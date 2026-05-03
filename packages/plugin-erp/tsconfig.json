@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "lib": ["es2021"],
+    "target": "ES2021",
+    "outDir": "./.medusa/server",
+    "rootDir": "./",
+    "esModuleInterop": true,
+    "declaration": true,
+    "module": "Node16",
+    "moduleResolution": "Node16",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": false,
+    "noEmit": false,
+    "skipLibCheck": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "ts-node": {
+    "swc": true
+  },
+  "include": [
+    "src",
+    ".medusa/types/*"
+  ],
+  "exclude": [
+    "node_modules",
+    ".medusa/server",
+    ".medusa/admin",
+    "src/admin",
+    ".cache"
+  ]
+}

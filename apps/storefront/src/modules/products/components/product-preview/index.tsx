@@ -30,8 +30,8 @@ export default async function ProductPreview({
     <LocalizedClientLink href={`/products/${product.handle}`} className="group block">
       <div className="border border-calilean-sand rounded-lg overflow-hidden transition-all hover:-translate-y-1 hover:shadow-lg">
         <Thumbnail
-          thumbnail={product.thumbnail}
-          images={product.images}
+          thumbnail={pricedProduct.thumbnail}
+          images={pricedProduct.images}
           size="square"
           isFeatured={isFeatured}
         />

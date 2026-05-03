@@ -12,7 +12,9 @@ function AgeGateInner() {
 
   const confirm = () => {
     // Set _cl_age_ok cookie (30-day session) then redirect back
-    document.cookie = `_cl_age_ok=1; path=/; max-age=${60 * 60 * 24 * 30}; samesite=lax`
+    document.cookie = `_cl_age_ok=1; path=/; max-age=${
+      60 * 60 * 24 * 30
+    }; samesite=lax`
     router.replace(redirectTo)
   }
 

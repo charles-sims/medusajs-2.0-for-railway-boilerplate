@@ -84,17 +84,11 @@ const Register = ({ setCurrentView }: Props) => {
         />
         <span className="text-center text-ui-fg-base text-small-regular mt-6">
           By creating an account, you agree to CaliLean&apos;s{" "}
-          <LocalizedClientLink
-            href="/privacy"
-            className="underline"
-          >
+          <LocalizedClientLink href="/privacy" className="underline">
             Privacy Policy
           </LocalizedClientLink>{" "}
           and{" "}
-          <LocalizedClientLink
-            href="/terms"
-            className="underline"
-          >
+          <LocalizedClientLink href="/terms" className="underline">
             Terms of Service
           </LocalizedClientLink>
           .

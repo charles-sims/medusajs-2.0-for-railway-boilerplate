@@ -64,7 +64,11 @@ export async function signup(_currentState: unknown, formData: FormData) {
     const redirectTo = formData.get("redirect") as string
     // Only allow relative paths to prevent open redirect
     const safePath = redirectTo?.startsWith("/") ? redirectTo : "/"
-    return { success: true as const, firstName: customerForm.first_name, redirectTo: safePath }
+    return {
+      success: true as const,
+      firstName: customerForm.first_name,
+      redirectTo: safePath,
+    }
   } catch (error: any) {
     if (isRedirectError(error)) throw error
     const msg = error?.response?.data?.message || error?.message || ""

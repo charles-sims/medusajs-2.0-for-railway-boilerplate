@@ -17,13 +17,13 @@ export default function ParticleSwarm() {
 
     // --- CaliLean palette with opacity variants for visual depth ---
     const palette = [
-      "#7090AB",        // pacific (primary)
-      "#7090AB",        // pacific — weighted heavier
-      "#8BA3B8",        // pacific lightened
-      "#9CA3A8",        // fog
-      "#5A7A94",        // pacific darkened
-      "#B8C4CC",        // fog lightened
-      "#7090AB",        // pacific again for weight
+      "#7090AB", // pacific (primary)
+      "#7090AB", // pacific — weighted heavier
+      "#8BA3B8", // pacific lightened
+      "#9CA3A8", // fog
+      "#5A7A94", // pacific darkened
+      "#B8C4CC", // fog lightened
+      "#7090AB", // pacific again for weight
     ]
 
     const PARTICLE_COUNT = 180
@@ -97,7 +97,8 @@ export default function ParticleSwarm() {
         angle,
         color: palette[Math.floor(Math.random() * palette.length)],
         length: DASH_MIN + Math.random() * (DASH_MAX - DASH_MIN),
-        thickness: THICKNESS_MIN + Math.random() * (THICKNESS_MAX - THICKNESS_MIN),
+        thickness:
+          THICKNESS_MIN + Math.random() * (THICKNESS_MAX - THICKNESS_MIN),
         opacity: 0.25 + Math.random() * 0.45,
       })
     }

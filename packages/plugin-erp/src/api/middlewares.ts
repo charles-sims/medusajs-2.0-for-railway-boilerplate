@@ -5,7 +5,7 @@ export default defineMiddlewares({
     {
       method: ["POST"],
       bodyParser: { preserveRawBody: true },
-      matcher: "/erp/**",
+      matcher: "/erp*",
     },
   ],
 })

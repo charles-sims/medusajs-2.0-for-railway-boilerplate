@@ -13,7 +13,7 @@ cmds = [
 ]
 cacheDirectories = [
   "apps/storefront/.next/cache",
-  "apps/backend/.medusa",
+  # "apps/backend/.medusa", -- removed to force clean admin rebuild with plugin extensions
   "packages/plugin-email/.medusa",
   "packages/plugin-invoices/.medusa",
   "packages/plugin-loyalty/.medusa",

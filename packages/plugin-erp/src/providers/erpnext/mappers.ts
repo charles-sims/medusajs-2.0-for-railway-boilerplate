@@ -1,9 +1,16 @@
 import { OrderDTO, CustomerDTO } from "@medusajs/framework/types"
+import { ErpNextOptions } from "./types"
 
-export function mapOrderToSalesInvoice(order: OrderDTO): Record<string, unknown> {
+export function mapOrderToSalesInvoice(
+  order: OrderDTO,
+  customerName: string,
+  opts: Pick<ErpNextOptions, "company" | "income_account" | "debit_account">
+): Record<string, unknown> {
   return {
     doctype: "Sales Invoice",
-    customer: order.email || "Walk-in Customer",
+    company: opts.company,
+    customer: customerName,
+    debit_to: opts.debit_account,
     posting_date: new Date(order.created_at).toISOString().split("T")[0],
     currency: (order.currency_code || "USD").toUpperCase(),
     items: (order.items || []).map((item) => ({
@@ -11,6 +18,7 @@ export function mapOrderToSalesInvoice(order: OrderDTO): Record<string, unknown>
       qty: item.quantity,
       rate: Number(item.unit_price || 0) / 100,
       amount: Number(item.total || 0) / 100,
+      income_account: opts.income_account,
     })),
     custom_medusa_order_id: order.id,
     remarks: `Medusa Order #${order.display_id}`,

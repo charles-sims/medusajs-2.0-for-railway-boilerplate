@@ -37,10 +37,10 @@ const ErpPage = () => {
           <div className="border rounded-lg p-4">
             <Heading level="h2" className="mb-2">QuickBooks Online</Heading>
             <div className="flex items-center justify-between">
-              <StatusBadge color={syncStatus?.quickbooks?.connected ? "green" : "grey"}>
-                {syncStatus?.quickbooks?.connected ? "Connected" : "Disconnected"}
+              <StatusBadge color={syncStatus?.providers?.quickbooks?.connected ? "green" : "grey"}>
+                {syncStatus?.providers?.quickbooks?.connected ? "Connected" : "Disconnected"}
               </StatusBadge>
-              {!syncStatus?.quickbooks?.connected && (
+              {!syncStatus?.providers?.quickbooks?.connected && (
                 <Button size="small" onClick={() => window.location.href = "/admin/erp/connect/quickbooks"}>
                   Connect
                 </Button>
@@ -50,10 +50,10 @@ const ErpPage = () => {
           <div className="border rounded-lg p-4">
             <Heading level="h2" className="mb-2">ERPNext</Heading>
             <div className="flex items-center justify-between">
-              <StatusBadge color={syncStatus?.erpnext?.connected ? "green" : "grey"}>
-                {syncStatus?.erpnext?.connected ? "Connected" : "Disconnected"}
+              <StatusBadge color={syncStatus?.providers?.erpnext?.connected ? "green" : "grey"}>
+                {syncStatus?.providers?.erpnext?.connected ? "Connected" : "Disconnected"}
               </StatusBadge>
-              {!syncStatus?.erpnext?.connected && (
+              {!syncStatus?.providers?.erpnext?.connected && (
                 <Text size="small" className="text-ui-fg-subtle italic">
                   Configure via environment variables
                 </Text>

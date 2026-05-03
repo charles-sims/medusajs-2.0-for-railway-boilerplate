@@ -74,17 +74,39 @@ export class ErpNextClient {
   }
 
   async cancelDocument(doctype: string, name: string): Promise<any> {
-    const url = `${this.options.api_url}/api/method/frappe.client.cancel`
-    return this.fetchWithRetry("", {
+    const response = await fetch(`${this.options.api_url}/api/method/frappe.client.cancel`, {
       method: "POST",
+      headers: {
+        Authorization: `token ${this.options.api_key}:${this.options.api_secret}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ doctype, name }),
     })
+    if (!response.ok) {
+      const body = await response.text()
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        `ERPNext cancel error ${response.status}: ${body}`
+      )
+    }
+    return response.json()
   }
 
   async getList(doctype: string, filters?: Record<string, unknown>, fields?: string[]): Promise<any> {
     const params = new URLSearchParams()
-    if (filters) params.set("filters", JSON.stringify(filters))
+    if (filters && !filters._raw_filters) params.set("filters", JSON.stringify(filters))
+    if (filters?._raw_filters) params.set("filters", filters._raw_filters as string)
     if (fields) params.set("fields", JSON.stringify(fields))
     return this.fetchWithRetry(`${doctype}?${params.toString()}`)
+  }
+
+  async getListByName(doctype: string, name: string): Promise<string | null> {
+    try {
+      const result = await this.fetchWithRetry(`${doctype}/${encodeURIComponent(name)}`)
+      return result.data?.name ?? null
+    } catch {
+      return null
+    }
   }
 }

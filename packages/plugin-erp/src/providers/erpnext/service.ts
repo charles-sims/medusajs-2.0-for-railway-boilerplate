@@ -9,9 +9,11 @@ export class ErpNextProviderService implements IErpProvider {
   identifier = "erpnext"
 
   private client: ErpNextClient
+  private options: ErpNextOptions
 
   constructor(container: Record<string, unknown>, options: ErpNextOptions) {
     this.client = new ErpNextClient(options)
+    this.options = options
   }
 
   async isConnected(): Promise<boolean> {
@@ -34,8 +36,34 @@ export class ErpNextProviderService implements IErpProvider {
     }
   }
 
+  private async ensureCustomer(email: string | undefined): Promise<string> {
+    const fallback = "Walk-in Customer"
+    const name = email || fallback
+
+    // Search by email_id field for exact match
+    const filters = JSON.stringify([["Customer", "email_id", "=", name]])
+    const found = await this.client.getList("Customer", { _raw_filters: filters }, ["name"])
+    if (found.data?.length > 0) return found.data[0].name
+
+    // Search by customer_name (covers "Walk-in Customer" case and email-as-name)
+    const byName = await this.client.getListByName("Customer", name)
+    if (byName) return byName
+
+    // Create customer
+    const payload: Record<string, unknown> = {
+      doctype: "Customer",
+      customer_name: name,
+      customer_type: "Individual",
+    }
+    if (email) payload.email_id = email
+
+    const result = await this.client.createDocument("Customer", payload)
+    return result.data.name
+  }
+
   async createSalesReceipt(order: OrderDTO): Promise<string> {
-    const invoice = mapOrderToSalesInvoice(order)
+    const customerName = await this.ensureCustomer(order.email)
+    const invoice = mapOrderToSalesInvoice(order, customerName, this.options)
     const result = await this.client.createDocument("Sales Invoice", invoice)
     return result.data.name
   }
@@ -52,7 +80,8 @@ export class ErpNextProviderService implements IErpProvider {
 
   // ACH deferred payment — same as Sales Invoice in ERPNext, just unpaid
   async createInvoice(order: OrderDTO): Promise<string> {
-    const invoice = mapOrderToSalesInvoice(order)
+    const customerName = await this.ensureCustomer(order.email)
+    const invoice = mapOrderToSalesInvoice(order, customerName, this.options)
     // ERPNext Sales Invoice starts as unpaid (Draft → Submitted)
     const result = await this.client.createDocument("Sales Invoice", invoice)
     return result.data.name

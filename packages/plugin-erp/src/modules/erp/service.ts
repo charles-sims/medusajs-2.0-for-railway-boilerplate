@@ -41,6 +41,9 @@ class ErpModuleService extends MedusaService({
           api_url: process.env.ERPNEXT_API_URL,
           api_key: process.env.ERPNEXT_API_KEY!,
           api_secret: process.env.ERPNEXT_API_SECRET!,
+          company: process.env.ERPNEXT_COMPANY || "Skafld Studio",
+          income_account: process.env.ERPNEXT_INCOME_ACCOUNT || "Sales - SS",
+          debit_account: process.env.ERPNEXT_DEBIT_ACCOUNT || "Debtors - SS",
         })
       )
     }

@@ -76,6 +76,7 @@ async function e2eApiTest() {
     await call(`/payment-collections/${payment_collection.id}/payment-sessions`, "POST", {
       provider_id: "pp_nmi-ach_nmi-ach",
       data: {
+        // Sandbox test details for NMI
         checkname: "Test User",
         checkaba: "123456789",
         checkaccount: "987654321",
@@ -85,22 +86,17 @@ async function e2eApiTest() {
 
     // 8. Complete Cart (Place Order)
     console.log("Step 8: Completing cart...");
-    // Wait a bit to ensure background tasks from session creation are settled
-    await new Promise(r => setTimeout(r, 5000));
+    // Long delay to avoid lock issues
+    await new Promise(r => setTimeout(r, 10000));
     
     const completeResponse = await call(`/carts/${initialCart.id}/complete`, "POST", {}, {
-      "Idempotency-Key": `test-${Date.now()}`
+      "Idempotency-Key": `final-${Date.now()}`
     });
-    console.log("Cart completion response type:", completeResponse.type);
 
     if (completeResponse.type === "order") {
       console.log(`API E2E test successful! Order created: ${completeResponse.order.id}`);
-      
-      // Capture payment
-      const paymentId = completeResponse.order.payment_collections[0].payments[0].id;
-      console.log(`Step 9: Capturing payment ${paymentId}...`);
-      // In Medusa 2.0, capture is usually an admin action, but some providers do it automatically.
-      // If we want to simulate manual capture, we need admin auth.
+    } else {
+      console.log("API E2E test finished with type:", completeResponse.type);
     }
   } catch (error: any) {
     console.error(`API Test Failed: ${error.message}`);

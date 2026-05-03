@@ -86,7 +86,7 @@ async function e2eApiTest() {
     // 8. Complete Cart (Place Order)
     console.log("Step 8: Completing cart...");
     // Wait a bit to ensure background tasks from session creation are settled
-    await new Promise(r => setTimeout(r, 2000));
+    await new Promise(r => setTimeout(r, 5000));
     
     const completeResponse = await call(`/carts/${initialCart.id}/complete`, "POST", {}, {
       "Idempotency-Key": `test-${Date.now()}`

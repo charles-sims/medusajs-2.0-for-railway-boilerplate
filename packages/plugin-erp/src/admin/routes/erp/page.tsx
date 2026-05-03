@@ -54,9 +54,9 @@ const ErpPage = () => {
                 {syncStatus?.erpnext?.connected ? "Connected" : "Disconnected"}
               </StatusBadge>
               {!syncStatus?.erpnext?.connected && (
-                <Button size="small" onClick={() => window.location.href = "/admin/erp/connect/erpnext"}>
-                  Connect
-                </Button>
+                <Text size="small" className="text-ui-fg-subtle italic">
+                  Configure via environment variables
+                </Text>
               )}
             </div>
           </div>

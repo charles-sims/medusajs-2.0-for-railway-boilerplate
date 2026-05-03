@@ -11,12 +11,14 @@ export class QboErpProviderService implements IErpProvider {
   private client: QboClient
   private erpService: any
 
-  constructor(container: Record<string, unknown>, options: QboOptions) {
+  constructor(private container: Record<string, any>, options: QboOptions) {
     this.client = new QboClient(options)
-    this.erpService = container["erp"] || null
   }
 
   private async ensureClient(): Promise<void> {
+    if (!this.erpService) {
+      this.erpService = this.container.erp || (typeof this.container.resolve === "function" ? this.container.resolve("erp") : null)
+    }
     if (!this.erpService) return
     const conn = await this.erpService.getConnection("quickbooks")
     if (conn?.access_token && conn?.realm_id) {

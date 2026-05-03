@@ -2,6 +2,8 @@ import { MedusaService } from "@medusajs/framework/utils"
 import ErpConnection from "./models/erp-connection"
 import { IErpProvider, ErpModuleOptions } from "./types"
 import crypto from "crypto"
+import { QboErpProviderService } from "../../providers/quickbooks"
+import { ErpNextProviderService } from "../../providers/erpnext"
 
 const ALGORITHM = "aes-256-gcm"
 const IV_LENGTH = 16
@@ -15,6 +17,33 @@ class ErpModuleService extends MedusaService({
   constructor(container: Record<string, unknown>, options: ErpModuleOptions) {
     super(...arguments)
     this.encryptionKey_ = (options?.encryption_key || process.env.ERP_ENCRYPTION_KEY) ?? null
+    
+    this.registerInternalProviders(container)
+  }
+
+  private registerInternalProviders(container: any): void {
+    // Register QuickBooks Provider
+    if (process.env.QBO_CLIENT_ID) {
+      this.registerProvider(
+        new QboErpProviderService(container, {
+          client_id: process.env.QBO_CLIENT_ID,
+          client_secret: process.env.QBO_CLIENT_SECRET!,
+          redirect_uri: process.env.QBO_REDIRECT_URI!,
+          environment: (process.env.QBO_ENVIRONMENT as "sandbox" | "production") || "sandbox",
+        })
+      )
+    }
+
+    // Register ERPNext Provider
+    if (process.env.ERPNEXT_API_URL) {
+      this.registerProvider(
+        new ErpNextProviderService(container, {
+          api_url: process.env.ERPNEXT_API_URL,
+          api_key: process.env.ERPNEXT_API_KEY!,
+          api_secret: process.env.ERPNEXT_API_SECRET!,
+        })
+      )
+    }
   }
 
   registerProvider(provider: IErpProvider): void {

@@ -266,16 +266,15 @@ const medusaConfig = {
         },
       },
     }] : []),
-    // ERP integration modules
-    {
+    // ERP integration modules (requires ERP_ENCRYPTION_KEY)
+    ...(process.env.ERP_ENCRYPTION_KEY ? [{
       resolve: "@calilean/plugin-erp/modules/erp",
       options: {
         encryption_key: process.env.ERP_ENCRYPTION_KEY,
       },
-    },
-    {
+    }, {
       resolve: "@calilean/plugin-erp/modules/dispute",
-    },
+    }] : []),
   ],
   featureFlags: {
     translation: true,
@@ -291,7 +290,7 @@ const medusaConfig = {
   "@calilean/plugin-subscription",
   "@calilean/plugin-preorder",
   "@calilean/plugin-qr-marketing",
-  "@calilean/plugin-erp",
+  ...(process.env.ERP_ENCRYPTION_KEY ? ["@calilean/plugin-erp"] : []),
   // "@medusajs/loyalty-plugin" disabled — admin widget crashes (missing QueryClientProvider)
   ...(MEILISEARCH_HOST && MEILISEARCH_ADMIN_KEY ? [{
       resolve: '@rokmohar/medusa-plugin-meilisearch',

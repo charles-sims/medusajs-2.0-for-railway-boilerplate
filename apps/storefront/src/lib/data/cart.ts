@@ -347,10 +347,7 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
   return null
 }
 
-export async function updateSubscriptionData(
-  subscription_interval: string,
-  subscription_period: number
-) {
+export async function updateSubscriptionData() {
   const cartId = await getCartId()
   if (!cartId) {
     throw new Error("No existing cart found when setting subscription data")
@@ -358,8 +355,8 @@ export async function updateSubscriptionData(
 
   await updateCart({
     metadata: {
-      subscription_interval,
-      subscription_period,
+      subscription_interval: "monthly",
+      subscription_period: 0,
     },
   })
 
@@ -393,7 +390,7 @@ export async function removeSubscriptionData() {
     body: { action: "remove" },
     headers: await getAuthHeaders(),
   })
-  
+
   revalidateTag("cart")
 }
 
@@ -405,8 +402,7 @@ export async function placeOrder() {
 
   // Check if this cart has subscription metadata
   const cart = await retrieveCart()
-  const isSubscription =
-    cart?.metadata?.subscription_interval && cart?.metadata?.subscription_period
+  const isSubscription = !!cart?.metadata?.subscription_interval
 
   let cartRes: any
 

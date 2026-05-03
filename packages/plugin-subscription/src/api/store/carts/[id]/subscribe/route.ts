@@ -27,7 +27,7 @@ export const POST = async (
 
   const { metadata } = cart
 
-  if (!metadata?.subscription_interval || !metadata.subscription_period) {
+  if (!metadata?.subscription_interval || metadata.subscription_period === undefined || metadata.subscription_period === null) {
     throw new MedusaError(
       MedusaError.Types.INVALID_DATA,
       "Please set the subscription's interval and period first."

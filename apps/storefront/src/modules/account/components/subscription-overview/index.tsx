@@ -102,10 +102,13 @@ const SubscriptionCard = ({
         <div>
           <span className="text-ui-fg-subtle">Interval</span>
           <p className="text-ui-fg-base font-medium">
-            {subscription.interval === "monthly" ? "Monthly" : "Yearly"}{" "}
-            &middot; {subscription.period}{" "}
-            {subscription.interval === "monthly" ? "month" : "year"}
-            {subscription.period > 1 ? "s" : ""}
+            {subscription.interval === "monthly" ? "Monthly" : "Yearly"}
+            {" · "}
+            {subscription.period === 0
+              ? "Cancel anytime"
+              : `${subscription.period} ${
+                  subscription.interval === "monthly" ? "month" : "year"
+                }${subscription.period > 1 ? "s" : ""}`}
           </p>
         </div>
         <div>
@@ -125,7 +128,9 @@ const SubscriptionCard = ({
         <div>
           <span className="text-ui-fg-subtle">Expires</span>
           <p className="text-ui-fg-base font-medium">
-            {formatDate(subscription.expiration_date)}
+            {subscription.period === 0
+              ? "Never (cancel anytime)"
+              : formatDate(subscription.expiration_date)}
           </p>
         </div>
       </div>

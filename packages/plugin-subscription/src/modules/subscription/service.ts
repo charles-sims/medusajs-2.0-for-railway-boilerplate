@@ -101,9 +101,11 @@ class SubscriptionModuleService extends MedusaService({
     interval: SubscriptionInterval,
     period: number
   }): Date | null {
+    // period=0 means indefinite — always advance by 1 month
+    const increment = period === 0 ? 1 : period
     const nextOrderDate = moment(last_order_date)
       .add(
-        period,
+        increment,
         interval === SubscriptionInterval.MONTHLY ?
           "month" : "year"
       )
@@ -124,6 +126,10 @@ class SubscriptionModuleService extends MedusaService({
     interval: SubscriptionInterval,
     period: number
   }) {
+    // period=0 means indefinite — set expiration 100 years out
+    if (period === 0) {
+      return moment(subscription_date).add(100, "year").toDate()
+    }
     return moment(subscription_date)
       .add(
         period,

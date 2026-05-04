@@ -25,18 +25,18 @@ export default function ParticleSwarm() {
       "#B8C4CC", // fog lightened
     ]
 
-    const BOID_COUNT = 640
-    const VISUAL_RANGE = 120
-    const PROTECTED_RANGE = 35 // Increased for more white space between boids
-    const CENTER_PULL = 0.0002 // Very low cohesion for airy cloud
-    const AVOID_FACTOR = 0.15   // Stronger avoidance for better distribution
-    const MATCH_FACTOR = 0.03   // Looser alignment for more organic motion
-    const SPEED_LIMIT = 2.4
-    const MIN_SPEED = 0.8
+    const BOID_COUNT = 450
+    const VISUAL_RANGE = 110
+    const PROTECTED_RANGE = 30
+    const CENTER_PULL = 0.0003 
+    const AVOID_FACTOR = 0.12   
+    const MATCH_FACTOR = 0.08   // Higher for more coordinated sparrow-like steering
+    const SPEED_LIMIT = 2.2     // Slightly slower for smoother motion
+    const MIN_SPEED = 0.7
     
-    const MOUSE_RADIUS = 350 // Longer reach for "laser pointer" feel
-    const MOUSE_PULL = 0.008  // Much slighter attraction
-    const WANDER_STRENGTH = 0.12
+    const MOUSE_RADIUS = 300 
+    const MOUSE_PULL = 0.006    // Very subtle attraction
+    const WANDER_STRENGTH = 0.15 // Increased for more undulating wave motion
 
     let dpr = 1
     let boids: {
@@ -85,9 +85,9 @@ export default function ParticleSwarm() {
         vy: Math.sin(angle) * MIN_SPEED,
         angle,
         color: palette[Math.floor(Math.random() * palette.length)],
-        length: 8 + Math.random() * 10,
-        thickness: 1.2 + Math.random() * 1,
-        opacity: 0.2 + Math.random() * 0.4,
+        length: 5 + Math.random() * 10,
+        thickness: 1.0 + Math.random() * 1.0,
+        opacity: 0.15 + Math.random() * 0.35,
       })
     }
 

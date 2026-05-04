@@ -16,8 +16,8 @@ export function mapOrderToSalesInvoice(
     items: (order.items || []).map((item) => ({
       item_name: item.title,
       qty: item.quantity,
-      rate: Number(item.unit_price || 0) / 100,
-      amount: Number(item.total || 0) / 100,
+      rate: Number(item.unit_price || 0),
+      amount: Number(item.total || 0),
       income_account: opts.income_account,
     })),
     custom_medusa_order_id: order.id,

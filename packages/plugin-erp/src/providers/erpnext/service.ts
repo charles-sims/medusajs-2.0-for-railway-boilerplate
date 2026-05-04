@@ -36,6 +36,16 @@ export class ErpNextProviderService implements IErpProvider {
     }
   }
 
+  private async findExistingInvoice(orderId: string): Promise<string | null> {
+    try {
+      const filters = JSON.stringify([["Sales Invoice", "custom_medusa_order_id", "=", orderId]])
+      const result = await this.client.getList("Sales Invoice", { _raw_filters: filters }, ["name"])
+      return result.data?.[0]?.name ?? null
+    } catch {
+      return null
+    }
+  }
+
   private async ensureCustomer(email: string | undefined): Promise<string> {
     const fallback = "Walk-in Customer"
     const name = email || fallback
@@ -62,6 +72,9 @@ export class ErpNextProviderService implements IErpProvider {
   }
 
   async createSalesReceipt(order: OrderDTO): Promise<string> {
+    const existing = await this.findExistingInvoice(order.id)
+    if (existing) return existing
+
     const customerName = await this.ensureCustomer(order.email)
     const invoice = mapOrderToSalesInvoice(order, customerName, this.options)
     const result = await this.client.createDocument("Sales Invoice", invoice)
@@ -80,6 +93,9 @@ export class ErpNextProviderService implements IErpProvider {
 
   // ACH deferred payment — same as Sales Invoice in ERPNext, just unpaid
   async createInvoice(order: OrderDTO): Promise<string> {
+    const existing = await this.findExistingInvoice(order.id)
+    if (existing) return existing
+
     const customerName = await this.ensureCustomer(order.email)
     const invoice = mapOrderToSalesInvoice(order, customerName, this.options)
     // ERPNext Sales Invoice starts as unpaid (Draft → Submitted)

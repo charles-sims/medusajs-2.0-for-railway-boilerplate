@@ -25,7 +25,7 @@ export default function ParticleSwarm() {
       "#B8C4CC", // fog lightened
     ]
 
-    const BOID_COUNT = 320
+    const BOID_COUNT = 640
     const VISUAL_RANGE = 120
     const PROTECTED_RANGE = 35 // Increased for more white space between boids
     const CENTER_PULL = 0.0002 // Very low cohesion for airy cloud

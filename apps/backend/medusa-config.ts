@@ -1,3 +1,4 @@
+// build: 2026-05-04
 import { loadEnv, Modules, ContainerRegistrationKeys, defineConfig } from '@medusajs/framework/utils';
 import {
   ADMIN_CORS,

@@ -1,2 +1,6 @@
 import NmiCardPaymentProviderService from "./service"
-export default NmiCardPaymentProviderService
+import { ModuleProvider, Modules } from "@medusajs/framework/utils"
+
+export default ModuleProvider(Modules.PAYMENT, {
+  services: [NmiCardPaymentProviderService],
+})

@@ -171,7 +171,9 @@ export class ErpNextProviderService implements IErpProvider {
         allocated_amount: amount,
       }],
     })
-    return result.data.name
+    const entryName = result.data.name
+    await this.client.submitDocument("Payment Entry", entryName)
+    return entryName
   }
 
   async voidInvoice(externalId: string): Promise<void> {
@@ -199,7 +201,9 @@ export class ErpNextProviderService implements IErpProvider {
       paid_to: this.options.cash_account,
       paid_from: this.options.debit_account,
     })
-    return result.data.name
+    const entryName = result.data.name
+    await this.client.submitDocument("Payment Entry", entryName)
+    return entryName
   }
 
   async recordRefund(paymentId: string, orderId: string, amount: number, currencyCode: string): Promise<string> {

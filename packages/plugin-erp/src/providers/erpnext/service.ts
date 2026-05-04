@@ -36,6 +36,25 @@ export class ErpNextProviderService implements IErpProvider {
     }
   }
 
+  private async ensureItem(itemCode: string, itemName: string): Promise<string> {
+    // Try direct lookup by item_code
+    const existing = await this.client.getListByName("Item", itemCode)
+    if (existing) return existing
+
+    // Create non-stock sales item
+    const result = await this.client.createDocument("Item", {
+      doctype: "Item",
+      item_code: itemCode,
+      item_name: itemName,
+      item_group: "Products",
+      stock_uom: "Nos",
+      is_stock_item: 0,
+      is_sales_item: 1,
+      is_purchase_item: 0,
+    })
+    return result.data.name
+  }
+
   private async findExistingInvoice(orderId: string): Promise<string | null> {
     try {
       const filters = JSON.stringify([["Sales Invoice", "custom_medusa_order_id", "=", orderId]])
@@ -76,6 +95,16 @@ export class ErpNextProviderService implements IErpProvider {
     if (existing) return existing
 
     const customerName = await this.ensureCustomer(order.email)
+
+    // Ensure all line items exist in ERPNext before referencing them in the invoice
+    for (const item of (order.items || []) as any[]) {
+      const itemCode = item.variant_sku || item.product_handle || item.title
+      await this.ensureItem(itemCode, item.title)
+    }
+    if (Number((order as any).shipping_total) > 0) {
+      await this.ensureItem("Shipping", "Shipping")
+    }
+
     const invoice = mapOrderToSalesInvoice(order, customerName, this.options)
     const result = await this.client.createDocument("Sales Invoice", invoice)
     return result.data.name
@@ -97,6 +126,16 @@ export class ErpNextProviderService implements IErpProvider {
     if (existing) return existing
 
     const customerName = await this.ensureCustomer(order.email)
+
+    // Ensure all line items exist in ERPNext before referencing them in the invoice
+    for (const item of (order.items || []) as any[]) {
+      const itemCode = item.variant_sku || item.product_handle || item.title
+      await this.ensureItem(itemCode, item.title)
+    }
+    if (Number((order as any).shipping_total) > 0) {
+      await this.ensureItem("Shipping", "Shipping")
+    }
+
     const invoice = mapOrderToSalesInvoice(order, customerName, this.options)
     // ERPNext Sales Invoice starts as unpaid (Draft → Submitted)
     const result = await this.client.createDocument("Sales Invoice", invoice)

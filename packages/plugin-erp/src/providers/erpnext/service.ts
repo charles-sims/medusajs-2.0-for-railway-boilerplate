@@ -107,7 +107,9 @@ export class ErpNextProviderService implements IErpProvider {
 
     const invoice = mapOrderToSalesInvoice(order, customerName, this.options)
     const result = await this.client.createDocument("Sales Invoice", invoice)
-    return result.data.name
+    const invoiceName = result.data.name
+    await this.client.submitDocument("Sales Invoice", invoiceName)
+    return invoiceName
   }
 
   async voidSalesReceipt(externalId: string): Promise<void> {
@@ -137,9 +139,11 @@ export class ErpNextProviderService implements IErpProvider {
     }
 
     const invoice = mapOrderToSalesInvoice(order, customerName, this.options)
-    // ERPNext Sales Invoice starts as unpaid (Draft → Submitted)
     const result = await this.client.createDocument("Sales Invoice", invoice)
-    return result.data.name
+    const invoiceName = result.data.name
+    // Submit so it's outstanding and can receive payment entries
+    await this.client.submitDocument("Sales Invoice", invoiceName)
+    return invoiceName
   }
 
   async receivePayment(invoiceExternalId: string, amount: number, currencyCode: string): Promise<string> {

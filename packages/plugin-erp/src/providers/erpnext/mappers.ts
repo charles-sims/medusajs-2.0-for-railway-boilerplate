@@ -28,12 +28,18 @@ export function mapOrderToSalesInvoice(
     })
   }
 
+  const postingDate = new Date(order.created_at).toISOString().split("T")[0]
+  // Due date 30 days after posting date — must be >= posting date for ERPNext validation
+  const dueDate = new Date(new Date(order.created_at).getTime() + 30 * 24 * 60 * 60 * 1000)
+    .toISOString().split("T")[0]
+
   return {
     doctype: "Sales Invoice",
     company: opts.company,
     customer: customerName,
     debit_to: opts.debit_account,
-    posting_date: new Date(order.created_at).toISOString().split("T")[0],
+    posting_date: postingDate,
+    due_date: dueDate,
     currency: (order.currency_code || "USD").toUpperCase(),
     items: lineItems,
     custom_medusa_order_id: order.id,

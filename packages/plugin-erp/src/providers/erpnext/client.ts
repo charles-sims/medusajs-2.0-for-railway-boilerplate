@@ -77,6 +77,26 @@ export class ErpNextClient {
     return this.fetchWithRetry(`${doctype}/${encodeURIComponent(name)}`, { method: "DELETE" })
   }
 
+  async submitDocument(doctype: string, name: string): Promise<any> {
+    const response = await fetch(`${this.options.api_url}/api/method/frappe.client.submit`, {
+      method: "POST",
+      headers: {
+        Authorization: `token ${this.options.api_key}:${this.options.api_secret}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ doc: JSON.stringify({ doctype, name }) }),
+    })
+    if (!response.ok) {
+      const body = await response.text()
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        `ERPNext submit error ${response.status}: ${body}`
+      )
+    }
+    return response.json()
+  }
+
   async cancelDocument(doctype: string, name: string): Promise<any> {
     const response = await fetch(`${this.options.api_url}/api/method/frappe.client.cancel`, {
       method: "POST",

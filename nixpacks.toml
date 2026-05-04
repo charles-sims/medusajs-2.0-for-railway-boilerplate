@@ -11,7 +11,7 @@ cacheDirectories = [
 
 [phases.build]
 cmds = [
-  "pnpm turbo build --filter=medusa-2.0-boilerplate-backend",
+  "pnpm turbo build --filter=medusa-2.0-boilerplate-backend --force",
   "cd apps/backend && init-backend && medusa db:migrate",
 ]
 cacheDirectories = [

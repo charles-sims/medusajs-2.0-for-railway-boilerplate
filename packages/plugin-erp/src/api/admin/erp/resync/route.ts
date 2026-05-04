@@ -2,6 +2,7 @@ import { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
 import { syncOrderToErpWorkflow } from "../../../../workflows/sync-order-to-erp"
 import { syncCustomerToErpWorkflow } from "../../../../workflows/sync-customer-to-erp"
 import { syncProductToErpWorkflow } from "../../../../workflows/sync-product-to-erp"
+import { syncPaymentToErpWorkflow } from "../../../../workflows/sync-payment-to-erp"
 
 export async function POST(req: MedusaRequest, res: MedusaResponse) {
   const { entity, entity_id } = req.body as { entity: string; entity_id: string }
@@ -18,6 +19,10 @@ export async function POST(req: MedusaRequest, res: MedusaResponse) {
     } else if (entity === "product") {
       await syncProductToErpWorkflow(req.scope).run({
         input: { product_id: entity_id, event_name: "product.created" },
+      })
+    } else if (entity === "payment") {
+      await syncPaymentToErpWorkflow(req.scope).run({
+        input: { payment_id: entity_id, event_name: "payment.captured" },
       })
     } else {
       return res.status(400).json({ error: `Unknown entity type: ${entity}` })

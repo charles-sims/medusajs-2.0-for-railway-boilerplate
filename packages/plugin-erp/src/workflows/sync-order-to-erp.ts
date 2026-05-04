@@ -55,6 +55,10 @@ export const syncOrderToErpWorkflow = createWorkflow(
         const erpIds = order.metadata?.erp_ids as Record<string, string> | undefined
         if (!erpIds) return null
         return { action: "updateOrderStatus", entity_id: order.id, payload: [Object.values(erpIds)[0], "completed"] }
+      } else if (event === "order.deleted") {
+        const erpIds = order.metadata?.erp_ids as Record<string, string> | undefined
+        if (!erpIds) return null
+        return { action: "deleteInvoice", entity_id: order.id, payload: [Object.values(erpIds)[0]] }
       }
 
       return null

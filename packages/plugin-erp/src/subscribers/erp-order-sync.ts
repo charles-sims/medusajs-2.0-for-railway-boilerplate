@@ -15,5 +15,5 @@ export default async function erpOrderSyncHandler({
 }
 
 export const config: SubscriberConfig = {
-  event: ["order.placed", "order.canceled", "order.completed"],
+  event: ["order.placed", "order.canceled", "order.completed", "order.deleted"],
 }

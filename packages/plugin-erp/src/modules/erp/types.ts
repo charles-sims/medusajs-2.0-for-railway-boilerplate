@@ -35,6 +35,7 @@ export interface IErpProvider {
   createInvoice(order: OrderDTO): Promise<string>
   receivePayment(invoiceExternalId: string, amount: number, currencyCode: string): Promise<string>
   voidInvoice(externalId: string): Promise<void>
+  deleteInvoice(externalId: string): Promise<void>
 
   // Payments
   recordPayment(paymentId: string, orderId: string, amount: number, currencyCode: string): Promise<string>

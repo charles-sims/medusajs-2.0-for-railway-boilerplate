@@ -127,6 +127,12 @@ export class ErpNextProviderService implements IErpProvider {
     await this.client.cancelDocument("Sales Invoice", externalId)
   }
 
+  async deleteInvoice(externalId: string): Promise<void> {
+    // Attempt cancel first (no-op if already draft); then delete
+    try { await this.client.cancelDocument("Sales Invoice", externalId) } catch { /* already draft or cancelled */ }
+    await this.client.deleteDocument("Sales Invoice", externalId)
+  }
+
   async recordPayment(paymentId: string, orderId: string, amount: number, currencyCode: string): Promise<string> {
     const result = await this.client.createDocument("Payment Entry", {
       payment_type: "Receive",

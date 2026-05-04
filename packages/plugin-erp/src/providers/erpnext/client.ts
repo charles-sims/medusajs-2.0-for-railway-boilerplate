@@ -73,6 +73,10 @@ export class ErpNextClient {
     return this.fetchWithRetry(`${doctype}/${name}`)
   }
 
+  async deleteDocument(doctype: string, name: string): Promise<any> {
+    return this.fetchWithRetry(`${doctype}/${encodeURIComponent(name)}`, { method: "DELETE" })
+  }
+
   async cancelDocument(doctype: string, name: string): Promise<any> {
     const response = await fetch(`${this.options.api_url}/api/method/frappe.client.cancel`, {
       method: "POST",

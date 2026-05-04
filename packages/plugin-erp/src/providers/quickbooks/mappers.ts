@@ -3,12 +3,12 @@ import { QboSalesReceipt, QboInvoice, QboCustomer, QboItem, QboLine, QboRefundRe
 
 export function mapOrderToSalesReceipt(order: OrderDTO): QboSalesReceipt {
   const lines: QboLine[] = (order.items || []).map((item) => ({
-    Amount: Number(item.total || 0) / 100,
+    Amount: Number(item.total || 0),
     DetailType: "SalesItemLineDetail" as const,
     SalesItemLineDetail: {
       ItemRef: { value: "1", name: item.title },
       Qty: item.quantity,
-      UnitPrice: Number(item.unit_price || 0) / 100,
+      UnitPrice: Number(item.unit_price || 0),
     },
     Description: item.title,
   }))
@@ -24,12 +24,12 @@ export function mapOrderToSalesReceipt(order: OrderDTO): QboSalesReceipt {
 
 export function mapOrderToInvoice(order: OrderDTO): QboInvoice {
   const lines: QboLine[] = (order.items || []).map((item) => ({
-    Amount: Number(item.total || 0) / 100,
+    Amount: Number(item.total || 0),
     DetailType: "SalesItemLineDetail" as const,
     SalesItemLineDetail: {
       ItemRef: { value: "1", name: item.title },
       Qty: item.quantity,
-      UnitPrice: Number(item.unit_price || 0) / 100,
+      UnitPrice: Number(item.unit_price || 0),
     },
     Description: item.title,
   }))

@@ -98,6 +98,16 @@ export class QboErpProviderService implements IErpProvider {
     await this.client.voidInvoice(externalId, existing.Invoice.SyncToken)
   }
 
+  async deleteInvoice(externalId: string): Promise<void> {
+    await this.ensureClient()
+    try {
+      const existing = await this.client.getInvoice(externalId)
+      await this.client.voidInvoice(externalId, existing.Invoice.SyncToken)
+    } catch {
+      // Invoice may not exist or already voided — treat as success
+    }
+  }
+
   async recordPayment(paymentId: string, orderId: string, amount: number, currencyCode: string): Promise<string> {
     return `payment-${paymentId}`
   }

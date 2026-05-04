@@ -25,18 +25,18 @@ export default function ParticleSwarm() {
       "#B8C4CC", // fog lightened
     ]
 
-    const BOID_COUNT = 160
-    const VISUAL_RANGE = 100
-    const PROTECTED_RANGE = 20
-    const CENTER_PULL = 0.0005 // Extremely low cohesion for airy "cloud"
-    const AVOID_FACTOR = 0.1   // High separation to prevent clumping
-    const MATCH_FACTOR = 0.06  // Stronger alignment for coordinated "swallow" turns
-    const SPEED_LIMIT = 2.5
-    const MIN_SPEED = 1.0
+    const BOID_COUNT = 320
+    const VISUAL_RANGE = 120
+    const PROTECTED_RANGE = 35 // Increased for more white space between boids
+    const CENTER_PULL = 0.0002 // Very low cohesion for airy cloud
+    const AVOID_FACTOR = 0.15   // Stronger avoidance for better distribution
+    const MATCH_FACTOR = 0.03   // Looser alignment for more organic motion
+    const SPEED_LIMIT = 2.4
+    const MIN_SPEED = 0.8
     
-    const MOUSE_RADIUS = 250
-    const MOUSE_PULL = 0.02
-    const WANDER_STRENGTH = 0.08
+    const MOUSE_RADIUS = 350 // Longer reach for "laser pointer" feel
+    const MOUSE_PULL = 0.008  // Much slighter attraction
+    const WANDER_STRENGTH = 0.12
 
     let dpr = 1
     let boids: {
@@ -147,17 +147,22 @@ export default function ParticleSwarm() {
         b.vx += Math.cos(b.angle) * 0.04
         b.vy += Math.sin(b.angle) * 0.04
 
-        // Mouse gathering logic (Swallow-like swarming)
+        // Mouse gathering logic (Laser chase feel)
         const mdx = mouse.x - b.x
         const mdy = mouse.y - b.y
         const mDistSq = mdx * mdx + mdy * mdy
         if (mDistSq < MOUSE_RADIUS * MOUSE_RADIUS) {
           const mDist = Math.sqrt(mDistSq)
-          // "Swallow" behavior: circle or swarm near mouse, but push back if too close
-          // This prevents the "clump at a point" effect
-          const force = mDist < 60 ? -MOUSE_PULL * 2 : MOUSE_PULL
-          b.vx += mdx * force
-          b.vy += mdy * force
+          // Slight attraction + tiny tangential force (makes them circle/swarm instead of collapse)
+          const mouseForce = mDist < 80 ? -MOUSE_PULL * 3 : MOUSE_PULL
+          b.vx += mdx * mouseForce
+          b.vy += mdy * mouseForce
+          
+          // Tangential "curiosity" force
+          if (mDist > 40) {
+            b.vx += (mdy / mDist) * 0.05
+            b.vy -= (mdx / mDist) * 0.05
+          }
         }
 
         // Smooth boundary steering

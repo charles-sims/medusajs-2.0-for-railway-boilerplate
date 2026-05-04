@@ -143,11 +143,18 @@ export class ErpNextProviderService implements IErpProvider {
   }
 
   async receivePayment(invoiceExternalId: string, amount: number, currencyCode: string): Promise<string> {
+    // Look up the customer on the invoice so Payment Entry matches
+    const invoiceData = await this.client.getListByName("Sales Invoice", invoiceExternalId)
+    const invoiceDoc = invoiceData
+      ? await this.client.getDocument("Sales Invoice", encodeURIComponent(invoiceExternalId))
+      : null
+    const customer = invoiceDoc?.data?.customer || "Walk-in Customer"
+
     const result = await this.client.createDocument("Payment Entry", {
       payment_type: "Receive",
       company: this.options.company,
       party_type: "Customer",
-      party: "Walk-in Customer",
+      party: customer,
       paid_amount: amount,
       received_amount: amount,
       reference_no: invoiceExternalId,
@@ -174,11 +181,13 @@ export class ErpNextProviderService implements IErpProvider {
   }
 
   async recordPayment(paymentId: string, orderId: string, amount: number, currencyCode: string): Promise<string> {
+    // Ensure a default walk-in customer exists for standalone payment entries
+    const defaultCustomer = await this.ensureCustomer(undefined)
     const result = await this.client.createDocument("Payment Entry", {
       payment_type: "Receive",
       company: this.options.company,
       party_type: "Customer",
-      party: "Walk-in Customer",
+      party: defaultCustomer,
       paid_amount: amount,
       received_amount: amount,
       reference_no: paymentId,

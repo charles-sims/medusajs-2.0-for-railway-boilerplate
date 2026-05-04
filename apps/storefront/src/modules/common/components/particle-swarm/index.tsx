@@ -147,22 +147,26 @@ export default function ParticleSwarm() {
         b.vx += Math.cos(b.angle) * 0.04
         b.vy += Math.sin(b.angle) * 0.04
 
-        // Mouse gathering logic (Laser chase feel)
+        // Smooth Mouse Orbiting (No spazziness)
         const mdx = mouse.x - b.x
         const mdy = mouse.y - b.y
         const mDistSq = mdx * mdx + mdy * mdy
         if (mDistSq < MOUSE_RADIUS * MOUSE_RADIUS) {
           const mDist = Math.sqrt(mDistSq)
-          // Slight attraction + tiny tangential force (makes them circle/swarm instead of collapse)
-          const mouseForce = mDist < 80 ? -MOUSE_PULL * 3 : MOUSE_PULL
-          b.vx += mdx * mouseForce
-          b.vy += mdy * mouseForce
           
-          // Tangential "curiosity" force
-          if (mDist > 40) {
-            b.vx += (mdy / mDist) * 0.05
-            b.vy -= (mdx / mDist) * 0.05
-          }
+          // Target an orbit distance (e.g., 70px)
+          const targetDist = 70
+          const distError = mDist - targetDist
+          
+          // Continuous smooth radial force (attract if far, repel if close)
+          const radialForce = distError * 0.0005
+          b.vx += mdx * radialForce
+          b.vy += mdy * radialForce
+          
+          // Stronger tangential force for "circling" behavior
+          const tangentStrength = 0.06
+          b.vx += (mdy / mDist) * tangentStrength
+          b.vy -= (mdx / mDist) * tangentStrength
         }
 
         // Smooth boundary steering

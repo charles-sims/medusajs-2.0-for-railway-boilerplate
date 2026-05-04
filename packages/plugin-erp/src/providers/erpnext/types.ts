@@ -5,4 +5,5 @@ export type ErpNextOptions = {
   company: string
   income_account: string
   debit_account: string
+  cash_account: string
 }

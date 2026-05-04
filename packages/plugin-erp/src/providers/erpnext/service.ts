@@ -106,18 +106,19 @@ export class ErpNextProviderService implements IErpProvider {
   async receivePayment(invoiceExternalId: string, amount: number, currencyCode: string): Promise<string> {
     const result = await this.client.createDocument("Payment Entry", {
       payment_type: "Receive",
+      company: this.options.company,
       party_type: "Customer",
       party: "Walk-in Customer",
-      paid_amount: amount / 100,
-      received_amount: amount / 100,
+      paid_amount: amount,
+      received_amount: amount,
       reference_no: invoiceExternalId,
       reference_date: new Date().toISOString().split("T")[0],
-      paid_to: "Cash - C",
-      paid_from: "Debtors - C",
+      paid_to: this.options.cash_account,
+      paid_from: this.options.debit_account,
       references: [{
         reference_doctype: "Sales Invoice",
         reference_name: invoiceExternalId,
-        allocated_amount: amount / 100,
+        allocated_amount: amount,
       }],
     })
     return result.data.name
@@ -136,25 +137,27 @@ export class ErpNextProviderService implements IErpProvider {
   async recordPayment(paymentId: string, orderId: string, amount: number, currencyCode: string): Promise<string> {
     const result = await this.client.createDocument("Payment Entry", {
       payment_type: "Receive",
+      company: this.options.company,
       party_type: "Customer",
       party: "Walk-in Customer",
-      paid_amount: amount / 100,
-      received_amount: amount / 100,
+      paid_amount: amount,
+      received_amount: amount,
       reference_no: paymentId,
       reference_date: new Date().toISOString().split("T")[0],
-      paid_to: "Cash - C",
-      paid_from: "Debtors - C",
+      paid_to: this.options.cash_account,
+      paid_from: this.options.debit_account,
     })
     return result.data.name
   }
 
   async recordRefund(paymentId: string, orderId: string, amount: number, currencyCode: string): Promise<string> {
     const result = await this.client.createDocument("Journal Entry", {
+      company: this.options.company,
       voucher_type: "Credit Note",
       posting_date: new Date().toISOString().split("T")[0],
       accounts: [
-        { account: "Sales - C", debit_in_account_currency: amount / 100 },
-        { account: "Cash - C", credit_in_account_currency: amount / 100 },
+        { account: this.options.income_account, debit_in_account_currency: amount },
+        { account: this.options.cash_account, credit_in_account_currency: amount },
       ],
       remark: `Refund for payment ${paymentId}`,
     })
@@ -192,11 +195,12 @@ export class ErpNextProviderService implements IErpProvider {
     order_external_id: string; customer_external_id?: string; reason: string
   }): Promise<string> {
     const result = await this.client.createDocument("Journal Entry", {
+      company: this.options.company,
       voucher_type: "Credit Note",
       posting_date: new Date().toISOString().split("T")[0],
       accounts: [
-        { account: "Sales - C", debit_in_account_currency: dispute.amount / 100 },
-        { account: "Cash - C", credit_in_account_currency: dispute.amount / 100 },
+        { account: this.options.income_account, debit_in_account_currency: dispute.amount },
+        { account: this.options.cash_account, credit_in_account_currency: dispute.amount },
       ],
       remark: `Dispute chargeback: ${dispute.reason} (Invoice: ${dispute.order_external_id})`,
     })

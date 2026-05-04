@@ -44,6 +44,7 @@ class ErpModuleService extends MedusaService({
           company: process.env.ERPNEXT_COMPANY || "Skafld Studio",
           income_account: process.env.ERPNEXT_INCOME_ACCOUNT || "Sales - SS",
           debit_account: process.env.ERPNEXT_DEBIT_ACCOUNT || "Debtors - SS",
+          cash_account: process.env.ERPNEXT_CASH_ACCOUNT || "Cash - CL",
         })
       )
     }

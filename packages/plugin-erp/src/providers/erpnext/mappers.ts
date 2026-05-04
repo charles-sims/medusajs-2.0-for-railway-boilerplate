@@ -6,6 +6,28 @@ export function mapOrderToSalesInvoice(
   customerName: string,
   opts: Pick<ErpNextOptions, "company" | "income_account" | "debit_account">
 ): Record<string, unknown> {
+  const lineItems = (order.items || []).map((item: any) => ({
+    item_code: item.variant_sku || item.product_handle || item.title,
+    item_name: item.title,
+    description: item.subtitle ? `${item.title} — ${item.subtitle}` : item.title,
+    qty: item.quantity,
+    rate: Number(item.unit_price || 0),
+    amount: Number(item.total || 0),
+    income_account: opts.income_account,
+  }))
+
+  if (Number((order as any).shipping_total) > 0) {
+    lineItems.push({
+      item_code: "Shipping",
+      item_name: "Shipping",
+      description: "Shipping",
+      qty: 1,
+      rate: Number((order as any).shipping_total),
+      amount: Number((order as any).shipping_total),
+      income_account: opts.income_account,
+    })
+  }
+
   return {
     doctype: "Sales Invoice",
     company: opts.company,
@@ -13,13 +35,7 @@ export function mapOrderToSalesInvoice(
     debit_to: opts.debit_account,
     posting_date: new Date(order.created_at).toISOString().split("T")[0],
     currency: (order.currency_code || "USD").toUpperCase(),
-    items: (order.items || []).map((item) => ({
-      item_name: item.title,
-      qty: item.quantity,
-      rate: Number(item.unit_price || 0),
-      amount: Number(item.total || 0),
-      income_account: opts.income_account,
-    })),
+    items: lineItems,
     custom_medusa_order_id: order.id,
     remarks: `Medusa Order #${order.display_id}`,
   }

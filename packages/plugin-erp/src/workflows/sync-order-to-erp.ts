@@ -1,6 +1,7 @@
 import { createWorkflow, transform, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
 import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 import { syncToErpProvidersStep } from "./steps/sync-to-erp-providers"
+import { saveErpIdsToOrderStep } from "./steps/save-erp-ids-to-order"
 
 type WorkflowInput = {
   order_id: string
@@ -65,6 +66,28 @@ export const syncOrderToErpWorkflow = createWorkflow(
     })
 
     const results = syncToErpProvidersStep(syncPayload)
+
+    // Persist erp_ids and erp_type to order metadata so downstream events
+    // (cancel, complete, delete) can look up which ERP document to act on
+    const saveInput = transform({ syncPayload, results }, (data) => {
+      if (!data.syncPayload) return null
+      if (
+        data.syncPayload.action !== "createSalesReceipt" &&
+        data.syncPayload.action !== "createInvoice"
+      ) return null
+      if (!data.results?.length) return null
+
+      return {
+        order_id: data.syncPayload.entity_id,
+        results: data.results,
+        erp_type: data.syncPayload.action === "createInvoice"
+          ? ("invoice" as const)
+          : ("sales_receipt" as const),
+      }
+    })
+
+    saveErpIdsToOrderStep(saveInput)
+
     return new WorkflowResponse(results)
   }
 )

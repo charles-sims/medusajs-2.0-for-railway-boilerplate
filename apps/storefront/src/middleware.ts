@@ -117,6 +117,7 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith("/gate/") ||
     pathname === "/age-gate" ||
     pathname.startsWith("/age-gate/") ||
+    pathname === "/api/auth/google/callback" ||
     pathname.includes("/account/google/callback") ||
     pathname === "/reset-password" ||
     pathname.startsWith("/reset-password/") ||

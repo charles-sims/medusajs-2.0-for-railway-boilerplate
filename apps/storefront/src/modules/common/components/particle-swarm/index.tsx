@@ -3,8 +3,10 @@
 import { useEffect, useRef } from "react"
 
 /**
- * Coordinated Boids flocking animation with mouse gathering.
- * Follows Reynolds' flocking principles: Separation, Alignment, Cohesion.
+ * Advanced Boids animation — simulates bird-like (swallow) flocking.
+ * - Distributed "cloud" at rest with organic undulation.
+ * - Coordinated swarming when mouse moves.
+ * - Maintains volume (doesn't collapse into a single point).
  */
 export default function ParticleSwarm() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -15,7 +17,6 @@ export default function ParticleSwarm() {
     const ctx = canvas.getContext("2d")
     if (!ctx) return
 
-    // --- CaliLean brand palette ---
     const palette = [
       "#7090AB", // pacific
       "#8BA3B8", // lightened
@@ -25,17 +26,17 @@ export default function ParticleSwarm() {
     ]
 
     const BOID_COUNT = 160
-    const VISUAL_RANGE = 90
-    const PROTECTED_RANGE = 25
-    const CENTER_PULL = 0.002 // Lower cohesion for "cloud" effect
-    const AVOID_FACTOR = 0.08 // Higher separation to prevent clumping
-    const MATCH_FACTOR = 0.04 // Smooth alignment
-    const SPEED_LIMIT = 2.8
-    const MIN_SPEED = 1.2
+    const VISUAL_RANGE = 100
+    const PROTECTED_RANGE = 20
+    const CENTER_PULL = 0.0005 // Extremely low cohesion for airy "cloud"
+    const AVOID_FACTOR = 0.1   // High separation to prevent clumping
+    const MATCH_FACTOR = 0.06  // Stronger alignment for coordinated "swallow" turns
+    const SPEED_LIMIT = 2.5
+    const MIN_SPEED = 1.0
     
-    const MOUSE_RADIUS = 200 // Broader influence
-    const MOUSE_PULL = 0.015 
-    const WANDER_STRENGTH = 0.12 // Organic undulating motion
+    const MOUSE_RADIUS = 250
+    const MOUSE_PULL = 0.02
+    const WANDER_STRENGTH = 0.08
 
     let dpr = 1
     let boids: {
@@ -43,7 +44,7 @@ export default function ParticleSwarm() {
       y: number
       vx: number
       vy: number
-      angle: number // Add angle for wander
+      angle: number
       color: string
       length: number
       thickness: number
@@ -75,7 +76,6 @@ export default function ParticleSwarm() {
     window.addEventListener("mousemove", onMove)
     window.addEventListener("mouseout", onLeave)
 
-    // Seed boids
     for (let i = 0; i < BOID_COUNT; i++) {
       const angle = Math.random() * Math.PI * 2
       boids.push({
@@ -85,9 +85,9 @@ export default function ParticleSwarm() {
         vy: Math.sin(angle) * MIN_SPEED,
         angle,
         color: palette[Math.floor(Math.random() * palette.length)],
-        length: 7 + Math.random() * 9,
-        thickness: 1.4 + Math.random() * 0.8,
-        opacity: 0.25 + Math.random() * 0.4,
+        length: 8 + Math.random() * 10,
+        thickness: 1.2 + Math.random() * 1,
+        opacity: 0.2 + Math.random() * 0.4,
       })
     }
 
@@ -114,12 +114,10 @@ export default function ParticleSwarm() {
           const distSq = dx * dx + dy * dy
 
           if (distSq < VISUAL_RANGE * VISUAL_RANGE) {
-            // Separation (Avoidance)
             if (distSq < PROTECTED_RANGE * PROTECTED_RANGE) {
               close_dx += dx
               close_dy += dy
             } else {
-              // Alignment & Cohesion (in the outer visual range)
               avg_vx += other.vx
               avg_vy += other.vy
               avg_x += other.x
@@ -135,51 +133,47 @@ export default function ParticleSwarm() {
           avg_x /= neighbors
           avg_y /= neighbors
 
-          // Apply Alignment
           b.vx += (avg_vx - b.vx) * MATCH_FACTOR
           b.vy += (avg_vy - b.vy) * MATCH_FACTOR
-
-          // Apply Cohesion
           b.vx += (avg_x - b.x) * CENTER_PULL
           b.vy += (avg_y - b.y) * CENTER_PULL
         }
 
-        // Apply Separation
         b.vx += close_dx * AVOID_FACTOR
         b.vy += close_dy * AVOID_FACTOR
 
-        // Organic wander (undulating wave)
+        // Organic undulation (wander)
         b.angle += (Math.random() - 0.5) * WANDER_STRENGTH
-        b.vx += Math.cos(b.angle) * 0.05
-        b.vy += Math.sin(b.angle) * 0.05
+        b.vx += Math.cos(b.angle) * 0.04
+        b.vy += Math.sin(b.angle) * 0.04
 
-        // Mouse attraction (gathering without collapsing)
+        // Mouse gathering logic (Swallow-like swarming)
         const mdx = mouse.x - b.x
         const mdy = mouse.y - b.y
         const mDistSq = mdx * mdx + mdy * mdy
         if (mDistSq < MOUSE_RADIUS * MOUSE_RADIUS) {
           const mDist = Math.sqrt(mDistSq)
-          // As they get very close to mouse, attraction weakens to maintain swallow-like volume
-          const mouseForce = mDist > 40 ? MOUSE_PULL : -MOUSE_PULL * 0.5
-          b.vx += mdx * mouseForce
-          b.vy += mdy * mouseForce
+          // "Swallow" behavior: circle or swarm near mouse, but push back if too close
+          // This prevents the "clump at a point" effect
+          const force = mDist < 60 ? -MOUSE_PULL * 2 : MOUSE_PULL
+          b.vx += mdx * force
+          b.vy += mdy * force
         }
 
-        // Screen boundary awareness (soft turn back)
-        const margin = 80
+        // Smooth boundary steering
+        const margin = 120
         const turn = 0.12
         if (b.x < margin) b.vx += turn
         if (b.x > w - margin) b.vx -= turn
         if (b.y < margin) b.vy += turn
         if (b.y > h - margin) b.vy -= turn
 
-        // Position update (screen wrap for edge-to-edge flow)
-        if (b.x < -20) b.x = w + 20
-        if (b.x > w + 20) b.x = -20
-        if (b.y < -20) b.y = h + 20
-        if (b.y > h + 20) b.y = -20
+        // Screen wrap (teleport edges with buffer)
+        if (b.x < -40) b.x = w + 40
+        if (b.x > w + 40) b.x = -40
+        if (b.y < -40) b.y = h + 40
+        if (b.y > h + 40) b.y = -40
 
-        // Speed limit
         const speed = Math.sqrt(b.vx * b.vx + b.vy * b.vy)
         if (speed > SPEED_LIMIT) {
           b.vx = (b.vx / speed) * SPEED_LIMIT
@@ -193,13 +187,12 @@ export default function ParticleSwarm() {
         b.x += b.vx
         b.y += b.vy
 
-        // Draw
+        // Draw oriented dash
         const moveAngle = Math.atan2(b.vy, b.vx)
         ctx.save()
         ctx.globalAlpha = b.opacity
         ctx.translate(b.x, b.y)
         ctx.rotate(moveAngle)
-        
         ctx.beginPath()
         ctx.moveTo(-b.length / 2, 0)
         ctx.lineTo(b.length / 2, 0)

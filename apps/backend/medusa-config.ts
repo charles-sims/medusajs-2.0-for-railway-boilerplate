@@ -191,6 +191,16 @@ const medusaConfig = {
                 ? 'https://sandbox.nmi.com/api/transact.php'
                 : 'https://secure.nmi.com/api/transact.php',
             },
+          }, {
+            resolve: './src/modules/payment-nmi-card',
+            id: 'nmi-card',
+            options: {
+              apiKey: NMI_API_KEY,
+              tokenizationKey: NMI_TOKENIZATION_KEY,
+              endpoint: NMI_SANDBOX === 'true'
+                ? 'https://sandbox.nmi.com/api/transact.php'
+                : 'https://secure.nmi.com/api/transact.php',
+            },
           }] : []),
         ],
       },

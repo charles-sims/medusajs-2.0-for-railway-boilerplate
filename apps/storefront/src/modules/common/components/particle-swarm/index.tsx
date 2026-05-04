@@ -112,14 +112,14 @@ export default function ParticleSwarm() {
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i]
 
-        // Mouse repulsion
+        // Mouse attraction (Swarm effect)
         const dx = p.x - mouse.x
         const dy = p.y - mouse.y
         const dist = Math.sqrt(dx * dx + dy * dy)
         if (dist < MOUSE_RADIUS && dist > 0) {
           const force = ((MOUSE_RADIUS - dist) / MOUSE_RADIUS) * MOUSE_FORCE
-          p.vx += (dx / dist) * force
-          p.vy += (dy / dist) * force
+          p.vx -= (dx / dist) * force
+          p.vy -= (dy / dist) * force
         }
 
         // Organic wander

@@ -3,8 +3,8 @@
 import { useEffect, useRef } from "react"
 
 /**
- * Particle swarm animation — autonomous dashes that drift organically
- * and scatter away from the user's cursor. Uses CaliLean brand palette.
+ * Coordinated Boids flocking animation with mouse gathering.
+ * Follows Reynolds' flocking principles: Separation, Alignment, Cohesion.
  */
 export default function ParticleSwarm() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -15,44 +15,40 @@ export default function ParticleSwarm() {
     const ctx = canvas.getContext("2d")
     if (!ctx) return
 
-    // --- CaliLean palette with opacity variants for visual depth ---
+    // --- CaliLean brand palette ---
     const palette = [
-      "#7090AB", // pacific (primary)
-      "#7090AB", // pacific — weighted heavier
-      "#8BA3B8", // pacific lightened
+      "#7090AB", // pacific
+      "#8BA3B8", // lightened
+      "#5A7A94", // darkened
       "#9CA3A8", // fog
-      "#5A7A94", // pacific darkened
       "#B8C4CC", // fog lightened
-      "#7090AB", // pacific again for weight
     ]
 
-    const PARTICLE_COUNT = 180
-    const MOUSE_RADIUS = 140
-    const BASE_SPEED = 0.9
-    const DASH_MIN = 5
-    const DASH_MAX = 16
-    const THICKNESS_MIN = 1.2
-    const THICKNESS_MAX = 2.4
-    const WANDER_STRENGTH = 0.15
-    const WANDER_PULL = 0.03
-    const MOUSE_FORCE = 0.6
-    const FRICTION = 0.96
-    const SPEED_CAP = BASE_SPEED * 2.5
+    const BOID_COUNT = 150
+    const VISUAL_RANGE = 75
+    const PROTECTED_RANGE = 20
+    const CENTER_PULL = 0.005
+    const AVOID_FACTOR = 0.05
+    const MATCH_FACTOR = 0.05
+    const SPEED_LIMIT = 3
+    const MIN_SPEED = 1.5
+    
+    const MOUSE_RADIUS = 150
+    const MOUSE_PULL = 0.02
 
     let dpr = 1
-    let particles: {
+    let boids: {
       x: number
       y: number
       vx: number
       vy: number
-      angle: number
       color: string
       length: number
       thickness: number
       opacity: number
     }[] = []
-    let animId = 0
     let mouse = { x: -9999, y: -9999 }
+    let animId = 0
 
     const resize = () => {
       dpr = window.devicePixelRatio || 1
@@ -67,12 +63,6 @@ export default function ParticleSwarm() {
       mouse.x = e.clientX
       mouse.y = e.clientY
     }
-    const onTouch = (e: TouchEvent) => {
-      if (e.touches.length > 0) {
-        mouse.x = e.touches[0].clientX
-        mouse.y = e.touches[0].clientY
-      }
-    }
     const onLeave = () => {
       mouse.x = -9999
       mouse.y = -9999
@@ -81,85 +71,125 @@ export default function ParticleSwarm() {
     resize()
     window.addEventListener("resize", resize)
     window.addEventListener("mousemove", onMove)
-    window.addEventListener("touchmove", onTouch, { passive: true })
     window.addEventListener("mouseout", onLeave)
 
-    // Seed particles
-    const w = window.innerWidth
-    const h = window.innerHeight
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      const angle = Math.random() * Math.PI * 2
-      particles.push({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        vx: Math.cos(angle) * BASE_SPEED,
-        vy: Math.sin(angle) * BASE_SPEED,
-        angle,
+    // Seed boids
+    for (let i = 0; i < BOID_COUNT; i++) {
+      boids.push({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        vx: (Math.random() - 0.5) * 4,
+        vy: (Math.random() - 0.5) * 4,
         color: palette[Math.floor(Math.random() * palette.length)],
-        length: DASH_MIN + Math.random() * (DASH_MAX - DASH_MIN),
-        thickness:
-          THICKNESS_MIN + Math.random() * (THICKNESS_MAX - THICKNESS_MIN),
-        opacity: 0.25 + Math.random() * 0.45,
+        length: 6 + Math.random() * 8,
+        thickness: 1.5 + Math.random() * 1,
+        opacity: 0.3 + Math.random() * 0.4,
       })
     }
 
     const animate = () => {
-      const cw = window.innerWidth
-      const ch = window.innerHeight
+      const w = window.innerWidth
+      const h = window.innerHeight
 
-      ctx.clearRect(0, 0, cw, ch)
+      ctx.clearRect(0, 0, w, h)
 
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i]
+      for (const b of boids) {
+        let close_dx = 0
+        let close_dy = 0
+        let avg_vx = 0
+        let avg_vy = 0
+        let avg_x = 0
+        let avg_y = 0
+        let neighbors = 0
 
-        // Mouse attraction (Swarm effect)
-        const dx = p.x - mouse.x
-        const dy = p.y - mouse.y
-        const dist = Math.sqrt(dx * dx + dy * dy)
-        if (dist < MOUSE_RADIUS && dist > 0) {
-          const force = ((MOUSE_RADIUS - dist) / MOUSE_RADIUS) * MOUSE_FORCE
-          p.vx -= (dx / dist) * force
-          p.vy -= (dy / dist) * force
+        for (const other of boids) {
+          if (b === other) continue
+
+          const dx = b.x - other.x
+          const dy = b.y - other.y
+          const distSq = dx * dx + dy * dy
+
+          if (distSq < VISUAL_RANGE * VISUAL_RANGE) {
+            // Separation
+            if (distSq < PROTECTED_RANGE * PROTECTED_RANGE) {
+              close_dx += dx
+              close_dy += dy
+            } else {
+              // Alignment & Cohesion
+              avg_vx += other.vx
+              avg_vy += other.vy
+              avg_x += other.x
+              avg_y += other.y
+              neighbors++
+            }
+          }
         }
 
-        // Organic wander
-        p.angle += (Math.random() - 0.5) * WANDER_STRENGTH
-        p.vx += Math.cos(p.angle) * WANDER_PULL
-        p.vy += Math.sin(p.angle) * WANDER_PULL
+        if (neighbors > 0) {
+          avg_vx /= neighbors
+          avg_vy /= neighbors
+          avg_x /= neighbors
+          avg_y /= neighbors
 
-        // Speed cap + friction
-        const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy)
-        if (speed > SPEED_CAP) {
-          p.vx *= FRICTION
-          p.vy *= FRICTION
+          // Apply Alignment
+          b.vx += (avg_vx - b.vx) * MATCH_FACTOR
+          b.vy += (avg_vy - b.vy) * MATCH_FACTOR
+
+          // Apply Cohesion
+          b.vx += (avg_x - b.x) * CENTER_PULL
+          b.vy += (avg_y - b.y) * CENTER_PULL
         }
 
-        // Position update
-        p.x += p.vx
-        p.y += p.vy
+        // Apply Separation
+        b.vx += close_dx * AVOID_FACTOR
+        b.vy += close_dy * AVOID_FACTOR
 
-        // Screen wrap
-        if (p.x < -20) p.x = cw + 20
-        else if (p.x > cw + 20) p.x = -20
-        if (p.y < -20) p.y = ch + 20
-        else if (p.y > ch + 20) p.y = -20
+        // Mouse attraction (gathering)
+        const mdx = mouse.x - b.x
+        const mdy = mouse.y - b.y
+        const mDist = Math.sqrt(mdx * mdx + mdy * mdy)
+        if (mDist < MOUSE_RADIUS) {
+          b.vx += mdx * MOUSE_PULL
+          b.vy += mdy * MOUSE_PULL
+        }
 
-        // Draw dash oriented to movement direction
-        const moveAngle = Math.atan2(p.vy, p.vx)
+        // Screen boundary awareness (soft turn back)
+        const margin = 100
+        const turn = 0.15
+        if (b.x < margin) b.vx += turn
+        if (b.x > w - margin) b.vx -= turn
+        if (b.y < margin) b.vy += turn
+        if (b.y > h - margin) b.vy -= turn
+
+        // Speed limit
+        const speed = Math.sqrt(b.vx * b.vx + b.vy * b.vy)
+        if (speed > SPEED_LIMIT) {
+          b.vx = (b.vx / speed) * SPEED_LIMIT
+          b.vy = (b.vy / speed) * SPEED_LIMIT
+        }
+        if (speed < MIN_SPEED) {
+          b.vx = (b.vx / speed) * MIN_SPEED
+          b.vy = (b.vy / speed) * MIN_SPEED
+        }
+
+        // Move
+        b.x += b.vx
+        b.y += b.vy
+
+        // Draw
+        const angle = Math.atan2(b.vy, b.vx)
         ctx.save()
-        ctx.globalAlpha = p.opacity
-        ctx.translate(p.x, p.y)
-        ctx.rotate(moveAngle)
-
-        // Rounded dash with lineCap
+        ctx.globalAlpha = b.opacity
+        ctx.translate(b.x, b.y)
+        ctx.rotate(angle)
+        
         ctx.beginPath()
-        ctx.moveTo(-p.length / 2, 0)
-        ctx.lineTo(p.length / 2, 0)
-        ctx.strokeStyle = p.color
-        ctx.lineWidth = p.thickness
+        ctx.moveTo(-b.length / 2, 0)
+        ctx.lineTo(b.length / 2, 0)
+        ctx.strokeStyle = b.color
+        ctx.lineWidth = b.thickness
         ctx.lineCap = "round"
         ctx.stroke()
-
         ctx.restore()
       }
 
@@ -172,7 +202,6 @@ export default function ParticleSwarm() {
       cancelAnimationFrame(animId)
       window.removeEventListener("resize", resize)
       window.removeEventListener("mousemove", onMove)
-      window.removeEventListener("touchmove", onTouch)
       window.removeEventListener("mouseout", onLeave)
     }
   }, [])

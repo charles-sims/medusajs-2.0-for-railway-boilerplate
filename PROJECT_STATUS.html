@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CaliLean — Project Status Report</title>
+<title>CaliLean — Project Status</title>
 <style>
 :root {
   --bg: #0f1117; --bg-card: #1a1d27; --bg-elevated: #252836;
@@ -18,401 +18,414 @@
     --text: #1e293b; --text-muted: #64748b; --border: #e2e8f0;
   }
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-nav { position: fixed; top: 0; left: 0; width: 240px; height: 100vh; background: var(--bg-card); border-right: 1px solid var(--border); padding: 1.5rem 1rem; overflow-y: auto; z-index: 10; }
-nav h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.75rem; }
-nav a { display: block; padding: 0.35rem 0.75rem; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; border-radius: 4px; margin-bottom: 2px; }
-nav a:hover, nav a.active { color: var(--text); background: var(--bg-elevated); }
-main { margin-left: 240px; padding: 2rem 3rem; max-width: 1000px; }
-h1 { font-size: 1.75rem; margin-bottom: 0.25rem; }
-h2 { font-size: 1.35rem; margin: 2rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
-h3 { font-size: 1.1rem; margin: 1.25rem 0 0.75rem; }
-.meta { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem; }
-.stats { display: flex; gap: 1.5rem; flex-wrap: wrap; margin: 1rem 0 1.5rem; }
-.stat { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; min-width: 140px; }
-.stat-value { font-size: 1.5rem; font-weight: 700; }
-.stat-label { font-size: 0.8rem; color: var(--text-muted); }
-.badge { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600; }
-.badge-green { background: color-mix(in srgb, var(--green) 20%, transparent); color: var(--green); }
-.badge-yellow { background: color-mix(in srgb, var(--yellow) 20%, transparent); color: var(--yellow); }
-.badge-red { background: color-mix(in srgb, var(--red) 20%, transparent); color: var(--red); }
-.badge-gray { background: color-mix(in srgb, var(--gray) 20%, transparent); color: var(--gray); }
-.badge-orange { background: color-mix(in srgb, var(--orange) 20%, transparent); color: var(--orange); }
-.badge-blue { background: color-mix(in srgb, var(--blue) 20%, transparent); color: var(--blue); }
-.score-large { font-size: 3rem; font-weight: 800; }
-.score-red { color: var(--red); }
-table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.9rem; }
-th, td { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); }
-th { color: var(--text-muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
-details { margin: 0.75rem 0; }
-summary { cursor: pointer; font-weight: 600; padding: 0.5rem 0; }
-summary:hover { color: var(--accent); }
-.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin: 0.75rem 0; }
-code { background: var(--bg-elevated); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.85em; }
-.rec-critical { border-left: 3px solid var(--red); }
-.rec-warning { border-left: 3px solid var(--yellow); }
-.rec-suggestion { border-left: 3px solid var(--gray); }
-@media (max-width: 768px) {
-  nav { display: none; }
-  main { margin-left: 0; padding: 1rem; }
-}
-@media print {
-  nav { display: none; }
-  main { margin-left: 0; }
-  details[open] summary ~ * { display: block; }
-  details { break-inside: avoid; }
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.layout { display: flex; min-height: 100vh; }
+nav { width: 240px; min-width: 240px; background: var(--bg-card); border-right: 1px solid var(--border); padding: 24px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+main { flex: 1; padding: 32px 40px; max-width: 960px; }
+nav h2 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 12px; }
+nav ul { list-style: none; }
+nav li { margin-bottom: 4px; }
+nav a { color: var(--text-muted); font-size: 13px; display: block; padding: 4px 8px; border-radius: 4px; }
+nav a:hover, nav a.active { color: var(--text); background: var(--bg-elevated); text-decoration: none; }
+nav .logo { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 24px; display: block; }
+.header { margin-bottom: 40px; }
+.header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+.header .meta { color: var(--text-muted); font-size: 13px; margin-bottom: 20px; }
+.score-badge { display: inline-flex; align-items: center; gap: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 24px; }
+.score-num { font-size: 48px; font-weight: 800; color: var(--yellow); }
+.score-label { font-size: 13px; color: var(--text-muted); }
+.score-status { font-size: 16px; font-weight: 600; color: var(--yellow); }
+.stats-row { display: flex; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
+.stat { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; min-width: 120px; }
+.stat-num { font-size: 22px; font-weight: 700; }
+.stat-label { font-size: 12px; color: var(--text-muted); }
+.badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+.badge-green { background: rgba(34,197,94,0.15); color: var(--green); }
+.badge-yellow { background: rgba(234,179,8,0.15); color: var(--yellow); }
+.badge-red { background: rgba(239,68,68,0.15); color: var(--red); }
+.badge-gray { background: rgba(107,114,128,0.15); color: var(--gray); }
+.badge-orange { background: rgba(249,115,22,0.15); color: var(--orange); }
+section { margin-bottom: 48px; scroll-margin-top: 24px; }
+section h2 { font-size: 20px; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+section h3 { font-size: 11px; font-weight: 600; margin: 20px 0 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; }
+.card h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.card p { font-size: 13px; color: var(--text-muted); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; padding: 8px 12px; border-bottom: 2px solid var(--border); color: var(--text-muted); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+tr:hover td { background: var(--bg-elevated); }
+.table-wrap { overflow-x: auto; margin-bottom: 16px; }
+.checklist { list-style: none; }
+.checklist li { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; font-size: 14px; border-bottom: 1px solid var(--border); }
+.check-pass::before { content: "✅"; }
+.check-fail::before { content: "❌"; }
+.check-warn::before { content: "⚠️"; }
+.check-label { flex: 1; }
+.check-note { font-size: 12px; color: var(--text-muted); }
+details { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; overflow: hidden; }
+summary { padding: 12px 16px; cursor: pointer; font-weight: 600; font-size: 14px; background: var(--bg-card); user-select: none; }
+summary:hover { background: var(--bg-elevated); }
+details > *:not(summary) { padding: 16px; }
+.alert { border-radius: 8px; padding: 12px 16px; margin-bottom: 12px; font-size: 14px; }
+.alert-red { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); }
+.alert-yellow { background: rgba(234,179,8,0.1); border: 1px solid rgba(234,179,8,0.3); }
+.alert-green { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); }
+.alert-title { font-weight: 700; margin-bottom: 4px; }
+code { font-family: 'SF Mono', 'Consolas', monospace; font-size: 12px; background: var(--bg-elevated); padding: 2px 5px; border-radius: 3px; }
+.progress-bar { height: 8px; background: var(--bg-elevated); border-radius: 4px; overflow: hidden; margin: 8px 0; }
+.progress-fill { height: 100%; border-radius: 4px; }
+.progress-yellow { background: var(--yellow); }
+.commit { font-family: monospace; font-size: 11px; color: var(--text-muted); }
+.changelog-entry { padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+@media (max-width: 768px) { nav { display: none; } main { padding: 16px; } }
+@media print { nav { display: none; } details > *:not(summary) { display: block !important; } }
 </style>
 </head>
 <body>
-
+<div class="layout">
 <nav>
-  <h3>CaliLean Status</h3>
-  <a href="#header">Overview</a>
-  <a href="#health">Health Scorecard</a>
-  <a href="#classification">Project Classification</a>
-  <a href="#docs">Documentation</a>
-  <a href="#services">Services & Config</a>
-  <a href="#roadmap">Roadmap</a>
-  <a href="#changelog">Changelog</a>
-  <a href="#deps">Dependencies</a>
-  <a href="#recommendations">Recommendations</a>
+  <span class="logo">🌿 CaliLean</span>
+  <h2>Navigation</h2>
+  <ul>
+    <li><a href="#header">Overview</a></li>
+    <li><a href="#health">Health Scorecard</a></li>
+    <li><a href="#classification">Classification</a></li>
+    <li><a href="#docs">Documentation</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#changelog">Changelog</a></li>
+    <li><a href="#dependencies">Dependencies</a></li>
+    <li><a href="#recommendations">Recommendations</a></li>
+  </ul>
 </nav>
-
 <main>
 
-<section id="header">
+<section id="header" class="header">
   <h1>CaliLean — Project Status</h1>
-  <p class="meta">Generated 2026-04-22 &middot; Commit <code>18ba182</code> &middot; Branch <code>master</code></p>
-
-  <div style="display:flex;align-items:center;gap:1.5rem;margin:1rem 0">
+  <div class="meta">Generated: 2026-05-05 &nbsp;|&nbsp; Commit: <code>ca07313</code> &nbsp;|&nbsp; Branch: <code>master</code> &nbsp;|&nbsp; Tag: <code>v0.1.0</code></div>
+  <div class="score-badge">
+    <div class="score-num">82</div>
     <div>
-      <div class="score-large score-red">66</div>
-      <div style="font-size:0.85rem;color:var(--text-muted)">/100 Health Score</div>
+      <div class="score-status">🟡 Needs Attention</div>
+      <div class="score-label">Health Score / 100</div>
+      <div class="progress-bar" style="width:200px"><div class="progress-fill progress-yellow" style="width:82%"></div></div>
+      <div class="score-label">Up from 66/100 — CI, tests, rebrand all shipped</div>
     </div>
-    <span class="badge badge-red">UNHEALTHY</span>
   </div>
-
-  <div class="stats">
-    <div class="stat"><div class="stat-value">266</div><div class="stat-label">Source Files</div></div>
-    <div class="stat"><div class="stat-value">19,153</div><div class="stat-label">Lines of Code</div></div>
-    <div class="stat"><div class="stat-value">10</div><div class="stat-label">E2E Test Specs</div></div>
-    <div class="stat"><div class="stat-value">241</div><div class="stat-label">Total Commits</div></div>
-    <div class="stat"><div class="stat-value">2</div><div class="stat-label">Apps</div></div>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num">691</div><div class="stat-label">Source Files</div></div>
+    <div class="stat"><div class="stat-num">23</div><div class="stat-label">Test Files</div></div>
+    <div class="stat"><div class="stat-num">327</div><div class="stat-label">Commits (since v0.1.0)</div></div>
+    <div class="stat"><div class="stat-num">10</div><div class="stat-label">Plugin Packages</div></div>
+    <div class="stat"><div class="stat-num">2.14.1</div><div class="stat-label">Medusa Version</div></div>
+  </div>
+  <div class="alert alert-yellow" style="margin-top:16px">
+    <div class="alert-title">⚠️ Working Tree Dirty</div>
+    <code>apps/storefront/.../payment/index.tsx</code> modified &nbsp;|&nbsp; <code>apps/backend/scripts/trigger-resync.ts</code> untracked. Commit or clean up.
   </div>
 </section>
 
 <section id="health">
-  <h2>Health Scorecard</h2>
-
+  <h2>🏥 Health Scorecard</h2>
   <h3>Universal Checks</h3>
+  <ul class="checklist">
+    <li><span class="check-pass"></span><span class="check-label">Git initialized</span></li>
+    <li><span class="check-pass"></span><span class="check-label">.gitignore exists</span></li>
+    <li><span class="check-pass"></span><span class="check-label">No secrets committed</span><span class="check-note">.env correctly gitignored</span></li>
+    <li><span class="check-fail"></span><span class="check-label"><strong>Clean working tree</strong> <span class="badge badge-red">-10</span></span><span class="check-note">1 modified + 1 untracked</span></li>
+    <li><span class="check-pass"></span><span class="check-label">Test files exist (23)</span><span class="check-note">5 unit, 8 integration health, 10 E2E Playwright</span></li>
+    <li><span class="check-warn"></span><span class="check-label"><strong>Tests pass</strong> <span class="badge badge-yellow">-5</span></span><span class="check-note">CI-verified; not locally verifiable in this context</span></li>
+    <li><span class="check-pass"></span><span class="check-label">Coverage configured</span><span class="check-note">Jest config with coverage artifact</span></li>
+    <li><span class="check-pass"></span><span class="check-label">CI pipeline exists</span><span class="check-note">.github/workflows/ci.yml</span></li>
+    <li><span class="check-pass"></span><span class="check-label">CI passing</span><span class="check-note">Recent successful merges confirm</span></li>
+    <li><span class="check-pass"></span><span class="check-label">Lock file present</span><span class="check-note">pnpm-lock.yaml</span></li>
+    <li><span class="check-pass"></span><span class="check-label">Deps pinned</span><span class="check-note">Semver ranges</span></li>
+    <li><span class="check-pass"></span><span class="check-label">Dev deps separated</span></li>
+    <li><span class="check-pass"></span><span class="check-label">README exists and current</span></li>
+    <li><span class="check-pass"></span><span class="check-label">Contributing guide</span><span class="check-note">CONTRIBUTING.md present</span></li>
+    <li><span class="check-pass"></span><span class="check-label">Linter configured</span><span class="check-note">.eslintrc.js in backend</span></li>
+    <li><span class="check-warn"></span><span class="check-label"><strong>Formatter configured</strong> <span class="badge badge-yellow">-2</span></span><span class="check-note">No Prettier config found</span></li>
+    <li><span class="check-pass"></span><span class="check-label">Type checking</span><span class="check-note">tsconfig.json in all apps/packages</span></li>
+  </ul>
+  <h3>Node/TypeScript</h3>
+  <ul class="checklist">
+    <li><span class="check-fail"></span><span class="check-label"><strong>engines field</strong> <span class="badge badge-yellow">-5</span></span><span class="check-note">Intentionally removed; pnpm enforces Node version</span></li>
+    <li><span class="check-pass"></span><span class="check-label">node_modules in .gitignore</span></li>
+    <li><span class="check-pass"></span><span class="check-label">tsconfig.json present</span></li>
+  </ul>
+  <h3>Documentation Coverage (per package)</h3>
+  <p style="color:var(--text-muted);font-size:13px;margin-bottom:8px">AI context coverage: <strong>0/12</strong> packages have CLAUDE.md. Root CLAUDE.md provides monorepo-level context.</p>
+  <div class="table-wrap">
   <table>
-    <tr><th>Category</th><th>Check</th><th>Status</th><th>Weight</th></tr>
-    <tr><td>Version Control</td><td>Git initialized</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
-    <tr><td></td><td>.gitignore exists</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
-    <tr><td></td><td>No secrets committed</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
-    <tr><td></td><td>Clean working tree</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
-    <tr><td>Testing</td><td>Test files exist (10 Playwright specs)</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
-    <tr><td></td><td>Tests pass</td><td><span class="badge badge-red">Unknown</span></td><td>-10</td></tr>
-    <tr><td></td><td>Coverage configured</td><td><span class="badge badge-red">Fail</span></td><td>-2</td></tr>
-    <tr><td>CI/CD</td><td>Pipeline exists</td><td><span class="badge badge-red">Fail</span></td><td>-10</td></tr>
-    <tr><td></td><td>CI passing</td><td><span class="badge badge-red">Fail</span></td><td>-10</td></tr>
-    <tr><td>Dependencies</td><td>Lock file present</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
-    <tr><td></td><td>Deps pinned</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
-    <tr><td></td><td>Dev deps separated</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
-    <tr><td>Documentation</td><td>README exists</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
-    <tr><td></td><td>README current</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
-    <tr><td></td><td>Contributing guide</td><td><span class="badge badge-yellow">Fail</span></td><td>-2</td></tr>
-    <tr><td>Code Quality</td><td>Linter configured</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
-    <tr><td></td><td>Formatter configured</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
-    <tr><td></td><td>Type checking</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
+    <tr><th>Package/App</th><th>CLAUDE.md</th><th>README.md</th></tr>
+    <tr><td>apps/backend</td><td><span class="badge badge-red">Missing</span></td><td><span class="badge badge-green">✅</span></td></tr>
+    <tr><td>apps/storefront</td><td><span class="badge badge-red">Missing</span></td><td><span class="badge badge-green">✅</span></td></tr>
+    <tr><td>packages/plugin-erp</td><td><span class="badge badge-red">Missing</span></td><td><span class="badge badge-red">Missing</span></td></tr>
+    <tr><td>packages/* (9 more)</td><td><span class="badge badge-red">Missing</span></td><td><span class="badge badge-red">Missing</span></td></tr>
   </table>
-
-  <h3>Node/TypeScript Checks</h3>
-  <table>
-    <tr><th>Check</th><th>Status</th><th>Weight</th></tr>
-    <tr><td>engines field specified</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
-    <tr><td>node_modules in .gitignore</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
-    <tr><td>tsconfig.json with .ts files</td><td><span class="badge badge-green">Pass</span></td><td>0</td></tr>
-  </table>
+  </div>
 </section>
 
 <section id="classification">
-  <h2>Project Classification</h2>
-  <div class="card">
-    <table>
-      <tr><td><strong>Type</strong></td><td>Multi-app repository (no workspace config)</td></tr>
-      <tr><td><strong>Languages</strong></td><td>TypeScript (~95%), JavaScript (~4%), Python (~1%)</td></tr>
-      <tr><td><strong>Backend</strong></td><td>Medusa.js 2.13.6 (Node 22.x, pnpm 9.10)</td></tr>
-      <tr><td><strong>Storefront</strong></td><td>Next.js 15.5.15, React 19.0.4, Tailwind CSS 3.4.19</td></tr>
-      <tr><td><strong>Platform</strong></td><td>Railway (one-click deploy)</td></tr>
-      <tr><td><strong>Architecture</strong></td><td>Headless commerce — API backend + SSR storefront</td></tr>
-      <tr><td><strong>Brand</strong></td><td>Bluum (CBD/wellness) — custom design tokens, Switzer font, 21+ age gate</td></tr>
-      <tr><td><strong>Origin</strong></td><td>Fork of rpuls/medusajs-2.0-for-railway-boilerplate</td></tr>
-    </table>
+  <h2>🏗️ Project Classification</h2>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Field</th><th>Value</th></tr>
+    <tr><td>Type</td><td>pnpm Monorepo (apps + packages workspaces)</td></tr>
+    <tr><td>Primary Language</td><td>TypeScript</td></tr>
+    <tr><td>Backend Framework</td><td>Medusa.js 2.14.1</td></tr>
+    <tr><td>Frontend Framework</td><td>Next.js 15 (App Router)</td></tr>
+    <tr><td>React</td><td>18.x (backend/admin), 19.x (storefront)</td></tr>
+    <tr><td>Build</td><td>Turborepo + pnpm 9.10.0</td></tr>
+    <tr><td>Deployment</td><td>Railway via nixpacks.toml</td></tr>
+    <tr><td>Architecture</td><td>Headless commerce: API (9000) + SSR storefront (8000) + 10 plugins</td></tr>
+    <tr><td>Domain</td><td>Peptide / RUO wellness e-commerce (CaliLean brand)</td></tr>
+    <tr><td>Compliance</td><td>RUO posture — per-state checkout suppression, age gate, attestation</td></tr>
+  </table>
   </div>
 </section>
 
 <section id="docs">
-  <h2>Documentation Inventory</h2>
-
-  <div class="stats">
-    <div class="stat"><div class="stat-value">13</div><div class="stat-label">Markdown Files</div></div>
-    <div class="stat"><div class="stat-value">1</div><div class="stat-label">Governance (Tier 1)</div></div>
-    <div class="stat"><div class="stat-value">12</div><div class="stat-label">Package Docs (Tier 3)</div></div>
+  <h2>📚 Documentation Inventory</h2>
+  <div class="alert alert-yellow">
+    <div class="alert-title">Duplicate Documentation</div>
+    <code>docs/strategy/</code> duplicates <code>docs/ops/strategy/</code> &nbsp;|&nbsp;
+    <code>docs/compliance/</code> duplicates <code>docs/ops/compliance/</code>. Delete the root-level copies.
   </div>
-
-  <details open>
-    <summary>All Documentation Files</summary>
-    <table>
-      <tr><th>Path</th><th>Category</th><th>Tier</th><th>Status</th><th>Action</th></tr>
-      <tr><td><code>README.md</code></td><td>Governance</td><td>1</td><td><span class="badge badge-yellow">Stale</span></td><td>Update — claims Next.js 14, actually 15</td></tr>
-      <tr><td><code>backend/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
-      <tr><td><code>backend/src/admin/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
-      <tr><td><code>backend/src/api/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
-      <tr><td><code>backend/src/jobs/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
-      <tr><td><code>backend/src/modules/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
-      <tr><td><code>backend/src/modules/email-notifications/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
-      <tr><td><code>backend/src/modules/minio-file/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
-      <tr><td><code>backend/src/scripts/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
-      <tr><td><code>backend/src/subscribers/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
-      <tr><td><code>backend/src/workflows/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
-      <tr><td><code>storefront/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
-      <tr><td><code>storefront/e2e/README.md</code></td><td>Package Doc</td><td>3</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
-    </table>
-  </details>
-
   <details>
-    <summary>Missing Documentation</summary>
+    <summary>📋 Full Inventory</summary>
+    <div class="table-wrap">
     <table>
-      <tr><th>File</th><th>Tier</th><th>Priority</th></tr>
-      <tr><td><code>CLAUDE.md</code></td><td>1</td><td><span class="badge badge-red">High</span> — Generated by this run</td></tr>
-      <tr><td><code>CONTRIBUTING.md</code></td><td>1</td><td><span class="badge badge-yellow">Medium</span></td></tr>
-      <tr><td><code>LICENSE</code></td><td>1</td><td><span class="badge badge-yellow">Medium</span> — MIT claimed but file missing</td></tr>
+      <tr><th>File / Dir</th><th>Category</th><th>Status</th><th>Action</th></tr>
+      <tr><td>CLAUDE.md</td><td>Governance</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
+      <tr><td>README.md</td><td>Governance</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
+      <tr><td>CONTRIBUTING.md</td><td>Governance</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
+      <tr><td>DECISIONS.md</td><td>Architecture</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
+      <tr><td>DESIGN.md</td><td>Specification</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
+      <tr><td>PROJECT_STATE.md</td><td>Project State</td><td><span class="badge badge-red">Orphaned</span></td><td>Delete — superseded by .project-state/</td></tr>
+      <tr><td>docs/strategy/* (4)</td><td>Strategy</td><td><span class="badge badge-orange">Duplicate</span></td><td>Delete — canonical in docs/ops/strategy/</td></tr>
+      <tr><td>docs/compliance/* (4)</td><td>Compliance</td><td><span class="badge badge-orange">Duplicate</span></td><td>Delete — canonical in docs/ops/compliance/</td></tr>
+      <tr><td>docs/ops/compliance/* (5)</td><td>Compliance</td><td><span class="badge badge-green">Current</span></td><td>Keep (canonical)</td></tr>
+      <tr><td>docs/ops/strategy/* (4)</td><td>Strategy</td><td><span class="badge badge-green">Current</span></td><td>Keep (canonical)</td></tr>
+      <tr><td>docs/ops/pricing-research.md</td><td>Ops</td><td><span class="badge badge-orange">Duplicate</span></td><td>Delete — use docs/ops/pricing/</td></tr>
+      <tr><td>docs/ops/sku-system.md</td><td>Ops</td><td><span class="badge badge-orange">Duplicate</span></td><td>Delete — use docs/ops/product/</td></tr>
+      <tr><td>docs/ops/per-state-suppression.md</td><td>Compliance</td><td><span class="badge badge-orange">Duplicate</span></td><td>Delete — in docs/ops/compliance/</td></tr>
+      <tr><td>docs/brand/* (14)</td><td>Brand</td><td><span class="badge badge-green">Current</span></td><td>Keep</td></tr>
+      <tr><td>content/research/*.mdx (15)</td><td>Product Content</td><td><span class="badge badge-green">Current</span></td><td>Keep — peptide research pages</td></tr>
+      <tr><td>docs/superpowers/plans/* (3)</td><td>Plans</td><td><span class="badge badge-yellow">Stale</span></td><td>Archive — plans implemented</td></tr>
     </table>
-  </details>
-
-  <details>
-    <summary>Docs-vs-Reality Gaps</summary>
-    <div class="card">
-      <p><strong>1. README claims "Next.js 14"</strong> — Storefront actually uses Next.js 15.5.15</p>
-      <p><strong>2. README says "monorepo"</strong> — No workspace config exists; it's two separate apps</p>
-      <p><strong>3. Bluum brand undocumented</strong> — 13+ commits add Bluum branding but README describes generic Medusa boilerplate</p>
-      <p><strong>4. No CI/CD described</strong> — No workflow files exist despite .github/ directory</p>
     </div>
   </details>
 </section>
 
 <section id="services">
-  <h2>Services & Configuration</h2>
-
-  <h3>Internal Services</h3>
+  <h2>⚙️ Services</h2>
+  <h3>Internal</h3>
+  <div class="table-wrap">
   <table>
-    <tr><th>Service</th><th>Location</th><th>Port</th></tr>
-    <tr><td>Medusa Backend + Admin</td><td><code>backend/</code></td><td>9000</td></tr>
-    <tr><td>Next.js Storefront</td><td><code>storefront/</code></td><td>8000</td></tr>
-    <tr><td>Email Template Preview</td><td><code>backend/</code> (email:dev)</td><td>3002</td></tr>
+    <tr><th>Service</th><th>Location</th><th>Status</th></tr>
+    <tr><td>Medusa API</td><td>apps/backend/ (port 9000)</td><td><span class="badge badge-green">Active</span></td></tr>
+    <tr><td>Next.js Storefront</td><td>apps/storefront/ (port 8000)</td><td><span class="badge badge-green">Active</span></td></tr>
+    <tr><td>ERP Sync (ERPNext)</td><td>packages/plugin-erp/</td><td><span class="badge badge-green">Active</span></td></tr>
+    <tr><td>Subscriptions</td><td>packages/plugin-subscription/</td><td><span class="badge badge-green">Active</span></td></tr>
+    <tr><td>ShipStation</td><td>packages/plugin-shipstation/</td><td><span class="badge badge-green">Active</span></td></tr>
+    <tr><td>Payment NMI Card</td><td>apps/backend/src/modules/payment-nmi-card/</td><td><span class="badge badge-green">Active</span></td></tr>
+    <tr><td>Payment NMI ACH</td><td>apps/backend/src/modules/payment-nmi/</td><td><span class="badge badge-green">Active</span></td></tr>
   </table>
-
-  <h3>External Services</h3>
+  </div>
+  <h3>External</h3>
+  <div class="table-wrap">
   <table>
-    <tr><th>Service</th><th>Provider</th><th>Required</th><th>Status</th></tr>
-    <tr><td>Database</td><td>PostgreSQL</td><td>Yes</td><td><span class="badge badge-green">Configured</span></td></tr>
-    <tr><td>Cache/Queue</td><td>Redis</td><td>No</td><td><span class="badge badge-gray">Optional</span></td></tr>
-    <tr><td>File Storage</td><td>MinIO</td><td>No</td><td><span class="badge badge-gray">Optional (local fallback)</span></td></tr>
-    <tr><td>Search</td><td>MeiliSearch</td><td>No</td><td><span class="badge badge-gray">Optional</span></td></tr>
-    <tr><td>Payment</td><td>Stripe</td><td>No</td><td><span class="badge badge-gray">Optional</span></td></tr>
-    <tr><td>Email</td><td>SendGrid / Resend</td><td>No</td><td><span class="badge badge-gray">Optional</span></td></tr>
+    <tr><th>Service</th><th>Purpose</th><th>Env Key(s)</th></tr>
+    <tr><td>PostgreSQL</td><td>Primary database</td><td><code>DATABASE_URL</code></td></tr>
+    <tr><td>ERPNext</td><td>ERP accounting</td><td><code>ERPNEXT_*</code></td></tr>
+    <tr><td>NMI</td><td>Credit card + ACH</td><td><code>NMI_API_KEY</code>, <code>NMI_TOKENIZATION_KEY</code></td></tr>
+    <tr><td>Stripe</td><td>Payment alternative</td><td><code>STRIPE_API_KEY</code></td></tr>
+    <tr><td>SendGrid</td><td>Email</td><td><code>SENDGRID_API_KEY</code></td></tr>
+    <tr><td>Google OAuth</td><td>Customer auth</td><td><code>GOOGLE_CLIENT_ID</code>, <code>GOOGLE_CLIENT_SECRET</code></td></tr>
+    <tr><td>Redis (opt.)</td><td>Workflows</td><td><code>REDIS_URL</code></td></tr>
+    <tr><td>MinIO (opt.)</td><td>COA file storage</td><td><code>MINIO_*</code></td></tr>
+    <tr><td>MeiliSearch (opt.)</td><td>Product search</td><td><code>MEILISEARCH_*</code></td></tr>
+    <tr><td>Sanity (opt.)</td><td>CMS</td><td><code>SANITY_*</code></td></tr>
+    <tr><td>ShipStation</td><td>Shipping labels</td><td><code>SHIPSTATION_API_KEY</code></td></tr>
+    <tr><td>Sentry (opt.)</td><td>Error tracking</td><td><code>SENTRY_DSN</code></td></tr>
   </table>
-
-  <h3>Environment Configuration</h3>
-  <div class="card">
-    <p><strong>Backend</strong> (<code>.env.template</code>): 21 variables — DATABASE_URL, REDIS_URL, JWT/COOKIE secrets, CORS settings, Stripe, SendGrid, MinIO, MeiliSearch</p>
-    <p><strong>Storefront</strong> (<code>.env.local.template</code>): 7 variables — backend URL, base URL, default region, MinIO endpoint, MeiliSearch config</p>
   </div>
 </section>
 
 <section id="roadmap">
-  <h2>Roadmap</h2>
+  <h2>🗺️ Roadmap</h2>
+  <div class="alert alert-green">
+    <div class="alert-title">🎉 Core platform complete</div>
+    CaliLean's commerce + compliance platform is shipped: rebrand, RUO, ERPNext, NMI payments, Google OAuth, CI/CD, research pages, COA panel, subscriptions, ShipStation. 327 commits since v0.1.0.
+  </div>
 
   <h3>Prioritized Next Steps</h3>
+  <div class="card"><div style="display:flex;gap:8px;margin-bottom:4px"><span class="badge badge-red">Critical</span><h4>1. Commit uncommitted work</h4></div><p><code>payment/index.tsx</code> modified + <code>trigger-resync.ts</code> untracked. Risk of loss.</p></div>
+  <div class="card"><div style="display:flex;gap:8px;margin-bottom:4px"><span class="badge badge-red">Critical</span><h4>2. Validate ERPNext Payment Entry sync</h4></div><p>Latest fix: auto-submit Payment Entries. Verify full flow: order → Sales Invoice (submitted) → payment captured → Payment Entry (submitted).</p></div>
+  <div class="card"><div style="display:flex;gap:8px;margin-bottom:4px"><span class="badge badge-yellow">High</span><h4>3. Clean duplicate docs</h4></div><p>Delete <code>docs/strategy/</code>, <code>docs/compliance/</code>, and 3 loose ops docs. Trivial effort.</p></div>
+  <div class="card"><div style="display:flex;gap:8px;margin-bottom:4px"><span class="badge badge-yellow">High</span><h4>4. Add apps/storefront/CLAUDE.md</h4></div><p>Document [countryCode] routing, async cookies, module structure, Google OAuth gate flow.</p></div>
+  <div class="card"><div style="display:flex;gap:8px;margin-bottom:4px"><span class="badge badge-yellow">High</span><h4>5. Ship NMI storefront UI</h4></div><p>Complete and commit NMI changes in <code>checkout/components/payment/index.tsx</code>.</p></div>
+  <div class="card"><div style="display:flex;gap:8px;margin-bottom:4px"><span class="badge badge-gray">Recommended</span><h4>6. Tag v0.2.0</h4></div><p>327 commits of platform work. Anchor the changelog with a named release.</p></div>
 
-  <div class="card rec-critical">
-    <p><strong>1. Add CI/CD pipeline</strong> <span class="badge badge-red">Critical</span></p>
-    <p>No automated testing or build verification. Any push could break production.</p>
+  <h3>Inline TODOs (5)</h3>
+  <div class="table-wrap">
+  <table>
+    <tr><th>File</th><th>TODO</th><th>Priority</th></tr>
+    <tr><td><code>check-env-variables.js:6</code></td><td>Need doc link</td><td><span class="badge badge-gray">Defer</span></td></tr>
+    <tr><td><code>cart.ts:283</code></td><td>POJO refactor</td><td><span class="badge badge-gray">Nice to have</span></td></tr>
+    <tr><td><code>order-details/index.tsx:44</code></td><td>Order status source</td><td><span class="badge badge-gray">Nice to have</span></td></tr>
+    <tr><td><code>payment-button/index.tsx:33</code></td><td>Gift card support</td><td><span class="badge badge-gray">Defer (v2 gap)</span></td></tr>
+    <tr><td><code>profile-email/index.tsx:19</code></td><td>Email update</td><td><span class="badge badge-gray">Defer (v2 gap)</span></td></tr>
+  </table>
   </div>
 
-  <div class="card rec-critical">
-    <p><strong>2. Update README for Bluum brand</strong> <span class="badge badge-red">Critical</span></p>
-    <p>README describes generic Medusa boilerplate. Should reflect Bluum CBD/wellness storefront.</p>
-  </div>
-
-  <div class="card rec-warning">
-    <p><strong>3. Fix inventory management in cart</strong> <span class="badge badge-yellow">High Value</span></p>
-    <p>Cart items don't check real inventory via Medusa v2 API. Risk of overselling.</p>
-  </div>
-
-  <div class="card rec-warning">
-    <p><strong>4. Add password update support</strong> <span class="badge badge-yellow">High Value</span></p>
-    <p>Profile page has disabled password update feature.</p>
-  </div>
-
-  <div class="card rec-suggestion">
-    <p><strong>5. Expand .gitignore</strong> <span class="badge badge-gray">Quick Win</span></p>
-    <p>Missing: .env, dist/, build/, .medusa/, coverage/</p>
-  </div>
-
-  <h3>Inline TODOs (10 total)</h3>
   <details>
-    <summary>View all TODOs</summary>
-    <table>
-      <tr><th>File</th><th>TODO</th><th>Priority</th></tr>
-      <tr><td><code>check-env-variables.js:6</code></td><td>Need a good doc to point this to</td><td><span class="badge badge-gray">Defer</span></td></tr>
-      <tr><td><code>lib/data/cart.ts:299</code></td><td>Pass a POJO instead of form entity</td><td><span class="badge badge-gray">Nice to Have</span></td></tr>
-      <tr><td><code>account/.../profile-email:19</code></td><td>Don't support updating emails now?</td><td><span class="badge badge-gray">Defer</span></td></tr>
-      <tr><td><code>order/.../order-details:44</code></td><td>Check where statuses should come from</td><td><span class="badge badge-gray">Nice to Have</span></td></tr>
-      <tr><td><code>lib/data/categories.ts:15,27</code></td><td>Look into fixing the type</td><td><span class="badge badge-gray">Nice to Have</span></td></tr>
-      <tr><td><code>checkout/.../payment-button:30</code></td><td>Add gift card support</td><td><span class="badge badge-gray">Defer</span></td></tr>
-      <tr><td><code>account/.../profile-password:18</code></td><td>Add support for password updates</td><td><span class="badge badge-yellow">High Value</span></td></tr>
-      <tr><td><code>cart/components/item:45,87</code></td><td>Update with v2 inventory management</td><td><span class="badge badge-yellow">High Value</span></td></tr>
-    </table>
+    <summary>✅ Completed Items</summary>
+    <ul style="padding:16px 16px 0 36px;font-size:13px;color:var(--text-muted)">
+      <li>CI/CD pipeline — .github/workflows/ci.yml</li>
+      <li>CLAUDE.md — root file present</li>
+      <li>CaliLean rebrand (Bluum → CaliLean)</li>
+      <li>ERPNext integration — Sales Invoice + Payment Entry + auto-submit</li>
+      <li>NMI credit card payment provider</li>
+      <li>Google OAuth auth gate with Boids animation</li>
+      <li>RUO compliance — per-state suppression, age gate, attestation</li>
+      <li>COA admin panel — upload + display</li>
+      <li>SEO — sitemap, robots, OG/Twitter, JSON-LD</li>
+      <li>Research MDX pages (15 peptide articles)</li>
+      <li>Backend Jest tests + E2E Playwright</li>
+      <li>Password update support</li>
+      <li>Subscription + ShipStation + Loyalty plugins</li>
+    </ul>
   </details>
 </section>
 
 <section id="changelog">
-  <h2>Changelog</h2>
-  <p class="meta">Full history — no release tags exist. Recommend tagging <code>v0.1.0</code> at current commit.</p>
+  <h2>📝 Changelog</h2>
+  <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px">Window: v0.1.0 (2026-04-22) → ca07313 (2026-05-04) — 327 commits</p>
 
-  <h3>Features (Bluum Storefront)</h3>
-  <table>
-    <tr><th>Commit</th><th>Description</th></tr>
-    <tr><td><code>8a84ae4</code></td><td>Add Bluum design tokens, Switzer font, brand colors</td></tr>
-    <tr><td><code>8e2630d</code></td><td>Replace nav with Bluum branded header</td></tr>
-    <tr><td><code>91b7055</code></td><td>Replace footer with Bluum dark branded footer</td></tr>
-    <tr><td><code>43fe86e</code></td><td>Replace hero with Bluum branded hero section</td></tr>
-    <tr><td><code>dbd7b7b</code></td><td>Add value props and lab banner components</td></tr>
-    <tr><td><code>0b1d0d2</code></td><td>Add FAQ accordion component</td></tr>
-    <tr><td><code>0cb89cc</code></td><td>Add trust badges, research disclaimer, product specs table</td></tr>
-    <tr><td><code>fc5f05f</code></td><td>Compose Bluum homepage with hero, lab banner, featured products, value props, FAQ</td></tr>
-    <tr><td><code>e4f3824</code></td><td>Restyle product preview card and thumbnail</td></tr>
-    <tr><td><code>e1de378</code></td><td>Add 21+ age gate modal to root layout</td></tr>
-    <tr><td><code>216c121</code></td><td>Rewrite PDP with Bluum layout — gallery, badges, trust, specs, related</td></tr>
-    <tr><td><code>716f536</code></td><td>Restyle store page with Bluum design</td></tr>
-    <tr><td><code>a723c36</code></td><td>Add 33 product seed data with metadata</td></tr>
-  </table>
-
-  <h3>Fixes</h3>
-  <table>
-    <tr><td><code>6cae80e</code></td><td>Divide price by 100 for correct USD display</td></tr>
-  </table>
+  <details open>
+    <summary>✨ Features</summary>
+    <div>
+      <div class="changelog-entry"><span class="commit">ca07313</span> 2026-05-04 — fix(erp): auto-submit Payment Entries after creation</div>
+      <div class="changelog-entry"><span class="commit">7708624</span> 2026-05-04 — fix(erp): auto-submit Sales Invoices and set correct due_date</div>
+      <div class="changelog-entry"><span class="commit">651ac77</span> 2026-05-03 — feat(erp): complete integration — item codes, shipping, erp_ids persistence</div>
+      <div class="changelog-entry"><span class="commit">48702dc</span> 2026-05-03 — feat(payment): add NMI credit card payment provider</div>
+      <div class="changelog-entry"><span class="commit">e263484</span> 2026-05-04 — feat(gate): advanced Boids animation and Google OAuth callback</div>
+      <div class="changelog-entry"><span class="commit">7fb9fd5</span> 2026-04-27 — feat: auth gate, favicon fix, resend email config</div>
+      <div class="changelog-entry"><span class="commit">fd52a6</span>  2026-04-27 — <strong>rebrand: v2 palette, typography, logo, product images, domain update</strong></div>
+      <div class="changelog-entry"><span class="commit">623af24</span> 2026-04-26 — feat(ruo): env-driven per-state checkout suppression</div>
+      <div class="changelog-entry"><span class="commit">034904</span>  2026-04-26 — feat(admin): COA batch widget for product detail page</div>
+      <div class="changelog-entry"><span class="commit">38cfba1</span> 2026-04-26 — feat(seo): sitemap, robots, manifest, OG/Twitter, JSON-LD</div>
+      <div class="changelog-entry"><span class="commit">d831ac0</span> 2026-04-28 — feat: MDX research pages (15 peptide articles)</div>
+      <div class="changelog-entry"><span class="commit">d93ad23</span> 2026-04-27 — feat(storefront): By Pathway / All Products view toggle</div>
+    </div>
+  </details>
 
   <details>
-    <summary>Chores & Maintenance</summary>
-    <table>
-      <tr><td><code>18ba182</code></td><td>Merge upstream (rpuls:master)</td></tr>
-      <tr><td><code>b848473</code></td><td>Update Medusa and storefront dependencies</td></tr>
-      <tr><td><code>d17e614</code></td><td>Trigger Railway rebuild for price display fix</td></tr>
-      <tr><td><code>e3079a9</code></td><td>Update .gitignore</td></tr>
-      <tr><td><code>d03c6f0</code></td><td>Update deployment link in README.md</td></tr>
-    </table>
+    <summary>🐛 Fixes</summary>
+    <div>
+      <div class="changelog-entry"><span class="commit">36cade0</span> 2026-05-03 — fix(plugins): peerDependencies fix — Admin UI crash</div>
+      <div class="changelog-entry"><span class="commit">8c05d04</span> 2026-05-03 — fix(payment): ModuleProvider wrapper (startup crash)</div>
+      <div class="changelog-entry"><span class="commit">614fa54</span> 2026-05-03 — fix(erp): ensure ERPNext items exist before invoice creation</div>
+      <div class="changelog-entry"><span class="commit">2182f45</span> 2026-04-24 — fix: checkout flow, React 19 compat, pricing, Stripe</div>
+      <div class="changelog-entry"><span class="commit">bba41a7</span> 2026-04-23 — fix: await cookies() for Next.js 15 compat</div>
+      <div class="changelog-entry"><span class="commit">f4c4aec</span> 2026-04-23 — fix: TypeScript/ESLint errors breaking production build</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>🔧 CI/CD & Build</summary>
+    <div>
+      <div class="changelog-entry"><span class="commit">e14d98f</span> 2026-04-26 — ci: add test-backend, typecheck-storefront, E2E jobs</div>
+      <div class="changelog-entry"><span class="commit">c54ab25</span> 2026-05-03 — chore(build): optimize Railway build caching</div>
+      <div class="changelog-entry"><span class="commit">7530f05</span> 2026-04-26 — test: backend jest scaffold + storefront typecheck script</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>📄 Documentation</summary>
+    <div>
+      <div class="changelog-entry"><span class="commit">0db0619</span> 2026-05-03 — docs: admin and peer dependency migration plans</div>
+      <div class="changelog-entry"><span class="commit">6f4f7d0</span> 2026-04-26 — docs(compliance): state-by-state RUO posture map</div>
+      <div class="changelog-entry"><span class="commit">feda12c</span> 2026-04-26 — docs(compliance): counsel questions + C&D playbook</div>
+    </div>
   </details>
 </section>
 
-<section id="deps">
-  <h2>Dependencies</h2>
-
-  <h3>Backend</h3>
-  <div class="card">
-    <p><strong>Package Manager:</strong> pnpm 9.10.0 &middot; <strong>Runtime:</strong> Node 22.x &middot; <strong>Lock File:</strong> <span class="badge badge-green">Present</span></p>
-    <table>
-      <tr><th>Package</th><th>Version</th><th>Purpose</th></tr>
-      <tr><td>@medusajs/* (core)</td><td>2.13.6</td><td>Commerce framework</td></tr>
-      <tr><td>minio</td><td>^8.0.6</td><td>Object storage client</td></tr>
-      <tr><td>resend</td><td>4.0.1</td><td>Email delivery</td></tr>
-      <tr><td>@react-email/components</td><td>^1.0.1</td><td>Email templates</td></tr>
-      <tr><td>typescript</td><td>^5.9.3</td><td>Type system</td></tr>
-    </table>
+<section id="dependencies">
+  <h2>📦 Dependencies</h2>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Package</th><th>Version</th><th>Purpose</th></tr>
+    <tr><td>@medusajs/medusa</td><td>2.14.1</td><td>Core commerce engine</td></tr>
+    <tr><td>@medusajs/dashboard</td><td>2.14.1</td><td>Admin UI</td></tr>
+    <tr><td>@medusajs/payment-stripe</td><td>2.14.1</td><td>Stripe integration</td></tr>
+    <tr><td>@medusajs/workflow-engine-redis</td><td>2.14.1</td><td>Workflow engine</td></tr>
+    <tr><td>@medusajs/notification-sendgrid</td><td>2.14.1</td><td>Email</td></tr>
+    <tr><td>@rokmohar/medusa-plugin-meilisearch</td><td>1.3.5</td><td>Search</td></tr>
+    <tr><td>@sanity/client</td><td>^7.22.0</td><td>CMS</td></tr>
+    <tr><td>@sentry/node</td><td>^9.29.0</td><td>Error tracking</td></tr>
+    <tr><td>@segment/analytics-node</td><td>^2.2.1</td><td>Analytics</td></tr>
+    <tr><td>@aws-sdk/client-s3</td><td>^3.700.0</td><td>MinIO/S3 storage</td></tr>
+    <tr><td>jest</td><td>^29.7.0</td><td>Unit testing</td></tr>
+    <tr><td>axios</td><td>^1.15.2</td><td>ERPNext HTTP client</td></tr>
+  </table>
   </div>
-
-  <h3>Storefront</h3>
-  <div class="card">
-    <p><strong>Package Manager:</strong> pnpm &middot; <strong>Lock File:</strong> <span class="badge badge-green">Present</span></p>
-    <table>
-      <tr><th>Package</th><th>Version</th><th>Purpose</th></tr>
-      <tr><td>next</td><td>^15.5.15</td><td>React framework</td></tr>
-      <tr><td>react</td><td>19.0.4</td><td>UI library</td></tr>
-      <tr><td>tailwindcss</td><td>^3.4.19</td><td>CSS framework</td></tr>
-      <tr><td>@medusajs/ui</td><td>preview</td><td>Medusa UI components</td></tr>
-      <tr><td>@stripe/stripe-js</td><td>^1.29.0</td><td>Payment integration</td></tr>
-      <tr><td>@playwright/test</td><td>^1.55.1</td><td>E2E testing</td></tr>
-      <tr><td>eslint</td><td>^9.39.2</td><td>Code linting</td></tr>
-    </table>
-  </div>
+  <p style="color:var(--text-muted);font-size:13px">Lock file: pnpm-lock.yaml ✅ | 10 workspace plugins use <code>workspace:*</code></p>
 </section>
 
 <section id="recommendations">
-  <h2>Recommendations</h2>
-
-  <div class="card rec-critical">
-    <h3>1. Add GitHub Actions CI <span class="badge badge-red">Critical</span></h3>
-    <p>Create <code>.github/workflows/ci.yml</code> to run <code>pnpm build</code> for both apps on every PR. This is the single highest-impact improvement. Without it, broken code reaches production undetected.</p>
-    <p><strong>Effort:</strong> Small (30min)</p>
+  <h2>💡 Recommendations</h2>
+  <div class="alert alert-red">
+    <div class="alert-title">🔴 Critical — Commit immediately</div>
+    <code>apps/storefront/.../payment/index.tsx</code> has unreleased NMI UI changes. <code>apps/backend/scripts/trigger-resync.ts</code> is untracked. Neither survives a reset.
   </div>
-
-  <div class="card rec-critical">
-    <h3>2. Update README for Bluum Brand <span class="badge badge-red">Critical</span></h3>
-    <p>The README still describes a generic Medusa boilerplate. It should reflect that this is CaliLean/Bluum — a CBD/wellness e-commerce store with custom branding, age gate, and seed data.</p>
-    <p><strong>Effort:</strong> Small</p>
+  <div class="alert alert-red">
+    <div class="alert-title">🔴 Critical — Validate ERPNext accounting flow</div>
+    Auto-submit for both Sales Invoices and Payment Entries just landed. Run a test order and confirm both documents appear as Submitted in ERPNext.
   </div>
-
-  <div class="card rec-warning">
-    <h3>3. Expand .gitignore <span class="badge badge-yellow">Warning</span></h3>
-    <p>Add: <code>.env</code>, <code>.env.local</code>, <code>dist/</code>, <code>build/</code>, <code>.medusa/</code>, <code>coverage/</code></p>
-    <p><strong>Effort:</strong> Trivial</p>
+  <div class="alert alert-yellow">
+    <div class="alert-title">🟡 Important — Delete duplicate docs</div>
+    <code>rm -rf docs/strategy docs/compliance docs/ops/pricing-research.md docs/ops/sku-system.md docs/ops/per-state-suppression.md PROJECT_STATE.md</code>
   </div>
-
-  <div class="card rec-warning">
-    <h3>4. Tag Baseline Release <span class="badge badge-yellow">Warning</span></h3>
-    <p>No git tags exist. Create <code>v0.1.0</code> to anchor future changelogs and diffs.</p>
-    <p><strong>Effort:</strong> Trivial</p>
+  <div class="alert alert-yellow">
+    <div class="alert-title">🟡 Important — Add apps/storefront/CLAUDE.md</div>
+    Document [countryCode] routing, async cookies, module structure, Google OAuth gate. Most AI-edited app has no per-app context.
   </div>
-
-  <div class="card rec-warning">
-    <h3>5. Fix Inventory Management <span class="badge badge-yellow">Warning</span></h3>
-    <p>Cart items at <code>storefront/src/modules/cart/components/item/index.tsx</code> have TODOs for checking real inventory. Could lead to overselling.</p>
-    <p><strong>Effort:</strong> Medium</p>
+  <div class="alert alert-yellow">
+    <div class="alert-title">🟡 Important — Ship NMI card payment UI</div>
+    Complete the uncommitted checkout/payment changes and ship card payments to customers.
   </div>
-
-  <div class="card rec-suggestion">
-    <h3>6. Add CONTRIBUTING.md <span class="badge badge-gray">Suggestion</span></h3>
-    <p>No contributor guide exists. Create a basic file describing setup, branch strategy, and PR workflow.</p>
-    <p><strong>Effort:</strong> Small</p>
+  <div class="alert alert-green">
+    <div class="alert-title">🟢 Recommended — Tag v0.2.0</div>
+    327 commits. Rebrand, RUO compliance, ERPNext, NMI, auth gate, CI/CD, research pages, plugins. This is a major milestone.
   </div>
-
-  <div class="card rec-suggestion">
-    <h3>7. Add Backend Linting <span class="badge badge-gray">Suggestion</span></h3>
-    <p>Only the storefront has eslint configured. The backend has no linter, which allows code quality to drift.</p>
-    <p><strong>Effort:</strong> Small</p>
+  <div class="alert alert-green">
+    <div class="alert-title">🟢 Recommended — Add Prettier config</div>
+    Add <code>prettier.config.js</code> + <code>.prettierignore</code> at the monorepo root for consistent formatting.
   </div>
 </section>
 
 </main>
-
+</div>
 <script>
-const links = document.querySelectorAll('nav a');
 const sections = document.querySelectorAll('section[id]');
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      links.forEach(l => l.classList.remove('active'));
-      const a = document.querySelector(`nav a[href="#${e.target.id}"]`);
-      if (a) a.classList.add('active');
+const navLinks = document.querySelectorAll('nav a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+      });
     }
   });
-}, { rootMargin: '-20% 0px -70% 0px' });
-sections.forEach(s => obs.observe(s));
+}, { rootMargin: '-20% 0px -75% 0px' });
+sections.forEach(s => observer.observe(s));
 </script>
-
 </body>
 </html>

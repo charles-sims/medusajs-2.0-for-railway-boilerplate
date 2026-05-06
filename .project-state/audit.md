@@ -1,178 +1,184 @@
 # Project Audit — CaliLean
 
-> Generated: 2026-04-22 | Commit: `18ba182` | Branch: `master`
+> Generated: 2026-05-05 | Commit: `ca07313` | Branch: `master`
+
+---
 
 ## Project Classification
 
 | Field | Value |
 |-------|-------|
-| **Name** | CaliLean (Bluum-branded storefront) |
-| **Type** | Multi-app repository (2 separate apps, no workspace config) |
+| **Name** | CaliLean |
+| **Type** | Monorepo (pnpm workspaces) |
 | **Platform** | Web — headless e-commerce |
-| **Stack** | TypeScript, Medusa.js 2.13.6, Next.js 15, React 19, Tailwind CSS 3, pnpm |
-| **Architecture** | Headless commerce: Medusa backend API + Next.js SSR storefront |
-| **Deployment** | Railway (one-click template) |
-| **Origin** | Fork of `rpuls/medusajs-2.0-for-railway-boilerplate` |
+| **Primary Language** | TypeScript |
+| **Frameworks** | Medusa.js 2.14.1, Next.js 15 |
+| **Runtime** | Node 22, pnpm 9.10.0 |
+| **Architecture** | Headless commerce: Medusa API (port 9000) + Next.js SSR storefront (port 8000) + 10 workspace plugins |
+| **Deployment** | Railway (nixpacks.toml + railway.toml) |
+| **Origin** | Forked from rpuls/medusajs-2.0-for-railway-boilerplate |
+
+---
 
 ## Repository Structure
 
 ```
 CaliLean/
-├── .github/
-│   └── FUNDING.yml
-├── .gitignore
-├── README.md
-├── scripts/
-│   └── seed-products.py          # Product seed data generator
-├── backend/                       # Medusa 2.13.6 backend
-│   ├── package.json (pnpm)
-│   ├── medusa-config.js
-│   ├── tsconfig.json
-│   ├── .env.template
-│   └── src/
-│       ├── admin/                 # Admin dashboard customizations (empty)
-│       ├── api/                   # Custom API routes (admin, store, key-exchange)
-│       ├── jobs/                  # Scheduled jobs (empty)
-│       ├── lib/constants.ts       # Env var loader
-│       ├── modules/
-│       │   ├── email-notifications/  # Resend email provider + react-email templates
-│       │   └── minio-file/           # MinIO file storage provider
-│       ├── scripts/               # Seed scripts
-│       ├── subscribers/           # Event subscribers (empty)
-│       ├── utils/                 # Utility functions
-│       └── workflows/             # Medusa workflows (empty)
-└── storefront/                    # Next.js 15 storefront (Bluum brand)
-    ├── package.json (pnpm)
-    ├── next.config.js
-    ├── tailwind.config.js
-    ├── tsconfig.json
-    ├── .env.local.template
-    ├── .eslintrc.js
-    ├── .prettierrc
-    ├── playwright.config.ts
-    ├── e2e/                       # Playwright E2E tests (10 specs)
-    ├── public/                    # Static assets
-    └── src/
-        ├── app/                   # Next.js App Router pages
-        │   ├── [countryCode]/     # i18n routing
-        │   │   ├── (checkout)/
-        │   │   └── (main)/
-        │   ├── api/               # API routes
-        │   └── layout.tsx
-        ├── lib/                   # Data fetching, utilities
-        ├── modules/               # UI feature modules
-        ├── styles/                # Global styles
-        └── types/                 # TypeScript type definitions
+├── apps/
+│   ├── backend/                  # Medusa.js 2.14.1 API (port 9000)
+│   │   ├── src/
+│   │   │   ├── admin/            # Admin widgets: COA panel, Sanity sync
+│   │   │   ├── api/              # Routes: COA, Sanity, restock subscriptions
+│   │   │   ├── lib/              # RUO geo suppression, alert utilities
+│   │   │   ├── modules/          # payment-nmi, payment-nmi-card, sanity, segment, restock
+│   │   │   └── workflows/        # Medusa workflows
+│   │   ├── scripts/              # E2E, diagnostic, E2E API test scripts
+│   │   └── medusa-config.ts      # Plugin & provider registration
+│   └── storefront/               # Next.js 15 SSR (port 8000)
+│       ├── src/
+│       │   ├── app/              # App Router — [countryCode] i18n routing
+│       │   └── modules/          # bluum/, checkout/, products/, account/, etc.
+│       ├── content/research/     # 15 MDX peptide research articles
+│       └── e2e/                  # Playwright E2E tests (10 specs)
+├── packages/                     # 10 Medusa plugins (workspace:*)
+│   ├── plugin-bundles/
+│   ├── plugin-email/             # CaliLean-branded transactional templates
+│   ├── plugin-erp/               # ERPNext + QuickBooks integration
+│   ├── plugin-invoices/
+│   ├── plugin-loyalty/
+│   ├── plugin-preorder/
+│   ├── plugin-qr-marketing/
+│   ├── plugin-reviews/
+│   ├── plugin-shipstation/       # Labels + tracking webhooks
+│   └── plugin-subscription/      # Recurring orders
+├── docs/                         # Brand, compliance, ops, strategy docs
+│   ├── brand/                    # Imagery prompts, packaging design, archives
+│   ├── ops/                      # compliance/, strategy/, product/, pricing/
+│   └── superpowers/plans/        # Implementation plans
+├── scripts/                      # Product imagery render, seed, pricing scripts
+├── .github/workflows/ci.yml      # CI: build-backend, test-backend, build-storefront, E2E
+├── nixpacks.toml                 # Railway build + caching config
+├── railway.toml                  # Railway deployment config
+├── turbo.json                    # Turborepo build graph
+└── pnpm-workspace.yaml
 ```
+
+---
 
 ## Git State
 
 | Field | Value |
 |-------|-------|
-| **Branch** | `master` |
-| **Status** | Clean working tree |
-| **Remotes** | `origin` → SkaFld-Ignite/CaliLean.git, `upstream` → rpuls/medusajs-2.0-for-railway-boilerplate |
-| **Tags** | None |
-| **Total Commits** | 241 |
-| **Last Commit** | `18ba182` — Merge branch 'rpuls:master' into master (2026-04-22) |
+| **Branch** | master |
+| **HEAD** | `ca07313` — fix(erp): auto-submit Payment Entries after creation |
+| **Date** | 2026-05-04 10:16 PDT |
+| **Tags** | `v0.1.0` (2026-04-22) |
+| **Working Tree** | ⚠️ Dirty — 1 modified, 1 untracked |
+| **Modified** | `apps/storefront/src/modules/checkout/components/payment/index.tsx` |
+| **Untracked** | `apps/backend/scripts/trigger-resync.ts` |
+| **Remotes** | origin (SkaFld-Ignite/CaliLean), upstream (rpuls boilerplate), medusa (medusajs/dtc-starter) |
+| **Commits since v0.1.0** | 327 |
 
-### Contributors
-
-| Author | Commits |
-|--------|---------|
-| Rasmus Puls (upstream) | 210 |
-| charles-sims | 17 |
-| Alecia Vogel | 6 |
-| Your Name | 4 |
-| R P | 2 |
-| Charles Sims | 2 |
+---
 
 ## Services & Configuration
 
 ### Internal Services
-
-| Service | Location | Purpose |
-|---------|----------|---------|
-| Medusa Backend | `backend/` | Commerce API, admin dashboard (port 9000) |
-| Next.js Storefront | `storefront/` | Customer-facing store (port 8000) |
-| Email Templates | `backend/src/modules/email-notifications/templates/` | React Email templates (order-placed, invite-user) |
+| Service | Location | Status |
+|---------|----------|--------|
+| Medusa API | `apps/backend/` | Active |
+| Next.js Storefront | `apps/storefront/` | Active |
+| ERP Sync | `packages/plugin-erp/` | Active (ERPNext) |
+| Subscriptions | `packages/plugin-subscription/` | Active |
+| ShipStation | `packages/plugin-shipstation/` | Active |
+| Email | `packages/plugin-email/` | Active (SendGrid) |
+| Loyalty | `packages/plugin-loyalty/` | Active |
+| Payment NMI Card | `apps/backend/src/modules/payment-nmi-card/` | Active |
+| Payment NMI ACH | `apps/backend/src/modules/payment-nmi/` | Active |
 
 ### External Services
+| Service | Purpose | Env Key(s) |
+|---------|---------|------------|
+| PostgreSQL | Primary database | `DATABASE_URL` |
+| ERPNext | ERP accounting | `ERPNEXT_*` |
+| NMI | Credit card + ACH | `NMI_API_KEY`, `NMI_TOKENIZATION_KEY`, `NMI_SANDBOX` |
+| Stripe | Payment alternative | `STRIPE_API_KEY`, `STRIPE_WEBHOOK_SECRET` |
+| SendGrid | Transactional email | `SENDGRID_API_KEY`, `SENDGRID_FROM` |
+| Google OAuth | Customer auth | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_CALLBACK_URL` |
+| Redis (optional) | Workflow engine | `REDIS_URL` |
+| MinIO (optional) | File storage / COA PDFs | `MINIO_*` |
+| MeiliSearch (optional) | Product search | `MEILISEARCH_*` |
+| Sanity (optional) | CMS | `SANITY_*` |
+| Segment (optional) | Analytics | `SEGMENT_WRITE_KEY` |
+| Sentry (optional) | Error tracking | `SENTRY_DSN` |
+| ShipStation | Shipping | `SHIPSTATION_API_KEY` |
 
-| Service | Provider | Config Location | Required |
-|---------|----------|-----------------|----------|
-| Database | PostgreSQL | `DATABASE_URL` | Yes |
-| Cache/Queue | Redis | `REDIS_URL` | Optional (fallback to simulated) |
-| File Storage | MinIO | `MINIO_ENDPOINT`, `MINIO_ACCESS_KEY`, `MINIO_SECRET_KEY` | Optional (fallback to local) |
-| Search | MeiliSearch | `MEILISEARCH_HOST`, `MEILISEARCH_ADMIN_KEY` | Optional |
-| Payment | Stripe | `STRIPE_API_KEY`, `STRIPE_WEBHOOK_SECRET` | Optional |
-| Email (option 1) | SendGrid | `SENDGRID_API_KEY`, `SENDGRID_FROM` | Optional |
-| Email (option 2) | Resend | `RESEND_API_KEY`, `RESEND_FROM_EMAIL` | Optional |
-
-### Environment Variables
-
-**Backend** (`.env.template`): `NODE_ENV`, `REDIS_URL`, `ADMIN_CORS`, `STORE_CORS`, `AUTH_CORS`, `JWT_SECRET`, `COOKIE_SECRET`, `DATABASE_URL`, `MEDUSA_ADMIN_EMAIL`, `MEDUSA_ADMIN_PASSWORD`, `STRIPE_API_KEY`, `STRIPE_WEBHOOK_SECRET`, `SENDGRID_API_KEY`, `SENDGRID_FROM`, `MINIO_ENDPOINT`, `MINIO_ACCESS_KEY`, `MINIO_SECRET_KEY`, `MINIO_BUCKET`, `MEILISEARCH_HOST`, `MEILISEARCH_MASTER_KEY`, `MEILISEARCH_ADMIN_KEY`
-
-**Storefront** (`.env.local.template`): `NEXT_PUBLIC_MEDUSA_BACKEND_URL`, `NEXT_PUBLIC_BASE_URL`, `NEXT_PUBLIC_DEFAULT_REGION`, `NEXT_PUBLIC_MINIO_ENDPOINT`, `NEXT_PUBLIC_SEARCH_ENDPOINT`, `NEXT_PUBLIC_SEARCH_API_KEY`, `NEXT_PUBLIC_INDEX_NAME`
+---
 
 ## Dependencies
 
-### Backend (Medusa)
-- **Package Manager**: pnpm 9.10.0
-- **Runtime**: Node 22.x
-- **Key Dependencies**: `@medusajs/*` 2.13.6, `minio`, `resend`, `@react-email/components`
-- **Lock File**: Present (`pnpm-lock.yaml`)
+| | |
+|-|-|
+| **Package Manager** | pnpm 9.10.0 |
+| **Lock file** | pnpm-lock.yaml ✅ |
+| **Medusa** | 2.14.1 |
+| **Next.js** | 15 |
+| **React** | 18.x (backend/admin), 19.x (storefront) |
+| **TypeScript** | Configured throughout |
+| **Jest** | 29.x |
+| **Playwright** | E2E |
+| **Turbo** | Monorepo build orchestration |
 
-### Storefront (Next.js)
-- **Package Manager**: pnpm (via .yarnrc.yml compatibility)
-- **Key Dependencies**: `next` 15.5.15, `react` 19.0.4, `tailwindcss` 3.4.19, `@medusajs/ui` preview, `@stripe/stripe-js`, `@meilisearch/instant-meilisearch`
-- **Lock File**: Present (`pnpm-lock.yaml`)
+---
 
 ## Documentation Inventory
 
 ### Summary
-
 | Category | Count |
 |----------|-------|
-| Governance (Tier 1) | 1 (README.md only) |
-| Package Docs (Tier 3) | 12 |
-| **Total** | **13 markdown files** |
-
-### Full Inventory
-
-| Path | Category | Tier | Status | Action |
-|------|----------|------|--------|--------|
-| `README.md` | Governance | 1 | Current | Keep — but claims "Next.js 14" while using 15 |
-| `backend/README.md` | Package Doc | 3 | Current | Keep |
-| `backend/src/admin/README.md` | Package Doc | 3 | Current | Keep |
-| `backend/src/api/README.md` | Package Doc | 3 | Current | Keep |
-| `backend/src/jobs/README.md` | Package Doc | 3 | Current | Keep |
-| `backend/src/modules/README.md` | Package Doc | 3 | Current | Keep |
-| `backend/src/modules/email-notifications/README.md` | Package Doc | 3 | Current | Keep |
-| `backend/src/modules/minio-file/README.md` | Package Doc | 3 | Current | Keep |
-| `backend/src/scripts/README.md` | Package Doc | 3 | Current | Keep |
-| `backend/src/subscribers/README.md` | Package Doc | 3 | Current | Keep |
-| `backend/src/workflows/README.md` | Package Doc | 3 | Current | Keep |
-| `storefront/README.md` | Package Doc | 3 | Current | Keep |
-| `storefront/e2e/README.md` | Package Doc | 3 | Current | Keep |
-
-### Missing Documentation
-
-| File | Tier | Priority |
-|------|------|----------|
-| `CLAUDE.md` (root) | 1 | High — no AI coding context |
-| `CONTRIBUTING.md` | 1 | Medium — no contributor guide |
-| `LICENSE` | 1 | Medium — MIT claimed in package.json but no LICENSE file |
-| `.env.example` (root) | 1 | Low — templates exist per-app |
+| Governance (root) | 5 (CLAUDE.md, README.md, CONTRIBUTING.md, DECISIONS.md, DESIGN.md) |
+| Project State (.project-state/) | 5 |
+| Compliance | 7 (duplicates across docs/compliance/ and docs/ops/compliance/) |
+| Strategy | 8 (duplicates across docs/strategy/ and docs/ops/strategy/) |
+| Brand | 14 (docs/brand/ — prompts, packaging, archives) |
+| Ops / Product | 5 |
+| Research Content | 15 MDX (apps/storefront/content/research/) |
+| Package/App READMEs | 18 |
+| Plans | 3 (docs/superpowers/plans/) |
 
 ### Docs-vs-Reality Gaps
 
-1. **README.md claims "Next.js 14"** — storefront uses Next.js 15.5.15
-2. **README.md references "Prebaked medusajs 2.0 monorepo"** — not a true monorepo (no workspace config)
-3. **No CI/CD pipeline** — .github/ only has FUNDING.yml, no workflow files
-4. **Bluum branding not documented** — 19 commits add Bluum-branded storefront (hero, footer, nav, product cards, age gate) but README still describes generic Medusa boilerplate
+1. **Duplicate compliance dir**: `docs/compliance/` duplicates `docs/ops/compliance/`
+2. **Duplicate strategy dir**: `docs/strategy/` duplicates `docs/ops/strategy/`
+3. **Duplicate pricing**: `docs/ops/pricing-research.md` = `docs/ops/pricing/pricing-research.md`
+4. **Duplicate SKU doc**: `docs/ops/sku-system.md` = `docs/ops/product/sku-system.md`
+5. **Duplicate suppression**: `docs/ops/per-state-suppression.md` = `docs/ops/compliance/per-state-suppression.md`
+6. **Stale root file**: `PROJECT_STATE.md` superseded by `.project-state/` directory
+7. **Missing AI context**: No CLAUDE.md in any plugin package or app subdirectory
+
+### Remediation Plan (Priority Order)
+| # | Action | Target | Effort |
+|---|--------|--------|--------|
+| 1 | Delete | `docs/strategy/` (entire dir) | Trivial |
+| 2 | Delete | `docs/compliance/` (entire dir) | Trivial |
+| 3 | Delete | `docs/ops/pricing-research.md` | Trivial |
+| 4 | Delete | `docs/ops/sku-system.md` | Trivial |
+| 5 | Delete | `docs/ops/per-state-suppression.md` | Trivial |
+| 6 | Archive | `PROJECT_STATE.md` → delete | Trivial |
+| 7 | Create | `apps/storefront/CLAUDE.md` | Small |
+| 8 | Create | `packages/plugin-erp/CLAUDE.md` | Small |
+
+---
 
 ## Serena Memory Health
 
-- **Status**: No `.serena/` directory found
-- **Action**: N/A — Serena not configured for this project
+No `.serena/memories/` directory — Serena is not onboarded.
+
+---
+
+## Best Practices Flags
+
+| Issue | Location | Severity |
+|-------|----------|----------|
+| Uncommitted modified file | `apps/storefront/.../payment/index.tsx` | ⚠️ Warning |
+| Untracked diagnostic script | `apps/backend/scripts/trigger-resync.ts` | ⚠️ Commit or delete |
